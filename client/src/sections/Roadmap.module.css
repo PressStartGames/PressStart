@@ -19,7 +19,7 @@
   transform-origin: top;
 }
 
-html.js .line[data-visible]::before {
+:global(html.js) .line[data-visible]::before {
   animation: grow 1.4s var(--ease-out) both;
 }
 
@@ -36,7 +36,7 @@ html.js .line[data-visible]::before {
   position: relative;
 }
 
-html.js .line[data-visible] .stop {
+:global(html.js) .line[data-visible] .stop {
   animation: rise 0.8s var(--ease-out) both;
   animation-delay: calc(200ms + var(--i) * 220ms);
 }
@@ -63,7 +63,7 @@ html.js .line[data-visible] .stop {
   box-shadow: 0 0 0 6px color-mix(in srgb, var(--pass) 18%, transparent);
 }
 
-html.js .line[data-visible] .current .dot {
+:global(html.js) .line[data-visible] .current .dot {
   animation: pulse 2.4s ease-in-out 1.2s 3;
 }
 
@@ -102,9 +102,9 @@ html.js .line[data-visible] .current .dot {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html.js .line[data-visible]::before,
-  html.js .line[data-visible] .stop,
-  html.js .line[data-visible] .current .dot {
+  :global(html.js) .line[data-visible]::before,
+  :global(html.js) .line[data-visible] .stop,
+  :global(html.js) .line[data-visible] .current .dot {
     animation: none;
   }
 }

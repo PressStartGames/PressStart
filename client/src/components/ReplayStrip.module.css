@@ -169,7 +169,7 @@
   display: none;
 }
 
-html.js .frame {
+:global(html.js) .frame {
   animation: land 0.35s var(--ease-out) both;
 }
 
@@ -387,7 +387,7 @@ html.js .frame {
   .row[data-shown],
   .stamp[data-stamped],
   .strip[data-running] .scan,
-  html.js .frame {
+  :global(html.js) .frame {
     animation: none;
   }
 

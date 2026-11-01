@@ -38,11 +38,11 @@
   clip-path: inset(0 0 0 var(--wipe));
 }
 
-html.js .review[data-visible] .layerGolden {
+:global(html.js) .review[data-visible] .layerGolden {
   animation: wipe 1.4s var(--ease-out) 0.2s both;
 }
 
-html.js .review[data-visible] .divider {
+:global(html.js) .review[data-visible] .divider {
   animation: wipe-line 1.4s var(--ease-out) 0.2s both;
 }
 
@@ -114,7 +114,7 @@ html.js .review[data-visible] .divider {
   box-shadow: 0 0 24px rgb(61 220 151 / 30%);
 }
 
-html.js .review[data-visible] .verdict {
+:global(html.js) .review[data-visible] .verdict {
   animation: stamp 0.5s var(--ease-spring) 1.6s both;
 }
 
@@ -149,7 +149,7 @@ html.js .review[data-visible] .verdict {
   gap: 14px;
 }
 
-html.js .review[data-visible] .steps li {
+:global(html.js) .review[data-visible] .steps li {
   animation: tick-in 0.6s var(--ease-out) both;
   animation-delay: calc(0.4s + var(--i) * 0.35s);
 }
@@ -206,7 +206,7 @@ html.js .review[data-visible] .steps li {
   gap: 8px;
 }
 
-html.js .stripWrap[data-visible] .cell {
+:global(html.js) .stripWrap[data-visible] .cell {
   animation: rise 0.8s var(--ease-out) both;
   animation-delay: calc(var(--i) * 90ms);
 }
@@ -284,11 +284,11 @@ html.js .stripWrap[data-visible] .cell {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html.js .review[data-visible] .layerGolden,
-  html.js .review[data-visible] .divider,
-  html.js .review[data-visible] .verdict,
-  html.js .review[data-visible] .steps li,
-  html.js .stripWrap[data-visible] .cell {
+  :global(html.js) .review[data-visible] .layerGolden,
+  :global(html.js) .review[data-visible] .divider,
+  :global(html.js) .review[data-visible] .verdict,
+  :global(html.js) .review[data-visible] .steps li,
+  :global(html.js) .stripWrap[data-visible] .cell {
     animation: none;
   }
 }

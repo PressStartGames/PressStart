@@ -62,11 +62,11 @@
   fill: var(--fg-muted);
 }
 
-html.js .diagramWrap[data-visible] .wire {
+:global(html.js) .diagramWrap[data-visible] .wire {
   animation: draw 1.4s var(--ease-out) both;
 }
 
-html.js .diagramWrap[data-visible] .loop {
+:global(html.js) .diagramWrap[data-visible] .loop {
   animation-delay: 0.5s;
 }
 
@@ -104,7 +104,7 @@ html.js .diagramWrap[data-visible] .loop {
     transform: none;
   }
 
-  html.js .diagramWrap[data-visible] .wire {
+  :global(html.js) .diagramWrap[data-visible] .wire {
     animation: none;
   }
 }

@@ -36,7 +36,7 @@
   color: var(--fg-body);
 }
 
-html.js .ruler[data-visible] .rulerRow {
+:global(html.js) .ruler[data-visible] .rulerRow {
   animation: flash 1.2s var(--ease-out) both;
   animation-delay: calc(var(--i) * 120ms);
 }
@@ -68,7 +68,7 @@ html.js .ruler[data-visible] .rulerRow {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html.js .ruler[data-visible] .rulerRow {
+  :global(html.js) .ruler[data-visible] .rulerRow {
     animation: none;
   }
 }

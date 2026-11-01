@@ -52,7 +52,7 @@
   transform: scaleX(1);
 }
 
-html.js .underline {
+:global(html.js) .underline {
   animation: draw-underline 0.9s var(--ease-out) 1.1s both;
 }
 
@@ -110,7 +110,7 @@ html.js .underline {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html.js .underline {
+  :global(html.js) .underline {
     animation: none;
   }
 

@@ -31,15 +31,15 @@
 }
 
 /* The strands draw themselves once the figure scrolls into view (JS present, motion allowed). */
-html.js .tangleWrap[data-visible] .strand {
+:global(html.js) .tangleWrap[data-visible] .strand {
   animation: draw 1.6s var(--ease-out) both;
 }
 
-html.js .tangleWrap[data-visible] .strandB {
+:global(html.js) .tangleWrap[data-visible] .strandB {
   animation-delay: 0.15s;
 }
 
-html.js .tangleWrap[data-visible] .strandC {
+:global(html.js) .tangleWrap[data-visible] .strandC {
   animation-delay: 0.3s;
 }
 
@@ -64,7 +64,7 @@ html.js .tangleWrap[data-visible] .strandC {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html.js .tangleWrap[data-visible] .strand {
+  :global(html.js) .tangleWrap[data-visible] .strand {
     animation: none;
   }
 }
