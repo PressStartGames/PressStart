@@ -1,3 +1,5 @@
+import { Boot } from '../components/Boot';
+import { field, splitList } from '../content';
 import { Build } from '../sections/Build';
 import { BuiltToday } from '../sections/BuiltToday';
 import { Determinism } from '../sections/Determinism';
@@ -10,31 +12,33 @@ import { Problem } from '../sections/Problem';
 import { Roadmap } from '../sections/Roadmap';
 import { Signup } from '../sections/Signup';
 import { What } from '../sections/What';
-import styles from './Page.module.css';
 
-// Act 1 on paper (inset from the viewport edge on the dark body), a hard cut at "How an agent builds
-// a game" into act 2, the booth. The paper lifts away as it scrolls out (a scroll-driven CSS animation).
+// One machine, one grey chassis, screens set into it. The spine index (00 BOOT, 01 BUILD …)
+// comes from CONTENT.md's header.index, one entry per section in page order.
 export function Home() {
+  const idx = splitList(field('header', 'index'), '|').map((entry) => {
+    const [n = '', ...rest] = entry.trim().split(' ');
+    return { n, label: rest.join(' ') };
+  });
+  const at = (i: number) => ({
+    index: idx[i]?.n ?? String(i).padStart(2, '0'),
+    label: idx[i]?.label ?? '',
+  });
   return (
-    <div className={styles.stage}>
-      <div id="act-paper" data-act="paper" className={styles.paper}>
-        <div className={styles.grid} aria-hidden="true" />
-        <Hero />
-        <Problem />
-        <What />
-      </div>
-      <div data-act="booth" className={styles.booth}>
-        <div className={styles.horizon} aria-hidden="true" />
-        <Build />
-        <Determinism />
-        <Oracles />
-        <Goldens />
-        <BuiltToday />
-        <Roadmap />
-        <Signup />
-        <Faq />
-        <Footer />
-      </div>
-    </div>
+    <>
+      <Boot />
+      <Hero {...at(0)} />
+      <Problem {...at(1)} />
+      <What {...at(2)} />
+      <Build {...at(3)} />
+      <Determinism {...at(4)} />
+      <Oracles {...at(5)} />
+      <Goldens {...at(6)} />
+      <BuiltToday {...at(7)} />
+      <Roadmap {...at(8)} />
+      <Signup {...at(9)} />
+      <Faq {...at(10)} />
+      <Footer />
+    </>
   );
 }

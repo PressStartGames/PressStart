@@ -1,18 +1,26 @@
-.oracles {
-  overflow: hidden;
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-bottom: 48px;
 }
 
-.marquee {
+.title {
+  max-width: 12em;
+}
+
+.body {
+  color: var(--ink-muted);
+}
+
+.attract {
   display: flex;
   width: max-content;
-  margin-top: clamp(36px, 5vw, 56px);
-  gap: 14px;
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  animation: marquee 38s linear infinite;
+  padding: 20px 0;
+  animation: marquee 40s linear infinite;
 }
 
-.marquee:hover {
+.attract:hover {
   animation-play-state: paused;
 }
 
@@ -21,51 +29,47 @@
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 14px;
-  padding-right: 14px;
 }
 
-.ref {
-  font-family: var(--font-mono);
-  font-size: clamp(1.25rem, 1rem + 1.4vw, 2rem);
-  letter-spacing: 0.02em;
-  padding: 14px 26px;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-pill);
-  color: var(--fg);
-  background: var(--surface);
+.track li {
+  font-family: var(--font-pixel);
+  font-size: clamp(12px, 0.6rem + 0.9vw, 20px);
+  letter-spacing: 0.1em;
+  color: var(--phosphor);
+  padding: 0 32px;
   white-space: nowrap;
-  transition:
-    border-color var(--dur-fast) ease,
-    color var(--dur-fast) ease,
-    box-shadow var(--dur) ease;
+  text-shadow: 0 0 10px rgb(56 224 143 / 45%);
 }
 
-.ref:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  box-shadow: 0 0 30px -8px color-mix(in srgb, var(--accent) 60%, transparent);
+.track li + li::before {
+  content: '·';
+  margin-right: 64px;
+  color: var(--phosphor-dim);
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .small {
-  margin-top: 28px;
+  margin-top: 16px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .marquee {
+  .attract {
     animation: none;
-    width: min(100% - 2 * var(--gutter), var(--breakout));
-    margin-inline: auto;
+    width: 100%;
     flex-wrap: wrap;
-    mask-image: none;
-    -webkit-mask-image: none;
   }
 
   .track {
     flex-wrap: wrap;
+    row-gap: 12px;
   }
 
-  .copy {
+  .copyTrack {
     display: none;
   }
 }

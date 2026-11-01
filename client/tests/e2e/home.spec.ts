@@ -36,7 +36,6 @@ test('the skip link, nav anchors and the FAQ work from the keyboard', async ({ p
   await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
   const q = page.getByText('Is it open source?');
   await q.scrollIntoViewIfNeeded();
-  await q.click();
   await expect(page.getByText('It will be source-available.')).toBeVisible();
 });
 

@@ -1,49 +1,50 @@
+import type { CSSProperties } from 'react';
 import { Body } from '../components/Body';
 import { Reveal } from '../components/Reveal';
-import { field, section } from '../content';
+import { Screen } from '../components/Screen';
+import { field, section, splitList } from '../content';
 import styles from './Problem.module.css';
 
-const STRANDS = ['script', 'play', 'screenshot', 'guess'];
-
-export function Problem() {
+// A diagnostic: the old loop as a trace log on a screen. The last step has no measurement, and the
+// trace says so.
+export function Problem({ index, label }: { index: string; label: string }) {
   const s = section('problem');
+  const trace = splitList(field('problem', 'trace'), '|');
   return (
-    <section id="problem" className={`section ${styles.problem}`} aria-labelledby="problem-title">
-      <div className="column">
-        <Reveal className="section-head" wipe>
-          <h2 id="problem-title">{field('problem', 'headline')}</h2>
-        </Reveal>
-        <Reveal delay={80}>
-          <Body blocks={s.blocks} />
-        </Reveal>
-        <Reveal className={styles.tangleWrap} delay={160} aria-hidden="true">
-          <svg className={styles.tangle} viewBox="0 0 760 150" fill="none">
-            <path
-              className={styles.strand}
-              d="M30 75 C 120 10, 160 140, 250 75 S 330 20, 400 95 S 480 150, 540 70 S 640 10, 730 75"
-            />
-            <path
-              className={`${styles.strand} ${styles.strandB}`}
-              d="M30 75 C 100 130, 190 30, 250 75 S 360 140, 400 60 S 470 10, 540 90 S 660 130, 730 75"
-            />
-            <path
-              className={`${styles.strand} ${styles.strandC}`}
-              d="M30 75 C 130 70, 170 90, 250 75 S 340 70, 400 78 S 460 72, 540 76 S 650 78, 730 75"
-            />
-            {STRANDS.map((label, i) => (
-              <g key={label} transform={`translate(${30 + i * 233} 75)`}>
-                <circle r="5" className={styles.node} />
-                <text
-                  y="34"
-                  textAnchor={i === 0 ? 'start' : i === 3 ? 'end' : 'middle'}
-                  className={styles.nodeLabel}
-                >
-                  {label}
-                </text>
-              </g>
-            ))}
-          </svg>
-        </Reveal>
+    <section id="problem" className="section" aria-labelledby="problem-title">
+      <div className="frame row">
+        <div className="spine">
+          <span className="spine-index">{index}</span>
+          <span className="spine-label">{label}</span>
+        </div>
+        <div className={styles.grid}>
+          <Reveal className={styles.copy}>
+            <h2 id="problem-title">{field('problem', 'headline')}</h2>
+            <div className={`measure ${styles.body}`}>
+              <Body blocks={s.blocks} skip={['field']} />
+            </div>
+          </Reveal>
+          <Reveal className={styles.screenWrap} delay={120}>
+            <Screen label={field('problem', 'trace-label')} readout="run 1 of 1">
+              <ol className={styles.trace}>
+                {trace.map((step, i) => {
+                  const last = i === trace.length - 1;
+                  return (
+                    <li
+                      key={step}
+                      className={`${styles.step} ${last ? styles.stepLast : ''}`}
+                      style={{ '--i': i } as CSSProperties}
+                    >
+                      <span className={styles.stepNo}>{String(i + 1).padStart(2, '0')}</span>
+                      <span className={styles.stepName}>{step}</span>
+                      <span className={styles.stepValue}>{last ? '?' : 'ok'}</span>
+                    </li>
+                  );
+                })}
+              </ol>
+            </Screen>
+          </Reveal>
+        </div>
       </div>
     </section>
   );

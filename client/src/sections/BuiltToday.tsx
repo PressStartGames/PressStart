@@ -1,19 +1,12 @@
 import type { CSSProperties } from 'react';
 import { Body } from '../components/Body';
-import { NumberTile } from '../components/NumberTile';
 import { Reveal } from '../components/Reveal';
 import { counts, field, section, splitList } from '../content';
 import { Inline } from '../content/inline';
-import { spotlightHandlers } from '../lib/useSpotlight';
 import styles from './BuiltToday.module.css';
 
-// "89 engine crates" -> { value: 89, label: "engine crates" }; "103 of 404 things built" keeps "of 404" in the label.
-function tile(text: string): { value: number; label: string } {
-  const m = /^(\d+)\s+(.*)$/.exec(text);
-  return { value: Number(m?.[1] ?? 0), label: m?.[2] ?? text };
-}
+const SEGMENTS = 16;
 
-// "world = World building · scenes, terrain" -> { id, name, detail }
 function areaLabels(): Record<string, { name: string; detail: string }> {
   const out: Record<string, { name: string; detail: string }> = {};
   for (const item of splitList(field('built', 'area-labels'), '|')) {
@@ -24,105 +17,100 @@ function areaLabels(): Record<string, { name: string; detail: string }> {
   return out;
 }
 
-export function BuiltToday() {
+function tile(text: string): { value: string; label: string } {
+  const m = /^(\d+(?: of \d+)?)\s+(.*)$/.exec(text);
+  return { value: m?.[1] ?? '', label: m?.[2] ?? text };
+}
+
+// LEVEL SELECT: the catalog's seven areas as stage tiles with segmented pixel meters; the "how to
+// play" insert explains what the checklist is; three readouts below.
+export function BuiltToday({ index, label }: { index: string; label: string }) {
   const s = section('built');
-  const tiles = splitList(field('built', 'tiles')).map(tile);
-  const legend = splitList(field('built', 'bar-legend'), '|');
   const labels = areaLabels();
   const areas = [...counts.catalog.areas].sort((a, b) => b.built / b.total - a.built / a.total);
+  const legend = splitList(field('built', 'bar-legend'), '|');
+  const tiles = splitList(field('built', 'tiles')).map(tile);
   const unit = field('built', 'area-unit');
   return (
     <section id="built" className="section" aria-labelledby="built-title">
-      <div className="column">
-        <Reveal className="section-head" wipe>
-          <h2 id="built-title">{field('built', 'headline')}</h2>
-        </Reveal>
-        <Reveal delay={60}>
-          <Body blocks={s.blocks} skip={['field']} />
-        </Reveal>
-      </div>
-      <Reveal
-        className={`breakout ${styles.areas}`}
-        delay={120}
-        as="ul"
-        aria-label="Coverage by area"
-      >
-        {areas.map((a, i) => {
-          const l = labels[a.id] ?? { name: a.title, detail: '' };
-          const rest = a.total - a.built - a.partial - a.skip;
-          const pct = Math.round((a.built / a.total) * 100);
-          return (
-            <li
-              key={a.id}
-              className={`card ${styles.area}`}
-              style={{ '--i': i } as CSSProperties}
-              {...spotlightHandlers()}
-            >
-              <div className={styles.areaHead}>
-                <h3 className={styles.areaName}>{l.name}</h3>
-                <span className={styles.areaPct}>
-                  <b>{a.built}</b>
-                  <span className={styles.areaOf}> / {a.total}</span>
-                </span>
+      <div className="frame row">
+        <div className="spine">
+          <span className="spine-index">{index}</span>
+          <span className="spine-label">{label}</span>
+        </div>
+        <div>
+          <Reveal>
+            <h2 id="built-title" className={styles.title}>
+              {field('built', 'headline')}
+            </h2>
+          </Reveal>
+          <div className={styles.grid}>
+            <Reveal as="ul" className={styles.stages} delay={80} aria-label="Coverage by area">
+              {areas.map((a, i) => {
+                const l = labels[a.id] ?? { name: a.title, detail: '' };
+                const built = Math.round((a.built / a.total) * SEGMENTS);
+                const partial = Math.round(((a.built + a.partial) / a.total) * SEGMENTS) - built;
+                const pct = Math.round((a.built / a.total) * 100);
+                return (
+                  <li key={a.id} className={styles.stage} style={{ '--i': i } as CSSProperties}>
+                    <span className={styles.stageNo}>
+                      {field('built', 'stage-label')} {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <h3 className={styles.stageName}>{l.name}</h3>
+                    <p className={styles.stageDetail}>{l.detail}</p>
+                    <div
+                      className={styles.meter}
+                      role="img"
+                      aria-label={`${l.name}: ${a.built} of ${a.total} ${unit} (${pct}%), ${a.partial} partly, ${a.skip} skipped`}
+                    >
+                      {Array.from({ length: SEGMENTS }, (_, k) => (
+                        <span
+                          key={k}
+                          className={styles.seg}
+                          data-state={
+                            k < built ? 'built' : k < built + partial ? 'partial' : 'rest'
+                          }
+                          style={{ '--k': k } as CSSProperties}
+                        />
+                      ))}
+                    </div>
+                    <span className={styles.stageReadout}>
+                      <b>{a.built}</b> / {a.total} · {pct}% {unit}
+                    </span>
+                  </li>
+                );
+              })}
+            </Reveal>
+            <Reveal className={styles.insert} delay={160}>
+              <p className={styles.insertTitle}>{field('built', 'insert-title')}</p>
+              <div className={styles.insertBody}>
+                <Body blocks={s.blocks} skip={['field']} />
               </div>
-              <p className={styles.areaDetail}>{l.detail}</p>
-              <div
-                className={styles.bar}
-                role="img"
-                aria-label={`${l.name}: ${a.built} of ${a.total} ${unit} (${pct}%), ${a.partial} partly, ${a.skip} skipped`}
-              >
-                <span
-                  className={`${styles.seg} ${styles.segBuilt}`}
-                  style={{ '--w': `${(a.built / a.total) * 100}%`, '--i': 0 } as CSSProperties}
-                />
-                <span
-                  className={`${styles.seg} ${styles.segPartial}`}
-                  style={{ '--w': `${(a.partial / a.total) * 100}%`, '--i': 1 } as CSSProperties}
-                />
-                <span
-                  className={`${styles.seg} ${styles.segSkip}`}
-                  style={{ '--w': `${(a.skip / a.total) * 100}%`, '--i': 2 } as CSSProperties}
-                />
-                <span
-                  className={`${styles.seg} ${styles.segRest}`}
-                  style={{ '--w': `${(rest / a.total) * 100}%`, '--i': 3 } as CSSProperties}
-                />
-              </div>
-              <span className={styles.areaUnit}>
-                {pct}% {unit}
-              </span>
-            </li>
-          );
-        })}
-      </Reveal>
-      <div className="column">
-        <Reveal className={styles.legendWrap} delay={160}>
-          <ul className={styles.legend} aria-hidden="true">
-            {legend.map((name, i) => (
-              <li key={name} className={styles.legendItem}>
-                <span
-                  className={`${styles.swatch} ${[styles.segBuilt, styles.segPartial, styles.segSkip, styles.segRest][i] ?? ''}`}
-                />
-                {name}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-      </div>
-      <Reveal className={`breakout ${styles.tiles}`} delay={200}>
-        {tiles.map((t, i) => (
-          <NumberTile key={t.label} value={t.value} label={t.label} accent={i === 1} />
-        ))}
-      </Reveal>
-      <div className="column">
-        <Reveal delay={240} className={styles.text}>
-          <p className={styles.proof}>
-            <Inline text={field('built', 'proof')} />
-          </p>
-          <p className={`mono ${styles.synced}`}>
-            synced {counts.syncedAt} · engine {counts.engineCommit.slice(0, 7)}
-          </p>
-        </Reveal>
+              <ul className={styles.legend} aria-hidden="true">
+                {legend.slice(0, 3).map((name, i) => (
+                  <li key={name}>
+                    <span className={styles.seg} data-state={['built', 'partial', 'rest'][i]} />
+                    {name}
+                  </li>
+                ))}
+              </ul>
+              <dl className={styles.readouts}>
+                {tiles.map((t) => (
+                  <div key={t.label} className={styles.readout}>
+                    <dt className={styles.readoutLabel}>{t.label}</dt>
+                    <dd className={styles.readoutValue}>{t.value}</dd>
+                  </div>
+                ))}
+              </dl>
+              <p className={styles.proof}>
+                <Inline text={field('built', 'proof')} />
+              </p>
+              <p className="mono">
+                synced {counts.syncedAt} · engine {counts.engineCommit.slice(0, 7)}
+              </p>
+            </Reveal>
+          </div>
+        </div>
       </div>
     </section>
   );

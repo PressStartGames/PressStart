@@ -1,0 +1,68 @@
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--screen);
+  color: var(--phosphor);
+  transform-origin: 0 0;
+  transition:
+    transform 640ms var(--ease),
+    opacity 640ms var(--ease);
+  overflow: hidden;
+}
+
+.boot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 3px, rgb(0 0 0 / 22%) 3px 4px);
+  pointer-events: none;
+}
+
+.lines {
+  position: absolute;
+  left: max(24px, calc((100vw - var(--frame)) / 2 + 24px));
+  top: 25vh;
+  font-family: var(--font-mono);
+  font-size: clamp(0.9rem, 0.8rem + 0.5vw, 1.25rem);
+  line-height: 1.8;
+}
+
+.line {
+  display: flex;
+  gap: 1ch;
+  margin: 0;
+  clip-path: inset(0 100% 0 0);
+  animation: type 190ms steps(14, end) both;
+  animation-delay: calc(var(--i) * 190ms);
+}
+
+@keyframes type {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.prompt {
+  color: var(--phosphor-dim);
+}
+
+.value {
+  color: var(--screen-fg);
+  margin-left: 2ch;
+}
+
+.cursor {
+  margin: 0;
+  opacity: 0;
+  animation:
+    show 0ms linear both,
+    blink 600ms steps(1) infinite;
+  animation-delay: calc(var(--i) * 190ms);
+}
+
+@keyframes show {
+  to {
+    opacity: 1;
+  }
+}

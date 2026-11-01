@@ -1,156 +1,116 @@
-.signup {
-  position: relative;
-}
-
-/* A soft PASS-green floor light under the sign-up, the booth's answer to Elyx's aurora. */
-.signup::before {
-  content: '';
-  position: absolute;
-  inset: auto -20% -30% -20%;
-  height: 90%;
-  background:
-    radial-gradient(40% 60% at 30% 100%, rgb(47 91 255 / 45%), transparent 70%),
-    radial-gradient(40% 60% at 55% 100%, rgb(61 220 151 / 42%), transparent 70%),
-    radial-gradient(40% 60% at 80% 100%, rgb(255 181 71 / 36%), transparent 70%);
-  filter: blur(24px);
-  pointer-events: none;
-  animation: aurora 14s ease-in-out infinite alternate;
-}
-
-@keyframes aurora {
-  to {
-    transform: translateX(6%) scaleY(1.15);
-  }
-}
-
-.intro {
-  margin-top: 16px;
-}
-
-.flipStage {
-  perspective: 1400px;
-  position: relative;
-}
-
-.flip {
+.grid {
   display: grid;
-  transform-style: preserve-3d;
-  transition: transform 0.8s var(--ease-spring);
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 48px;
+  align-items: start;
 }
 
-.flip[data-done] {
-  transform: rotateY(180deg);
-}
-
-.face {
-  grid-area: 1 / 1;
-  backface-visibility: hidden;
-}
-
-.back {
-  transform: rotateY(180deg);
-  align-self: start;
-}
-
-/* Children with their own transforms ignore backface-visibility, so the hidden face is also made
-   invisible once the flip lands (and the back face only while it is the active one). */
-.flip:not([data-done]) .back {
-  visibility: hidden;
-}
-
-.flip[data-done] .front {
-  visibility: hidden;
-  transition: visibility 0s 0.8s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .flip {
-    transition: none;
-  }
-
-  .signup::before,
-  .card::after {
-    animation: none;
-  }
-}
-
-.card {
+.copy {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding: clamp(22px, 3vw, 32px);
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: var(--radius);
-  box-shadow: 0 30px 80px -40px rgb(0 0 0 / 60%);
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
+  gap: 24px;
+  position: sticky;
+  top: calc(var(--header-h) + 24px);
 }
 
-/* A slow signal ring around the card. */
-.card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1.5px;
-  background: var(--signal-conic);
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0.7;
+.consent {
+  max-width: 40ch;
+}
+
+.slotWrap {
+  position: relative;
+}
+
+.stack {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  position: relative;
+  transition: grid-template-rows 700ms var(--ease);
+}
+
+.stack[data-done] {
+  grid-template-rows: 0fr auto;
+}
+
+/* The cartridge: a raised plate with a grip at the top and contacts at the bottom. */
+.cartridge {
+  position: relative;
+  background: var(--chassis-raised);
+  border: 1px solid var(--hairline);
+  border-bottom: 0;
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 24px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.grip {
+  display: block;
+  height: 10px;
+  margin: -8px 0 4px;
+  background: repeating-linear-gradient(90deg, var(--hairline) 0 2px, transparent 2px 8px);
+}
+
+.cartLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contacts {
+  display: block;
+  height: 8px;
+  margin: 4px -24px -20px;
+  background: repeating-linear-gradient(90deg, var(--ink) 0 6px, transparent 6px 10px);
+  opacity: 0.6;
+}
+
+.formWrap {
+  position: relative;
+  z-index: 2;
+  min-height: 0;
+  overflow: hidden;
+  transition:
+    transform 700ms var(--ease),
+    opacity 400ms ease 400ms;
+}
+
+.stack[data-done] .formWrap {
+  transform: translateY(40px);
+  opacity: 0;
   pointer-events: none;
-  z-index: 0;
-}
-
-.card:hover::after,
-.card:focus-within::after {
-  animation: orbit 6s linear infinite;
-  opacity: 1;
-}
-
-@keyframes orbit {
-  to {
-    --orbit: 360deg;
-  }
 }
 
 .fieldWrap {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .label {
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
 }
 
 .input {
   width: 100%;
-  min-height: 50px;
-  padding: 0 16px;
-  background: var(--bg);
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-sm);
-  color: var(--fg);
-  transition: border-color var(--dur-fast) ease;
-}
-
-.input:hover {
-  border-color: var(--fg-muted);
+  min-height: 48px;
+  padding: 0 12px;
+  background: var(--chassis);
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--t-16);
 }
 
 .input:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--ink);
   outline-offset: 0;
-  border-color: var(--accent);
 }
 
 .input[aria-invalid='true'] {
@@ -159,105 +119,135 @@
 
 .submit {
   align-self: flex-start;
-  min-width: 180px;
-}
-
-.submit:disabled {
-  opacity: 0.7;
-  cursor: progress;
 }
 
 .status {
-  min-height: 1.5em;
-  font-size: var(--text-small);
-  color: var(--fg-muted);
+  min-height: 1.4em;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  color: var(--ink-muted);
   margin: 0;
 }
 
 .status[data-status='invalid'],
 .status[data-status='error'] {
-  color: var(--fail);
+  color: #b3261e;
 }
 
-.status[data-status='existing'] {
-  color: var(--accent-2);
-}
-
-.consent {
-  margin: 0;
-  font-size: 0.8125rem;
-}
-
-/* The reward object: a cartridge. */
-.cartridge {
+/* The slot: a recessed mouth and the screen that boots. */
+.slot {
   position: relative;
-  padding: 26px 24px 28px;
-  border-radius: 14px 14px 22px 22px;
-  background: linear-gradient(180deg, #1c222b, #13171d);
-  border: 1px solid var(--rule);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 6%),
-    0 20px 50px -30px rgb(0 0 0 / 80%);
-  color: var(--booth-fg);
-  outline-offset: 6px;
-}
-
-.notch {
-  position: absolute;
-  top: -1px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 38%;
-  height: 10px;
-  background: var(--booth-bg);
-  border: 1px solid var(--rule);
-  border-top: 0;
-  border-radius: 0 0 8px 8px;
-}
-
-.grooves {
-  position: absolute;
-  inset: 14px 14px auto;
-  height: 12px;
-  background: repeating-linear-gradient(90deg, transparent 0 6px, var(--rule) 6px 7px);
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-.cartFace {
-  margin-top: 16px;
-  padding: 22px 20px;
-  border: 1px solid color-mix(in srgb, var(--pass) 40%, transparent);
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--pass) 8%, transparent);
+  background: var(--chassis-recessed);
+  border: 1px solid var(--hairline);
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-.cartLabel {
-  font-family: var(--font-mono);
-  font-size: clamp(1.1rem, 1rem + 0.8vw, 1.5rem);
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--pass);
-}
-
-.cartText {
-  color: var(--booth-fg-body);
-}
-
-[data-signup-mode='none'] .cartLabel {
-  color: var(--booth-fg);
+.slotLabel {
+  font-family: var(--font-pixel);
+  font-size: 10px;
   letter-spacing: 0.08em;
-  text-transform: none;
-  font-family: var(--font-display);
-  font-size: 1.75rem;
-  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--ink-muted);
 }
 
-[data-signup-mode='none'] .cartFace {
-  border-color: var(--rule);
+.slotMouth {
+  display: block;
+  height: 6px;
+  background: var(--ink);
+  border-radius: 1px;
+}
+
+.readyScreen {
   background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.ready {
+  padding: 24px 20px;
+  min-height: 140px;
+  font-family: var(--font-mono);
+  color: var(--phosphor);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  outline-offset: -2px;
+}
+
+.ready[inert] {
+  opacity: 0.25;
+}
+
+.stack[data-done] .ready {
+  animation: boot 400ms steps(2) both;
+}
+
+@keyframes boot {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.readyWord {
+  font-family: var(--font-pixel);
+  font-size: clamp(12px, 0.6rem + 1vw, 20px);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 0 12px rgb(56 224 143 / 50%);
+}
+
+.readyLine {
+  color: var(--screen-fg);
+}
+
+.readyCursor {
+  animation: blink 700ms steps(1) infinite;
+}
+
+.ready[inert] .readyCursor {
+  animation: none;
+  opacity: 0;
+}
+
+.cartridgeSoon {
+  border-bottom: 1px solid var(--hairline);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.soon {
+  font-size: var(--t-22);
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .copy {
+    position: static;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .formWrap,
+  .stack {
+    transition: none;
+  }
+
+  .stack[data-done] .ready,
+  .readyCursor {
+    animation: none;
+  }
 }

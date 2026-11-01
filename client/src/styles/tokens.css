@@ -1,131 +1,61 @@
-/* Design tokens (PLAN.md §4.3 palettes A "Booth" and B "Blueprint", enriched 2026-11-01 on the
-   founder's note: the "signal" gradient, the aurora, warmer paper, a blue-black booth).
-   The two acts are fixed, not a theme toggle: [data-act="paper"] wraps act 1, [data-act="booth"] the rest. */
+/* Design C, "the console": a cool light-grey chassis with dark phosphor screens set into it.
+   One base, one ink, one accent. Everything snaps to an 8 px grid. */
 :root {
-  /* Act 2: the booth (palette A) */
-  --booth-bg: #0b0e14;
-  --booth-surface: #141922;
-  --booth-rule: #232a35;
-  --booth-fg: #f2f4f7;
-  --booth-fg-body: rgb(242 244 247 / 82%);
-  --booth-fg-muted: #8f98a8;
-  --pass: #3ddc97;
-  --tick: #ffb547;
-  --fail: #ff5d5d;
-  --violet: #8b7cff;
+  /* chassis */
+  --chassis: #e7e9ec;
+  --chassis-raised: #f3f4f6;
+  --chassis-recessed: #dcdfe4;
+  --hairline: #c3c8cf;
+  --ink: #111318;
+  --ink-muted: #5a6169;
+  --ink-faint: #5f666f;
 
-  /* Act 1: paper (palette B) */
-  --paper-bg: #f5f1e8;
-  --paper-surface: #fffdf8;
-  --paper-rule: #ddd6c8;
-  --paper-fg: #15171c;
-  --paper-fg-muted: #5d6470;
-  --ink: #2f5bff;
-  --start: #e8543a;
+  /* screens */
+  --screen: #0b0d10;
+  --screen-raised: #141820;
+  --screen-line: #1f2630;
+  --phosphor: #38e08f;
+  --phosphor-dim: #23a86a;
+  --phosphor-soft: rgb(56 224 143 / 14%);
+  --screen-fg: #d9e0e6;
+  --screen-muted: #8b949f;
+  --fail: #ff6b5b;
 
-  /* The signal: ink -> PASS -> tick. Spent on borders, underlines and the aurora, never on body text. */
-  --signal: linear-gradient(100deg, var(--ink) 0%, var(--pass) 50%, var(--tick) 100%);
-  --signal-conic: conic-gradient(
-    from var(--orbit, 0deg),
-    var(--ink),
-    var(--pass),
-    var(--tick),
-    var(--start),
-    var(--violet),
-    var(--ink)
-  );
+  /* type */
+  --font-sans: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  --font-pixel: 'Press Start 2P', var(--font-mono);
 
-  /* Type (PLAN.md §4.4 pairing 1) */
-  --font-display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
-  --font-body: 'Inter Tight Variable', 'Inter Tight', system-ui, -apple-system, sans-serif;
-  --font-mono:
-    'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --t-12: 0.75rem;
+  --t-14: 0.875rem;
+  --t-16: 1rem;
+  --t-18: 1.125rem;
+  --t-22: 1.375rem;
+  --t-28: 1.75rem;
+  --t-40: 2.5rem;
+  --t-56: 3.5rem;
+  --t-88: clamp(2.75rem, 1.2rem + 5.2vw, 5.5rem);
+  --t-136: clamp(3rem, 1rem + 8.4vw, 8.5rem);
+  --t-200: clamp(5rem, 2rem + 12vw, 12.5rem);
 
-  --text-body: clamp(1.0625rem, 0.95rem + 0.4vw, 1.25rem);
-  --text-small: 0.9375rem;
-  --text-mono: 0.8125rem;
-  --text-h2: clamp(2.25rem, 1.4rem + 3.6vw, 4rem);
-  --text-h1: clamp(2.875rem, 1.5rem + 7vw, 6.5rem);
-  --leading-body: 1.55;
+  /* grid */
+  --frame: 1280px;
+  --gutter: 24px;
+  --spine: 160px;
+  --u: 8px;
+  --radius: 4px;
+  --header-h: 64px;
 
-  /* Layout */
-  --measure: 760px;
-  --breakout: 1200px;
-  --gutter: clamp(16px, 4vw, 40px);
-  --inset: clamp(8px, 1.4vw, 16px);
-  --space-section: clamp(104px, 12vw, 176px);
-  --space-head: clamp(32px, 4vw, 56px);
-  --radius: 22px;
-  --radius-sm: 12px;
-  --radius-pill: 999px;
-
-  /* Motion */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-spring: linear(
-    0,
-    0.009,
-    0.035 2.1%,
-    0.141,
-    0.281 6.7%,
-    0.723 12.9%,
-    0.938 16.7%,
-    1.017,
-    1.077,
-    1.121,
-    1.149 24.3%,
-    1.159,
-    1.163,
-    1.161,
-    1.154 29.9%,
-    1.129 32.8%,
-    1.051 39.6%,
-    1.017 43.1%,
-    0.991,
-    0.977 51%,
-    0.974 53.8%,
-    0.975 57.1%,
-    0.997 69.8%,
-    1.003 76.9%,
-    1
-  );
-  --dur-fast: 180ms;
-  --dur: 600ms;
-  --dur-slow: 900ms;
-  --header-h: 72px;
+  /* motion */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --fast: 120ms;
+  --mid: 320ms;
+  --slow: 720ms;
 }
 
-@property --orbit {
-  syntax: '<angle>';
-  inherits: false;
-  initial-value: 0deg;
-}
-
-[data-act='paper'] {
-  color-scheme: light;
-  --bg: var(--paper-bg);
-  --surface: var(--paper-surface);
-  --rule: var(--paper-rule);
-  --fg: var(--paper-fg);
-  --fg-body: var(--paper-fg);
-  --fg-muted: var(--paper-fg-muted);
-  --accent: var(--ink);
-  --accent-contrast: #ffffff;
-  --accent-2: var(--start);
-  --code-bg: #ece7db;
-  --glow: rgb(47 91 255 / 14%);
-}
-
-[data-act='booth'] {
-  color-scheme: dark;
-  --bg: var(--booth-bg);
-  --surface: var(--booth-surface);
-  --rule: var(--booth-rule);
-  --fg: var(--booth-fg);
-  --fg-body: var(--booth-fg-body);
-  --fg-muted: var(--booth-fg-muted);
-  --accent: var(--pass);
-  --accent-contrast: #0b0e14;
-  --accent-2: var(--tick);
-  --code-bg: var(--booth-surface);
-  --glow: rgb(61 220 151 / 16%);
+@media (max-width: 900px) {
+  :root {
+    --spine: 0px;
+    --gutter: 16px;
+  }
 }

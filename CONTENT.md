@@ -13,6 +13,7 @@ copy. Counts on 2026-11-01: catalog 404 entries, 103 BUILT, 129 PARTIAL, 32 SKIP
 wordmark: Press Start
 nav: Build · Proof · Built today · Roadmap · FAQ
 cta: Join the beta
+index: 00 boot | 01 fault | 02 spec | 03 procedure | 04 proof | 05 reference | 06 goldens | 07 levels | 08 road | 09 insert | 10 manual
 
 *(The pill is fixed top-right on every scroll position and scrolls to `#signup`. The bar turns translucent after
 80 px of scroll.)*
@@ -28,6 +29,9 @@ frame against a reference. Same seed, same inputs, same game. Every time.
 
 small: Private beta. Version 1 is not public yet. Windows first.
 
+boot-lines: press start · system check | seed 0x5eed | fixed tick · no clock | input tape · recorded | checksum | verdict
+screen-label: main screen · attract mode
+ledger-head: rank | tick | run A | run B | result
 replay-label: two runs, one game
 replay-runs: run A | run B
 replay-third: run C · another seed
@@ -45,6 +49,9 @@ own booth capture replaces it when the founder gives the go.)*
 
 headline: Agents can type code. They cannot see whether the game is right.
 
+trace-label: diagnostic
+trace: script | play | screenshot | guess
+
 Ask an agent for a game in an engine built for human hands. It writes a script, presses play, takes a screenshot and
 guesses. The frame rate changes the outcome, the random seed is unseeded, and nothing says what "right" means. Two
 runs are two different games.
@@ -54,6 +61,8 @@ runs are two different games.
 ## what
 
 headline: An engine whose first user is an agent. You direct it.
+
+spec-label: spec sheet
 
 **Everything is a document.** Scenes, laws and assets are files an agent can read and write. {{crates}} engine
 crates cover what Bevy leaves out: terrain, shaders, physics, animation, UI, navigation, networking and more.
@@ -80,6 +89,8 @@ headline: How an agent builds a game here.
 5. **Ask a second agent.** The builder never grades itself. A critic gets the bar and the result.
 
 footnote: The critic step is how the engine itself is built today. It joins the author's flow with the editor.
+
+procedure-label: procedure
 
 sample-caption: press_start_testkit's own test, copied verbatim from docs/00-build-a-game/test-app.md
 sample-commit: 45aeffd2a2ecc3b3049819151abfc1c1343fb2aa
@@ -142,6 +153,8 @@ small: Parity is the bar. Not every feature meets it yet, and the misses are rec
 
 references: Jolt · PhysX · Recast · Chromium · Yoga · HarfBuzz · Mitsuba · Blender · Manifold
 
+attract-label: held against
+
 *(Visual: the reference names as plain mono text in a slow marquee. No logos.)*
 
 ## goldens
@@ -173,6 +186,8 @@ in seven areas. A thing counts as built only when a test holds it. Here is where
 
 area-labels: world = World building · scenes, terrain, procgen, 2D, navigation | simulation = Simulation · physics, input, cameras, performance | rendering = Rendering · lighting, pipelines, shaders, textures | asset-creation = Asset creation · modeling, rigging, animation, pipeline | game-services = Game services · audio, UI, save, localisation, VFX | networking-export = Reach · networking, export, platforms | missing-domains = Beyond the usual · things no engine ships, written down anyway
 area-unit: built
+insert-title: how to play
+stage-label: stage
 
 proof: The first game, *Team Fights*, a small team shooter made of primitives, is built on these crates.
 
@@ -220,6 +235,8 @@ state-invalid: That address does not look right.
 state-error: Something failed on our side. Try again.
 success-card: Player 1 ready
 coming-soon: Sign-ups open soon. *(Shown when no endpoint is configured.)*
+slot-label: insert cartridge
+ready-label: player 1
 
 consent: We store your email, and your answer if you give one, only to send beta access and release news. One click
 unsubscribes and deletes it. [Privacy](/privacy)
@@ -227,6 +244,8 @@ unsubscribes and deletes it. [Privacy](/privacy)
 ## faq
 
 headline: Questions.
+
+manual-label: manual
 
 1. **Is it open source?** It will be source-available. The repository goes public at version 1, under our own
    licence modelled on Unreal's: free to make and ship games, with a royalty only above a revenue threshold.
