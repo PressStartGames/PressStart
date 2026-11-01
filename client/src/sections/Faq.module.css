@@ -1,74 +1,53 @@
-.list {
-  border-top: 1px solid var(--rule);
-}
-
-.item {
-  border-bottom: 1px solid var(--rule);
-  interpolate-size: allow-keywords;
-}
-
-.summary {
-  list-style: none;
-  cursor: pointer;
+.head {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: baseline;
   gap: 24px;
-  padding: 22px 0;
-  color: var(--fg);
+  margin-bottom: 40px;
 }
 
-.summary::-webkit-details-marker {
-  display: none;
+.manual {
+  margin: 0;
+  border-top: 1px solid var(--ink);
+  columns: 2;
+  column-gap: 48px;
+}
+
+.entry {
+  break-inside: avoid;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.no {
+  display: inline-block;
+  width: 3.5ch;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  font-weight: 400;
+  color: var(--ink-faint);
+  vertical-align: 0.3em;
 }
 
 .q {
-  font-family: var(--font-display);
-  font-size: clamp(1.35rem, 1.2rem + 0.8vw, 1.75rem);
+  font-size: var(--t-22);
+  font-weight: 500;
+  letter-spacing: -0.015em;
   line-height: 1.2;
 }
 
-.chev {
-  flex: none;
-  width: 12px;
-  height: 12px;
-  border-right: 1.5px solid var(--fg-muted);
-  border-bottom: 1.5px solid var(--fg-muted);
-  transform: rotate(45deg);
-  transition:
-    transform var(--dur) var(--ease-spring),
-    border-color var(--dur-fast) ease;
-  margin-right: 4px;
-}
-
-.summary:hover .chev {
-  border-color: var(--accent);
-}
-
-.item[open] .chev {
-  transform: rotate(225deg);
-}
-
-.item::details-content {
-  block-size: 0;
-  overflow: hidden;
-  transition:
-    block-size var(--dur) var(--ease-out),
-    content-visibility var(--dur) allow-discrete;
-}
-
-.item[open]::details-content {
-  block-size: auto;
-}
-
 .a {
-  padding: 0 0 26px;
-  max-width: 60ch;
+  margin: 0;
+  padding-left: 3.5ch;
+  color: var(--ink-muted);
+  font-size: var(--t-16);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .chev,
-  .item::details-content {
-    transition: none;
+@media (max-width: 900px) {
+  .manual {
+    columns: 1;
   }
 }

@@ -1,257 +1,137 @@
-/* The booth-dark window on paper: the one place the hero "performs", and it performs a fact. */
 .strip {
-  margin: 0;
-  background: var(--booth-bg);
-  color: var(--booth-fg);
-  border-radius: var(--radius);
-  padding: clamp(14px, 2vw, 24px);
-  box-shadow:
-    0 40px 100px -30px rgb(21 23 28 / 60%),
-    inset 0 0 0 1px var(--booth-rule);
-  position: relative;
-  overflow: hidden;
+  width: 100%;
 }
 
-/* A faint signal haze along the top edge; it breathes while the run is on. */
-.strip::before {
+.tickNow {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* One screen, split by a hairline. */
+.split {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  background: var(--screen);
+}
+
+.split::before {
   content: '';
-  position: absolute;
-  inset: -40% -10% auto;
-  height: 70%;
-  background: radial-gradient(50% 60% at 50% 0%, rgb(61 220 151 / 12%), transparent 70%);
-  pointer-events: none;
+  grid-column: 2;
+  grid-row: 1;
+  background: var(--screen-line);
+  z-index: 2;
 }
 
-.head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 16px;
-  margin-bottom: 10px;
+.half {
   position: relative;
-  min-height: 1.6em;
+  grid-row: 1;
+}
+
+.half:first-child {
+  grid-column: 1;
+}
+
+.half:last-of-type {
+  grid-column: 3;
+}
+
+.arena {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.arenaScore {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 600;
+  fill: #38e08f;
+}
+
+.runTag,
+.tickTag {
+  position: absolute;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--phosphor);
+  z-index: 3;
+}
+
+.runTag {
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tickTag {
+  right: 12px;
+  bottom: 10px;
+  color: var(--screen-muted);
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+}
+
+.event {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--phosphor);
+  z-index: 3;
   white-space: nowrap;
 }
 
-.label {
+/* The ledger: a high-score table in phosphor. */
+.ledgerWrap {
+  padding: 16px 16px 8px;
+  border-top: 1px solid var(--screen-line);
   font-family: var(--font-mono);
-  font-size: var(--text-mono);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--booth-fg-muted);
 }
 
-.counter {
-  font-family: var(--font-mono);
-  font-size: var(--text-mono);
-  color: var(--booth-fg-muted);
-  font-variant-numeric: tabular-nums;
-}
-
-.counter b {
-  color: var(--tick);
-  font-weight: 600;
-  font-size: 1.15em;
-}
-
-.of {
-  color: var(--booth-fg-muted);
-}
-
-/* The scrubber: a thin track filled to the current tick, with a mark per golden tick. */
-.scrub {
-  position: relative;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--booth-rule);
-  margin-bottom: 14px;
-}
-
-.scrubFill {
-  position: absolute;
-  inset: 0;
-  border-radius: 2px;
-  background: var(--signal);
-  transform-origin: left;
-  transform: scaleX(var(--p));
-}
-
-.scrubMark {
-  position: absolute;
-  top: -4px;
-  left: calc(var(--p) * 100%);
-  width: 12px;
-  height: 12px;
-  margin-left: -6px;
-  border-radius: 50%;
-  background: var(--booth-bg);
-  border: 2px solid var(--booth-rule);
-  transition:
-    border-color var(--dur-fast) ease,
-    transform var(--dur) var(--ease-spring);
-}
-
-.scrubMark[data-hit] {
-  border-color: var(--pass);
-  background: var(--pass);
-  transform: scale(1.15);
-  box-shadow: 0 0 12px rgb(61 220 151 / 60%);
-}
-
-.panels {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  position: relative;
-}
-
-.panel {
-  position: relative;
-  aspect-ratio: 16 / 10;
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-  box-shadow: inset 0 0 0 1px var(--booth-rule);
-  background:
-    radial-gradient(70% 60% at 50% 100%, rgb(61 220 151 / 10%), transparent 70%),
-    linear-gradient(180deg, #11151c, #0b0e14);
-  display: grid;
-  place-items: center;
-}
-
-/* A perspective floor grid under the frame. */
-.panel::before {
-  content: '';
-  position: absolute;
-  inset: 55% -40% -10%;
-  background-image:
-    linear-gradient(var(--booth-rule) 1px, transparent 1px),
-    linear-gradient(90deg, var(--booth-rule) 1px, transparent 1px);
-  background-size: 48px 48px;
-  transform: perspective(500px) rotateX(62deg);
-  transform-origin: 50% 0;
-  opacity: 0.7;
-  mask-image: linear-gradient(180deg, transparent, #000 30%, #000 80%, transparent);
-}
-
-.runLabel {
-  position: absolute;
-  top: 10px;
-  left: 12px;
-  z-index: 2;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--booth-fg);
-  background: rgb(14 16 20 / 70%);
-  padding: 4px 8px;
-  border-radius: 6px;
-}
-
-/* Pixel-art goldens scaled by an integer factor, never resampled. */
-.frame {
-  position: relative;
-  z-index: 1;
-  width: 128px;
-  height: 128px;
-  image-rendering: pixelated;
-  transform: scale(var(--frame-scale, 2));
-  filter: drop-shadow(0 18px 24px rgb(0 0 0 / 55%));
-}
-
-@media (max-width: 760px) {
-  .frame {
-    --frame-scale: 1.5;
-  }
-}
-
-.frame[hidden] {
-  display: none;
-}
-
-:global(html.js) .frame {
-  animation: land 0.35s var(--ease-out) both;
-}
-
-@keyframes land {
-  from {
-    transform: scale(calc(var(--frame-scale, 2) * 1.06));
-    filter: drop-shadow(0 18px 24px rgb(0 0 0 / 55%)) brightness(1.6);
-  }
-}
-
-.waiting {
-  width: 40%;
-  height: 2px;
-  background: var(--booth-rule);
-  position: relative;
-  z-index: 1;
-}
-
-/* A scanline sweeps the panel while the run is on. */
-.scan {
-  position: absolute;
-  inset: 0 0 auto;
-  height: 28%;
-  background: linear-gradient(
-    180deg,
-    transparent,
-    rgb(61 220 151 / 14%) 60%,
-    rgb(61 220 151 / 40%)
-  );
-  transform: translateY(-110%);
-  z-index: 2;
-  pointer-events: none;
-  opacity: 0;
-}
-
-.strip[data-running] .scan {
-  opacity: 1;
-  animation: scan 1.3s linear infinite;
-}
-
-@keyframes scan {
-  to {
-    transform: translateY(380%);
-  }
-}
-
-.frameTick {
-  position: absolute;
-  right: 14px;
-  bottom: 10px;
-  z-index: 2;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
+.ledgerTitle {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
   letter-spacing: 0.08em;
-  color: var(--booth-fg-muted);
+  text-transform: uppercase;
+  color: var(--phosphor);
+  margin-bottom: 12px;
 }
 
-.table {
+.ledgerMatch {
+  color: var(--screen-muted);
+}
+
+.ledger {
   width: 100%;
-  margin-top: 14px;
   border-collapse: collapse;
-  font-family: var(--font-mono);
-  font-size: var(--text-mono);
+  font-size: var(--t-14);
   font-variant-numeric: tabular-nums;
-  position: relative;
 }
 
-.table th {
+.ledger th {
   text-align: left;
   font-weight: 500;
-  color: var(--booth-fg-muted);
-  padding: 6px 8px;
-  border-bottom: 1px solid var(--booth-rule);
-  letter-spacing: 0.08em;
+  font-size: var(--t-12);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  font-size: 0.7rem;
+  color: var(--screen-muted);
+  padding: 0 8px 8px 0;
+  border-bottom: 1px solid var(--screen-line);
 }
 
-.table td {
-  padding: 7px 8px;
-  border-bottom: 1px solid color-mix(in srgb, var(--booth-rule) 60%, transparent);
-  color: var(--booth-fg-body);
+.ledger td {
+  padding: 7px 8px 7px 0;
+  color: var(--screen-fg);
   white-space: nowrap;
 }
 
@@ -259,213 +139,93 @@
   visibility: hidden;
 }
 
-.row[data-shown] {
-  animation: flash 1.2s var(--ease-out) both;
+.row[data-shown] td {
+  animation: light 900ms var(--ease) both;
 }
 
-@keyframes flash {
+@keyframes light {
   0% {
-    background: color-mix(in srgb, var(--pass) 32%, transparent);
-    transform: translateX(-6px);
+    color: var(--phosphor);
+    text-shadow: 0 0 10px var(--phosphor);
   }
+}
 
-  100% {
-    background: transparent;
-    transform: none;
-  }
+.rank {
+  color: var(--screen-muted);
+  width: 3ch;
 }
 
 .tick {
-  color: var(--tick);
+  color: var(--phosphor);
 }
 
 .hash {
   letter-spacing: 0.04em;
 }
 
-.verdict {
-  color: var(--pass);
+.result {
+  color: var(--phosphor);
   font-weight: 600;
   text-align: right;
-  width: 3.5em;
 }
 
-.foot {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 16px;
-  margin-top: 16px;
-  position: relative;
-}
-
-.stamp {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  padding: 8px 16px;
-  border: 2px solid var(--pass);
-  border-radius: 8px;
-  color: var(--pass);
-  font-family: var(--font-mono);
-  transform: rotate(-6deg);
-  opacity: 1;
-  box-shadow:
-    0 0 0 2px rgb(11 14 20),
-    0 0 0 3px color-mix(in srgb, var(--pass) 40%, transparent),
-    0 0 30px rgb(61 220 151 / 25%);
-}
-
-.stamp:not([data-stamped]) {
-  opacity: 0;
-  transform: rotate(-6deg) scale(1.6);
-}
-
-.stamp[data-stamped] {
-  animation: stamp 0.5s var(--ease-spring) both;
-}
-
-@keyframes stamp {
-  from {
-    opacity: 0;
-    transform: rotate(-12deg) scale(1.7);
-  }
-}
-
-.stampWord {
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: 0.24em;
-  line-height: 1;
-  padding-left: 0.24em;
-}
-
-.stampLine {
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.note {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--booth-fg-muted);
-  text-align: right;
-  max-width: 44ch;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.provenance {
-  color: var(--booth-fg-muted);
-}
-
-@media (max-width: 640px) {
-  .panels {
-    grid-template-columns: 1fr;
-  }
-
-  .table th:nth-child(3),
-  .table td:nth-child(3) {
-    display: none;
-  }
-
-  .foot {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .note {
-    text-align: left;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .row,
-  .row[data-shown],
-  .stamp[data-stamped],
-  .strip[data-running] .scan,
-  :global(html.js) .frame {
-    animation: none;
-  }
-
-  .scrubMark {
-    transition: none;
-  }
-}
-
-/* The simulation panels (ArenaFrame) */
-.arena {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.arenaScore {
-  font-family: var(--font-mono);
-  font-size: 22px;
-  font-weight: 600;
-  fill: var(--pass);
-}
-
-.arenaScoreB {
-  fill: var(--tick);
-}
-
-/* Out of the flow: the caption can never reflow the strip. */
-.event {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
-  text-align: center;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--tick);
-  min-height: 1.2em;
-}
-
-/* The third run: another seed, shown after the stamp, and it does not match. */
 .third td {
-  border-top: 1px dashed var(--booth-rule);
+  border-top: 1px dashed var(--screen-line);
 }
 
 .thirdLabel {
-  color: var(--booth-fg-muted);
+  color: var(--screen-muted);
 }
 
-.hashFail {
+.hashFail,
+.resultFail {
   color: var(--fail);
 }
 
-.verdictFail {
-  color: var(--fail);
+.cursorLine {
+  margin: 4px 0 0;
+  min-height: 1.4em;
+  color: var(--phosphor);
+  font-size: var(--t-14);
 }
 
-.third[data-shown] {
-  animation: flash-fail 1.2s var(--ease-out) both;
+.cursorLine[data-running] {
+  animation: blink 700ms steps(1) infinite;
 }
 
-@keyframes flash-fail {
-  0% {
-    background: color-mix(in srgb, var(--fail) 30%, transparent);
-    transform: translateX(-6px);
+.caption {
+  padding: 10px 16px 12px;
+  border-top: 1px solid var(--screen-line);
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  color: var(--screen-muted);
+  text-wrap: pretty;
+}
+
+@media (max-width: 720px) {
+  .split {
+    grid-template-columns: 1fr;
   }
 
-  100% {
-    background: transparent;
-    transform: none;
+  .split::before {
+    display: none;
+  }
+
+  .half:last-of-type {
+    grid-column: 1;
+    grid-row: 2;
+    border-top: 1px solid var(--screen-line);
+  }
+
+  .ledger th:nth-child(4),
+  .ledger td:nth-child(4) {
+    display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .third[data-shown] {
+  .row[data-shown] td,
+  .cursorLine[data-running] {
     animation: none;
   }
 }

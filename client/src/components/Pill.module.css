@@ -1,115 +1,81 @@
-.pill {
-  --pill-bg: var(--accent);
-  --pill-fg: var(--accent-contrast);
+.key {
+  --key-bg: var(--ink);
+  --key-fg: var(--chassis);
+  --key-shadow: #000;
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   min-height: 48px;
-  padding: 0 22px;
-  border-radius: var(--radius-pill);
+  padding: 0 20px;
   border: 0;
-  background: var(--pill-bg);
-  color: var(--pill-fg);
+  border-radius: var(--radius);
+  background: var(--key-bg);
+  color: var(--key-fg);
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
   font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: -0.005em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  isolation: isolate;
+  box-shadow: 0 3px 0 var(--key-shadow);
   transition:
-    transform var(--dur) var(--ease-spring),
-    background-color var(--dur-fast) ease,
-    color var(--dur-fast) ease,
-    box-shadow var(--dur) ease;
-  will-change: transform;
+    transform var(--fast) var(--ease),
+    box-shadow var(--fast) var(--ease),
+    background-color var(--fast) ease;
 }
 
-.pill:hover {
-  transform: scale(1.045);
-  color: var(--pill-fg);
+.key:hover {
+  color: var(--key-fg);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 0 var(--key-shadow);
 }
 
-.pill:active {
-  transform: scale(0.97);
-  transition-duration: var(--dur-fast);
+.key:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--key-shadow);
+}
+
+.key:disabled {
+  cursor: progress;
+  opacity: 0.7;
 }
 
 .label {
   position: relative;
-  z-index: 1;
-}
-
-.primary {
-  box-shadow: 0 10px 30px -12px color-mix(in srgb, var(--accent) 70%, transparent);
-}
-
-.primary:hover {
-  box-shadow: 0 16px 40px -12px color-mix(in srgb, var(--accent) 80%, transparent);
 }
 
 .ghost {
-  --pill-bg: transparent;
-  --pill-fg: var(--fg);
-  box-shadow: inset 0 0 0 1px var(--rule);
+  --key-bg: var(--chassis-raised);
+  --key-fg: var(--ink);
+  --key-shadow: var(--hairline);
 }
 
-.ghost:hover {
-  box-shadow: inset 0 0 0 1px var(--fg-muted);
+.start {
+  --key-bg: var(--ink);
+  --key-fg: var(--chassis);
+  min-height: 40px;
+  padding: 0 16px;
+  font-size: var(--t-12);
 }
 
-/* The fixed CTA: a dark pill that reads on paper and booth alike, ringed by the signal gradient.
-   The ring turns slowly all the time and fast on hover (an orbiting outline). */
-.orbit {
-  --pill-bg: #15171c;
-  --pill-fg: #f2f4f7;
-  box-shadow: 0 1px 2px rgb(0 0 0 / 25%);
+.led {
+  transition: box-shadow var(--fast) ease;
 }
 
-.orbit::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  border-radius: inherit;
-  background: var(--signal-conic);
-  z-index: 0;
-}
-
-.orbit::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--pill-bg);
-  z-index: 0;
-}
-
-.orbit:hover::before,
-.orbit:focus-visible::before {
-  animation: orbit 1.2s linear infinite;
-  inset: -3px;
-}
-
-@keyframes orbit {
-  to {
-    --orbit: 360deg;
-  }
+.key:hover .led {
+  box-shadow:
+    0 0 8px var(--phosphor),
+    0 0 20px var(--phosphor);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pill {
+  .key,
+  .key:hover,
+  .key:active {
     transition: none;
-  }
-
-  .pill:hover,
-  .pill:active {
     transform: none;
-  }
-
-  .orbit::before,
-  .orbit:hover::before,
-  .orbit:focus-visible::before {
-    animation: none;
   }
 }

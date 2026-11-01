@@ -1,6 +1,6 @@
 // Per-route <head> content. M4 adds Open Graph, cards, JSON-LD and the sitemap here.
 import { field } from '../content';
-import { SITE_URL } from './config';
+import { BASE, SITE_URL } from './config';
 
 const SITE_NAME = field('header', 'wordmark');
 
@@ -44,6 +44,7 @@ export function headHtml(pathname: string): string {
   return [
     `<title>${escape(m.title)}</title>`,
     `<meta name="description" content="${escape(m.description)}" />`,
+    `<meta name="app-base" content="${BASE}" />`,
     canonical,
   ]
     .filter(Boolean)

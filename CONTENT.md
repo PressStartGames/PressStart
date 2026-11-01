@@ -13,6 +13,7 @@ copy. Counts on 2026-11-01: catalog 404 entries, 103 BUILT, 129 PARTIAL, 32 SKIP
 wordmark: Press Start
 nav: Build · Proof · Built today · Roadmap · FAQ
 cta: Join the beta
+index: 00 boot | 01 fault | 02 spec | 03 procedure | 04 proof | 05 cores | 06 reference | 07 goldens | 08 levels | 09 road | 10 insert | 11 manual
 
 *(The pill is fixed top-right on every scroll position and scrolls to `#signup`. The bar turns translucent after
 80 px of scroll.)*
@@ -28,6 +29,9 @@ frame against a reference. Same seed, same inputs, same game. Every time.
 
 small: Private beta. Version 1 is not public yet. Windows first.
 
+boot-lines: press start · system check | seed 0x5eed | fixed tick · no clock | input tape · recorded | checksum | verdict
+screen-label: main screen · attract mode
+ledger-head: rank | tick | run A | run B | result
 replay-label: two runs, one game
 replay-runs: run A | run B
 replay-third: run C · another seed
@@ -45,6 +49,9 @@ own booth capture replaces it when the founder gives the go.)*
 
 headline: Agents can type code. They cannot see whether the game is right.
 
+trace-label: diagnostic
+trace: script | play | screenshot | guess
+
 Ask an agent for a game in an engine built for human hands. It writes a script, presses play, takes a screenshot and
 guesses. The frame rate changes the outcome, the random seed is unseeded, and nothing says what "right" means. Two
 runs are two different games.
@@ -54,6 +61,8 @@ runs are two different games.
 ## what
 
 headline: An engine whose first user is an agent. You direct it.
+
+spec-label: spec sheet
 
 **Everything is a document.** Scenes, laws and assets are files an agent can read and write. {{crates}} engine
 crates cover what Bevy leaves out: terrain, shaders, physics, animation, UI, navigation, networking and more.
@@ -77,9 +86,8 @@ headline: How an agent builds a game here.
 3. **Run it on a fixed tick.** Tick 128 is the same tick on every run, driven by a recorded input tape.
 4. **Look with numbers, then pixels.** Query the positions and the state checksum, capture the frame, compare it
    with its golden.
-5. **Ask a second agent.** The builder never grades itself. A critic gets the bar and the result.
 
-footnote: The critic step is how the engine itself is built today. It joins the author's flow with the editor.
+procedure-label: procedure
 
 sample-caption: press_start_testkit's own test, copied verbatim from docs/00-build-a-game/test-app.md
 sample-commit: 45aeffd2a2ecc3b3049819151abfc1c1343fb2aa
@@ -123,12 +131,32 @@ Every random stream comes from one seed you can write down. Game logic may not r
 simulation steps on a fixed tick. So a replay is exact, a test is a fact, and "the bug at tick 340" is something one
 agent can hand to another. *Today: the same build on the same platform.*
 
-subhead: Parallel, and still deterministic.
-
-Bevy runs systems across every core. Our gate refuses two systems that touch the same data in no declared order, and
-names both.
-
 *(Visual: the hero's tick ruler with two identical hash columns, static.)*
+
+## parallel
+
+kicker: every core
+headline: All your cores. The same answer.
+
+Bevy runs your game's systems across every core of the machine, and Press Start keeps it that way: nothing is
+slowed to a single thread to make it reproducible. Our gate refuses two systems that touch the same data in no
+declared order, and names both. A parallel sum must be ordered or order-independent, never "whatever the scheduler
+did". So the replay does not depend on how many cores ran it.
+
+subhead: Proven on integrated graphics.
+
+Every picture the engine proves is shot on an Intel UHD 770, the integrated graphics of an office desktop, and no
+other card is allowed. If it holds there, it holds on the machines players actually own.
+
+lanes: input · physics · navigation · animation · camera · UI · audio · VFX
+core-label: core
+gate-label: gate · order declared
+readout-label: state checksum
+readout-cores: 8 cores | 2 cores
+
+*(Visual: eight core lanes filling with system blocks in parallel; two blocks on different lanes that touch the
+same data get caught by the gate and ordered; then the same checksum reads out for 8 cores and for 2. Sources:
+docs/15-determinism-parallelism.md; docs/00-build-a-game.md §3 for the reference card.)*
 
 ## oracles
 
@@ -141,6 +169,8 @@ differ, the difference is written down with both numbers.
 small: Parity is the bar. Not every feature meets it yet, and the misses are recorded.
 
 references: Jolt · PhysX · Recast · Chromium · Yoga · HarfBuzz · Mitsuba · Blender · Manifold
+
+attract-label: held against
 
 *(Visual: the reference names as plain mono text in a slow marquee. No logos.)*
 
@@ -173,6 +203,8 @@ in seven areas. A thing counts as built only when a test holds it. Here is where
 
 area-labels: world = World building · scenes, terrain, procgen, 2D, navigation | simulation = Simulation · physics, input, cameras, performance | rendering = Rendering · lighting, pipelines, shaders, textures | asset-creation = Asset creation · modeling, rigging, animation, pipeline | game-services = Game services · audio, UI, save, localisation, VFX | networking-export = Reach · networking, export, platforms | missing-domains = Beyond the usual · things no engine ships, written down anyway
 area-unit: built
+insert-title: how to play
+stage-label: stage
 
 proof: The first game, *Team Fights*, a small team shooter made of primitives, is built on these crates.
 
@@ -220,6 +252,8 @@ state-invalid: That address does not look right.
 state-error: Something failed on our side. Try again.
 success-card: Player 1 ready
 coming-soon: Sign-ups open soon. *(Shown when no endpoint is configured.)*
+slot-label: insert cartridge
+ready-label: player 1
 
 consent: We store your email, and your answer if you give one, only to send beta access and release news. One click
 unsubscribes and deletes it. [Privacy](/privacy)
@@ -228,8 +262,10 @@ unsubscribes and deletes it. [Privacy](/privacy)
 
 headline: Questions.
 
+manual-label: manual
+
 1. **Is it open source?** It will be source-available. The repository goes public at version 1, under our own
-   licence modelled on Unreal's: free to make and ship games, with a royalty only above a revenue threshold.
+   licence: free to make and ship games, with a royalty only above a revenue threshold.
 2. **Do I need an account?** No. An account will be optional, and nothing in the engine, editor or launcher will
    require one.
 3. **Which AI does it work with?** Your own. The engine exposes data and verbs, not a model. *(Keep this line until
@@ -246,8 +282,6 @@ headline: Questions.
 links: Press Start · © 2026 · Licence · Privacy · GitHub · Discord · contact
 
 licence-stub: Licence: source-available, published with version 1.
-
-small: Built on Bevy. Bevy is an independent open-source project; we are not affiliated.
 
 *(GitHub links to this website's repository until the engine is public. Discord and the contact address wait on
 PLAN.md §10 question 7.)*

@@ -1,70 +1,96 @@
-.problem {
-  padding-top: clamp(64px, 8vw, 112px);
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 48px;
+  align-items: start;
 }
 
-.tangleWrap {
-  margin-top: clamp(40px, 6vw, 72px);
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
-.tangle {
-  display: block;
-  width: 100%;
-  height: auto;
-  overflow: visible;
+.body {
+  color: var(--ink-muted);
 }
 
-.strand {
-  stroke: var(--fg);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-dasharray: 1400;
-  stroke-dashoffset: 0;
-  opacity: 0.85;
+.screenWrap {
+  position: sticky;
+  top: calc(var(--header-h) + 24px);
 }
 
-.strandB {
-  stroke: var(--accent);
+.trace {
+  list-style: none;
+  margin: 0;
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.strandC {
-  stroke: var(--start);
+.step {
+  display: grid;
+  grid-template-columns: 3ch 1fr auto;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--screen-line);
+  color: var(--screen-fg);
 }
 
-/* The strands draw themselves once the figure scrolls into view (JS present, motion allowed). */
-:global(html.js) .tangleWrap[data-visible] .strand {
-  animation: draw 1.6s var(--ease-out) both;
+.step:last-child {
+  border-bottom: 0;
 }
 
-:global(html.js) .tangleWrap[data-visible] .strandB {
-  animation-delay: 0.15s;
+:global(html.js) .screenWrap[data-visible] .step {
+  animation: light 600ms var(--ease) both;
+  animation-delay: calc(var(--i) * 260ms);
 }
 
-:global(html.js) .tangleWrap[data-visible] .strandC {
-  animation-delay: 0.3s;
-}
-
-@keyframes draw {
+@keyframes light {
   from {
-    stroke-dashoffset: 1400;
+    opacity: 0;
   }
 }
 
-.node {
-  fill: var(--bg);
-  stroke: var(--fg);
-  stroke-width: 1.6;
+.stepNo {
+  color: var(--screen-muted);
 }
 
-.nodeLabel {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.1em;
+.stepName {
   text-transform: uppercase;
-  fill: var(--fg-muted);
+  letter-spacing: 0.1em;
+}
+
+.stepValue {
+  color: var(--phosphor);
+}
+
+.stepLast .stepValue {
+  color: var(--fail);
+  font-weight: 700;
+}
+
+:global(html.js) .screenWrap[data-visible] .stepLast .stepValue {
+  animation: blink 900ms steps(1) 1.2s 4;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .screenWrap {
+    position: static;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :global(html.js) .tangleWrap[data-visible] .strand {
+  :global(html.js) .screenWrap[data-visible] .step,
+  :global(html.js) .screenWrap[data-visible] .stepLast .stepValue {
     animation: none;
   }
 }

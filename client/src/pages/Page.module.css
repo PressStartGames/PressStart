@@ -1,133 +1,44 @@
-.stage {
-  perspective: 1600px;
-  background: var(--booth-bg);
-}
-
-/* Act 1: the paper card, inset on the dark body. A soft ink/red glow and a drifting grid live
-   behind the hero (composited transforms only). */
-.paper {
-  position: relative;
-  z-index: 1;
-  margin: var(--inset);
-  border-radius: var(--radius);
-  transform-origin: 50% 100%;
-  box-shadow: 0 0 0 1px rgb(0 0 0 / 8%);
-  overflow: clip;
-}
-
-.paper::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: min(100vh, 1000px);
-  background:
-    radial-gradient(60% 50% at 8% 0%, rgb(47 91 255 / 16%), transparent 70%),
-    radial-gradient(45% 40% at 95% 10%, rgb(232 84 58 / 14%), transparent 70%),
-    radial-gradient(40% 35% at 60% 55%, rgb(61 220 151 / 10%), transparent 70%);
-  pointer-events: none;
-}
-
-.grid {
-  position: absolute;
-  inset: -200px 0 auto 0;
-  height: min(130vh, 1500px);
-  background-image:
-    linear-gradient(var(--paper-rule) 1px, transparent 1px),
-    linear-gradient(90deg, var(--paper-rule) 1px, transparent 1px);
-  background-size: 56px 56px;
-  opacity: 0.55;
-  mask-image: linear-gradient(180deg, transparent 0%, #000 20%, #000 60%, transparent 100%);
-  pointer-events: none;
-}
-
-.booth {
-  position: relative;
-  padding-top: var(--inset);
-}
-
-/* The horizon: as the paper scrolls out it lifts off the booth beneath; a signal line draws
-   across where the booth surfaces. */
-.horizon {
-  position: absolute;
-  top: 0;
-  left: var(--inset);
-  right: var(--inset);
-  height: 2px;
-  background: var(--signal);
-  transform-origin: left;
-  box-shadow: 0 0 24px 2px rgb(61 220 151 / 35%);
-  pointer-events: none;
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .paper {
-      animation: lift linear both;
-      animation-timeline: view();
-      animation-range: exit-crossing 0% exit-crossing 100%;
-    }
-
-    .booth {
-      animation: surface linear both;
-      animation-timeline: view();
-      animation-range: entry-crossing 0% entry-crossing 45%;
-    }
-
-    .horizon {
-      animation: draw-horizon linear both;
-      animation-timeline: view();
-      animation-range: entry-crossing 0% entry-crossing 30%;
-    }
-  }
-}
-
-@keyframes lift {
-  to {
-    transform: translateY(-64px) scale(0.965) rotateX(4deg);
-    box-shadow:
-      0 0 0 1px rgb(0 0 0 / 8%),
-      0 90px 160px -40px rgb(0 0 0 / 80%);
-  }
-}
-
-@keyframes surface {
-  from {
-    transform: translateY(56px);
-  }
-}
-
-@keyframes draw-horizon {
-  from {
-    transform: scaleX(0);
-  }
-}
-
-/* The secondary pages (privacy, confirmed, not found) live in the booth. */
+/* The secondary pages: a short manual page on the same chassis. */
 .page {
   min-height: 100svh;
   display: flex;
   flex-direction: column;
 }
 
-.pageMain {
+.main {
   flex: 1;
-  padding-top: calc(var(--header-h) + clamp(56px, 10vh, 120px));
-  padding-bottom: var(--space-section);
+  padding: 72px 0 112px;
 }
 
-.pageMain h1 {
-  font-size: var(--text-h2);
+.main h1 {
+  font-size: var(--t-88);
   margin-bottom: 24px;
 }
 
-.pageMain p + p {
-  margin-top: 1.1em;
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
 }
 
-.pageCta {
+.body {
+  color: var(--ink-muted);
+  max-width: 62ch;
+}
+
+.body p + p {
+  margin-top: 1.2em;
+}
+
+.cta {
   margin-top: 40px;
 }
 
-.pageSmall {
-  margin-bottom: 28px;
+.small {
+  margin-bottom: 24px;
 }

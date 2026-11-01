@@ -3,12 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="dark" />
-    <meta name="theme-color" content="#0E1014" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#e7e9ec" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <!--app-head-->
     <script>
-      document.documentElement.classList.add('js');
+      (function () {
+        var h = document.documentElement;
+        h.classList.add('js');
+        // The console boots only on the home route, only when motion is allowed. The class delays the
+        // hero's load sequence; the Boot component removes it when the boot screen lifts.
+        var base = document.querySelector('meta[name="app-base"]');
+        var home = (base && base.content) || '/';
+        var p = location.pathname.replace(/index\.html$/, '');
+        if (
+          p === home &&
+          !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+          !sessionStorage.getItem('ps-booted')
+        ) {
+          h.classList.add('booting');
+        }
+      })();
     </script>
     <script type="module" src="/src/main.tsx"></script>
   </head>
