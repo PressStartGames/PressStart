@@ -9,6 +9,8 @@ root/server, root/client structure."
 - **The plan:** [`PLAN.md`](PLAN.md) (research of 2026-11-01). Read §0a, §3, §4, §5, §6.1, §6.4, §7, §9 before
   building. Where PLAN.md and this file disagree, this file wins (the resolutions are listed at the end).
 - **The words:** [`CONTENT.md`](CONTENT.md). All page copy lives there, keyed by section id; code never holds prose.
+- **The handover:** the `press-start-site` skill (`.claude/skills/press-start-site/SKILL.md`): the repository, stack,
+  deploy, content and data flow, design system, sign-up modes, what is measured and what is open. Read it first.
 - **The engine tie:** the `press-start-website` skill (`.claude/skills/press-start-website/SKILL.md`); read it first.
   The reference look: `docs/reference/elyx/` (16 renders + `elyx-facts.json`); the plan's brief: `docs/plan-brief.md`.
 
