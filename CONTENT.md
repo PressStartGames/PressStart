@@ -187,13 +187,11 @@ headline: Where we are, honestly.
 
 Press Start is not public yet. This is the road to version 1, in order:
 
-1. **Now:** the licence clean-up, where every module is rewritten from public documents only, and the editor: an
-   editor window and a game window, by hand and by AI side by side.
-2. **Version 1:** a launcher, a new project from a template, save, build, Windows export. No account required, and
+1. **Version 1:** a launcher, a new project from a template, save, build, Windows export. No account required, and
    it works fully offline.
-3. **Then:** the big performance pain points, one full release gate, and the public repository under our own
+2. **Then:** the big performance pain points, one full release gate, and the public repository under our own
    source-available licence.
-4. **After:** a version every two weeks, the remaining gaps, more platforms.
+3. **After:** a version every two weeks, the remaining gaps, more platforms.
 
 now-label: now
 
