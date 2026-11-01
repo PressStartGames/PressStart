@@ -1,0 +1,29 @@
+# The email store Worker, deployed on demand (workflow_dispatch). Needs the repository secrets
+# CLOUDFLARE_API_TOKEN (Workers + D1 scope) and CLOUDFLARE_ACCOUNT_ID; the Worker's own secrets
+# (TURNSTILE_SECRET_KEY, RESEND_API_KEY, CONFIRM_LINK_SECRET) are set once with `wrangler secret put`.
+name: Deploy server
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-server
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Apply D1 migrations and deploy the Worker
+        run: pnpm --filter server deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

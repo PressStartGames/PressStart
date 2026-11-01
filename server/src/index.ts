@@ -1,0 +1,200 @@
+// The email store: one Cloudflare Worker + D1 (PLAN.md §6.1, §6.4; CLAUDE.md "server/").
+//   POST /api/waitlist      honeypot -> Turnstile -> validate -> insert -> confirmation mail (Resend)
+//   GET  /api/confirm?t=    sets confirmed_at, redirects to the site's /confirmed
+//   GET  /api/unsubscribe?t= deletes the row
+// No IP and no user agent are stored. CORS admits only ALLOWED_ORIGINS.
+import { confirmationMail } from './mail';
+import { normaliseEmail, validEmail } from './email';
+import { signToken, verifyToken } from './token';
+
+export interface Env {
+  DB: D1Database;
+  ALLOWED_ORIGINS: string; // comma-separated site origins
+  SITE_URL: string; // where /confirmed lives, e.g. https://pressstartgames.github.io/PressStart
+  API_URL: string; // this Worker's public origin (for the links in the mail)
+  MAIL_FROM: string;
+  TURNSTILE_SECRET_KEY?: string; // unset locally -> Turnstile is skipped
+  RESEND_API_KEY?: string; // unset locally -> the mail is logged, not sent
+  CONFIRM_LINK_SECRET: string;
+  RATE_LIMITER?: { limit: (opts: { key: string }) => Promise<{ success: boolean }> };
+}
+
+interface WaitlistBody {
+  email?: unknown;
+  role?: unknown;
+  website?: unknown;
+  turnstileToken?: unknown;
+  consentVersion?: unknown;
+}
+
+const ROLES = new Set(['Games with AI agents', 'AI tools', 'Bevy projects', 'Something else']);
+const RESEND_COOLDOWN_MS = 10 * 60 * 1000;
+
+function json(status: number, body: unknown, headers: HeadersInit = {}): Response {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { 'content-type': 'application/json; charset=utf-8', ...headers },
+  });
+}
+
+function corsHeaders(env: Env, origin: string | null): Record<string, string> {
+  const allowed = env.ALLOWED_ORIGINS.split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (!origin || !allowed.includes(origin)) return {};
+  return {
+    'access-control-allow-origin': origin,
+    'access-control-allow-methods': 'POST, OPTIONS',
+    'access-control-allow-headers': 'content-type',
+    'access-control-max-age': '86400',
+    vary: 'origin',
+  };
+}
+
+async function verifyTurnstile(env: Env, token: string): Promise<boolean> {
+  if (!env.TURNSTILE_SECRET_KEY) return true;
+  if (!token) return false;
+  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ secret: env.TURNSTILE_SECRET_KEY, response: token }),
+  });
+  if (!res.ok) return false;
+  const data = (await res.json()) as { success?: boolean };
+  return data.success === true;
+}
+
+async function sendMail(
+  env: Env,
+  to: string,
+  subject: string,
+  text: string,
+  html: string,
+): Promise<void> {
+  if (!env.RESEND_API_KEY) {
+    console.log(`[mail not sent: no RESEND_API_KEY] to=${to} subject=${subject}\n${text}`);
+    return;
+  }
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
+    body: JSON.stringify({ from: env.MAIL_FROM, to: [to], subject, text, html }),
+  });
+  if (!res.ok) throw new Error(`resend ${res.status}`);
+}
+
+async function sendConfirmation(env: Env, email: string): Promise<void> {
+  const confirm = `${env.API_URL}/api/confirm?t=${await signToken(env.CONFIRM_LINK_SECRET, { e: email, p: 'confirm' })}`;
+  const unsubscribe = `${env.API_URL}/api/unsubscribe?t=${await signToken(env.CONFIRM_LINK_SECRET, { e: email, p: 'unsubscribe' })}`;
+  const mail = confirmationMail({ confirm, unsubscribe });
+  await sendMail(env, email, mail.subject, mail.text, mail.html);
+  await env.DB.prepare('UPDATE signups SET confirm_sent_at = ? WHERE email = ?')
+    .bind(new Date().toISOString(), email)
+    .run();
+}
+
+async function rateLimited(env: Env, request: Request): Promise<boolean> {
+  if (!env.RATE_LIMITER) return false;
+  const ip = request.headers.get('cf-connecting-ip') ?? 'unknown';
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(ip));
+  const key = Array.from(new Uint8Array(digest).slice(0, 8), (b) =>
+    b.toString(16).padStart(2, '0'),
+  ).join('');
+  const { success } = await env.RATE_LIMITER.limit({ key });
+  return !success;
+}
+
+export async function handleWaitlist(request: Request, env: Env): Promise<Response> {
+  const cors = corsHeaders(env, request.headers.get('origin'));
+  if (await rateLimited(env, request)) return json(429, { status: 'error' }, cors);
+
+  let body: WaitlistBody;
+  try {
+    body = (await request.json()) as WaitlistBody;
+  } catch {
+    return json(400, { status: 'invalid' }, cors);
+  }
+  // The honeypot: a person never sees the field, so anything in it is a bot. Answer as if fine.
+  if (typeof body.website === 'string' && body.website.trim() !== '')
+    return json(200, { status: 'ok' }, cors);
+
+  const email = normaliseEmail(typeof body.email === 'string' ? body.email : '');
+  if (!validEmail(email)) return json(400, { status: 'invalid' }, cors);
+  const role = typeof body.role === 'string' && ROLES.has(body.role) ? body.role : null;
+  const consentVersion =
+    typeof body.consentVersion === 'string' ? body.consentVersion.slice(0, 32) : 'unknown';
+
+  if (
+    !(await verifyTurnstile(
+      env,
+      typeof body.turnstileToken === 'string' ? body.turnstileToken : '',
+    ))
+  ) {
+    return json(403, { status: 'error' }, cors);
+  }
+
+  const existing = await env.DB.prepare(
+    'SELECT confirmed_at, confirm_sent_at FROM signups WHERE email = ?',
+  )
+    .bind(email)
+    .first<{ confirmed_at: string | null; confirm_sent_at: string | null }>();
+
+  if (existing) {
+    if (existing.confirmed_at) return json(200, { status: 'existing' }, cors);
+    const last = existing.confirm_sent_at ? Date.parse(existing.confirm_sent_at) : 0;
+    if (Date.now() - last > RESEND_COOLDOWN_MS) await sendConfirmation(env, email);
+    return json(200, { status: 'ok' }, cors);
+  }
+
+  await env.DB.prepare(
+    'INSERT INTO signups (email, role, consent_text_version, created_at) VALUES (?, ?, ?, ?) ON CONFLICT(email) DO NOTHING',
+  )
+    .bind(email, role, consentVersion, new Date().toISOString())
+    .run();
+  await sendConfirmation(env, email);
+  return json(200, { status: 'ok' }, cors);
+}
+
+export async function handleConfirm(url: URL, env: Env): Promise<Response> {
+  const payload = await verifyToken(env.CONFIRM_LINK_SECRET, url.searchParams.get('t') ?? '');
+  if (!payload || payload.p !== 'confirm')
+    return new Response('This link is not valid.', { status: 400 });
+  await env.DB.prepare(
+    'UPDATE signups SET confirmed_at = COALESCE(confirmed_at, ?) WHERE email = ?',
+  )
+    .bind(new Date().toISOString(), payload.e)
+    .run();
+  return Response.redirect(`${env.SITE_URL}/confirmed`, 303);
+}
+
+export async function handleUnsubscribe(url: URL, env: Env): Promise<Response> {
+  const payload = await verifyToken(env.CONFIRM_LINK_SECRET, url.searchParams.get('t') ?? '');
+  if (!payload || payload.p !== 'unsubscribe')
+    return new Response('This link is not valid.', { status: 400 });
+  await env.DB.prepare('DELETE FROM signups WHERE email = ?').bind(payload.e).run();
+  return new Response('You are unsubscribed and your address is deleted.', {
+    status: 200,
+    headers: { 'content-type': 'text/plain; charset=utf-8' },
+  });
+}
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const url = new URL(request.url);
+    const cors = corsHeaders(env, request.headers.get('origin'));
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
+    try {
+      if (url.pathname === '/api/waitlist' && request.method === 'POST')
+        return await handleWaitlist(request, env);
+      if (url.pathname === '/api/confirm' && request.method === 'GET')
+        return await handleConfirm(url, env);
+      if (url.pathname === '/api/unsubscribe' && request.method === 'GET')
+        return await handleUnsubscribe(url, env);
+      if (url.pathname === '/api/health') return json(200, { ok: true });
+      return json(404, { status: 'not-found' });
+    } catch (e) {
+      console.error(e);
+      return json(500, { status: 'error' }, cors);
+    }
+  },
+} satisfies ExportedHandler<Env>;

@@ -1,0 +1,122 @@
+.sheet {
+  list-style: none;
+  margin: clamp(40px, 6vw, 64px) auto 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+html.js .sheet[data-visible] .cell {
+  animation: rise 0.8s var(--ease-out) both;
+  animation-delay: calc(var(--i) * 80ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+.crop {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 6px;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 10px,
+      color-mix(in srgb, var(--rule) 55%, transparent) 10px 11px
+    ),
+    var(--surface);
+  border: 1px solid var(--rule);
+  transition: border-color var(--dur-fast) ease;
+}
+
+.cell:hover .crop {
+  border-color: var(--accent);
+}
+
+.corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: var(--accent);
+  border-style: solid;
+  border-width: 0;
+  transition: transform var(--dur) var(--ease-spring);
+}
+
+.tl {
+  top: 8px;
+  left: 8px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+}
+
+.tr {
+  top: 8px;
+  right: 8px;
+  border-top-width: 2px;
+  border-right-width: 2px;
+}
+
+.bl {
+  bottom: 8px;
+  left: 8px;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+}
+
+.br {
+  bottom: 8px;
+  right: 8px;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+}
+
+.cell:hover .tl {
+  transform: translate(-3px, -3px);
+}
+
+.cell:hover .tr {
+  transform: translate(3px, -3px);
+}
+
+.cell:hover .bl {
+  transform: translate(-3px, 3px);
+}
+
+.cell:hover .br {
+  transform: translate(3px, 3px);
+}
+
+.caption {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 720px) {
+  .sheet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .sheet[data-visible] .cell {
+    animation: none;
+  }
+
+  .corner {
+    transition: none;
+  }
+}

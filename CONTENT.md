@@ -27,6 +27,12 @@ replays to the same tick. Every feature is measured against the industry's own r
 
 small: Private beta. Version 1 is not public yet. Windows first.
 
+replay-label: two runs, one game
+replay-runs: run A | run B
+replay-placeholder: placeholder frame and checksums until the engine's booth capture lands
+replay-verdict: PASS
+replay-match: checksums match
+
 *(Visual: "two runs, one game" — two panels of the same frame, `run A` / `run B`, with matching tick checksums.)*
 
 ## problem
@@ -75,9 +81,39 @@ headline: How an agent builds a game here.
 footnote: The critic step is how the engine itself is built today. Bringing it into the author's flow is part of the
 editor road.
 
-*(Visual: one real code sample as selectable text — the shortest real test from the engine's
-`docs/00-build-a-game/test-app.md` (`fixed_step_app` / `advance`) or a `SceneDoc` JSON excerpt, copied verbatim on
-the day it is written. Record its engine commit here: `sample-commit: TODO`. Do not invent API.)*
+sample-caption: press_start_testkit's own leg, copied verbatim from docs/00-build-a-game/test-app.md
+sample-commit: 45aeffd2a2ecc3b3049819151abfc1c1343fb2aa
+sample-source: docs/00-build-a-game/test-app.md
+
+```rust
+use bevy::app::FixedUpdate;
+use bevy::ecs::resource::Resource;
+use bevy::ecs::system::ResMut;
+use press_start_test_app::{advance, fixed_step_app};
+
+#[derive(Resource, Default)]
+struct TickCount(u64);
+
+fn count_ticks(mut count: ResMut<TickCount>) {
+    count.0 += 1;
+}
+
+#[test]
+fn three_fixed_steps_a_frame_are_thirty_after_ten_frames() {
+    let mut app = fixed_step_app(3);
+    app.init_resource::<TickCount>();
+    app.add_systems(FixedUpdate, count_ticks);
+
+    app.update(); // priming: Startup runs, zero fixed steps
+    assert_eq!(app.world().resource::<TickCount>().0, 0);
+
+    advance(&mut app, 10);
+    assert_eq!(app.world().resource::<TickCount>().0, 30);
+}
+```
+
+*(Visual: the code sample above as selectable text. It is copied verbatim from the engine on the day it is
+written and its commit is recorded in `sample-commit`. Do not invent API.)*
 
 ## determinism
 
@@ -106,6 +142,8 @@ The speed bar is parity: at or under the reference's time.
 
 small: Parity is the bar we hold every feature to. Not every feature meets it yet. The misses are recorded.
 
+references: Jolt · PhysX · Recast · Chromium · Yoga · HarfBuzz · Mitsuba · Blender · Manifold
+
 *(Visual: the reference names as plain mono text. No logos.)*
 
 ## goldens
@@ -116,8 +154,10 @@ Every picture the engine draws in a test is shot on one reference card and compa
 accepted in a reviewed commit. A tool can propose a new golden. It can never accept one. A blank or one-colour frame
 is refused before any verdict.
 
+placeholder-caption: accepted golden · not yet imported
+
 *(Visual: a contact sheet of 6-9 accepted goldens — sprite, shader, UI, terrain — each captioned with its test name
-in mono.)*
+in mono. Until M3 imports them, six empty crop frames carry `placeholder-caption`.)*
 
 ## built
 
@@ -132,6 +172,8 @@ BUILT only when every clause of it is held by a landed test. {{catalog.built}} a
 written down and visibly unbuilt, because a list you cannot forget is the point.
 
 proof: The first game, *Team Fights*, a small team shooter made of primitives, is built on these crates.
+
+bar-legend: BUILT | PARTIAL | SKIP | not yet
 
 *(Visual: the six tiles plus one thin stacked bar — BUILT / PARTIAL / SKIP / not yet — summing to
 {{catalog.total}}. A Team Fights frame only once it is an accepted golden.)*
@@ -149,6 +191,8 @@ Press Start is not public yet. This is the road to version 1, in order:
 3. **Then:** the major performance pain points, one full release gate, and the public repository under our own
    source-available licence.
 4. **After:** a version every two weeks, the remaining gaps, more platforms.
+
+now-label: now
 
 subhead: What "beta" means.
 
@@ -180,6 +224,8 @@ unsubscribes and deletes it. [Privacy](/privacy)
 
 ## faq
 
+headline: Questions.
+
 1. **Is it open source?** It will be source-available. The repository goes public at version 1, under our own
    licence modelled on Unreal's: free to use to make and ship games, with a royalty only above a revenue threshold.
    The final terms are published with version 1.
@@ -206,3 +252,43 @@ small: Built on Bevy. Bevy is an independent open-source project; we are not aff
 
 *(GitHub links to this website's repository until the engine is public. Discord and the contact address wait on
 PLAN.md §10 question 7.)*
+
+## privacy
+
+headline: Privacy.
+
+small: Last updated 2026-11-01.
+
+**What we store.** Your email address, your answer to "What do you build?" if you gave one, the version of the
+consent text you agreed to and the time you agreed. Nothing else: no IP address, no user agent, no cookies, no
+trackers.
+
+**Why.** To send you beta access and Press Start release news. That is the only use. The lawful basis is your
+consent.
+
+**Who processes it.** Cloudflare stores the list (a D1 database) and serves the sign-up; Resend sends the
+confirmation and the news. Neither receives anything beyond what is needed to do that.
+
+**How long.** Until you unsubscribe, or 30 days after version 1 ships if you never confirmed your address.
+
+**Your choices.** One click in any email we send unsubscribes you and deletes your row. You can also ask for a
+copy or a deletion by writing to the contact address in the footer.
+
+## confirmed
+
+kicker: Confirmed.
+headline: Player 1 ready.
+
+Your address is confirmed. We will email you when your invite is ready, and about major releases. Nothing else,
+unless you ask.
+
+cta: Back to the site
+
+## not-found
+
+kicker: 404
+headline: Tick not found.
+
+There is nothing at this address. The page you want is probably on the one road we have.
+
+cta: Back to the site

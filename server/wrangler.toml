@@ -1,0 +1,30 @@
+# The email store Worker. Deploy by hand with `pnpm --filter server deploy` or through
+# .github/workflows/deploy-server.yml (workflow_dispatch). Secrets are never here:
+#   wrangler secret put TURNSTILE_SECRET_KEY
+#   wrangler secret put RESEND_API_KEY
+#   wrangler secret put CONFIRM_LINK_SECRET      # any long random string
+name = "press-start-signups"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+
+[vars]
+ALLOWED_ORIGINS = "https://pressstartgames.github.io,http://localhost:5173,http://localhost:4173"
+SITE_URL = "https://pressstartgames.github.io/PressStart"
+API_URL = "https://press-start-signups.<account>.workers.dev"
+MAIL_FROM = "Press Start <beta@example.com>"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "press-start-signups"
+# `wrangler d1 create press-start-signups` prints the id; paste it here.
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+
+# Per-network rate limit: 10 sign-up attempts a minute per hashed address.
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+simple = { limit = 10, period = 60 }
+
+[observability]
+enabled = true

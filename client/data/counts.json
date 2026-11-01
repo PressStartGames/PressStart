@@ -1,0 +1,19 @@
+{
+  "syncedAt": "2026-11-01",
+  "engineCommit": "45aeffd2a2ecc3b3049819151abfc1c1343fb2aa",
+  "engineBranch": "v2-full-engine",
+  "catalog": {
+    "total": 404,
+    "built": 103,
+    "partial": 129,
+    "skip": 32,
+    "unjudged": 9,
+    "undetermined": 131
+  },
+  "crates": 89,
+  "oracles": 71,
+  "goldens": {
+    "accepted": 189,
+    "candidates": 939
+  }
+}

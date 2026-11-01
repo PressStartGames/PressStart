@@ -1,0 +1,244 @@
+/* The booth-dark window on paper: the one place the hero "performs", and it performs a fact. */
+.strip {
+  margin: 0;
+  background: var(--booth-bg);
+  color: var(--booth-fg);
+  border-radius: var(--radius);
+  padding: clamp(14px, 2vw, 24px);
+  box-shadow:
+    0 30px 80px -30px rgb(21 23 28 / 55%),
+    inset 0 0 0 1px var(--booth-rule);
+  position: relative;
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--booth-fg-muted);
+}
+
+.counter {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  color: var(--booth-fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.counter b {
+  color: var(--tick);
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+.of {
+  color: var(--booth-fg-muted);
+}
+
+.panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.panel {
+  position: relative;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--booth-rule);
+  background: #11141a;
+}
+
+.runLabel {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--booth-fg);
+  background: rgb(14 16 20 / 70%);
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.frame {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+.frameTick {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  fill: var(--booth-fg-muted);
+  letter-spacing: 0.08em;
+}
+
+.table {
+  width: 100%;
+  margin-top: 14px;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.table th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--booth-fg-muted);
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--booth-rule);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+}
+
+.table td {
+  padding: 5px 8px;
+  border-bottom: 1px solid color-mix(in srgb, var(--booth-rule) 60%, transparent);
+  color: var(--booth-fg-body);
+  white-space: nowrap;
+}
+
+.row {
+  transition: opacity var(--dur-fast) ease;
+}
+
+.row:not([data-shown]) td {
+  visibility: hidden;
+}
+
+.row[data-shown] {
+  animation: flash 1.1s var(--ease-out) both;
+}
+
+@keyframes flash {
+  0% {
+    background: color-mix(in srgb, var(--pass) 28%, transparent);
+  }
+
+  100% {
+    background: transparent;
+  }
+}
+
+.tick {
+  color: var(--tick);
+}
+
+.hash {
+  letter-spacing: 0.04em;
+}
+
+.verdict {
+  color: var(--pass);
+  font-weight: 600;
+  text-align: right;
+  width: 3.5em;
+}
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.stamp {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 16px;
+  border: 2px solid var(--pass);
+  border-radius: 8px;
+  color: var(--pass);
+  font-family: var(--font-mono);
+  transform: rotate(-6deg);
+  opacity: 1;
+  box-shadow:
+    0 0 0 2px rgb(14 16 20),
+    0 0 0 3px color-mix(in srgb, var(--pass) 40%, transparent);
+}
+
+.stamp:not([data-stamped]) {
+  opacity: 0;
+  transform: rotate(-6deg) scale(1.6);
+}
+
+.stamp[data-stamped] {
+  animation: stamp 0.5s var(--ease-spring) both;
+}
+
+@keyframes stamp {
+  from {
+    opacity: 0;
+    transform: rotate(-12deg) scale(1.7);
+  }
+}
+
+.stampWord {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  line-height: 1;
+  padding-left: 0.24em;
+}
+
+.stampLine {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.note {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--booth-fg-muted);
+  text-align: right;
+  max-width: 34ch;
+}
+
+@media (max-width: 640px) {
+  .panels {
+    grid-template-columns: 1fr;
+  }
+
+  .table th:nth-child(3),
+  .table td:nth-child(3) {
+    display: none;
+  }
+
+  .foot {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .note {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row,
+  .row[data-shown],
+  .stamp[data-stamped] {
+    animation: none;
+    transition: none;
+  }
+}

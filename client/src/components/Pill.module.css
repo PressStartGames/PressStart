@@ -1,0 +1,121 @@
+.pill {
+  --pill-bg: var(--accent);
+  --pill-fg: var(--accent-contrast);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: var(--radius-pill);
+  border: 0;
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  cursor: pointer;
+  isolation: isolate;
+  transition:
+    transform var(--dur) var(--ease-spring),
+    background-color var(--dur-fast) ease,
+    color var(--dur-fast) ease,
+    box-shadow var(--dur-fast) ease;
+  will-change: transform;
+}
+
+.pill:hover {
+  transform: scale(1.045);
+  color: var(--pill-fg);
+}
+
+.pill:active {
+  transform: scale(0.97);
+  transition-duration: var(--dur-fast);
+}
+
+.label {
+  position: relative;
+  z-index: 1;
+}
+
+.ghost {
+  --pill-bg: transparent;
+  --pill-fg: var(--fg);
+  box-shadow: inset 0 0 0 1px var(--rule);
+}
+
+.ghost:hover {
+  box-shadow: inset 0 0 0 1px var(--fg-muted);
+}
+
+/* The fixed CTA: a dark pill that reads on paper and booth alike, with an orbiting PASS-green
+   outline on hover (a conic gradient spun through a registered custom property). */
+@property --orbit {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.orbit {
+  --pill-bg: #15171c;
+  --pill-fg: #f2f4f7;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 25%);
+}
+
+.orbit::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--orbit),
+    transparent 0 62%,
+    var(--pass) 78%,
+    var(--tick) 88%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity var(--dur-fast) ease;
+  z-index: 0;
+}
+
+.orbit::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--pill-bg);
+  z-index: 0;
+}
+
+.orbit:hover::before,
+.orbit:focus-visible::before {
+  opacity: 1;
+  animation: orbit 1.4s linear infinite;
+}
+
+@keyframes orbit {
+  to {
+    --orbit: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill {
+    transition: none;
+  }
+
+  .pill:hover,
+  .pill:active {
+    transform: none;
+  }
+
+  .orbit:hover::before,
+  .orbit:focus-visible::before {
+    animation: none;
+    background: conic-gradient(var(--pass), var(--tick), var(--pass));
+  }
+}

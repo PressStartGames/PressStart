@@ -1,0 +1,54 @@
+{
+  "source": "placeholder",
+  "note": "Placeholder frames and checksums. Replaced at M3 by the engine replay test export (engine commit recorded here).",
+  "engineCommit": null,
+  "scene": null,
+  "ticks": 128,
+  "rows": [
+    {
+      "tick": 0,
+      "a": "510c4619e02e553e",
+      "b": "510c4619e02e553e"
+    },
+    {
+      "tick": 16,
+      "a": "e6336d1ff989d237",
+      "b": "e6336d1ff989d237"
+    },
+    {
+      "tick": 32,
+      "a": "a8c5ee39b55a53b8",
+      "b": "a8c5ee39b55a53b8"
+    },
+    {
+      "tick": 48,
+      "a": "6dc588d3472f513c",
+      "b": "6dc588d3472f513c"
+    },
+    {
+      "tick": 64,
+      "a": "0e78ea8a761dc0de",
+      "b": "0e78ea8a761dc0de"
+    },
+    {
+      "tick": 80,
+      "a": "84d44cbfa536e9de",
+      "b": "84d44cbfa536e9de"
+    },
+    {
+      "tick": 96,
+      "a": "b3c8f91c318ec249",
+      "b": "b3c8f91c318ec249"
+    },
+    {
+      "tick": 112,
+      "a": "f9563be1fb6a9a74",
+      "b": "f9563be1fb6a9a74"
+    },
+    {
+      "tick": 128,
+      "a": "bd58ba6be8a46341",
+      "b": "bd58ba6be8a46341"
+    }
+  ]
+}

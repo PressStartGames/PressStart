@@ -1,0 +1,74 @@
+.body h3 {
+  margin-top: 40px;
+  margin-bottom: 12px;
+}
+
+.ruler {
+  margin-top: clamp(40px, 6vw, 64px);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  padding: 16px 20px;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  font-variant-numeric: tabular-nums;
+  overflow-x: auto;
+}
+
+.rulerHead,
+.rulerRow {
+  display: grid;
+  grid-template-columns: 4em 1fr 1fr 2em;
+  gap: 12px;
+  padding: 6px 0;
+}
+
+.rulerHead {
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.7rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.rulerRow {
+  border-bottom: 1px solid color-mix(in srgb, var(--rule) 60%, transparent);
+  color: var(--fg-body);
+}
+
+html.js .ruler[data-visible] .rulerRow {
+  animation: flash 1.2s var(--ease-out) both;
+  animation-delay: calc(var(--i) * 120ms);
+}
+
+@keyframes flash {
+  from {
+    background: color-mix(in srgb, var(--pass) 24%, transparent);
+  }
+}
+
+.tick {
+  color: var(--accent-2);
+}
+
+.hash {
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.eq {
+  color: var(--pass);
+  text-align: right;
+  font-weight: 600;
+}
+
+.note {
+  margin-top: 12px;
+  font-size: 0.72rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .ruler[data-visible] .rulerRow {
+    animation: none;
+  }
+}

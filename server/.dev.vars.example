@@ -1,0 +1,5 @@
+# Copy to .dev.vars for `wrangler dev` (never committed). With these two unset, local runs skip
+# Turnstile and log the confirmation mail instead of sending it.
+CONFIRM_LINK_SECRET=change-me-to-a-long-random-string
+TURNSTILE_SECRET_KEY=
+RESEND_API_KEY=

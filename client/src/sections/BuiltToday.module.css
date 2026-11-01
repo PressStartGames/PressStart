@@ -1,0 +1,113 @@
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+
+.barWrap {
+  margin-top: clamp(32px, 4vw, 48px);
+}
+
+.bar {
+  display: flex;
+  height: 14px;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+}
+
+.seg {
+  flex: 0 0 var(--w);
+  transform-origin: left;
+}
+
+html.js .barWrap[data-visible] .seg {
+  animation: grow 1.2s var(--ease-out) both;
+  animation-delay: calc(var(--i) * 150ms);
+}
+
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+.segBuilt {
+  background: var(--pass);
+}
+
+.segPartial {
+  background: var(--tick);
+}
+
+.segSkip {
+  background: var(--fg-muted);
+}
+
+.segRest {
+  background: var(--rule);
+}
+
+.legend {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  color: var(--fg-muted);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legendItem b {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.text {
+  margin-top: clamp(32px, 4vw, 48px);
+}
+
+.proof {
+  margin-top: 1.1em;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--fg);
+}
+
+.synced {
+  margin-top: 20px;
+  color: var(--fg-muted);
+}
+
+@media (max-width: 1000px) {
+  .tiles {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .tiles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .barWrap[data-visible] .seg {
+    animation: none;
+  }
+}

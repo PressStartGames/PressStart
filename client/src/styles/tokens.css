@@ -1,0 +1,109 @@
+/* Design tokens (PLAN.md §4.3 palettes A "Booth" and B "Blueprint"; CLAUDE.md "Design direction").
+   The two acts are fixed, not a theme toggle: [data-act="paper"] wraps act 1, [data-act="booth"] the rest. */
+:root {
+  /* Act 2: the booth (palette A) */
+  --booth-bg: #0e1014;
+  --booth-surface: #161a21;
+  --booth-rule: #262b34;
+  --booth-fg: #f2f4f7;
+  --booth-fg-body: rgb(242 244 247 / 80%);
+  --booth-fg-muted: #8a93a3;
+  --pass: #3ddc97;
+  --tick: #ffb547;
+  --fail: #ff5d5d;
+
+  /* Act 1: paper (palette B) */
+  --paper-bg: #f6f4ef;
+  --paper-surface: #ffffff;
+  --paper-rule: #dcd8cf;
+  --paper-fg: #15171c;
+  --paper-fg-muted: #5d6470;
+  --ink: #2f5bff;
+  --start: #e8543a;
+
+  /* Type (PLAN.md §4.4 pairing 1) */
+  --font-display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  --font-body: 'Inter Tight Variable', 'Inter Tight', system-ui, -apple-system, sans-serif;
+  --font-mono:
+    'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --text-body: clamp(1.0625rem, 0.95rem + 0.4vw, 1.25rem);
+  --text-small: 0.9375rem;
+  --text-mono: 0.8125rem;
+  --text-h2: clamp(2.125rem, 1.4rem + 3.4vw, 3.75rem);
+  --text-h1: clamp(2.75rem, 1.6rem + 6.4vw, 6rem);
+  --leading-body: 1.55;
+
+  /* Layout */
+  --measure: 760px;
+  --breakout: 1200px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --inset: clamp(8px, 1.4vw, 16px);
+  --space-section: clamp(104px, 12vw, 176px);
+  --space-head: clamp(32px, 4vw, 56px);
+  --radius: 20px;
+  --radius-sm: 10px;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: linear(
+    0,
+    0.009,
+    0.035 2.1%,
+    0.141,
+    0.281 6.7%,
+    0.723 12.9%,
+    0.938 16.7%,
+    1.017,
+    1.077,
+    1.121,
+    1.149 24.3%,
+    1.159,
+    1.163,
+    1.161,
+    1.154 29.9%,
+    1.129 32.8%,
+    1.051 39.6%,
+    1.017 43.1%,
+    0.991,
+    0.977 51%,
+    0.974 53.8%,
+    0.975 57.1%,
+    0.997 69.8%,
+    1.003 76.9%,
+    1
+  );
+  --dur-fast: 180ms;
+  --dur: 600ms;
+  --dur-slow: 900ms;
+  --header-h: 72px;
+}
+
+[data-act='paper'] {
+  color-scheme: light;
+  --bg: var(--paper-bg);
+  --surface: var(--paper-surface);
+  --rule: var(--paper-rule);
+  --fg: var(--paper-fg);
+  --fg-body: var(--paper-fg);
+  --fg-muted: var(--paper-fg-muted);
+  --accent: var(--ink);
+  --accent-contrast: #ffffff;
+  --accent-2: var(--start);
+  --code-bg: #ecebe6;
+}
+
+[data-act='booth'] {
+  color-scheme: dark;
+  --bg: var(--booth-bg);
+  --surface: var(--booth-surface);
+  --rule: var(--booth-rule);
+  --fg: var(--booth-fg);
+  --fg-body: var(--booth-fg-body);
+  --fg-muted: var(--booth-fg-muted);
+  --accent: var(--pass);
+  --accent-contrast: #0e1014;
+  --accent-2: var(--tick);
+  --code-bg: var(--booth-surface);
+}

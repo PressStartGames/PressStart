@@ -1,0 +1,6 @@
+dist
+dist-ssr
+dist-e2e
+playwright-report
+test-results
+.lighthouseci

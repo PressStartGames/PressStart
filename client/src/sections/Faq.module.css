@@ -1,0 +1,74 @@
+.list {
+  border-top: 1px solid var(--rule);
+}
+
+.item {
+  border-bottom: 1px solid var(--rule);
+  interpolate-size: allow-keywords;
+}
+
+.summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 0;
+  color: var(--fg);
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.q {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 1.2rem + 0.8vw, 1.75rem);
+  line-height: 1.2;
+}
+
+.chev {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-right: 1.5px solid var(--fg-muted);
+  border-bottom: 1.5px solid var(--fg-muted);
+  transform: rotate(45deg);
+  transition:
+    transform var(--dur) var(--ease-spring),
+    border-color var(--dur-fast) ease;
+  margin-right: 4px;
+}
+
+.summary:hover .chev {
+  border-color: var(--accent);
+}
+
+.item[open] .chev {
+  transform: rotate(225deg);
+}
+
+.item::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size var(--dur) var(--ease-out),
+    content-visibility var(--dur) allow-discrete;
+}
+
+.item[open]::details-content {
+  block-size: auto;
+}
+
+.a {
+  padding: 0 0 26px;
+  max-width: 60ch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chev,
+  .item::details-content {
+    transition: none;
+  }
+}

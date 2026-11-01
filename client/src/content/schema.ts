@@ -1,0 +1,53 @@
+// Every section of CONTENT.md the site renders, with the fields the code reads. check-content.ts
+// fails CI when CONTENT.md and this list disagree in either direction.
+export const CONTENT_SCHEMA: Record<string, readonly string[]> = {
+  header: ['wordmark', 'nav', 'cta'],
+  hero: [
+    'kicker',
+    'headline',
+    'cta',
+    'small',
+    'replay-label',
+    'replay-runs',
+    'replay-placeholder',
+    'replay-verdict',
+    'replay-match',
+  ],
+  problem: ['headline'],
+  what: ['headline'],
+  build: ['headline', 'footnote', 'sample-caption', 'sample-commit', 'sample-source'],
+  determinism: ['headline', 'subhead'],
+  oracles: ['headline', 'small', 'references'],
+  goldens: ['headline', 'placeholder-caption'],
+  built: ['headline', 'tiles', 'proof', 'bar-legend'],
+  roadmap: ['headline', 'subhead', 'now-label'],
+  signup: [
+    'headline',
+    'field-email',
+    'field-role',
+    'field-role-options',
+    'cta',
+    'busy',
+    'state-success',
+    'state-existing',
+    'state-invalid',
+    'state-error',
+    'success-card',
+    'coming-soon',
+    'consent',
+  ],
+  faq: ['headline'],
+  footer: ['links', 'licence-stub', 'small'],
+  privacy: ['headline', 'small'],
+  confirmed: ['kicker', 'headline', 'cta'],
+  'not-found': ['kicker', 'headline', 'cta'],
+};
+
+// The nav labels in CONTENT.md's header map to these section ids (first word, lower-cased).
+export const NAV_TARGETS: Record<string, string> = {
+  build: 'build',
+  determinism: 'determinism',
+  built: 'built',
+  roadmap: 'roadmap',
+  faq: 'faq',
+};

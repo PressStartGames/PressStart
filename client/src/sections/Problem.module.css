@@ -1,0 +1,70 @@
+.problem {
+  padding-top: clamp(64px, 8vw, 112px);
+}
+
+.tangleWrap {
+  margin-top: clamp(40px, 6vw, 72px);
+}
+
+.tangle {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.strand {
+  stroke: var(--fg);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 0;
+  opacity: 0.85;
+}
+
+.strandB {
+  stroke: var(--accent);
+}
+
+.strandC {
+  stroke: var(--start);
+}
+
+/* The strands draw themselves once the figure scrolls into view (JS present, motion allowed). */
+html.js .tangleWrap[data-visible] .strand {
+  animation: draw 1.6s var(--ease-out) both;
+}
+
+html.js .tangleWrap[data-visible] .strandB {
+  animation-delay: 0.15s;
+}
+
+html.js .tangleWrap[data-visible] .strandC {
+  animation-delay: 0.3s;
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1400;
+  }
+}
+
+.node {
+  fill: var(--bg);
+  stroke: var(--fg);
+  stroke-width: 1.6;
+}
+
+.nodeLabel {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  fill: var(--fg-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .tangleWrap[data-visible] .strand {
+    animation: none;
+  }
+}

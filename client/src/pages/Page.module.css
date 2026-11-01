@@ -1,0 +1,81 @@
+.stage {
+  perspective: 1600px;
+  background: var(--booth-bg);
+}
+
+.paper {
+  position: relative;
+  z-index: 1;
+  margin: var(--inset);
+  border-radius: var(--radius);
+  transform-origin: 50% 100%;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 8%);
+  overflow: clip;
+}
+
+.booth {
+  position: relative;
+  padding-top: var(--inset);
+}
+
+/* The horizon: as the paper scrolls out, it lifts off the booth beneath; the booth surfaces. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .paper {
+      animation: lift linear both;
+      animation-timeline: view();
+      animation-range: exit-crossing 0% exit-crossing 100%;
+    }
+
+    .booth {
+      animation: surface linear both;
+      animation-timeline: view();
+      animation-range: entry-crossing 0% entry-crossing 45%;
+    }
+  }
+}
+
+@keyframes lift {
+  to {
+    transform: translateY(-48px) scale(0.975) rotateX(3deg);
+    box-shadow:
+      0 0 0 1px rgb(0 0 0 / 8%),
+      0 80px 140px -40px rgb(0 0 0 / 75%);
+  }
+}
+
+@keyframes surface {
+  from {
+    transform: translateY(48px);
+  }
+}
+
+/* The secondary pages (privacy, confirmed, not found) live in the booth. */
+.page {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+.pageMain {
+  flex: 1;
+  padding-top: calc(var(--header-h) + clamp(56px, 10vh, 120px));
+  padding-bottom: var(--space-section);
+}
+
+.pageMain h1 {
+  font-size: var(--text-h2);
+  margin-bottom: 24px;
+}
+
+.pageMain p + p {
+  margin-top: 1.1em;
+}
+
+.pageCta {
+  margin-top: 40px;
+}
+
+.pageSmall {
+  margin-bottom: 28px;
+}

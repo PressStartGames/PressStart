@@ -1,0 +1,74 @@
+.hero {
+  padding-top: calc(var(--header-h) + clamp(56px, 10vh, 128px));
+  padding-bottom: clamp(72px, 9vw, 128px);
+}
+
+.text {
+  margin-bottom: clamp(48px, 7vw, 88px);
+}
+
+.kicker {
+  color: var(--fg);
+}
+
+.kicker::before {
+  width: 0;
+  height: 0;
+  border-radius: 0;
+  background: none;
+  border-style: solid;
+  border-width: 6px 0 6px 10px;
+  border-color: transparent transparent transparent var(--start);
+}
+
+.lede {
+  margin-top: 28px;
+  font-size: clamp(1.125rem, 1rem + 0.6vw, 1.375rem);
+  max-width: 34em;
+}
+
+.ctas {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px 28px;
+  margin-top: 36px;
+}
+
+.secondary {
+  color: var(--fg);
+  font-weight: 500;
+  text-decoration: none;
+  position: relative;
+  padding-block: 4px;
+}
+
+.secondary::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1.5px;
+  background: var(--accent);
+  transform-origin: left;
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.secondary:hover::after {
+  transform: scaleX(0.4);
+}
+
+.small {
+  margin-top: 22px;
+}
+
+.stripWrap {
+  perspective: 1400px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .secondary::after {
+    transition: none;
+  }
+}

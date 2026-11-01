@@ -1,0 +1,4 @@
+{
+  "note": "One row per published image: engineCommit, crate, test, sourcePath, kind (golden | booth). CI refuses an image without a row.",
+  "images": []
+}

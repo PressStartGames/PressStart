@@ -1,0 +1,140 @@
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  height: calc(var(--header-h) + var(--inset));
+  padding-top: var(--inset);
+  color: var(--fg);
+  background: transparent;
+  /* Turns translucent after 80 px of scroll: a scroll-driven animation where supported, no JS. */
+  animation: bar linear both;
+  animation-timeline: scroll(root);
+  animation-range: 0 80px;
+  transition: color var(--dur-fast) ease;
+}
+
+@keyframes bar {
+  from {
+    background: color-mix(in srgb, var(--bg) 0%, transparent);
+    backdrop-filter: blur(0);
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--rule) 0%, transparent);
+  }
+
+  to {
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--rule) 60%, transparent);
+  }
+}
+
+@supports not (animation-timeline: scroll()) {
+  .header {
+    animation: none;
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    backdrop-filter: blur(14px);
+  }
+}
+
+.inner {
+  height: 100%;
+  width: min(100% - 2 * var(--gutter), var(--breakout));
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+}
+
+.wordmark {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.wordmark:hover {
+  color: var(--fg);
+}
+
+.mark {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 7px 0 7px 12px;
+  border-color: transparent transparent transparent var(--start);
+  transition: transform var(--dur) var(--ease-spring);
+}
+
+.wordmark:hover .mark {
+  transform: translateX(3px) scale(1.15);
+}
+
+.nav {
+  display: flex;
+  gap: clamp(14px, 2vw, 28px);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.nav a {
+  color: var(--fg-muted);
+  text-decoration: none;
+  position: relative;
+  padding-block: 4px;
+}
+
+.nav a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1.5px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.nav a:hover {
+  color: var(--fg);
+}
+
+.nav a:hover::after {
+  transform: scaleX(1);
+}
+
+.cta {
+  justify-self: end;
+  min-height: 42px;
+  padding-inline: 18px;
+  font-size: 0.9375rem;
+}
+
+@media (max-width: 860px) {
+  .nav {
+    display: none;
+  }
+
+  .inner {
+    grid-template-columns: 1fr auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header {
+    animation: none;
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    backdrop-filter: blur(14px);
+  }
+
+  .nav a::after,
+  .mark {
+    transition: none;
+  }
+}
