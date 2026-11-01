@@ -1,0 +1,26 @@
+{
+  "title": "Elyx · Where design means more",
+  "height": 9110,
+  "fonts": [
+    "Söhne",
+    "Tiempos Headline"
+  ],
+  "bodyBg": "rgb(19, 19, 19)",
+  "headings": [
+    "H2: Join the Private Beta",
+    "H2: Thanks!",
+    "H1: Are design tools still relevant in the age of AI?",
+    "H2: So, we’re building something new.And we’re calling it Elyx.",
+    "H2: Elyx has three parts to it",
+    "H2: Elyx is local-first",
+    "H2: Elyx is an Integrated Development Design Environment",
+    "H2: Elyx is ready for AI",
+    "H2: Elyx is where design means more",
+    "H2: Join the Private Beta",
+    "H2: Thanks!"
+  ],
+  "forms": [
+    "INPUT:email:email | INPUT:text:role | BUTTON:submit:Sign UpSigning up… | INPUT:text:website",
+    "INPUT:email:email | INPUT:text:role | BUTTON:submit:Sign UpSigning up… | INPUT:text:website"
+  ]
+}
