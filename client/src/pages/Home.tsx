@@ -8,6 +8,7 @@ import { Footer } from '../sections/Footer';
 import { Goldens } from '../sections/Goldens';
 import { Hero } from '../sections/Hero';
 import { Oracles } from '../sections/Oracles';
+import { Parallel } from '../sections/Parallel';
 import { Problem } from '../sections/Problem';
 import { Roadmap } from '../sections/Roadmap';
 import { Signup } from '../sections/Signup';
@@ -32,12 +33,13 @@ export function Home() {
       <What {...at(2)} />
       <Build {...at(3)} />
       <Determinism {...at(4)} />
-      <Oracles {...at(5)} />
-      <Goldens {...at(6)} />
-      <BuiltToday {...at(7)} />
-      <Roadmap {...at(8)} />
-      <Signup {...at(9)} />
-      <Faq {...at(10)} />
+      <Parallel {...at(5)} />
+      <Oracles {...at(6)} />
+      <Goldens {...at(7)} />
+      <BuiltToday {...at(8)} />
+      <Roadmap {...at(9)} />
+      <Signup {...at(10)} />
+      <Faq {...at(11)} />
       <Footer />
     </>
   );

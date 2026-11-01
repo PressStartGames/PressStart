@@ -57,9 +57,6 @@ export function Build({ index, label }: { index: string; label: string }) {
                   caption={`${field('build', 'sample-caption')} · ${commit}`}
                 />
               )}
-              <p className={`small ${styles.footnote}`}>
-                <Inline text={field('build', 'footnote')} />
-              </p>
             </Reveal>
           </div>
         </div>

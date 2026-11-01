@@ -35,7 +35,6 @@ export function Footer() {
           })}
         </ul>
         <p className={`mono ${styles.line}`}>{field('footer', 'licence-stub')}</p>
-        <p className={`mono ${styles.line}`}>{field('footer', 'small')}</p>
       </div>
     </footer>
   );

@@ -30,7 +30,7 @@ export function Reveal({
   ...rest
 }: Props) {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: '0px 0px -12% 0px' });
+  const inView = useInView(ref, { once: true, margin: '100000px 0px -12% 0px' });
   const style = {
     ...(styleProp ?? {}),
     ...(delay ? ({ '--reveal-delay': `${delay}ms` } as CSSProperties) : {}),
