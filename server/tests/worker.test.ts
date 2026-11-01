@@ -103,7 +103,7 @@ describe('POST /api/waitlist', () => {
       consentVersion: 'v1',
     });
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual({ status: 'ok' });
+    expect(await res.json()).toEqual({ status: 'ok', mail: false });
     expect(res.headers.get('access-control-allow-origin')).toBe('https://site.test');
     const row = rows.get('new@example.com');
     expect(row).toMatchObject({ role: 'AI tools', consent_text_version: 'v1', confirmed_at: null });

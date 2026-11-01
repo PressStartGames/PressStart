@@ -27,7 +27,7 @@ export function BuiltToday() {
   return (
     <section id="built" className="section" aria-labelledby="built-title">
       <div className="column">
-        <Reveal className="section-head">
+        <Reveal className="section-head" wipe>
           <h2 id="built-title">{field('built', 'headline')}</h2>
         </Reveal>
       </div>

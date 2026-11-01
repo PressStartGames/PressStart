@@ -1,12 +1,13 @@
 import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import { imagetools } from 'vite-imagetools';
 
 const repoRoot = fileURLToPath(new URL('..', import.meta.url));
 
 export default defineConfig(({ mode }) => ({
   base: process.env.VITE_BASE ?? '/',
-  plugins: [react()],
+  plugins: [react(), imagetools()],
   server: {
     fs: { allow: [repoRoot] },
   },

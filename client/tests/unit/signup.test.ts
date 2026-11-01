@@ -20,6 +20,11 @@ describe('reduce', () => {
   it('resolves only from busy', () => {
     expect(reduce({ status: 'busy' }, { type: 'resolve', result: 'ok' })).toEqual({
       status: 'success',
+      mail: true,
+    });
+    expect(reduce({ status: 'busy' }, { type: 'resolve', result: 'ok-list' })).toEqual({
+      status: 'success',
+      mail: false,
     });
     expect(reduce({ status: 'busy' }, { type: 'resolve', result: 'existing' })).toEqual({
       status: 'existing',
@@ -33,8 +38,9 @@ describe('reduce', () => {
     expect(reduce({ status: 'busy' }, { type: 'submit', email: 'a@b.co' })).toEqual({
       status: 'busy',
     });
-    expect(reduce({ status: 'success' }, { type: 'submit', email: 'a@b.co' })).toEqual({
+    expect(reduce({ status: 'success', mail: true }, { type: 'submit', email: 'a@b.co' })).toEqual({
       status: 'success',
+      mail: true,
     });
   });
   it('resets to idle', () => {
@@ -54,12 +60,15 @@ describe('submitSignup', () => {
       if (body.email === 'bad@b.co')
         return new Response(JSON.stringify({ status: 'invalid' }), { status: 400 });
       if (body.email === 'boom@b.co') return new Response('', { status: 500 });
+      if (body.email === 'list@b.co')
+        return new Response(JSON.stringify({ status: 'ok', mail: false }), { status: 200 });
       return new Response(JSON.stringify({ status: 'ok' }), { status: 200 });
     }) as unknown as typeof fetch;
     expect(await submitSignup(mode, payload, fetchImpl)).toBe('ok');
     expect(await submitSignup(mode, { ...payload, email: 'dup@b.co' }, fetchImpl)).toBe('existing');
     expect(await submitSignup(mode, { ...payload, email: 'bad@b.co' }, fetchImpl)).toBe('invalid');
     expect(await submitSignup(mode, { ...payload, email: 'boom@b.co' }, fetchImpl)).toBe('error');
+    expect(await submitSignup(mode, { ...payload, email: 'list@b.co' }, fetchImpl)).toBe('ok-list');
     expect(fetchImpl).toHaveBeenCalledWith(
       'https://api.test/api/waitlist',
       expect.objectContaining({ method: 'POST' }),

@@ -6,9 +6,20 @@
   border-radius: var(--radius);
   padding: clamp(14px, 2vw, 24px);
   box-shadow:
-    0 30px 80px -30px rgb(21 23 28 / 55%),
+    0 40px 100px -30px rgb(21 23 28 / 60%),
     inset 0 0 0 1px var(--booth-rule);
   position: relative;
+  overflow: hidden;
+}
+
+/* A faint signal haze along the top edge; it breathes while the run is on. */
+.strip::before {
+  content: '';
+  position: absolute;
+  inset: -40% -10% auto;
+  height: 70%;
+  background: radial-gradient(50% 60% at 50% 0%, rgb(61 220 151 / 12%), transparent 70%);
+  pointer-events: none;
 }
 
 .head {
@@ -16,7 +27,8 @@
   justify-content: space-between;
   align-items: baseline;
   gap: 16px;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
+  position: relative;
 }
 
 .label {
@@ -37,32 +49,93 @@
 .counter b {
   color: var(--tick);
   font-weight: 600;
-  font-size: 1.1em;
+  font-size: 1.15em;
 }
 
 .of {
   color: var(--booth-fg-muted);
 }
 
+/* The scrubber: a thin track filled to the current tick, with a mark per golden tick. */
+.scrub {
+  position: relative;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--booth-rule);
+  margin-bottom: 14px;
+}
+
+.scrubFill {
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: var(--signal);
+  transform-origin: left;
+  transform: scaleX(var(--p));
+}
+
+.scrubMark {
+  position: absolute;
+  top: -4px;
+  left: calc(var(--p) * 100%);
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  border-radius: 50%;
+  background: var(--booth-bg);
+  border: 2px solid var(--booth-rule);
+  transition:
+    border-color var(--dur-fast) ease,
+    transform var(--dur) var(--ease-spring);
+}
+
+.scrubMark[data-hit] {
+  border-color: var(--pass);
+  background: var(--pass);
+  transform: scale(1.15);
+  box-shadow: 0 0 12px rgb(61 220 151 / 60%);
+}
+
 .panels {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+  position: relative;
 }
 
 .panel {
   position: relative;
+  aspect-ratio: 16 / 10;
   border-radius: var(--radius-sm);
   overflow: hidden;
   box-shadow: inset 0 0 0 1px var(--booth-rule);
-  background: #11141a;
+  background:
+    radial-gradient(70% 60% at 50% 100%, rgb(61 220 151 / 10%), transparent 70%),
+    linear-gradient(180deg, #11151c, #0b0e14);
+  display: grid;
+  place-items: center;
+}
+
+/* A perspective floor grid under the frame. */
+.panel::before {
+  content: '';
+  position: absolute;
+  inset: 55% -40% -10%;
+  background-image:
+    linear-gradient(var(--booth-rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--booth-rule) 1px, transparent 1px);
+  background-size: 48px 48px;
+  transform: perspective(500px) rotateX(62deg);
+  transform-origin: 50% 0;
+  opacity: 0.7;
+  mask-image: linear-gradient(180deg, transparent, #000 30%, #000 80%, transparent);
 }
 
 .runLabel {
   position: absolute;
   top: 10px;
   left: 12px;
-  z-index: 1;
+  z-index: 2;
   font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.1em;
@@ -73,18 +146,83 @@
   border-radius: 6px;
 }
 
+/* Pixel-art goldens scaled by an integer factor, never resampled. */
 .frame {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
+  position: relative;
+  z-index: 1;
+  width: 128px;
+  height: 128px;
+  image-rendering: pixelated;
+  transform: scale(var(--frame-scale, 2));
+  filter: drop-shadow(0 18px 24px rgb(0 0 0 / 55%));
+}
+
+@media (max-width: 760px) {
+  .frame {
+    --frame-scale: 1.5;
+  }
+}
+
+.frame[hidden] {
+  display: none;
+}
+
+html.js .frame {
+  animation: land 0.35s var(--ease-out) both;
+}
+
+@keyframes land {
+  from {
+    transform: scale(calc(var(--frame-scale, 2) * 1.06));
+    filter: drop-shadow(0 18px 24px rgb(0 0 0 / 55%)) brightness(1.6);
+  }
+}
+
+.waiting {
+  width: 40%;
+  height: 2px;
+  background: var(--booth-rule);
+  position: relative;
+  z-index: 1;
+}
+
+/* A scanline sweeps the panel while the run is on. */
+.scan {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 28%;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgb(61 220 151 / 14%) 60%,
+    rgb(61 220 151 / 40%)
+  );
+  transform: translateY(-110%);
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.strip[data-running] .scan {
+  opacity: 1;
+  animation: scan 1.3s linear infinite;
+}
+
+@keyframes scan {
+  to {
+    transform: translateY(380%);
+  }
 }
 
 .frameTick {
+  position: absolute;
+  right: 14px;
+  bottom: 10px;
+  z-index: 2;
   font-family: var(--font-mono);
-  font-size: 18px;
-  fill: var(--booth-fg-muted);
+  font-size: 0.8rem;
   letter-spacing: 0.08em;
+  color: var(--booth-fg-muted);
 }
 
 .table {
@@ -94,6 +232,7 @@
   font-family: var(--font-mono);
   font-size: var(--text-mono);
   font-variant-numeric: tabular-nums;
+  position: relative;
 }
 
 .table th {
@@ -108,14 +247,10 @@
 }
 
 .table td {
-  padding: 5px 8px;
+  padding: 7px 8px;
   border-bottom: 1px solid color-mix(in srgb, var(--booth-rule) 60%, transparent);
   color: var(--booth-fg-body);
   white-space: nowrap;
-}
-
-.row {
-  transition: opacity var(--dur-fast) ease;
 }
 
 .row:not([data-shown]) td {
@@ -123,16 +258,18 @@
 }
 
 .row[data-shown] {
-  animation: flash 1.1s var(--ease-out) both;
+  animation: flash 1.2s var(--ease-out) both;
 }
 
 @keyframes flash {
   0% {
-    background: color-mix(in srgb, var(--pass) 28%, transparent);
+    background: color-mix(in srgb, var(--pass) 32%, transparent);
+    transform: translateX(-6px);
   }
 
   100% {
     background: transparent;
+    transform: none;
   }
 }
 
@@ -157,6 +294,7 @@
   align-items: flex-end;
   gap: 16px;
   margin-top: 16px;
+  position: relative;
 }
 
 .stamp {
@@ -172,8 +310,9 @@
   transform: rotate(-6deg);
   opacity: 1;
   box-shadow:
-    0 0 0 2px rgb(14 16 20),
-    0 0 0 3px color-mix(in srgb, var(--pass) 40%, transparent);
+    0 0 0 2px rgb(11 14 20),
+    0 0 0 3px color-mix(in srgb, var(--pass) 40%, transparent),
+    0 0 30px rgb(61 220 151 / 25%);
 }
 
 .stamp:not([data-stamped]) {
@@ -211,7 +350,14 @@
   font-size: 0.72rem;
   color: var(--booth-fg-muted);
   text-align: right;
-  max-width: 34ch;
+  max-width: 44ch;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.provenance {
+  color: var(--booth-fg-muted);
 }
 
 @media (max-width: 640px) {
@@ -237,8 +383,13 @@
 @media (prefers-reduced-motion: reduce) {
   .row,
   .row[data-shown],
-  .stamp[data-stamped] {
+  .stamp[data-stamped],
+  .strip[data-running] .scan,
+  html.js .frame {
     animation: none;
+  }
+
+  .scrubMark {
     transition: none;
   }
 }

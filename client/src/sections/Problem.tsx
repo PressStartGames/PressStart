@@ -10,7 +10,7 @@ export function Problem() {
   return (
     <section id="problem" className={`section ${styles.problem}`} aria-labelledby="problem-title">
       <div className="column">
-        <Reveal className="section-head">
+        <Reveal className="section-head" wipe>
           <h2 id="problem-title">{field('problem', 'headline')}</h2>
         </Reveal>
         <Reveal delay={80}>

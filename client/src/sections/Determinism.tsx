@@ -10,7 +10,7 @@ export function Determinism() {
   return (
     <section id="determinism" className="section" aria-labelledby="determinism-title">
       <div className="column">
-        <Reveal className="section-head">
+        <Reveal className="section-head" wipe>
           <h2 id="determinism-title">{field('determinism', 'headline')}</h2>
         </Reveal>
         <Reveal delay={80} className={styles.body}>
@@ -42,9 +42,7 @@ export function Determinism() {
               </span>
             </div>
           ))}
-          <p className={`small ${styles.note}`}>
-            {replay.source === 'placeholder' ? field('hero', 'replay-placeholder') : null}
-          </p>
+          <p className={`small ${styles.note}`}>{field('hero', 'replay-caption')}</p>
         </Reveal>
       </div>
     </section>

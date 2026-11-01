@@ -116,7 +116,7 @@ export async function handleWaitlist(request: Request, env: Env): Promise<Respon
   }
   // The honeypot: a person never sees the field, so anything in it is a bot. Answer as if fine.
   if (typeof body.website === 'string' && body.website.trim() !== '')
-    return json(200, { status: 'ok' }, cors);
+    return json(200, { status: 'ok', mail: true }, cors);
 
   const email = normaliseEmail(typeof body.email === 'string' ? body.email : '');
   if (!validEmail(email)) return json(400, { status: 'invalid' }, cors);
@@ -143,7 +143,7 @@ export async function handleWaitlist(request: Request, env: Env): Promise<Respon
     if (existing.confirmed_at) return json(200, { status: 'existing' }, cors);
     const last = existing.confirm_sent_at ? Date.parse(existing.confirm_sent_at) : 0;
     if (Date.now() - last > RESEND_COOLDOWN_MS) await sendConfirmation(env, email);
-    return json(200, { status: 'ok' }, cors);
+    return json(200, { status: 'ok', mail: Boolean(env.RESEND_API_KEY) }, cors);
   }
 
   await env.DB.prepare(
@@ -152,7 +152,7 @@ export async function handleWaitlist(request: Request, env: Env): Promise<Respon
     .bind(email, role, consentVersion, new Date().toISOString())
     .run();
   await sendConfirmation(env, email);
-  return json(200, { status: 'ok' }, cors);
+  return json(200, { status: 'ok', mail: Boolean(env.RESEND_API_KEY) }, cors);
 }
 
 export async function handleConfirm(url: URL, env: Env): Promise<Response> {

@@ -45,13 +45,13 @@ h3 {
 
 h1 {
   font-size: var(--text-h1);
-  line-height: 0.98;
-  letter-spacing: -0.02em;
+  line-height: 0.96;
+  letter-spacing: -0.025em;
 }
 
 h2 {
   font-size: var(--text-h2);
-  line-height: 1.04;
+  line-height: 1.02;
 }
 
 h3 {
@@ -135,6 +135,7 @@ select {
 
 .section {
   padding-block: var(--space-section);
+  position: relative;
 }
 
 .section-head {
@@ -160,6 +161,7 @@ select {
   border-radius: 50%;
   background: var(--accent-2);
   flex: none;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-2) 22%, transparent);
 }
 
 .small {
@@ -171,6 +173,47 @@ select {
   font-family: var(--font-mono);
   font-size: var(--text-mono);
   letter-spacing: 0.02em;
+}
+
+/* Gradient text for one key phrase per act. */
+.signal-text {
+  background: var(--signal);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* A card that lights where the pointer is (lib/useSpotlight.ts sets --mx/--my/--rx/--ry). */
+.card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transform: perspective(1000px) rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg));
+  transition: transform var(--dur) var(--ease-out);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    320px circle at var(--mx, 50%) var(--my, 50%),
+    var(--glow),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity var(--dur-fast) ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .visually-hidden {
@@ -204,12 +247,19 @@ select {
 }
 
 /* Motion system.
-   .enter   : the page-load sequence (CSS keyframes, delay via --enter-delay). Final state = no-JS state.
-   .reveal  : scroll reveals; hidden only after JS has taken over (html.js.hydrated) and until in view.
-   Both collapse to the final state under prefers-reduced-motion. */
+   .enter / .enter-solid : the page-load sequence (CSS keyframes, delay via --enter-delay).
+   .reveal               : scroll reveals; hidden only after JS has taken over (html.js.hydrated)
+                           and until in view. [data-reveal="wipe"] rises through a clip instead.
+   Final state = no-JS state; all of it collapses under prefers-reduced-motion. */
 @keyframes enter {
   from {
     opacity: 0;
+    transform: translateY(26px);
+  }
+}
+
+@keyframes enter-solid {
+  from {
     transform: translateY(26px);
   }
 }
@@ -219,27 +269,37 @@ html.js .enter {
   animation-delay: var(--enter-delay, 0ms);
 }
 
-/* The h1 rises without fading, so the first paint already carries the largest text (LCP). */
-@keyframes enter-solid {
-  from {
-    transform: translateY(26px);
-  }
-}
-
 html.js .enter-solid {
   animation: enter-solid var(--dur-slow) var(--ease-out) both;
   animation-delay: var(--enter-delay, 0ms);
 }
 
-html.js.hydrated .reveal:not([data-visible]) {
-  opacity: 0;
-  transform: translateY(30px);
-}
-
 html.js .reveal {
   transition:
     opacity 0.9s var(--ease-out) var(--reveal-delay, 0ms),
-    transform 1s var(--ease-out) var(--reveal-delay, 0ms);
+    transform 1s var(--ease-out) var(--reveal-delay, 0ms),
+    clip-path 1s var(--ease-out) var(--reveal-delay, 0ms);
+}
+
+html.js.hydrated .reveal:not([data-visible]) {
+  opacity: 0;
+  transform: translateY(34px);
+}
+
+html.js.hydrated .reveal[data-reveal='wipe']:not([data-visible]) {
+  opacity: 1;
+  transform: translateY(0.35em);
+  clip-path: inset(0 0 100% 0);
+}
+
+html.js .reveal[data-reveal='wipe'] {
+  clip-path: inset(-10% 0 -10% 0);
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -253,8 +313,15 @@ html.js .reveal {
   }
 
   html.js .reveal,
-  html.js.hydrated .reveal:not([data-visible]) {
+  html.js.hydrated .reveal:not([data-visible]),
+  html.js.hydrated .reveal[data-reveal='wipe']:not([data-visible]) {
     opacity: 1;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+
+  .card {
     transform: none;
     transition: none;
   }

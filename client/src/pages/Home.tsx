@@ -18,11 +18,13 @@ export function Home() {
   return (
     <div className={styles.stage}>
       <div id="act-paper" data-act="paper" className={styles.paper}>
+        <div className={styles.grid} aria-hidden="true" />
         <Hero />
         <Problem />
         <What />
       </div>
       <div data-act="booth" className={styles.booth}>
+        <div className={styles.horizon} aria-hidden="true" />
         <Build />
         <Determinism />
         <Oracles />

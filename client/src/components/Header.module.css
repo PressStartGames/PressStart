@@ -37,7 +37,9 @@
 
 .inner {
   height: 100%;
-  width: min(100% - 2 * var(--gutter), var(--breakout));
+  /* Aligned with the paper card's edges, not the reading column: wordmark at the card's left
+     gutter, the pill at its right, on every viewport width. */
+  width: calc(100% - 2 * var(--inset) - 2 * var(--gutter));
   margin-inline: auto;
   display: grid;
   grid-template-columns: 1fr auto 1fr;

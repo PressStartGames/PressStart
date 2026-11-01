@@ -1,54 +1,28 @@
 {
-  "source": "placeholder",
-  "note": "Placeholder frames and checksums. Replaced at M3 by the engine replay test export (engine commit recorded here).",
-  "engineCommit": null,
-  "scene": null,
-  "ticks": 128,
+  "source": "golden-hash",
+  "note": "Each row is an accepted golden of press_start_sprite_bevy (rig2d-character-tick-N): the frame at tick N, and the first 16 hex of its sha256. Both runs must match the golden, so both columns are its hash.",
+  "engineCommit": "45aeffd2a2ecc3b3049819151abfc1c1343fb2aa",
+  "crate": "press_start_sprite_bevy",
+  "test": "rig2d-character-tick",
+  "ticks": 40,
   "rows": [
     {
-      "tick": 0,
-      "a": "510c4619e02e553e",
-      "b": "510c4619e02e553e"
+      "tick": 3,
+      "file": "rig2d-character-tick-03.png",
+      "a": "6ea040e4f4334585",
+      "b": "6ea040e4f4334585"
     },
     {
-      "tick": 16,
-      "a": "e6336d1ff989d237",
-      "b": "e6336d1ff989d237"
+      "tick": 35,
+      "file": "rig2d-character-tick-35.png",
+      "a": "1833530156762c5b",
+      "b": "1833530156762c5b"
     },
     {
-      "tick": 32,
-      "a": "a8c5ee39b55a53b8",
-      "b": "a8c5ee39b55a53b8"
-    },
-    {
-      "tick": 48,
-      "a": "6dc588d3472f513c",
-      "b": "6dc588d3472f513c"
-    },
-    {
-      "tick": 64,
-      "a": "0e78ea8a761dc0de",
-      "b": "0e78ea8a761dc0de"
-    },
-    {
-      "tick": 80,
-      "a": "84d44cbfa536e9de",
-      "b": "84d44cbfa536e9de"
-    },
-    {
-      "tick": 96,
-      "a": "b3c8f91c318ec249",
-      "b": "b3c8f91c318ec249"
-    },
-    {
-      "tick": 112,
-      "a": "f9563be1fb6a9a74",
-      "b": "f9563be1fb6a9a74"
-    },
-    {
-      "tick": 128,
-      "a": "bd58ba6be8a46341",
-      "b": "bd58ba6be8a46341"
+      "tick": 40,
+      "file": "rig2d-character-tick-40.png",
+      "a": "cd3f9a80990ff2c6",
+      "b": "cd3f9a80990ff2c6"
     }
   ]
 }

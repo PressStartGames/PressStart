@@ -14,7 +14,7 @@ export function Roadmap() {
   return (
     <section id="roadmap" className="section" aria-labelledby="roadmap-title">
       <div className="column">
-        <Reveal className="section-head">
+        <Reveal className="section-head" wipe>
           <h2 id="roadmap-title">{field('roadmap', 'headline')}</h2>
         </Reveal>
         {intro?.type === 'p' && (

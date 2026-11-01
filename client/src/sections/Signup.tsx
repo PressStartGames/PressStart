@@ -32,7 +32,7 @@ export function Signup() {
   return (
     <section id="signup" className={`section ${styles.signup}`} aria-labelledby="signup-title">
       <div className="column">
-        <Reveal className="section-head">
+        <Reveal className="section-head" wipe>
           <h2 id="signup-title">{f('headline')}</h2>
           {intro?.type === 'p' && (
             <p className={styles.intro}>
@@ -149,6 +149,8 @@ function LiveForm() {
   const turnstileRef = useRef<HTMLDivElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
   const done = state.status === 'success';
+  const successLine =
+    state.status === 'success' && !state.mail ? f('state-success-list') : f('state-success');
 
   useEffect(() => {
     if (done) resultRef.current?.querySelector<HTMLElement>('[data-cartridge]')?.focus();
@@ -185,7 +187,7 @@ function LiveForm() {
     <div className={styles.flipStage} ref={resultRef} data-signup-mode={mode.kind}>
       <div className={styles.flip} data-done={done || undefined}>
         <form
-          className={`${styles.card} ${styles.face} ${styles.front}`}
+          className={`card ${styles.card} ${styles.face} ${styles.front}`}
           onSubmit={onSubmit}
           noValidate
           inert={done}
@@ -250,7 +252,7 @@ function LiveForm() {
           aria-hidden={!done}
         >
           <Cartridge label={f('success-card')} status>
-            <p className={styles.cartText}>{f('state-success')}</p>
+            <p className={styles.cartText}>{successLine}</p>
           </Cartridge>
         </div>
       </div>

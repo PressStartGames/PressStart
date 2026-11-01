@@ -22,7 +22,7 @@
     transform var(--dur) var(--ease-spring),
     background-color var(--dur-fast) ease,
     color var(--dur-fast) ease,
-    box-shadow var(--dur-fast) ease;
+    box-shadow var(--dur) ease;
   will-change: transform;
 }
 
@@ -41,6 +41,14 @@
   z-index: 1;
 }
 
+.primary {
+  box-shadow: 0 10px 30px -12px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.primary:hover {
+  box-shadow: 0 16px 40px -12px color-mix(in srgb, var(--accent) 80%, transparent);
+}
+
 .ghost {
   --pill-bg: transparent;
   --pill-fg: var(--fg);
@@ -51,14 +59,8 @@
   box-shadow: inset 0 0 0 1px var(--fg-muted);
 }
 
-/* The fixed CTA: a dark pill that reads on paper and booth alike, with an orbiting PASS-green
-   outline on hover (a conic gradient spun through a registered custom property). */
-@property --orbit {
-  syntax: '<angle>';
-  inherits: false;
-  initial-value: 0deg;
-}
-
+/* The fixed CTA: a dark pill that reads on paper and booth alike, ringed by the signal gradient.
+   The ring turns slowly all the time and fast on hover (an orbiting outline). */
 .orbit {
   --pill-bg: #15171c;
   --pill-fg: #f2f4f7;
@@ -70,15 +72,7 @@
   position: absolute;
   inset: -2px;
   border-radius: inherit;
-  background: conic-gradient(
-    from var(--orbit),
-    transparent 0 62%,
-    var(--pass) 78%,
-    var(--tick) 88%,
-    transparent 100%
-  );
-  opacity: 0;
-  transition: opacity var(--dur-fast) ease;
+  background: var(--signal-conic);
   z-index: 0;
 }
 
@@ -93,8 +87,8 @@
 
 .orbit:hover::before,
 .orbit:focus-visible::before {
-  opacity: 1;
-  animation: orbit 1.4s linear infinite;
+  animation: orbit 1.2s linear infinite;
+  inset: -3px;
 }
 
 @keyframes orbit {
@@ -113,9 +107,9 @@
     transform: none;
   }
 
+  .orbit::before,
   .orbit:hover::before,
   .orbit:focus-visible::before {
     animation: none;
-    background: conic-gradient(var(--pass), var(--tick), var(--pass));
   }
 }

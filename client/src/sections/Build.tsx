@@ -12,7 +12,7 @@ export function Build() {
   return (
     <section id="build" className="section" aria-labelledby="build-title">
       <div className="column">
-        <Reveal className="section-head">
+        <Reveal className="section-head" wipe>
           <h2 id="build-title">{field('build', 'headline')}</h2>
         </Reveal>
       </div>

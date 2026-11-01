@@ -1,25 +1,39 @@
-/* Design tokens (PLAN.md §4.3 palettes A "Booth" and B "Blueprint"; CLAUDE.md "Design direction").
+/* Design tokens (PLAN.md §4.3 palettes A "Booth" and B "Blueprint", enriched 2026-11-01 on the
+   founder's note: the "signal" gradient, the aurora, warmer paper, a blue-black booth).
    The two acts are fixed, not a theme toggle: [data-act="paper"] wraps act 1, [data-act="booth"] the rest. */
 :root {
   /* Act 2: the booth (palette A) */
-  --booth-bg: #0e1014;
-  --booth-surface: #161a21;
-  --booth-rule: #262b34;
+  --booth-bg: #0b0e14;
+  --booth-surface: #141922;
+  --booth-rule: #232a35;
   --booth-fg: #f2f4f7;
-  --booth-fg-body: rgb(242 244 247 / 80%);
-  --booth-fg-muted: #8a93a3;
+  --booth-fg-body: rgb(242 244 247 / 82%);
+  --booth-fg-muted: #8f98a8;
   --pass: #3ddc97;
   --tick: #ffb547;
   --fail: #ff5d5d;
+  --violet: #8b7cff;
 
   /* Act 1: paper (palette B) */
-  --paper-bg: #f6f4ef;
-  --paper-surface: #ffffff;
-  --paper-rule: #dcd8cf;
+  --paper-bg: #f5f1e8;
+  --paper-surface: #fffdf8;
+  --paper-rule: #ddd6c8;
   --paper-fg: #15171c;
   --paper-fg-muted: #5d6470;
   --ink: #2f5bff;
   --start: #e8543a;
+
+  /* The signal: ink -> PASS -> tick. Spent on borders, underlines and the aurora, never on body text. */
+  --signal: linear-gradient(100deg, var(--ink) 0%, var(--pass) 50%, var(--tick) 100%);
+  --signal-conic: conic-gradient(
+    from var(--orbit, 0deg),
+    var(--ink),
+    var(--pass),
+    var(--tick),
+    var(--start),
+    var(--violet),
+    var(--ink)
+  );
 
   /* Type (PLAN.md §4.4 pairing 1) */
   --font-display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
@@ -30,8 +44,8 @@
   --text-body: clamp(1.0625rem, 0.95rem + 0.4vw, 1.25rem);
   --text-small: 0.9375rem;
   --text-mono: 0.8125rem;
-  --text-h2: clamp(2.125rem, 1.4rem + 3.4vw, 3.75rem);
-  --text-h1: clamp(2.75rem, 1.6rem + 6.4vw, 6rem);
+  --text-h2: clamp(2.25rem, 1.4rem + 3.6vw, 4rem);
+  --text-h1: clamp(2.875rem, 1.5rem + 7vw, 6.5rem);
   --leading-body: 1.55;
 
   /* Layout */
@@ -41,8 +55,8 @@
   --inset: clamp(8px, 1.4vw, 16px);
   --space-section: clamp(104px, 12vw, 176px);
   --space-head: clamp(32px, 4vw, 56px);
-  --radius: 20px;
-  --radius-sm: 10px;
+  --radius: 22px;
+  --radius-sm: 12px;
   --radius-pill: 999px;
 
   /* Motion */
@@ -80,6 +94,12 @@
   --header-h: 72px;
 }
 
+@property --orbit {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
 [data-act='paper'] {
   color-scheme: light;
   --bg: var(--paper-bg);
@@ -91,7 +111,8 @@
   --accent: var(--ink);
   --accent-contrast: #ffffff;
   --accent-2: var(--start);
-  --code-bg: #ecebe6;
+  --code-bg: #ece7db;
+  --glow: rgb(47 91 255 / 14%);
 }
 
 [data-act='booth'] {
@@ -103,7 +124,8 @@
   --fg-body: var(--booth-fg-body);
   --fg-muted: var(--booth-fg-muted);
   --accent: var(--pass);
-  --accent-contrast: #0e1014;
+  --accent-contrast: #0b0e14;
   --accent-2: var(--tick);
   --code-bg: var(--booth-surface);
+  --glow: rgb(61 220 151 / 16%);
 }

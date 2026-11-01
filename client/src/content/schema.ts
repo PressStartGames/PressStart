@@ -9,7 +9,7 @@ export const CONTENT_SCHEMA: Record<string, readonly string[]> = {
     'small',
     'replay-label',
     'replay-runs',
-    'replay-placeholder',
+    'replay-caption',
     'replay-verdict',
     'replay-match',
   ],
@@ -18,7 +18,7 @@ export const CONTENT_SCHEMA: Record<string, readonly string[]> = {
   build: ['headline', 'footnote', 'sample-caption', 'sample-commit', 'sample-source'],
   determinism: ['headline', 'subhead'],
   oracles: ['headline', 'small', 'references'],
-  goldens: ['headline', 'placeholder-caption'],
+  goldens: ['headline', 'sheet-label', 'sheet-caption'],
   built: ['headline', 'tiles', 'proof', 'bar-legend'],
   roadmap: ['headline', 'subhead', 'now-label'],
   signup: [
@@ -29,6 +29,7 @@ export const CONTENT_SCHEMA: Record<string, readonly string[]> = {
     'cta',
     'busy',
     'state-success',
+    'state-success-list',
     'state-existing',
     'state-invalid',
     'state-error',
@@ -46,6 +47,7 @@ export const CONTENT_SCHEMA: Record<string, readonly string[]> = {
 // The nav labels in CONTENT.md's header map to these section ids (first word, lower-cased).
 export const NAV_TARGETS: Record<string, string> = {
   build: 'build',
+  proof: 'determinism',
   determinism: 'determinism',
   built: 'built',
   roadmap: 'roadmap',

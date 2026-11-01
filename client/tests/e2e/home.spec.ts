@@ -1,5 +1,9 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
+import replay from '../../data/replay.json' with { type: 'json' };
+
+const LAST = String(replay.ticks).padStart(3, '0');
+const MATCH = `${replay.rows.length}/${replay.rows.length} checksums match`;
 
 test('the home page reads: one h1, landmarks, the fixed CTA, the honest line', async ({ page }) => {
   await page.goto('/');
@@ -15,8 +19,8 @@ test('the home page reads: one h1, landmarks, the fixed CTA, the honest line', a
 test('the replay strip reaches tick 128 and stamps PASS', async ({ page }) => {
   await page.goto('/');
   const strip = page.locator('figure').first();
-  await expect(strip.locator('b').first()).toHaveText('128', { timeout: 10_000 });
-  await expect(strip.getByText('9/9 checksums match')).toBeVisible();
+  await expect(strip.locator('b').first()).toHaveText(LAST, { timeout: 10_000 });
+  await expect(strip.getByText(MATCH)).toBeVisible();
 });
 
 test('the number tiles show the synced counts', async ({ page }) => {
@@ -39,7 +43,7 @@ test('the skip link, nav anchors and the FAQ work from the keyboard', async ({ p
 test('has no axe violations', async ({ page }) => {
   await page.goto('/');
   // Let the load sequence finish so the page is in its settled state.
-  await expect(page.getByText('9/9 checksums match')).toBeVisible({ timeout: 10_000 });
+  await expect(page.getByText(MATCH)).toBeVisible({ timeout: 10_000 });
   const results = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
     .analyze();
@@ -70,7 +74,7 @@ test('renders without JavaScript', async ({ browser, baseURL }) => {
   await h2.scrollIntoViewIfNeeded();
   await expect(h2).toBeVisible();
   expect(await h2.evaluate((el) => getComputedStyle(el.parentElement!).opacity)).toBe('1');
-  await expect(page.getByText('9/9 checksums match')).toBeAttached();
+  await expect(page.getByText(MATCH)).toBeAttached();
   await context.close();
 });
 

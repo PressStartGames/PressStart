@@ -1,12 +1,14 @@
 // The sign-up state machine and the request, pure enough for Vitest.
 import type { SignupMode } from './config';
 
-export type SignupResult = 'ok' | 'existing' | 'invalid' | 'error';
+// `ok` means a confirmation mail is on its way; `ok-list` means the address is stored and no mail
+// is sent yet (the Worker runs without a mail key). Both are a success for the person.
+export type SignupResult = 'ok' | 'ok-list' | 'existing' | 'invalid' | 'error';
 
 export type SignupState =
   | { status: 'idle' }
   | { status: 'busy' }
-  | { status: 'success' }
+  | { status: 'success'; mail: boolean }
   | { status: 'existing' }
   | { status: 'invalid' }
   | { status: 'error' };
@@ -30,7 +32,9 @@ export function reduce(state: SignupState, event: SignupEvent): SignupState {
       if (state.status !== 'busy') return state;
       switch (event.result) {
         case 'ok':
-          return { status: 'success' };
+          return { status: 'success', mail: true };
+        case 'ok-list':
+          return { status: 'success', mail: false };
         case 'existing':
           return { status: 'existing' };
         case 'invalid':
@@ -53,7 +57,8 @@ export interface SignupPayload {
   consentVersion: string;
 }
 
-// The Worker's answers: 200 {status:"ok"|"existing"}, 400 {status:"invalid"}, anything else -> error.
+// The Worker's answers: 200 {status:"ok", mail:boolean} | {status:"existing"}, 400 {status:"invalid"},
+// anything else -> error.
 export async function submitSignup(
   mode: SignupMode,
   payload: SignupPayload,
@@ -64,6 +69,7 @@ export async function submitSignup(
     const local = payload.email.split('@')[0] ?? '';
     if (local === 'existing') return 'existing';
     if (local === 'fail') return 'error';
+    if (local === 'list') return 'ok-list';
     return 'ok';
   }
   if (mode.kind !== 'endpoint') return 'error';
@@ -75,8 +81,8 @@ export async function submitSignup(
     });
     if (res.status === 400) return 'invalid';
     if (!res.ok) return 'error';
-    const data = (await res.json()) as { status?: string };
-    if (data.status === 'ok') return 'ok';
+    const data = (await res.json()) as { status?: string; mail?: boolean };
+    if (data.status === 'ok') return data.mail === false ? 'ok-list' : 'ok';
     if (data.status === 'existing') return 'existing';
     return 'error';
   } catch {

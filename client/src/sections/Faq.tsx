@@ -9,7 +9,7 @@ export function Faq() {
   return (
     <section id="faq" className="section" aria-labelledby="faq-title">
       <div className="column">
-        <Reveal className="section-head">
+        <Reveal className="section-head" wipe>
           <h2 id="faq-title">{field('faq', 'headline')}</h2>
         </Reveal>
         <Reveal delay={80} className={styles.list}>

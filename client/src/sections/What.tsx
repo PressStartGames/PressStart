@@ -1,4 +1,5 @@
 import { Reveal } from '../components/Reveal';
+import { spotlightHandlers } from '../lib/useSpotlight';
 import { field, section, splitLead } from '../content';
 import { Inline } from '../content/inline';
 import styles from './What.module.css';
@@ -13,13 +14,18 @@ export function What() {
   return (
     <section id="what" className="section" aria-labelledby="what-title">
       <div className="column">
-        <Reveal className="section-head">
+        <Reveal className="section-head" wipe>
           <h2 id="what-title">{field('what', 'headline')}</h2>
         </Reveal>
       </div>
       <div className={`breakout ${styles.grid}`}>
         {cards.map((c, i) => (
-          <Reveal key={c.lead} className={styles.card} delay={i * 110}>
+          <Reveal
+            key={c.lead}
+            className={`card ${styles.card}`}
+            delay={i * 110}
+            {...spotlightHandlers()}
+          >
             <h3 className={styles.lead}>{c.lead}</h3>
             <p>
               <Inline text={c.rest} />
