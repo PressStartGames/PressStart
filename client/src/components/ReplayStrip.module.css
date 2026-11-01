@@ -29,6 +29,8 @@
   gap: 16px;
   margin-bottom: 10px;
   position: relative;
+  min-height: 1.6em;
+  white-space: nowrap;
 }
 
 .label {
@@ -391,5 +393,79 @@ html.js .frame {
 
   .scrubMark {
     transition: none;
+  }
+}
+
+/* The simulation panels (ArenaFrame) */
+.arena {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.arenaScore {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 600;
+  fill: var(--pass);
+}
+
+.arenaScoreB {
+  fill: var(--tick);
+}
+
+/* Out of the flow: the caption can never reflow the strip. */
+.event {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tick);
+  min-height: 1.2em;
+}
+
+/* The third run: another seed, shown after the stamp, and it does not match. */
+.third td {
+  border-top: 1px dashed var(--booth-rule);
+}
+
+.thirdLabel {
+  color: var(--booth-fg-muted);
+}
+
+.hashFail {
+  color: var(--fail);
+}
+
+.verdictFail {
+  color: var(--fail);
+}
+
+.third[data-shown] {
+  animation: flash-fail 1.2s var(--ease-out) both;
+}
+
+@keyframes flash-fail {
+  0% {
+    background: color-mix(in srgb, var(--fail) 30%, transparent);
+    transform: translateX(-6px);
+  }
+
+  100% {
+    background: transparent;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .third[data-shown] {
+    animation: none;
   }
 }

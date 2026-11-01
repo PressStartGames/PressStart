@@ -15,20 +15,32 @@ const root = resolve(engine);
 
 const STATES = ['BUILT', 'PARTIAL', 'SKIP', 'CRATE-EXISTS-UNJUDGED', 'UNDETERMINED'] as const;
 type State = (typeof STATES)[number];
+type Tally = Record<State, number>;
 
-function catalogStates(): Record<State, number> {
+const emptyTally = () => Object.fromEntries(STATES.map((s) => [s, 0])) as Tally;
+
+// docs/catalog/<area>.md, one file per area; README.md and LINE-MAP.md are not areas.
+function catalog(): { total: Tally; areas: Array<{ id: string; title: string } & Tally> } {
   const dir = join(root, 'docs', 'catalog');
-  const counts = Object.fromEntries(STATES.map((s) => [s, 0])) as Record<State, number>;
+  const total = emptyTally();
+  const areas: Array<{ id: string; title: string } & Tally> = [];
   for (const file of readdirSync(dir)) {
-    if (!file.endsWith('.md')) continue;
-    for (const line of readFileSync(join(dir, file), 'utf8').split('\n')) {
+    if (!file.endsWith('.md') || file === 'README.md' || file === 'LINE-MAP.md') continue;
+    const text = readFileSync(join(dir, file), 'utf8');
+    const tally = emptyTally();
+    for (const line of text.split('\n')) {
       const m = /^- state:\s*([A-Z-]+)/.exec(line);
       if (!m) continue;
       const state = m[1] as State;
-      if (state in counts) counts[state] += 1;
+      if (state in tally) {
+        tally[state] += 1;
+        total[state] += 1;
+      }
     }
+    const title = (/^#\s+(.*)$/m.exec(text)?.[1] ?? file).trim();
+    areas.push({ id: file.replace(/\.md$/, ''), title, ...tally });
   }
-  return counts;
+  return { total, areas };
 }
 
 function walkPngs(dir: string, out: { accepted: number; candidates: number }) {
@@ -45,7 +57,7 @@ function walkPngs(dir: string, out: { accepted: number; candidates: number }) {
   }
 }
 
-const states = catalogStates();
+const { total: states, areas } = catalog();
 const crates = readdirSync(join(root, 'crates')).filter((n) => n.includes('press_start')).length;
 const oracles = readdirSync(join(root, 'oracles')).filter((n) =>
   statSync(join(root, 'oracles', n)).isDirectory(),
@@ -57,18 +69,26 @@ const git = (...args: string[]) =>
 const engineCommit = git('rev-parse', 'HEAD');
 const engineBranch = git('branch', '--show-current');
 
-const total = STATES.reduce((n, s) => n + states[s], 0);
+const sum = (t: Tally) => STATES.reduce((n, s) => n + t[s], 0);
 const counts = {
   syncedAt: new Date().toISOString().slice(0, 10),
   engineCommit,
   engineBranch,
   catalog: {
-    total,
+    total: sum(states),
     built: states.BUILT,
     partial: states.PARTIAL,
     skip: states.SKIP,
     unjudged: states['CRATE-EXISTS-UNJUDGED'],
     undetermined: states.UNDETERMINED,
+    areas: areas.map((a) => ({
+      id: a.id,
+      title: a.title,
+      total: sum(a),
+      built: a.BUILT,
+      partial: a.PARTIAL,
+      skip: a.SKIP,
+    })),
   },
   crates,
   oracles,
@@ -78,4 +98,4 @@ const counts = {
 const out = resolve(fileURLToPath(new URL('../data/counts.json', import.meta.url)));
 writeFileSync(out, JSON.stringify(counts, null, 2) + '\n');
 console.log(`wrote ${out} from ${engineBranch}@${engineCommit.slice(0, 7)}`);
-console.log(JSON.stringify(counts, null, 2));
+console.log(JSON.stringify(counts.catalog.areas, null, 1));

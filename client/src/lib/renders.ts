@@ -23,17 +23,6 @@ export interface RenderRow {
 export const renders = manifest.images as RenderRow[];
 export const rowFor = (file: string): RenderRow | undefined => renders.find((r) => r.file === file);
 
-// The hero's frames: one per tick, keyed by file name (replay.json names them).
-export const heroFrames = Object.fromEntries(
-  Object.entries(
-    import.meta.glob('../../assets/renders/rig2d-character-tick-*.png', {
-      eager: true,
-      query: '?url',
-      import: 'default',
-    }),
-  ).map(([path, url]) => [path.split('/').pop() ?? path, url as string]),
-) as Record<string, string>;
-
 // The contact sheet: raster goldens as responsive pictures, pixel goldens as plain urls.
 const pictures = import.meta.glob('../../assets/renders/*.png', {
   eager: true,
@@ -41,7 +30,8 @@ const pictures = import.meta.glob('../../assets/renders/*.png', {
   import: 'default',
 }) as Record<string, Picture>;
 
-export const sheetFiles = manifest.sheet as string[];
+export const featuredFile = manifest.featured as string;
+export const stripFiles = manifest.strip as string[];
 
 export function pictureFor(file: string): Picture | undefined {
   return pictures[`../../assets/renders/${file}`];

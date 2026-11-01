@@ -41,8 +41,7 @@ describe('CONTENT.md', () => {
   it('fills the counts from counts.json, never by hand', () => {
     const tiles = content['built']?.fields['tiles'] ?? '';
     const catalog = counts['catalog'] as { total: number; built: number };
-    expect(tiles).toContain(`${catalog.total} entries in the catalog`);
-    expect(tiles).toContain(`${catalog.built} BUILT`);
+    expect(tiles).toContain(`${catalog.built} of ${catalog.total} things built`);
   });
 
   it('refuses an unknown placeholder', () => {

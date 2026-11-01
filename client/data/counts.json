@@ -1,6 +1,6 @@
 {
   "syncedAt": "2026-11-01",
-  "engineCommit": "45aeffd2a2ecc3b3049819151abfc1c1343fb2aa",
+  "engineCommit": "c99868585286de2022fc4d8ddb9899f2e1ecc6f6",
   "engineBranch": "v2-full-engine",
   "catalog": {
     "total": 404,
@@ -8,7 +8,65 @@
     "partial": 129,
     "skip": 32,
     "unjudged": 9,
-    "undetermined": 131
+    "undetermined": 131,
+    "areas": [
+      {
+        "id": "asset-creation",
+        "title": "Catalog — ASSET CREATION (modeling, rigging, animation, asset pipeline)",
+        "total": 75,
+        "built": 18,
+        "partial": 29,
+        "skip": 6
+      },
+      {
+        "id": "game-services",
+        "title": "Catalog — GAME SERVICES (audio, game UI, save/load, localization, VFX)",
+        "total": 85,
+        "built": 24,
+        "partial": 37,
+        "skip": 7
+      },
+      {
+        "id": "missing-domains",
+        "title": "Catalog — MISSING DOMAINS (found absent everywhere)",
+        "total": 24,
+        "built": 17,
+        "partial": 0,
+        "skip": 0
+      },
+      {
+        "id": "networking-export",
+        "title": "Catalog — REACH (networking / multiplayer, export pipeline, platforms)",
+        "total": 42,
+        "built": 4,
+        "partial": 6,
+        "skip": 4
+      },
+      {
+        "id": "rendering",
+        "title": "Catalog — RENDERING (lighting, pipelines, shaders/materials, textures)",
+        "total": 57,
+        "built": 7,
+        "partial": 14,
+        "skip": 5
+      },
+      {
+        "id": "simulation",
+        "title": "Catalog — SIMULATION (physics, input, cameras, performance)",
+        "total": 67,
+        "built": 17,
+        "partial": 28,
+        "skip": 7
+      },
+      {
+        "id": "world",
+        "title": "Catalog — WORLD BUILDING (scenes & prefabs, terrain, procgen, 2D, nav)",
+        "total": 54,
+        "built": 16,
+        "partial": 15,
+        "skip": 3
+      }
+    ]
   },
   "crates": 89,
   "oracles": 71,

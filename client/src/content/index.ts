@@ -1,9 +1,8 @@
 import raw from '../../../CONTENT.md?raw';
 import counts from '../../data/counts.json';
-import replay from '../../data/replay.json';
 import { fillPlaceholders, parseContent, type Section } from './parse';
 
-export { counts, replay };
+export { counts };
 
 const content = fillPlaceholders(parseContent(raw), counts);
 

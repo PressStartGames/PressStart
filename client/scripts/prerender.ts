@@ -18,10 +18,13 @@ const { render } = (await import(pathToFileURL(join(ssrDist, 'entry-server.js'))
 
 // Preload the display face (content-hashed by the client build) so the headline paints in it.
 const assets = readdirSync(join(dist, 'assets'));
-const serif = assets.find((f) => /^instrument-serif-latin-400-normal.*\.woff2$/.test(f));
-const preload = serif
-  ? `<link rel="preload" as="font" type="font/woff2" crossorigin href="${base}assets/${serif}" />`
-  : '';
+const faces = assets.filter((f) => /^instrument-serif-latin-400-(normal|italic).*\.woff2$/.test(f));
+const preload = faces
+  .map(
+    (f) =>
+      `<link rel="preload" as="font" type="font/woff2" crossorigin href="${base}assets/${f}" />`,
+  )
+  .join('\n    ');
 
 const routes: Array<{ url: string; file: string }> = [
   { url: '/', file: 'index.html' },

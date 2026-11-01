@@ -54,21 +54,21 @@ export function Hero() {
           <Headline text={field('hero', 'headline')} />
         </h1>
         {body && body.type === 'p' && (
-          <p className={`enter ${styles.lede}`} style={delay(520)}>
+          <p className={`enter ${styles.lede}`} style={delay(200)}>
             <Inline text={body.text} />
           </p>
         )}
-        <div className={`enter ${styles.ctas}`} style={delay(620)}>
+        <div className={`enter ${styles.ctas}`} style={delay(280)}>
           <Pill href="#signup">{primary}</Pill>
           <a href="#built" className={styles.secondary}>
             {secondary}
           </a>
         </div>
-        <p className={`small enter ${styles.small}`} style={delay(700)}>
+        <p className={`small enter ${styles.small}`} style={delay(340)}>
           {field('hero', 'small')}
         </p>
       </div>
-      <div className={`breakout enter ${styles.stripWrap}`} style={delay(780)}>
+      <div className={`breakout enter ${styles.stripWrap}`} style={delay(400)}>
         <ReplayStrip />
       </div>
     </section>

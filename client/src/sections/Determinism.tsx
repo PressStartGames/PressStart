@@ -1,12 +1,14 @@
+import type { CSSProperties } from 'react';
 import { Body } from '../components/Body';
 import { Reveal } from '../components/Reveal';
-import { field, replay, section } from '../content';
+import { field, section } from '../content';
+import { rows } from '../lib/sim';
 import styles from './Determinism.module.css';
 
 // The hero's component, static: a tick ruler with two identical checksum columns.
 export function Determinism() {
   const s = section('determinism');
-  const rows = replay.rows.slice(0, 6);
+  const list = rows().slice(0, 6);
   return (
     <section id="determinism" className="section" aria-labelledby="determinism-title">
       <div className="column">
@@ -28,12 +30,8 @@ export function Determinism() {
             <span>run A</span>
             <span>run B</span>
           </div>
-          {rows.map((r, i) => (
-            <div
-              key={r.tick}
-              className={styles.rulerRow}
-              style={{ '--i': i } as React.CSSProperties}
-            >
+          {list.map((r, i) => (
+            <div key={r.tick} className={styles.rulerRow} style={{ '--i': i } as CSSProperties}>
               <span className={styles.tick}>{String(r.tick).padStart(3, '0')}</span>
               <span className={styles.hash}>{r.a}</span>
               <span className={styles.hash}>{r.b}</span>

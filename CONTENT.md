@@ -30,12 +30,16 @@ small: Private beta. Version 1 is not public yet. Windows first.
 
 replay-label: two runs, one game
 replay-runs: run A | run B
-replay-caption: real frames: the engine's accepted goldens, one per tick · each checksum is that golden's sha256
+replay-third: run C · another seed
+replay-caption: a small simulation drawn in your browser: one seed, no clock, a fixed tick, a checksum of the state every tick · two runs from the same seed match line for line; a third run from another seed does not
 replay-verdict: PASS
+replay-fail: FAIL
 replay-match: checksums match
+replay-event: input tape
 
-*(Visual: "two runs, one game" — two panels of the same golden frame, `run A` / `run B`, over the goldens' hashes.
-The frames and hashes come from `client/data/replay.json`, written from accepted goldens with their engine commit.)*
+*(Visual: "two runs, one game" — two panels of the same simulation state, `run A` / `run B`, over the checksum
+rows computed live (`client/src/lib/sim.ts`). It is an illustration of the rule, not engine output; the engine's
+own booth capture replaces it when the founder gives the go.)*
 
 ## problem
 
@@ -147,22 +151,28 @@ headline: Pictures are tests too.
 Every picture the engine draws in a test is compared with a golden: a frame a human accepted in a reviewed commit.
 A tool can propose a golden. It can never accept one.
 
-sheet-label: accepted golden
-sheet-caption: nine of the engine's {{goldens.accepted}} accepted goldens, as shot in its tests
+review-candidate: this run
+review-golden: the golden
+review-verdict: PASS · 0 px differ
+review-steps: shot on one reference card | compared pixel by pixel | a human accepted it in a reviewed commit
+strip-label: more accepted goldens
+sheet-caption: the engine's {{goldens.accepted}} accepted goldens are test evidence, not screenshots: small, plain, shot with the noisy features off
 
-*(Visual: a contact sheet of nine accepted goldens — terrain, shader, UI, sprite, animation — each captioned with its
-crate and test name in mono. The files and their provenance rows live in `client/assets/renders/`.)*
+*(Visual: one featured golden in a review frame (a wipe between "this run" and "the golden", verdict PASS, the
+three steps as a mono checklist), then a small filmstrip of five more. The files and their provenance rows live in
+`client/assets/renders/`; `manifest.featured` and `manifest.strip` pick them.)*
 
 ## built
 
-headline: What is built today, counted.
+headline: What the engine covers, and how much of it is built.
 
-tiles: {{catalog.total}} entries in the catalog · {{catalog.built}} BUILT · {{catalog.partial}} partly built ·
-{{crates}} engine crates · {{oracles}} reference tools · {{goldens.accepted}} accepted goldens
+tiles: {{crates}} engine crates · {{catalog.built}} of {{catalog.total}} things built · {{oracles}} reference tools
 
-Our catalog lists {{catalog.total}} things a game engine needs, from terrain to crash reports. An entry counts as
-BUILT only when every clause is held by a landed test. {{catalog.built}} are built, {{catalog.partial}} partly,
-{{catalog.skip}} skipped on purpose, and the rest are written down and visibly unbuilt.
+We keep a checklist of everything a game engine needs: {{catalog.total}} things, from terrain to crash reports,
+in seven areas. A thing counts as built only when a test holds it. Here is where each area stands today.
+
+area-labels: world = World building · scenes, terrain, procgen, 2D, navigation | simulation = Simulation · physics, input, cameras, performance | rendering = Rendering · lighting, pipelines, shaders, textures | asset-creation = Asset creation · modeling, rigging, animation, pipeline | game-services = Game services · audio, UI, save, localisation, VFX | networking-export = Reach · networking, export, platforms | missing-domains = Beyond the usual · things no engine ships, written down anyway
+area-unit: built
 
 proof: The first game, *Team Fights*, a small team shooter made of primitives, is built on these crates.
 

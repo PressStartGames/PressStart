@@ -265,7 +265,7 @@ select {
 }
 
 html.js .enter {
-  animation: enter var(--dur-slow) var(--ease-out) both;
+  animation: enter 0.7s var(--ease-out) both;
   animation-delay: var(--enter-delay, 0ms);
 }
 

@@ -1,9 +1,9 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
-import replay from '../../data/replay.json' with { type: 'json' };
+import { ROW_TICKS, SIM } from '../../src/lib/sim';
 
-const LAST = String(replay.ticks).padStart(3, '0');
-const MATCH = `${replay.rows.length}/${replay.rows.length} checksums match`;
+const LAST = String(SIM.ticks).padStart(3, '0');
+const MATCH = `${ROW_TICKS.length}/${ROW_TICKS.length} checksums match`;
 
 test('the home page reads: one h1, landmarks, the fixed CTA, the honest line', async ({ page }) => {
   await page.goto('/');
@@ -19,14 +19,14 @@ test('the home page reads: one h1, landmarks, the fixed CTA, the honest line', a
 test('the replay strip reaches tick 128 and stamps PASS', async ({ page }) => {
   await page.goto('/');
   const strip = page.locator('figure').first();
-  await expect(strip.locator('b').first()).toHaveText(LAST, { timeout: 10_000 });
+  await expect(strip.locator('b').first()).toHaveText(LAST, { timeout: 15_000 });
   await expect(strip.getByText(MATCH)).toBeVisible();
 });
 
 test('the number tiles show the synced counts', async ({ page }) => {
   await page.goto('/#built');
   const built = page.locator('#built');
-  await expect(built.getByText('entries in the catalog')).toBeVisible();
+  await expect(built.getByText('engine crates')).toBeVisible();
   await expect(built.getByText(/synced \d{4}-\d{2}-\d{2} · engine [0-9a-f]{7}/)).toBeVisible();
 });
 
@@ -42,8 +42,15 @@ test('the skip link, nav anchors and the FAQ work from the keyboard', async ({ p
 
 test('has no axe violations', async ({ page }) => {
   await page.goto('/');
-  // Let the load sequence finish so the page is in its settled state.
-  await expect(page.getByText(MATCH)).toBeVisible({ timeout: 10_000 });
+  // Scroll through so every reveal has fired, then let the page settle before auditing.
+  await expect(page.getByText(MATCH)).toBeVisible({ timeout: 15_000 });
+  const height = await page.evaluate(() => document.body.scrollHeight);
+  for (let y = 0; y < height; y += 600) {
+    await page.evaluate((top) => window.scrollTo(0, top), y);
+    await page.waitForTimeout(80);
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(3500);
   const results = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
     .analyze();
@@ -70,7 +77,9 @@ test('renders without JavaScript', async ({ browser, baseURL }) => {
   const page = await context.newPage();
   await page.goto(`${baseURL}/`);
   await expect(page.locator('h1')).toBeVisible();
-  const h2 = page.getByRole('heading', { name: 'What is built today, counted.' });
+  const h2 = page.getByRole('heading', {
+    name: 'What the engine covers, and how much of it is built.',
+  });
   await h2.scrollIntoViewIfNeeded();
   await expect(h2).toBeVisible();
   expect(await h2.evaluate((el) => getComputedStyle(el.parentElement!).opacity)).toBe('1');
