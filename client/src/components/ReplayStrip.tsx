@@ -11,6 +11,7 @@ import styles from './ReplayStrip.module.css';
 const TICKS: number = SIM.ticks;
 const RUN_MS = 8000;
 const START_DELAY_MS = 700;
+const RAMP = 0.1; // the first 10 % of the run accelerates from rest
 const HOLD_MS = 4000; // the finished ledger stays readable this long before the next run
 
 // The main screen: ONE wide phosphor screen split by a hairline into run A and run B, both drawing
@@ -22,7 +23,7 @@ export function ReplayStrip({ className, id }: { className?: string; id?: string
   const reduced = usePrefersReducedMotion();
   const heroReady = useHeroReady();
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { amount: 0.6 });
+  const inView = useInView(ref, { amount: 0.3 });
   const [tick, setTick] = useState<number>(TICKS);
   const [stamped, setStamped] = useState(true);
   const running = !stamped;
@@ -36,6 +37,19 @@ export function ReplayStrip({ className, id }: { className?: string; id?: string
   const elapsedRef = useRef(0);
   const finishedRef = useRef(true);
 
+  // Once the page is interactive (and motion is allowed), the screen idles at tick 0 instead of
+  // showing the prerendered finished run, so the first play starts from rest, never from a jump.
+  useEffect(() => {
+    if (reduced) return;
+    const raf = requestAnimationFrame(() => {
+      if (finishedRef.current && elapsedRef.current === 0) {
+        setTick(0);
+        setStamped(false);
+      }
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [reduced]);
+
   useEffect(() => {
     if (reduced || !inView || !heroReady) return;
     let raf = 0;
@@ -45,7 +59,9 @@ export function ReplayStrip({ className, id }: { className?: string; id?: string
       const start = performance.now() - elapsedRef.current;
       const step = (now: number) => {
         elapsedRef.current = now - start;
-        const t = Math.min(1, elapsedRef.current / RUN_MS);
+        // Ease into the first ticks so the run starts smoothly from rest.
+        const lin = Math.min(1, elapsedRef.current / RUN_MS);
+        const t = lin < RAMP ? (lin * lin) / RAMP : lin;
         const nt = Math.round(t * TICKS);
         if (nt !== last) {
           last = nt;
