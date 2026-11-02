@@ -11,6 +11,7 @@ import styles from './ReplayStrip.module.css';
 const TICKS: number = SIM.ticks;
 const RUN_MS = 8000;
 const START_DELAY_MS = 700;
+const HOLD_MS = 4000; // the finished ledger stays readable this long before the next run
 
 // The main screen: ONE wide phosphor screen split by a hairline into run A and run B, both drawing
 // the same simulation state; under it the HIGH SCORE ledger (rank, tick, run A, run B, result)
@@ -21,7 +22,7 @@ export function ReplayStrip({ className, id }: { className?: string; id?: string
   const reduced = usePrefersReducedMotion();
   const heroReady = useHeroReady();
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.6 });
+  const inView = useInView(ref, { amount: 0.6 });
   const [tick, setTick] = useState<number>(TICKS);
   const [stamped, setStamped] = useState(true);
   const running = !stamped;
@@ -30,35 +31,49 @@ export function ReplayStrip({ className, id }: { className?: string; id?: string
     const t = ROW_TICKS[2] ?? 80;
     return { tick: t, hash: checksum(stateAt(t, SIM.seed + 1)) };
   }, []);
+  // Attract mode: the run plays while the screen is in view. Scrolling away pauses it where it is;
+  // coming back resumes it; once it has finished and been read (the hold), it plays again.
+  const elapsedRef = useRef(0);
+  const finishedRef = useRef(true);
 
   useEffect(() => {
     if (reduced || !inView || !heroReady) return;
+    let raf = 0;
+    let timer = 0;
     let last = -1;
-    let raf = requestAnimationFrame(() => {
-      setTick(0);
-      setStamped(false);
-    });
-    const timer = window.setTimeout(() => {
-      const start = performance.now();
+    const run = () => {
+      const start = performance.now() - elapsedRef.current;
       const step = (now: number) => {
-        const t = Math.min(1, (now - start) / RUN_MS);
+        elapsedRef.current = now - start;
+        const t = Math.min(1, elapsedRef.current / RUN_MS);
         const nt = Math.round(t * TICKS);
         if (nt !== last) {
           last = nt;
           setTick(nt);
         }
-        if (t < 1) raf = requestAnimationFrame(step);
-        else setStamped(true);
+        if (t < 1) {
+          raf = requestAnimationFrame(step);
+        } else {
+          finishedRef.current = true;
+          setStamped(true);
+          timer = window.setTimeout(begin, HOLD_MS);
+        }
       };
       raf = requestAnimationFrame(step);
-    }, START_DELAY_MS);
+    };
+    const begin = () => {
+      elapsedRef.current = 0;
+      finishedRef.current = false;
+      last = -1;
+      setTick(0);
+      setStamped(false);
+      run();
+    };
+    if (finishedRef.current) timer = window.setTimeout(begin, START_DELAY_MS);
+    else run();
     return () => {
       clearTimeout(timer);
       cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        setTick(TICKS);
-        setStamped(true);
-      });
     };
   }, [reduced, inView, heroReady]);
 
