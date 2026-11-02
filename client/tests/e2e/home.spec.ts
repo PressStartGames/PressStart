@@ -17,6 +17,7 @@ test('the home page reads: one h1, landmarks, the fixed CTA, the honest line', a
 });
 
 test('the replay strip reaches tick 128 and stamps PASS', async ({ page }) => {
+  test.slow(); // boot + a full ~9 s run
   await page.goto('/');
   const strip = page.locator('figure').first();
   // The attract mode idles at tick 0 until the screen is in view, then runs for ~9 s.
@@ -42,6 +43,7 @@ test('the skip link, nav anchors and the FAQ work from the keyboard', async ({ p
 });
 
 test('has no axe violations', async ({ page }) => {
+  test.slow(); // boot + a full strip run + the scroll-through + the audit
   await page.goto('/');
   // Scroll through so every reveal has fired, then let the page settle before auditing.
   await page.locator('figure').first().scrollIntoViewIfNeeded();
