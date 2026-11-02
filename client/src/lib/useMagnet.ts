@@ -1,9 +1,11 @@
 import type { RefObject } from 'react';
 import { finePointer, motionOk, useGsap } from './gsap';
 
-// A magnetic key: within `reach` px of the cursor it pulls toward it (a third of the way) and
-// springs back when the cursor leaves. Pointer events only; off under reduced motion and on touch.
-export function useMagnet(ref: RefObject<HTMLElement | null>, reach = 80) {
+// A magnetic key: within `reach` px of the cursor it pulls toward it, strongly near the centre and
+// fading smoothly to nothing at the edge of the field (so the pull is felt as soon as the cursor
+// approaches, with no hard boundary), and springs back once the cursor is clear. Pointer events
+// only; off under reduced motion and on touch.
+export function useMagnet(ref: RefObject<HTMLElement | null>, reach = 260, strength = 0.6) {
   useGsap(
     ({ gsap }) => {
       const el = ref.current;
@@ -18,11 +20,14 @@ export function useMagnet(ref: RefObject<HTMLElement | null>, reach = 80) {
         const dx = e.clientX - cx;
         const dy = e.clientY - cy;
         const d = Math.hypot(dx, dy);
-        const inside = d < reach + Math.max(r.width, r.height) / 2;
-        if (inside) {
+        const field = reach + Math.max(r.width, r.height) / 2;
+        if (d < field) {
           near = true;
-          toX(dx * 0.35);
-          toY(dy * 0.35);
+          // Smooth falloff: full strength at the key, zero at the field's edge.
+          const k = 1 - d / field;
+          const pull = strength * k * k * (3 - 2 * k);
+          toX(dx * pull);
+          toY(dy * pull);
         } else if (near) {
           near = false;
           gsap.to(el, { x: 0, y: 0, duration: 0.9, ease: 'elastic.out(1, 0.45)', overwrite: true });
