@@ -19,7 +19,9 @@ test('the home page reads: one h1, landmarks, the fixed CTA, the honest line', a
 test('the replay strip reaches tick 128 and stamps PASS', async ({ page }) => {
   await page.goto('/');
   const strip = page.locator('figure').first();
-  await expect(strip.locator('b').first()).toHaveText(LAST, { timeout: 15_000 });
+  // The attract mode idles at tick 0 until the screen is in view, then runs for ~9 s.
+  await strip.scrollIntoViewIfNeeded();
+  await expect(strip.locator('b').first()).toHaveText(LAST, { timeout: 20_000 });
   await expect(strip.getByText(MATCH)).toBeVisible();
 });
 
@@ -42,7 +44,8 @@ test('the skip link, nav anchors and the FAQ work from the keyboard', async ({ p
 test('has no axe violations', async ({ page }) => {
   await page.goto('/');
   // Scroll through so every reveal has fired, then let the page settle before auditing.
-  await expect(page.getByText(MATCH)).toBeVisible({ timeout: 15_000 });
+  await page.locator('figure').first().scrollIntoViewIfNeeded();
+  await expect(page.getByText(MATCH)).toBeVisible({ timeout: 20_000 });
   const height = await page.evaluate(() => document.body.scrollHeight);
   for (let y = 0; y < height; y += 600) {
     await page.evaluate((top) => window.scrollTo(0, top), y);
