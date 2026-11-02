@@ -13,6 +13,9 @@ export function useMagnet(ref: RefObject<HTMLElement | null>, reach = 260, stren
       const toX = gsap.quickTo(el, 'x', { duration: 0.35, ease: 'power3.out' });
       const toY = gsap.quickTo(el, 'y', { duration: 0.35, ease: 'power3.out' });
       let near = false;
+      // The spring-back tween is kept so re-entering the field can cancel it; it must never
+      // overwrite the quickTo tweens, or the key stops following after its first release.
+      let back: ReturnType<typeof gsap.to> | null = null;
       const onMove = (e: PointerEvent) => {
         const r = el.getBoundingClientRect();
         const cx = r.left + r.width / 2;
@@ -22,6 +25,10 @@ export function useMagnet(ref: RefObject<HTMLElement | null>, reach = 260, stren
         const d = Math.hypot(dx, dy);
         const field = reach + Math.max(r.width, r.height) / 2;
         if (d < field) {
+          if (back) {
+            back.kill();
+            back = null;
+          }
           near = true;
           // Smooth falloff: full strength at the key, zero at the field's edge.
           const k = 1 - d / field;
@@ -30,11 +37,14 @@ export function useMagnet(ref: RefObject<HTMLElement | null>, reach = 260, stren
           toY(dy * pull);
         } else if (near) {
           near = false;
-          gsap.to(el, { x: 0, y: 0, duration: 0.9, ease: 'elastic.out(1, 0.45)', overwrite: true });
+          back = gsap.to(el, { x: 0, y: 0, duration: 0.9, ease: 'elastic.out(1, 0.45)' });
         }
       };
       window.addEventListener('pointermove', onMove, { passive: true });
-      return () => window.removeEventListener('pointermove', onMove);
+      return () => {
+        window.removeEventListener('pointermove', onMove);
+        back?.kill();
+      };
     },
     [],
     () => motionOk() && finePointer(),
