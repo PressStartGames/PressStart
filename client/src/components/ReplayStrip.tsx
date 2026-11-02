@@ -2,6 +2,7 @@ import { useInView } from 'motion/react';
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { field, splitList } from '../content';
 import { ROW_TICKS, SIM, checksum, rows, stateAt } from '../lib/sim';
+import { useHeroReady } from '../lib/heroState';
 import { usePrefersReducedMotion } from '../lib/usePrefersReducedMotion';
 import { ArenaFrame } from './ArenaFrame';
 import { Screen } from './Screen';
@@ -18,6 +19,7 @@ const START_DELAY_MS = 700;
 // screen is mostly in view and motion is allowed; only tick changes reach React.
 export function ReplayStrip({ className, id }: { className?: string; id?: string }) {
   const reduced = usePrefersReducedMotion();
+  const heroReady = useHeroReady();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.6 });
   const [tick, setTick] = useState<number>(TICKS);
@@ -30,7 +32,7 @@ export function ReplayStrip({ className, id }: { className?: string; id?: string
   }, []);
 
   useEffect(() => {
-    if (reduced || !inView) return;
+    if (reduced || !inView || !heroReady) return;
     let last = -1;
     let raf = requestAnimationFrame(() => {
       setTick(0);
@@ -58,7 +60,7 @@ export function ReplayStrip({ className, id }: { className?: string; id?: string
         setStamped(true);
       });
     };
-  }, [reduced, inView]);
+  }, [reduced, inView, heroReady]);
 
   const [runA = 'run A', runB = 'run B'] = splitList(field('hero', 'replay-runs'), '|');
   const head = splitList(field('hero', 'ledger-head'), '|');

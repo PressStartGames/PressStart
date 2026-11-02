@@ -1,4 +1,5 @@
 import { useEffect, useId, useReducer, useRef, useState, type FormEvent } from 'react';
+import { flushSync } from 'react-dom';
 import { Pill } from '../components/Pill';
 import { Reveal } from '../components/Reveal';
 import { Screen } from '../components/Screen';
@@ -178,7 +179,17 @@ function LiveForm() {
       turnstileToken,
       consentVersion: CONSENT_VERSION,
     });
-    dispatch({ type: 'resolve', result });
+    const commit = () => dispatch({ type: 'resolve', result });
+    const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
+    if (
+      (result === 'ok' || result === 'ok-list') &&
+      doc.startViewTransition &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
+      doc.startViewTransition(() => flushSync(commit));
+      return;
+    }
+    commit();
   }
 
   const status = statusText(state);

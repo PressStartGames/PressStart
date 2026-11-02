@@ -272,6 +272,59 @@ html.js.hydrated .reveal:not([data-visible]) {
   transform: translateY(12px);
 }
 
+/* The hero's GSAP timeline takes over from the CSS load sequence (sections/Hero.tsx). */
+html.js .gsap-on .enter,
+html.js .gsap-on .enter-solid {
+  animation: none;
+}
+
+/* SplitText glyphs carry a weight variable; the kinetic headline drives it near the cursor. */
+.hero-glyph {
+  font-variation-settings: 'wght' var(--wght, 500);
+}
+
+/* The line masks keep room for descenders while the glyphs rise behind them. */
+.hero-line-mask {
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+
+.hero-line .hero-glyph {
+  white-space: pre;
+}
+
+/* View transitions: page to page, and the cartridge seating in the sign-up. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+}
+
+::view-transition-old(cartridge) {
+  animation: vt-out 360ms var(--ease) both;
+}
+
+::view-transition-new(cartridge) {
+  animation: vt-in 420ms var(--ease) both;
+}
+
+@keyframes vt-out {
+  to {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}
+
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
 @keyframes blink {
   50% {
     opacity: 0;
@@ -295,6 +348,12 @@ html.js.hydrated .reveal:not([data-visible]) {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }
 

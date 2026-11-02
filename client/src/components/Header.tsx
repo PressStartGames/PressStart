@@ -1,6 +1,8 @@
+import { useRef } from 'react';
 import { Link, useLocation } from 'react-router';
 import { field, splitList } from '../content';
 import { NAV_TARGETS } from '../content/schema';
+import { useMagnet } from '../lib/useMagnet';
 import { Pill } from './Pill';
 import styles from './Header.module.css';
 
@@ -9,6 +11,8 @@ export function Header() {
   const { pathname } = useLocation();
   const home = pathname === '/';
   const nav = splitList(field('header', 'nav'));
+  const magnet = useRef<HTMLSpanElement>(null);
+  useMagnet(magnet);
   const navHref = (label: string) => {
     const key = label.split(' ')[0]?.toLowerCase() ?? '';
     return `#${NAV_TARGETS[key] ?? key}`;
@@ -34,13 +38,11 @@ export function Header() {
             ))}
           </nav>
         )}
-        <Pill
-          variant="start"
-          href={home ? '#signup' : `${import.meta.env.BASE_URL}#signup`}
-          className={styles.cta}
-        >
-          {field('header', 'cta')}
-        </Pill>
+        <span ref={magnet} className={styles.cta}>
+          <Pill variant="start" href={home ? '#signup' : `${import.meta.env.BASE_URL}#signup`}>
+            {field('header', 'cta')}
+          </Pill>
+        </span>
       </div>
     </header>
   );

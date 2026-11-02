@@ -28,9 +28,9 @@ export function Screen({
           {readout && <span className={styles.plateReadout}>{readout}</span>}
         </div>
       )}
-      <div className={styles.glass}>
+      <div className={styles.glass} data-glass>
         {children}
-        <span className={styles.scanlines} aria-hidden="true" />
+        <span className={styles.scanlines} aria-hidden="true" data-scanlines />
       </div>
     </Tag>
   );

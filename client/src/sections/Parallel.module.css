@@ -182,6 +182,18 @@
   }
 }
 
+/* While GSAP scrubs the board, the in-view CSS animations stand down. */
+:global(html.js) .screenWrap[data-scrub] .block,
+:global(html.js) .screenWrap[data-scrub] .block[data-gated],
+:global(html.js) .screenWrap[data-scrub] .gate,
+:global(html.js) .screenWrap[data-scrub] .readoutValue {
+  animation: none;
+}
+
+.screenWrap[data-scrub] .gate {
+  opacity: 1;
+}
+
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: 1fr;

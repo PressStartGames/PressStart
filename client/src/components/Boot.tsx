@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { field, splitList } from '../content';
+import { BOOTED_EVENT } from '../lib/heroState';
 import { checksum, stateAt } from '../lib/sim';
 import styles from './Boot.module.css';
 
@@ -45,6 +46,7 @@ export function Boot() {
         /* private mode */
       }
       setOn(false);
+      window.dispatchEvent(new Event(BOOTED_EVENT));
     }, total + FLIP_MS);
     return () => {
       cancelAnimationFrame(raf0);

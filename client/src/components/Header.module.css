@@ -61,6 +61,8 @@
 
 .cta {
   justify-self: end;
+  display: inline-block;
+  will-change: transform;
 }
 
 @media (max-width: 900px) {

@@ -1,11 +1,19 @@
 import { useInView } from 'motion/react';
-import { useRef, type CSSProperties, type ElementType, type ReactNode } from 'react';
+import {
+  useImperativeHandle,
+  useRef,
+  type CSSProperties,
+  type ElementType,
+  type ReactNode,
+  type Ref,
+} from 'react';
 
 interface Props {
   as?: ElementType;
   className?: string;
   delay?: number;
   wipe?: boolean;
+  ref?: Ref<HTMLElement | null>;
   children: ReactNode;
   id?: string;
   role?: string;
@@ -27,9 +35,11 @@ export function Reveal({
   wipe,
   style: styleProp,
   children,
+  ref: outer,
   ...rest
 }: Props) {
   const ref = useRef<HTMLElement>(null);
+  useImperativeHandle(outer, () => ref.current!);
   const inView = useInView(ref, { once: true, margin: '100000px 0px -12% 0px' });
   const style = {
     ...(styleProp ?? {}),

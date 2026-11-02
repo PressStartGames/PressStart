@@ -21,7 +21,14 @@ export const CONTENT_SCHEMA: Record<string, readonly string[]> = {
   ],
   problem: ['headline', 'trace-label', 'trace'],
   what: ['headline', 'spec-label'],
-  build: ['headline', 'sample-caption', 'sample-commit', 'sample-source', 'procedure-label'],
+  build: [
+    'headline',
+    'sample-caption',
+    'sample-commit',
+    'sample-source',
+    'sample-lines',
+    'procedure-label',
+  ],
   determinism: ['headline'],
   parallel: [
     'kicker',

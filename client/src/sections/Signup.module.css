@@ -32,6 +32,15 @@
   grid-template-rows: 0fr auto;
 }
 
+/* The cartridge's outline is shared across the swap, so the browser morphs form into screen. */
+.stack:not([data-done]) .cartridgeForm {
+  view-transition-name: cartridge;
+}
+
+.stack[data-done] .readyScreen {
+  view-transition-name: cartridge;
+}
+
 /* The cartridge: a raised plate with a grip at the top and contacts at the bottom. */
 .cartridge {
   position: relative;

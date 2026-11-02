@@ -92,6 +92,7 @@ procedure-label: procedure
 sample-caption: press_start_testkit's own test, copied verbatim from docs/00-build-a-game/test-app.md
 sample-commit: 45aeffd2a2ecc3b3049819151abfc1c1343fb2aa
 sample-source: docs/00-build-a-game/test-app.md
+sample-lines: 15-17 | 19-20 | 22 | 23
 
 ```rust
 use bevy::app::FixedUpdate;

@@ -19,6 +19,10 @@
   color: var(--ink);
 }
 
+.headline {
+  position: relative;
+}
+
 .under {
   display: grid;
   grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
@@ -52,6 +56,10 @@
 @media (max-width: 900px) {
   .hero {
     padding: 40px 0 72px;
+  }
+
+  .headline {
+    position: relative;
   }
 
   .under {

@@ -7,6 +7,7 @@
 }
 
 .chrome {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -56,6 +57,27 @@
 
 .comment {
   color: var(--phosphor-dim);
+}
+
+/* The procedure lights the lines of the step in view; the rule in the chrome fills with scroll. */
+.line[data-on] {
+  background: var(--phosphor-soft);
+  box-shadow: inset 2px 0 0 var(--phosphor);
+}
+
+.line[data-on]::before {
+  color: var(--phosphor);
+}
+
+.progress {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 2px;
+  height: 2px;
+  background: var(--phosphor);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
 }
 
 .caption {
