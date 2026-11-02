@@ -79,3 +79,10 @@
     transform: none;
   }
 }
+
+/* On touch, and on any phone-width layout, the START key is a full 44 px tap target. */
+@media (pointer: coarse), (max-width: 900px) {
+  .start {
+    min-height: 44px;
+  }
+}

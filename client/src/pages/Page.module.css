@@ -42,3 +42,9 @@
 .small {
   margin-bottom: 24px;
 }
+
+@media (max-width: 900px) {
+  .main {
+    padding: 40px 0 80px;
+  }
+}

@@ -78,6 +78,9 @@
   position: absolute;
   left: 50%;
   bottom: 10px;
+  max-width: calc(100% - 24px);
+  overflow: hidden;
+  text-overflow: ellipsis;
   transform: translateX(-50%);
   font-family: var(--font-mono);
   font-size: var(--t-12);
@@ -93,6 +96,12 @@
   padding: 16px 16px 8px;
   border-top: 1px solid var(--screen-line);
   font-family: var(--font-mono);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.thirdHashNarrow {
+  display: none;
 }
 
 .ledgerTitle {
@@ -220,6 +229,34 @@
   .ledger th:nth-child(4),
   .ledger td:nth-child(4) {
     display: none;
+  }
+
+  .ledgerWrap {
+    padding: 12px 12px 6px;
+  }
+
+  .ledger {
+    font-size: 13px;
+  }
+
+  .ledger td {
+    padding-right: 6px;
+  }
+
+  .thirdHashNarrow {
+    display: block;
+    margin-top: 2px;
+  }
+}
+
+@media (max-width: 400px) {
+  .ledger th:nth-child(1),
+  .ledger td:nth-child(1) {
+    display: none;
+  }
+
+  .ledger {
+    font-size: 12px;
   }
 }
 

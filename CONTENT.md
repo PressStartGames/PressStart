@@ -13,6 +13,7 @@ copy. Counts on 2026-11-01: catalog 404 entries, 103 BUILT, 129 PARTIAL, 32 SKIP
 wordmark: Press Start
 nav: Build · Proof · Built today · Roadmap · FAQ
 cta: Join the beta
+menu: Menu
 index: 00 boot | 01 fault | 02 spec | 03 procedure | 04 proof | 05 cores | 06 reference | 07 goldens | 08 levels | 09 road | 10 insert | 11 manual
 
 *(The pill is fixed top-right on every scroll position and scrolls to `#signup`. The bar turns translucent after

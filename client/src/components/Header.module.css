@@ -5,6 +5,8 @@
   height: var(--header-h);
   background: var(--chassis);
   border-bottom: 1px solid var(--hairline);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 .inner {
@@ -65,12 +67,137 @@
   will-change: transform;
 }
 
+/* The phone menu: a <details> in the bar; its panel drops under the bar, full width. */
+.menu {
+  display: none;
+  position: relative;
+}
+
+.menuButton {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 10px;
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: var(--chassis-raised);
+  user-select: none;
+}
+
+.menuButton::-webkit-details-marker {
+  display: none;
+}
+
+.menuGlyph {
+  display: inline-grid;
+  gap: 3px;
+  width: 14px;
+}
+
+.menuGlyph span {
+  display: block;
+  height: 2px;
+  background: var(--ink);
+}
+
+.menu[open] .menuGlyph span:nth-child(2) {
+  opacity: 0;
+}
+
+.menuPanel {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: var(--header-h);
+  background: var(--chassis);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px var(--gutter) 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 48px -24px rgb(0 0 0 / 25%);
+}
+
+.menuPanel a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 4px;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.menuPanel a:last-child {
+  border-bottom: 0;
+}
+
 @media (max-width: 900px) {
   .inner {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr auto auto;
+    gap: 10px;
   }
 
   .nav {
     display: none;
+  }
+
+  .menu {
+    display: block;
+  }
+
+  .wordmark {
+    font-size: var(--t-12);
+    letter-spacing: 0.14em;
+  }
+}
+
+@media (max-width: 360px) {
+  .inner {
+    gap: 8px;
+  }
+
+  .wordmark {
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    gap: 6px;
+  }
+
+  .cta a {
+    font-size: 11px;
+    padding: 0 10px;
+    gap: 6px;
+  }
+
+  .menuLabel {
+    display: none;
+  }
+
+  .menuButton {
+    padding: 0 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wordmark {
+    letter-spacing: 0.06em;
+    gap: 8px;
+  }
+
+  .cta a {
+    padding: 0 12px;
+    letter-spacing: 0.06em;
   }
 }

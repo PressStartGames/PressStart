@@ -3,7 +3,7 @@ import { Pill } from '../components/Pill';
 import { ReplayStrip } from '../components/ReplayStrip';
 import { field, section, splitList } from '../content';
 import { Inline } from '../content/inline';
-import { finePointer, motionOk, useGsap } from '../lib/gsap';
+import { desktop, finePointer, motionOk, useGsap } from '../lib/gsap';
 import { BOOTED_EVENT, setHeroReady } from '../lib/heroState';
 import styles from './Hero.module.css';
 
@@ -155,7 +155,7 @@ export function Hero({ index, label }: { index: string; label: string }) {
       };
     },
     [],
-    motionOk,
+    () => motionOk() && desktop(),
   );
 
   return (

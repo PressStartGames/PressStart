@@ -33,6 +33,10 @@
   margin: 0;
   padding: 16px 18px;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  max-width: 100%;
   background: var(--screen);
   color: var(--screen-fg);
   border-radius: 2px;
@@ -85,4 +89,16 @@
   font-family: var(--font-mono);
   font-size: var(--t-12);
   color: var(--ink-muted);
+}
+
+@media (max-width: 900px) {
+  .pre {
+    padding: 12px 12px 14px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .caption {
+    overflow-wrap: anywhere;
+  }
 }

@@ -31,6 +31,7 @@
   font-size: var(--t-14);
   font-variant-numeric: tabular-nums;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
 }
 
 .head,
@@ -70,11 +71,34 @@
 
 @media (max-width: 900px) {
   .grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 32px;
   }
 
   .screenWrap {
     position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .ledger {
+    padding: 10px 12px 12px;
+    font-size: 13px;
+  }
+
+  .head,
+  .row {
+    grid-template-columns: 4ch minmax(0, 1fr) 2ch;
+    gap: 10px;
+  }
+
+  .head > :nth-child(3),
+  .row > :nth-child(3) {
+    display: none;
+  }
+
+  .hash {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

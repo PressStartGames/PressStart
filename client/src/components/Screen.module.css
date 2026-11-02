@@ -24,6 +24,10 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-muted);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .plateReadout {
@@ -33,6 +37,8 @@
   text-transform: uppercase;
   color: var(--ink-muted);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex: none;
 }
 
 .glass {
@@ -50,4 +56,18 @@
   background: repeating-linear-gradient(0deg, transparent 0 3px, rgb(0 0 0 / 18%) 3px 4px);
   pointer-events: none;
   z-index: 5;
+}
+
+@media (max-width: 560px) {
+  .plate {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .plateLabel {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    line-height: 1.5;
+  }
 }

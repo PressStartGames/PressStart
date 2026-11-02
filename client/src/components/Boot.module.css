@@ -21,11 +21,19 @@
 
 .lines {
   position: absolute;
-  left: max(24px, calc((100vw - var(--frame)) / 2 + 24px));
+  left: max(24px, calc((100vw - var(--frame)) / 2 + 24px), env(safe-area-inset-left));
+  right: 16px;
   top: 25vh;
   font-family: var(--font-mono);
-  font-size: clamp(0.9rem, 0.8rem + 0.5vw, 1.25rem);
+  font-size: clamp(0.8rem, 0.6rem + 0.8vw, 1.25rem);
   line-height: 1.8;
+}
+
+@media (max-height: 480px) {
+  .lines {
+    top: 12vh;
+    line-height: 1.5;
+  }
 }
 
 .line {

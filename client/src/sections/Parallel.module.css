@@ -196,7 +196,7 @@
 
 @media (max-width: 900px) {
   .grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .screenWrap {
@@ -225,5 +225,28 @@
 
   .gate {
     opacity: 1;
+  }
+}
+
+@media (max-width: 400px) {
+  .board {
+    padding: 12px 10px 12px;
+  }
+
+  .lane {
+    grid-template-columns: 6ch minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .coreLabel {
+    font-size: 9px;
+  }
+
+  .gate {
+    padding-left: calc(6ch + 8px);
+  }
+
+  .readoutValue {
+    overflow-wrap: anywhere;
   }
 }

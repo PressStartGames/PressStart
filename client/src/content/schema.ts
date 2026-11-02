@@ -1,7 +1,7 @@
 // Every section of CONTENT.md the site renders, with the fields the code reads. check-content.ts
 // fails CI when CONTENT.md and this list disagree in either direction.
 export const CONTENT_SCHEMA: Record<string, readonly string[]> = {
-  header: ['wordmark', 'nav', 'cta', 'index'],
+  header: ['wordmark', 'nav', 'cta', 'index', 'menu'],
   hero: [
     'kicker',
     'headline',

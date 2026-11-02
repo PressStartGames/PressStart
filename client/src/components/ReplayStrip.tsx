@@ -140,6 +140,12 @@ export function ReplayStrip({ className, id }: { className?: string; id?: string
                 <td className={styles.tick}>{String(third.tick).padStart(3, '0')}</td>
                 <td className={styles.hash}>
                   <span className={styles.thirdLabel}>{field('hero', 'replay-third')}</span>
+                  <span
+                    className={`${styles.hashFail} ${styles.thirdHashNarrow}`}
+                    aria-hidden="true"
+                  >
+                    {third.hash}
+                  </span>
                 </td>
                 <td className={`${styles.hash} ${styles.hashFail}`}>{third.hash}</td>
                 <td className={`${styles.result} ${styles.resultFail}`}>{stamped ? fail : ''}</td>

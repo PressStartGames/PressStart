@@ -36,6 +36,16 @@ export default defineConfig({
       },
     },
     {
+      name: 'mobile-pixel',
+      testMatch: /mobile.spec.ts/,
+      use: { ...devices['Pixel 7'], baseURL: 'http://localhost:4173' },
+    },
+    {
+      name: 'mobile-iphone',
+      testMatch: /mobile.spec.ts/,
+      use: { ...devices['iPhone 14'], browserName: 'chromium', baseURL: 'http://localhost:4173' },
+    },
+    {
       name: 'none',
       testMatch: /signup-none\.spec\.ts/,
       use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:4174' },

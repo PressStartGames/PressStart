@@ -114,6 +114,22 @@ select {
   gap: 0 var(--gutter);
 }
 
+/* A grid child never widens the page: long mono scrolls inside its own screen instead. */
+.row > *,
+.frame > * {
+  min-width: 0;
+}
+
+/* A horizontal scroller inside a screen, with a fade at the trailing edge so the cut is visible. */
+.scroll-x {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+}
+
 .spine {
   position: sticky;
   top: calc(var(--header-h) + 24px);
@@ -362,6 +378,19 @@ html.js .gsap-on .enter-solid {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  h1 {
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+
+  h2 {
+    line-height: 1.04;
+  }
+
+  .measure {
+    max-width: none;
+  }
+
   .spine {
     position: static;
     flex-direction: row;
@@ -376,5 +405,22 @@ html.js .gsap-on .enter-solid {
 
   .section {
     padding: 48px 0 80px;
+  }
+}
+
+/* Touch: no hover-only affordances, keys at least 44 px tall. */
+@media (hover: none), (pointer: coarse) {
+  button,
+  summary,
+  select,
+  input {
+    min-height: 44px;
+  }
+}
+
+/* Phones in landscape: a short viewport; the boot and hero must still fit. */
+@media (max-height: 480px) and (orientation: landscape) {
+  .section {
+    padding: 40px 0 64px;
   }
 }

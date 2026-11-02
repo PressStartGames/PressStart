@@ -12,7 +12,11 @@ export function Header() {
   const home = pathname === '/';
   const nav = splitList(field('header', 'nav'));
   const magnet = useRef<HTMLSpanElement>(null);
+  const menuRef = useRef<HTMLDetailsElement>(null);
   useMagnet(magnet);
+  const closeMenu = () => {
+    if (menuRef.current) menuRef.current.open = false;
+  };
   const navHref = (label: string) => {
     const key = label.split(' ')[0]?.toLowerCase() ?? '';
     return `#${NAV_TARGETS[key] ?? key}`;
@@ -37,6 +41,26 @@ export function Header() {
               </a>
             ))}
           </nav>
+        )}
+        {home && (
+          <details className={styles.menu} ref={menuRef}>
+            <summary className={styles.menuButton} aria-label={field('header', 'menu')}>
+              <span className={styles.menuGlyph} aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </span>
+              <span className={styles.menuLabel}>{field('header', 'menu')}</span>
+            </summary>
+            <nav className={styles.menuPanel} aria-label="Sections">
+              {nav.map((label, i) => (
+                <a key={label} href={navHref(label)} onClick={closeMenu}>
+                  <span className={styles.navIndex}>{String(i + 1).padStart(2, '0')}</span>
+                  {label}
+                </a>
+              ))}
+            </nav>
+          </details>
         )}
         <span ref={magnet} className={styles.cta}>
           <Pill variant="start" href={home ? '#signup' : `${import.meta.env.BASE_URL}#signup`}>
