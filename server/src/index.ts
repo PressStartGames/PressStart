@@ -3,7 +3,7 @@
 //   GET  /api/confirm?t=    sets confirmed_at, redirects to the site's /confirmed
 //   GET  /api/unsubscribe?t= deletes the row
 // No IP and no user agent are stored. CORS admits only ALLOWED_ORIGINS.
-import { confirmationMail } from './mail';
+import { alreadySubscribedMail, confirmationMail } from './mail';
 import { normaliseEmail, validEmail } from './email';
 import { signToken, verifyToken } from './token';
 
@@ -93,6 +93,18 @@ async function sendConfirmation(env: Env, email: string): Promise<void> {
     .run();
 }
 
+// For an already-confirmed address re-submitting: mail the inbox owner that they are
+// already on the list (the web response stays identical to a new sign-up, so it never
+// discloses membership). Reuses confirm_sent_at as the send cooldown.
+async function sendAlreadySubscribed(env: Env, email: string): Promise<void> {
+  const unsubscribe = `${env.API_URL}/api/unsubscribe?t=${await signToken(env.CONFIRM_LINK_SECRET, { e: email, p: 'unsubscribe' })}`;
+  const mail = alreadySubscribedMail({ unsubscribe });
+  await sendMail(env, email, mail.subject, mail.text, mail.html);
+  await env.DB.prepare('UPDATE signups SET confirm_sent_at = ? WHERE email = ?')
+    .bind(new Date().toISOString(), email)
+    .run();
+}
+
 async function rateLimited(env: Env, request: Request): Promise<boolean> {
   if (!env.RATE_LIMITER) return false;
   const ip = request.headers.get('cf-connecting-ip') ?? 'unknown';
@@ -140,7 +152,14 @@ export async function handleWaitlist(request: Request, env: Env): Promise<Respon
     .first<{ confirmed_at: string | null; confirm_sent_at: string | null }>();
 
   if (existing) {
-    if (existing.confirmed_at) return json(200, { status: 'existing' }, cors);
+    if (existing.confirmed_at) {
+      // Same reply as a new sign-up — the web response never reveals whether an address
+      // is already on the list (no enumeration). The already-subscribed notice goes to
+      // the inbox owner only, rate-limited by the same cooldown as the confirmation.
+      const last = existing.confirm_sent_at ? Date.parse(existing.confirm_sent_at) : 0;
+      if (Date.now() - last > RESEND_COOLDOWN_MS) await sendAlreadySubscribed(env, email);
+      return json(200, { status: 'ok', mail: Boolean(env.RESEND_API_KEY) }, cors);
+    }
     const last = existing.confirm_sent_at ? Date.parse(existing.confirm_sent_at) : 0;
     if (Date.now() - last > RESEND_COOLDOWN_MS) await sendConfirmation(env, email);
     return json(200, { status: 'ok', mail: Boolean(env.RESEND_API_KEY) }, cors);

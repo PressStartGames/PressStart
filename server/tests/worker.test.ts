@@ -110,11 +110,16 @@ describe('POST /api/waitlist', () => {
     expect(row?.confirm_sent_at).toBeTruthy();
   });
 
-  it('answers existing for a confirmed address', async () => {
+  it('does not disclose a confirmed address, and re-notifies past the cooldown', async () => {
     await post({ email: 'dup@example.com' });
-    rows.get('dup@example.com')!.confirmed_at = '2026-01-01T00:00:00.000Z';
+    const row = rows.get('dup@example.com')!;
+    row.confirmed_at = '2026-01-01T00:00:00.000Z';
+    row.confirm_sent_at = '2026-01-01T00:00:00.000Z'; // old -> past the resend cooldown
     const res = await post({ email: 'dup@example.com' });
-    expect(await res.json()).toEqual({ status: 'existing' });
+    // Same reply as a new sign-up: the web response never reveals membership (no enumeration).
+    expect(await res.json()).toEqual({ status: 'ok', mail: false });
+    // The already-subscribed notice was (re)sent, so confirm_sent_at advanced.
+    expect(row.confirm_sent_at).not.toBe('2026-01-01T00:00:00.000Z');
   });
 
   it('refuses a bad address', async () => {
