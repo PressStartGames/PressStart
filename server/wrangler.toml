@@ -8,16 +8,16 @@ main = "src/index.ts"
 compatibility_date = "2026-10-01"
 
 [vars]
-ALLOWED_ORIGINS = "https://pressstartgames.github.io,http://localhost:5173,http://localhost:4173"
-SITE_URL = "https://pressstartgames.github.io/PressStart"
-API_URL = "https://press-start-signups.<account>.workers.dev"
+ALLOWED_ORIGINS = "https://beta.pressstartgames.net,https://pressstartgames.github.io,http://localhost:5173,http://localhost:4173"
+SITE_URL = "https://beta.pressstartgames.net"
+API_URL = "https://press-start-signups.netameta.workers.dev"
 MAIL_FROM = "Press Start <beta@example.com>"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "press-start-signups"
 # `wrangler d1 create press-start-signups` prints the id; paste it here.
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "24cc857a-f395-4978-8bb9-0d05248e7e03"
 migrations_dir = "migrations"
 
 # Per-network rate limit: 10 sign-up attempts a minute per hashed address.
