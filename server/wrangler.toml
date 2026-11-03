@@ -11,7 +11,7 @@ compatibility_date = "2026-10-01"
 ALLOWED_ORIGINS = "https://beta.pressstartgames.net,https://pressstartgames.github.io,http://localhost:5173,http://localhost:4173"
 SITE_URL = "https://beta.pressstartgames.net"
 API_URL = "https://press-start-signups.netameta.workers.dev"
-MAIL_FROM = "Press Start <beta@example.com>"
+MAIL_FROM = "Press Start <beta@pressstartgames.net>"
 
 [[d1_databases]]
 binding = "DB"
