@@ -1,0 +1,13 @@
+// The admin console: static files served by a Worker with static assets (Cloudflare has folded
+// Pages into Workers). `_headers` in public/ sets noindex and the security headers.
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "press-start-admin",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application",
+  },
+  "routes": [{ "pattern": "admin.pressstartgames.net", "custom_domain": true }],
+  "workers_dev": false,
+}

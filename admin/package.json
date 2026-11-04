@@ -8,7 +8,7 @@
     "preview": "vite preview --port 4176 --strictPort",
     "test:e2e": "playwright test",
     "lint": "eslint . && prettier --check . && tsc --noEmit -p tsconfig.json",
-    "deploy": "vite build && wrangler pages deploy dist --project-name press-start-admin --branch main --commit-dirty=true"
+    "deploy": "vite build && wrangler deploy"
   },
   "dependencies": {
     "@casl/ability": "7.0.2",
