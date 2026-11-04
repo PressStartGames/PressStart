@@ -349,9 +349,11 @@ describe('broadcasts', () => {
 
   it('puts a signed one-click unsubscribe link in every mail', async () => {
     const m = await renderMail(env, { subject: 's', body_md: 'Hi' }, 'x@example.com');
-    expect(m.html).toMatch(/https:\/\/api\.test\/api\/unsubscribe\?t=[\w-]+\.[\w-]+/);
-    expect(m.text).toContain('https://api.test/api/unsubscribe?t=');
-    expect(m.headers['List-Unsubscribe']).toMatch(/^<https:\/\/api\.test\/api\/unsubscribe\?t=/);
+    expect(m.html).toMatch(/https:\/\/api\.test\/api\/v1\/unsubscribe\?t=[\w-]+\.[\w-]+/);
+    expect(m.text).toContain('https://api.test/api/v1/unsubscribe?t=');
+    expect(m.headers['List-Unsubscribe']).toMatch(
+      /^<https:\/\/api\.test\/api\/v1\/unsubscribe\?t=/,
+    );
     expect(m.headers['List-Unsubscribe-Post']).toBe('List-Unsubscribe=One-Click');
   });
 });

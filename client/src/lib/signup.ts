@@ -74,7 +74,7 @@ export async function submitSignup(
   }
   if (mode.kind !== 'endpoint') return 'error';
   try {
-    const res = await fetchImpl(`${mode.url}/api/waitlist`, {
+    const res = await fetchImpl(`${mode.url}/api/v1/waitlist`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(payload),

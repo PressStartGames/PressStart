@@ -70,7 +70,7 @@ describe('submitSignup', () => {
     expect(await submitSignup(mode, { ...payload, email: 'boom@b.co' }, fetchImpl)).toBe('error');
     expect(await submitSignup(mode, { ...payload, email: 'list@b.co' }, fetchImpl)).toBe('ok-list');
     expect(fetchImpl).toHaveBeenCalledWith(
-      'https://api.test/api/waitlist',
+      'https://api.test/api/v1/waitlist',
       expect.objectContaining({ method: 'POST' }),
     );
   });

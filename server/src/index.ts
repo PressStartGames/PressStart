@@ -76,8 +76,8 @@ async function sendMail(
 }
 
 async function sendConfirmation(env: Env, email: string): Promise<void> {
-  const confirm = `${env.API_URL}/api/confirm?t=${await signToken(env.CONFIRM_LINK_SECRET, { e: email, p: 'confirm' })}`;
-  const unsubscribe = `${env.API_URL}/api/unsubscribe?t=${await signToken(env.CONFIRM_LINK_SECRET, { e: email, p: 'unsubscribe' })}`;
+  const confirm = `${env.API_URL}/api/v1/confirm?t=${await signToken(env.CONFIRM_LINK_SECRET, { e: email, p: 'confirm' })}`;
+  const unsubscribe = `${env.API_URL}/api/v1/unsubscribe?t=${await signToken(env.CONFIRM_LINK_SECRET, { e: email, p: 'unsubscribe' })}`;
   const mail = confirmationMail({ confirm, unsubscribe });
   await sendMail(env, email, mail.subject, mail.text, mail.html);
   await env.DB.prepare('UPDATE signups SET confirm_sent_at = ? WHERE email = ?')
@@ -89,7 +89,7 @@ async function sendConfirmation(env: Env, email: string): Promise<void> {
 // already on the list (the web response stays identical to a new sign-up, so it never
 // discloses membership). Reuses confirm_sent_at as the send cooldown.
 async function sendAlreadySubscribed(env: Env, email: string): Promise<void> {
-  const unsubscribe = `${env.API_URL}/api/unsubscribe?t=${await signToken(env.CONFIRM_LINK_SECRET, { e: email, p: 'unsubscribe' })}`;
+  const unsubscribe = `${env.API_URL}/api/v1/unsubscribe?t=${await signToken(env.CONFIRM_LINK_SECRET, { e: email, p: 'unsubscribe' })}`;
   const mail = alreadySubscribedMail({ unsubscribe });
   await sendMail(env, email, mail.subject, mail.text, mail.html);
   await env.DB.prepare('UPDATE signups SET confirm_sent_at = ? WHERE email = ?')

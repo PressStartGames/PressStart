@@ -16,7 +16,7 @@ workers_dev = true
 [vars]
 ALLOWED_ORIGINS = "https://beta.pressstartgames.net,https://pressstartgames.github.io,http://localhost:5173,http://localhost:4173"
 SITE_URL = "https://beta.pressstartgames.net"
-API_URL = "https://press-start-signups.netameta.workers.dev"
+API_URL = "https://pressstartgames.net"
 MAIL_FROM = "Press Start <beta@pressstartgames.net>"
 ADMIN_ORIGINS = "https://admin.pressstartgames.net,http://localhost:5175"
 COOKIE_DOMAIN = ".pressstartgames.net"

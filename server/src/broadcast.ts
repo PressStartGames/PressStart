@@ -42,7 +42,7 @@ async function sentToday(env: Env): Promise<number> {
 
 export async function unsubscribeUrl(env: Env, email: string): Promise<string> {
   const t = await signToken(env.CONFIRM_LINK_SECRET, { e: email, p: 'unsubscribe' });
-  return `${env.API_URL}/api/unsubscribe?t=${t}`;
+  return `${env.API_URL}/api/v1/unsubscribe?t=${t}`;
 }
 
 export async function renderMail(env: Env, b: Pick<Broadcast, 'subject' | 'body_md'>, to: string) {
