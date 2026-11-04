@@ -1,0 +1,61 @@
+/* Design C, "the console": a cool light-grey chassis with dark phosphor screens set into it.
+   One base, one ink, one accent. Everything snaps to an 8 px grid. */
+:root {
+  /* chassis */
+  --chassis: #e7e9ec;
+  --chassis-raised: #f3f4f6;
+  --chassis-recessed: #dcdfe4;
+  --hairline: #c3c8cf;
+  --ink: #111318;
+  --ink-muted: #5a6169;
+  --ink-faint: #5f666f;
+
+  /* screens */
+  --screen: #0b0d10;
+  --screen-raised: #141820;
+  --screen-line: #1f2630;
+  --phosphor: #38e08f;
+  --phosphor-dim: #23a86a;
+  --phosphor-soft: rgb(56 224 143 / 14%);
+  --screen-fg: #d9e0e6;
+  --screen-muted: #8b949f;
+  --fail: #ff6b5b;
+
+  /* type */
+  --font-sans: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  --font-pixel: 'Press Start 2P', var(--font-mono);
+
+  --t-12: 0.75rem;
+  --t-14: 0.875rem;
+  --t-16: 1rem;
+  --t-18: clamp(1.0625rem, 1rem + 0.3vw, 1.125rem);
+  --t-22: clamp(1.1875rem, 1.05rem + 0.6vw, 1.375rem);
+  --t-28: clamp(1.375rem, 1.1rem + 1.1vw, 1.75rem);
+  --t-40: 2.5rem;
+  --t-56: clamp(2rem, 1.25rem + 3vw, 3.5rem);
+  --t-88: clamp(2.375rem, 1.1rem + 5.2vw, 5.5rem);
+  --t-136: clamp(3rem, 1rem + 8.4vw, 8.5rem);
+  --t-200: clamp(5rem, 2rem + 12vw, 12.5rem);
+
+  /* grid */
+  --frame: 1280px;
+  --gutter: 24px;
+  --spine: 160px;
+  --u: 8px;
+  --radius: 4px;
+  --header-h: 64px;
+
+  /* motion */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --fast: 120ms;
+  --mid: 320ms;
+  --slow: 720ms;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --spine: 0px;
+    --gutter: 16px;
+  }
+}
