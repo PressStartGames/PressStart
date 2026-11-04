@@ -59,6 +59,10 @@ const env: Env = {
   API_URL: 'https://api.test',
   MAIL_FROM: 'Press Start <beta@test>',
   CONFIRM_LINK_SECRET: 'secret',
+  ADMIN_ORIGINS: 'https://admin.test',
+  SESSION_SECRET: 'session',
+  WORKOS_API_KEY: 'sk_test',
+  WORKOS_CLIENT_ID: 'client_test',
 };
 
 const post = (body: unknown, origin = 'https://site.test') =>

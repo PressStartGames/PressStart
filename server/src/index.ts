@@ -1,23 +1,22 @@
-// The email store: one Cloudflare Worker + D1 (PLAN.md §6.1, §6.4; CLAUDE.md "server/").
-//   POST /api/waitlist      honeypot -> Turnstile -> validate -> insert -> confirmation mail (Resend)
-//   GET  /api/confirm?t=    sets confirmed_at, redirects to the site's /confirmed
-//   GET  /api/unsubscribe?t= deletes the row
-// No IP and no user agent are stored. CORS admits only ALLOWED_ORIGINS.
+// The Press Start API: one Cloudflare Worker + D1.
+// Public (also under /api/v1/, served at https://pressstartgames.net/api/v1/*):
+//   POST /api/waitlist        honeypot -> Turnstile -> validate -> insert -> confirmation mail (Resend)
+//   GET  /api/confirm?t=      sets confirmed_at, redirects to the site's /confirmed
+//   GET|POST /api/unsubscribe?t=  deletes the row (POST = one-click List-Unsubscribe)
+//   GET  /api/health
+// Auth (WorkOS behind our own screens):   /api/v1/auth/*   — see auth.ts
+// Admin (CASL permissions per route):     /api/v1/admin/*  — see admin.ts
+// A cron trigger continues unfinished broadcasts (broadcast.ts).
+// No IP and no user agent are stored. CORS admits only ALLOWED_ORIGINS / ADMIN_ORIGINS.
+import { handleAdmin } from './admin';
+import { adminCors, handleAuth } from './auth';
+import { processAll } from './broadcast';
+import { json, type Env } from './env';
 import { alreadySubscribedMail, confirmationMail } from './mail';
 import { normaliseEmail, validEmail } from './email';
 import { signToken, verifyToken } from './token';
 
-export interface Env {
-  DB: D1Database;
-  ALLOWED_ORIGINS: string; // comma-separated site origins
-  SITE_URL: string; // where /confirmed lives, e.g. https://pressstartgames.github.io/PressStart
-  API_URL: string; // this Worker's public origin (for the links in the mail)
-  MAIL_FROM: string;
-  TURNSTILE_SECRET_KEY?: string; // unset locally -> Turnstile is skipped
-  RESEND_API_KEY?: string; // unset locally -> the mail is logged, not sent
-  CONFIRM_LINK_SECRET: string;
-  RATE_LIMITER?: { limit: (opts: { key: string }) => Promise<{ success: boolean }> };
-}
+export type { Env } from './env';
 
 interface WaitlistBody {
   email?: unknown;
@@ -29,13 +28,6 @@ interface WaitlistBody {
 
 const ROLES = new Set(['Games with AI agents', 'AI tools', 'Bevy projects', 'Something else']);
 const RESEND_COOLDOWN_MS = 10 * 60 * 1000;
-
-function json(status: number, body: unknown, headers: HeadersInit = {}): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { 'content-type': 'application/json; charset=utf-8', ...headers },
-  });
-}
 
 function corsHeaders(env: Env, origin: string | null): Record<string, string> {
   const allowed = env.ALLOWED_ORIGINS.split(',')
@@ -191,6 +183,7 @@ export async function handleUnsubscribe(url: URL, env: Env): Promise<Response> {
   if (!payload || payload.p !== 'unsubscribe')
     return new Response('This link is not valid.', { status: 400 });
   await env.DB.prepare('DELETE FROM signups WHERE email = ?').bind(payload.e).run();
+  await env.DB.prepare('DELETE FROM broadcast_recipients WHERE email = ?').bind(payload.e).run();
   return new Response('You are unsubscribed and your address is deleted.', {
     status: 200,
     headers: { 'content-type': 'text/plain; charset=utf-8' },
@@ -198,22 +191,37 @@ export async function handleUnsubscribe(url: URL, env: Env): Promise<Response> {
 }
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx?: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
-    const cors = corsHeaders(env, request.headers.get('origin'));
+    // /api/v1/x and /api/x are the same public routes; auth and admin exist only under /api/v1.
+    const v1 = url.pathname.startsWith('/api/v1/');
+    const path = v1 ? url.pathname.slice('/api/v1'.length) : url.pathname.replace(/^\/api/, '');
+    const isPrivate = v1 && (path.startsWith('/auth/') || path.startsWith('/admin/'));
+    const cors = isPrivate
+      ? adminCors(env, request.headers.get('origin'))
+      : corsHeaders(env, request.headers.get('origin'));
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
     try {
-      if (url.pathname === '/api/waitlist' && request.method === 'POST')
+      if (v1 && path.startsWith('/auth/')) return await handleAuth(path, request, env, ctx);
+      if (v1 && path.startsWith('/admin/')) return await handleAdmin(path, request, env, ctx);
+      if (!url.pathname.startsWith('/api/')) return json(404, { status: 'not-found' });
+      if (path === '/waitlist' && request.method === 'POST')
         return await handleWaitlist(request, env);
-      if (url.pathname === '/api/confirm' && request.method === 'GET')
-        return await handleConfirm(url, env);
-      if (url.pathname === '/api/unsubscribe' && request.method === 'GET')
+      if (path === '/confirm' && request.method === 'GET') return await handleConfirm(url, env);
+      if (path === '/unsubscribe' && (request.method === 'GET' || request.method === 'POST'))
         return await handleUnsubscribe(url, env);
-      if (url.pathname === '/api/health') return json(200, { ok: true });
-      return json(404, { status: 'not-found' });
+      if (path === '/health') return json(200, { ok: true });
+      return json(404, { status: 'not-found' }, cors);
     } catch (e) {
       console.error(e);
       return json(500, { status: 'error' }, cors);
     }
+  },
+  async scheduled(
+    _controller: ScheduledController,
+    env: Env,
+    ctx: ExecutionContext,
+  ): Promise<void> {
+    ctx.waitUntil(processAll(env));
   },
 } satisfies ExportedHandler<Env>;
