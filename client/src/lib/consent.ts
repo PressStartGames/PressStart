@@ -129,3 +129,20 @@ export function resetConsentForTests(): void {
   current = undefined;
   bannerOpen = false;
 }
+
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+/**
+ * Sends one analytics event, only while the visitor has accepted. `window.gtag` exists only when Google Analytics
+ * is configured and lib/analytics.ts has set it up, so this is a no-op everywhere else. It lives here, in the entry
+ * bundle, so the sign-up form can call it without pulling the lazy analytics chunk in.
+ */
+export function track(name: string, params: Record<string, string | number> = {}): void {
+  if (getConsent() !== 'granted') return;
+  window.gtag?.('event', name, params);
+}

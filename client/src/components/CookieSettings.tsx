@@ -1,7 +1,6 @@
 import { field } from '../content';
 import { ANALYTICS_ENABLED } from '../lib/config';
 import { openConsentBanner, useHydrated } from '../lib/consent';
-import styles from './CookieSettings.module.css';
 
 // The footer control that reopens the consent banner. `item` wraps it in an <li> for link lists:
 //   <CookieSettings item className={styles.link} />
@@ -10,7 +9,7 @@ export function CookieSettings({ className, item }: { className?: string; item?:
   const hydrated = useHydrated();
   if (!ANALYTICS_ENABLED || !hydrated) return null;
   const button = (
-    <button type="button" className={className ?? styles.link} onClick={openConsentBanner}>
+    <button type="button" className={className ?? 'cookie-link'} onClick={openConsentBanner}>
       {field('consent-banner', 'settings')}
     </button>
   );

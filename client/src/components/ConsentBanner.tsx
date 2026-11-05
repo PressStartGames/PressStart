@@ -37,7 +37,7 @@ export default function ConsentBanner() {
 
   return (
     <>
-      <div role="status" className="visually-hidden">
+      <div aria-live="polite" className="visually-hidden">
         {saved
           ? field('consent-banner', saved === 'granted' ? 'saved-granted' : 'saved-denied')
           : ''}

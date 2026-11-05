@@ -6,7 +6,7 @@ import { Screen } from '../components/Screen';
 import { field, section, splitList } from '../content';
 import { Inline } from '../content/inline';
 import { CONSENT_VERSION, TURNSTILE_SITE_KEY, signupMode } from '../lib/config';
-import { track } from '../lib/track';
+import { track } from '../lib/consent';
 import { reduce, submitSignup, type SignupState } from '../lib/signup';
 import { getTurnstileToken } from '../lib/turnstile';
 import styles from './Signup.module.css';

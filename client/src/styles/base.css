@@ -424,3 +424,25 @@ html.js .gsap-on .enter-solid {
     padding: 40px 0 64px;
   }
 }
+
+/* The footer control looks like the footer's links: it inherits their face and colour. */
+.cookie-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.cookie-link:hover {
+  text-decoration: underline;
+}
+
+.cookie-link:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 3px;
+}

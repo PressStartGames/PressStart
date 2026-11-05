@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { initAnalytics, trackExperimentViews, trackPageView } from '../lib/analytics';
-import { useConsent } from '../lib/consent';
-import { track } from '../lib/track';
+import { track, useConsent } from '../lib/consent';
 
 // Reports page views on client navigation (and the first page once consent is given), the sign-up confirmation,
 // and the experiment exposure. Renders nothing. Every call is a no-op until the visitor has accepted.

@@ -7,10 +7,8 @@
 //
 // Events carry no personal data: a page path, a fixed event name, the experiment id and variant index.
 import { EXPERIMENTS, EXPERIMENT_COOKIE, parseAssignments } from '../../../edge/config';
-import { isBetaHome } from '../beta/paths';
 import { CF_BEACON_TOKEN, GA_MEASUREMENT_ID } from './config';
-import { track } from './track';
-import { clearOptionalCookies, getConsent, readCookie, subscribeConsent } from './consent';
+import { clearOptionalCookies, getConsent, readCookie, subscribeConsent, track } from './consent';
 
 const analyticsEnabled = GA_MEASUREMENT_ID !== '';
 
@@ -99,7 +97,8 @@ export function isJoinBetaClick(href: string, from: URL): boolean {
   if (url.hash === '#signup') return true;
   const inApp = (p: string) => p.slice(import.meta.env.BASE_URL.length - 1);
   // A link to the beta's home counts when it is followed from outside the beta (its own wordmark does not).
-  return isBetaHome(inApp(url.pathname)) && !inApp(from.pathname).startsWith('/beta') && !url.hash;
+  const toBetaHome = /^\/beta\/?$/.test(inApp(url.pathname)) && !url.hash;
+  return toBetaHome && !inApp(from.pathname).startsWith('/beta');
 }
 
 function onClick(e: MouseEvent) {
@@ -117,7 +116,7 @@ export function initAnalytics(): void {
     setupGtag(); // the denied defaults go first, before any tag exists
     subscribeConsent(applyConsent);
     applyConsent();
-    document.addEventListener('click', onClick);
+    document.addEventListener('click', onClick, true); // capture: runs before the router navigates
   }
   if (CF_BEACON_TOKEN) addBeacon();
 }
