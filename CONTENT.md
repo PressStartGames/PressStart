@@ -331,31 +331,174 @@ cta: Back to the site
 ## site-header
 
 *(The main site at pressstartgames.net, from here to the end of the file. Every section above is the beta's page,
-now served under /beta. These are placeholders: plans/main-site.md phase 2 designs the main site. Copy follows the
+now served under /beta. Layout L2 "Platform suite" (client/src/site/DESIGN.md). Copy follows the
 press-start-website skill: present tense only for what is true today, no dates.)*
 
 wordmark: Press Start
 skip: Skip to content
 nav-label: Site
-nav: Engine | Showcase | Roadmap | Learn | News | Licensing | About | Community
+nav: Engine | Resources | Company
 cta: Join the beta
+menu: Menu
+close: Close menu
+home: Press Start, home
+
+## site-nav
+
+*(The mega-menu. Each entry is `page-id = label = one line`; the page ids are the routes in
+client/src/content/schema.ts. The Engine panel groups its entries by the three moves.)*
+
+moves: Build as data | Prove | Own the code
+move-notes: Write the game as files an agent can read | Show it is right, with numbers | Keep the code, and the game
+engine-build: engine-ai = The AI surface = Four verbs your agent uses to ask, edit, look and step
+engine-prove: engine-determinism = Determinism = Same seed, same inputs, same game | engine-parallel = Parallel = All your cores, the same answer | engine-oracles = Oracles = Held against the tools the industry trusts
+engine-own: engine-ownership = Ownership = The game is a Rust workspace you own | licensing = Licensing = Source-available, with version 1
+overview: engine = The engine = Built around Bevy, written as documents. Start here for the whole map.
+resources: learn = Learn = The shape of a game on Press Start | roadmap = Roadmap = The road to version 1, in order | showcase = Showcase = The first game, Team Fights | news = News = Version notes, once there are versions
+company: about = About = The mission and the method | community = Community = Where to find us | licensing = Licensing = How the engine will be licensed
+beta: Private beta · Version 1 is not public yet. Join to hear first.
 
 ## site-footer
 
 label: Footer
 legal: Privacy | Terms | Cookies
 line: A game engine built around Bevy. Version 1 is not public yet.
+map-label: Site map
+columns: Engine | Prove | Resources | Company
+synced: Counts synced from the engine at commit
 
 ## site-home
 
 title: Press Start · A game engine an AI can build in, and prove.
-description: Press Start is a game engine built around Bevy whose first user is an AI agent: scenes, laws and assets as documents, deterministic replay, and every feature measured against a reference tool.
-kicker: Tests, not eyes.
+description: Press Start is a game engine built around Bevy whose first user is an AI agent: the game written as documents, a replay that is exact, and every feature measured against a reference tool.
+kicker: Private beta · Windows first
 headline: A game engine an AI can build in, and prove.
-cta: Join the beta | Read about the engine
+cta: Join the beta | Explore the engine
 
-Press Start is built around Bevy. Your agent writes the game as documents, runs it on a fixed tick, and proves
-every frame against a reference. The main site is being designed; the beta's page tells the whole story today.
+Your agent writes the game as documents, runs it on a fixed tick and proves every frame against a reference.
+Same seed, same inputs, same game. Built around Bevy, and the code is yours.
+
+## site-home-console
+
+*(The hero's suite console: three panes wired left to right. The run and the checksums are computed in the
+browser by client/src/lib/sim.ts; it is an illustration of the engine's rule, not engine output.)*
+
+label: the suite · an illustration
+panes: the document | the run | the proof
+doc-name: two-a-side.game
+doc-lines: game = two-a-side | seed = 0x5eed | clock = none | tick = fixed | players = 4 | input tape = tick 120 · jump
+ledger-head: tick | run A | run B
+pass: PASS
+fail: FAIL
+verdict-pass: replay exact · every tick matches
+verdict-fail: another seed · the runs part at once
+replay: Run it again
+reseed: Try another seed
+caption: Drawn in your browser: a small simulation stepped from one seed on a fixed tick, with a checksum of the state at every tick. Same seed, same checksums. Change the seed and the proof fails, as it should.
+
+## site-home-facts
+
+*(Every number is a placeholder synced from the engine; never typed.)*
+
+label: In numbers, synced from the engine
+items: {{crates}} = engine crates = what Bevy leaves out, built | {{catalog.built}} = things built = of the {{catalog.total}} an engine needs | {{oracles}} = reference tools = that hold the engine to account | {{goldens.accepted}} = accepted goldens = pictures that are tests
+
+## site-home-moves
+
+kicker: One engine, three moves
+headline: Build it as data. Prove it. Own it.
+
+Most engines are built for a human with a mouse. Press Start is built so that an agent can do the work and
+you can trust what it did: the game is files, the proof is numbers, and the code stays yours.
+
+items: build = Build as data = Scenes, rules and assets are documents. Your agent reads and writes them; the running game answers back. | prove = Prove = Every feature can fail a test. Replays are exact, threads keep their order, and a reference tool checks the result. | own = Own the code = A game is a Rust workspace on Bevy. It opens, reads and runs without us.
+
+## site-home-build
+
+kicker: 01 · Build as data
+headline: Everything is a document. The game answers back.
+
+A scene is a file, not a pile of clicks: a base plus patches, every field set by name and checked before
+the game starts. A refusal names the value and the fix. {{crates}} engine crates cover what Bevy leaves out:
+terrain, physics, animation, UI, navigation, networking and more.
+
+A running game answers four verbs. Your agent asks, edits, looks and steps through the same door a player
+uses. You bring the AI; the engine exposes the data and the verbs.
+
+verbs: query = Ask = Where is the ball, and who is closest to it? = The whole state, as data: every position, the score, and the checksum of this tick. | command = Edit = Move the left goal two metres back. = Done as one command, written to the journal and stamped with its tick. | capture = Look = Show me tick 128 from the side camera. = A frame from the deterministic photo booth, addressed by its tick: the same picture every time. | control = Step = Pause, step ten ticks, then press jump for player one. = Paused, stepped, and the jump injected through the player's own input.
+console-label: four verbs · in plain words
+console-note: An illustration of what each verb does, not the wire format.
+you: you
+game: game
+link: The AI surface
+
+## site-home-prove
+
+kicker: 02 · Prove
+headline: Tests, not eyes.
+
+An agent cannot see whether a game is right, so the engine says it in numbers. Four kinds of evidence, each
+with its own page.
+
+cards: engine-determinism = Same seed, same game = One seed, no clock, a fixed tick. Two runs give the same checksum on every tick, on the same build and platform. | engine-parallel = All cores, one answer = Systems run in parallel. Two that touch the same data must be ordered, and the gate names both. | engine-oracles = Held to a reference = Physics, navigation, UI, text and lighting are checked against the tools the industry trusts. | engine-oracles = Pictures are tests = Every frame a test draws is compared with a golden a human accepted. A tool can propose one, never accept it.
+lanes: input | physics | animation | camera | UI
+gate: ordered
+references: Jolt · PhysX · Recast · Chromium · Yoga · HarfBuzz · Mitsuba · Blender · Manifold
+golden: this run | the golden | 0 px differ
+small: Parity with each reference is the bar, not a claim. The misses are written down with both numbers.
+
+## site-home-own
+
+kicker: 03 · Own the code
+headline: The game is your code.
+
+A game on Press Start is a Rust workspace on Bevy: it opens, reads and runs without us. A bug a game finds is
+fixed in the engine, at its root, never patched around in your code.
+
+today-label: True today
+today: A Rust workspace on Bevy | Every system a Bevy plugin plus a document | Bugs fixed in the engine, at the root
+road-label: On the road, with version 1
+road: Source-available: free to make and ship, a royalty only above a threshold | An optional account; nothing requires a login | Works fully offline · Windows first
+cart-label: your game
+cart-lines: Rust · Bevy | your repository | yours to ship
+link: Ownership and licensing
+
+## site-home-status
+
+kicker: Where we are, honestly
+headline: Version 1 is not public yet. Here is how far it is.
+
+We keep a checklist of everything a game engine needs: {{catalog.total}} things in seven areas. A thing counts as
+built only when a test holds every clause of it. We publish the misses too.
+
+areas: world = World · terrain, scenes, navigation | simulation = Simulation · physics, input, cameras | rendering = Rendering · lighting, shaders, textures | asset-creation = Assets · modeling, rigging, animation | game-services = Services · UI, audio, save, localisation | networking-export = Reach · networking, export | missing-domains = Beyond the usual · what the first game needed
+legend: built | partial | skipped | not yet
+total: {{catalog.built}} built · {{catalog.partial}} partial · {{catalog.skip}} skipped · of {{catalog.total}}
+road-label: The road, in order · no dates
+road: Today = the engine's crates, and the first game, Team Fights, built on them | Next = the editor: an editor window, a game window, an agent panel on the same wire | Version 1 = a launcher, a new project from a template, save, build, Windows export | Then = the big performance pain points, one full release gate, the public repository | After = a version every two weeks, the remaining gaps, more platforms
+now: now
+link: The whole road
+
+## site-home-audience
+
+kicker: Made for
+headline: Who it is for.
+
+items: Studios and solo developers = who want an AI to do real work on a real game, and need to trust what it did. | Teams burned by flaky tests = who want a fixed tick, a seed, and a replay that is exact by construction. | Bevy projects = that need the missing pieces, built once, measured against the industry's tools, and owned as Rust. | Builders of AI tools for games = who need an engine that answers questions instead of being screenshotted.
+
+## site-home-next
+
+items: learn = Learn = Build a game = The shape of a game today: documents, a fixed tick, a reference to prove against, and four verbs for your agent. Guides follow. = See the shape | licensing = Licensing = Free to make and ship = Source-available, with a royalty only above a revenue threshold. The terms are written with version 1. = How it will work | community = Community = Come build with us = The way in today is the beta. Places to talk with us follow. = Find us
+
+## site-home-join
+
+headline: Press start.
+
+The beta opens with version 1. Leave your email on the beta page and we will write when your invite is ready.
+Nothing else.
+
+cta: Join the beta | Read the roadmap
+off: The beta list is not open right now. The roadmap says where we are.
 
 ## site-not-found
 
@@ -365,17 +508,40 @@ kicker: 404
 headline: Tick not found.
 cta: Back to the start
 
-There is nothing at this address.
+There is nothing at this address. The site map below has every page we have.
+
+## site-stub
+
+*(The frame around every page that is not designed yet.)*
+
+label: This page is being written
+today: What you can read today
+links: engine | engine-oracles | roadmap
 
 ## page-engine
 
 title: The engine · Press Start
-description: What Press Start is: a game engine built around Bevy, every system a document plus a plugin.
+description: What Press Start is: a game engine built around Bevy, every system a document plus a plugin, every feature able to fail a test.
 kicker: The engine
 headline: Built around Bevy, written as documents.
 
-{{crates}} engine crates cover what Bevy leaves out. Every system is a document plus a plugin, validated before
-the app exists. This page will walk through the engine one strength at a time.
+Press Start is a game engine built around Bevy, with an AI agent as its first user. {{crates}} engine crates
+cover what Bevy leaves out. Every system is a document plus a plugin, checked before the game starts; every
+feature can fail a test; the game you build is Rust code you own.
+
+## site-engine
+
+*(The /engine page below its header: the three moves as chapters, the catalog, the ledger.)*
+
+chapters: build = Build as data = The game is written as documents: scenes, rules, materials, rigs and UI, all data with one canonical byte form. A running game answers four verbs. | prove = Prove = Every claim has a test behind it: an exact replay, an ordered schedule, a reference tool, a golden picture. | own = Own the code = A game is a Rust workspace on Bevy. What the engine depends on is vendored, patched and owned.
+pages-label: Read the detail
+covers-label: What the engine covers
+covers: A checklist of {{catalog.total}} things a game engine needs, in seven areas. Built means a test holds every clause.
+ledger-label: True today, and on the road
+today: Built around Bevy · {{crates}} engine crates | Every system a document plus a plugin, validated before the app exists | Four verbs: query, command, capture, control, plus input injection | Exact replay on the same build and platform | Held against {{oracles}} reference tools | Pictures checked against {{goldens.accepted}} accepted goldens | The first game, Team Fights, built on the crates
+road: The editor, with an undo for every change | A launcher, a new project, save, build, Windows export | An optional login nothing requires; fully offline | The source-available licence text | The public repository
+today-head: True today
+road-head: On the road · no dates
 
 ## page-engine-determinism
 
@@ -385,7 +551,7 @@ kicker: Determinism
 headline: Same seed, same inputs, same game.
 
 One seed, no wall clock, no sleep, a fixed tick and a checksum at the boundary. Replay is exact on the same build
-and the same platform. This page is a placeholder.
+and the same platform. This page is being written; the engine overview has the short version.
 
 ## page-engine-parallel
 
@@ -394,18 +560,38 @@ description: Systems run in parallel, and the answer stays the same.
 kicker: Parallel
 headline: All your cores, the same answer.
 
-Any two systems that touch the same data are ordered, or proven disjoint; every floating-point reduction is
-ordered. No speed-up figure is claimed. This page is a placeholder.
+Any two systems that touch the same data are ordered, or proven disjoint; every floating-point sum is ordered. No
+speed-up figure is claimed. This page is being written; the engine overview has the short version.
 
 ## page-engine-oracles
 
 title: Oracles · Press Start
-description: Every feature measured against a reference tool the industry already trusts.
-kicker: Oracles
+description: Every feature measured against a reference tool the industry already trusts, with the differences written down.
+kicker: 02 · Prove · Oracles
 headline: Measured against a reference.
 
-{{oracles}} reference tools check the engine's subsystems. Parity is the bar, not an achievement. This page is a
-placeholder.
+We do not grade our own homework. Each part of the engine is held against a tool the industry already trusts:
+{{oracles}} of them. Where we differ, the difference is written down with both numbers and a reason, never
+hidden in a tolerance.
+
+## site-oracles
+
+*(The /engine/oracles page below its header. Reference tools are named as plain mono text only, never logos.)*
+
+steps-label: How an oracle works
+steps: Same scene, both sides = The engine and the reference tool run the same scene, outside the shipped game. | Both numbers, written down = The outputs are compared. A difference becomes a recorded row with both numbers and a reason. | The reference wins = A disagreement is resolved toward the reference, never by widening a tolerance.
+board-label: The reference board
+board-head: what is checked | held against
+board: physics = Jolt · PhysX | navigation = Recast | UI layout = Chromium · Yoga | text shaping = HarfBuzz | lighting = Mitsuba | meshes = Blender · Manifold | plurals = ICU | textures = ImageMagick
+board-note: Plain names, no logos. The tools check the engine during development; none of them ships in your game.
+rules-label: Two rules
+rules: Parity is the bar = Matching the reference is the target, for the output and for the speed. Not every part meets it yet, and the misses are recorded rows. | Same threads, or no comparison = Speed is measured at the reference's own thread count, on a recorded machine state. Anything else would be cheating.
+golden-label: Pictures are held too
+golden: Every picture the engine draws in a test is compared with a golden, shot on one reference card, pixel for pixel. A tool can propose a golden; only a human accepts one, in a reviewed commit.
+golden-caption: An accepted golden from the engine's terrain crate, shown as it is: test evidence, not a screenshot.
+provenance: crate | test | engine commit
+next-label: More in Prove
+next: engine-determinism | engine-parallel
 
 ## page-engine-ai
 
@@ -415,7 +601,7 @@ kicker: The AI surface
 headline: Your own AI, through the player's door.
 
 A running game answers four verbs: *query*, *command*, *capture*, *control*, plus input injection. The engine
-exposes data and verbs; you bring the agent. This page is a placeholder.
+exposes data and verbs; you bring the agent. This page is being written; the home page shows the four verbs.
 
 ## page-engine-ownership
 
@@ -425,7 +611,7 @@ kicker: Ownership
 headline: The game is your code.
 
 A game on Press Start is a Rust workspace on Bevy. The source-available licence is on the road; its terms are not
-written yet. This page is a placeholder.
+written yet. This page is being written.
 
 ## page-showcase
 
@@ -434,8 +620,8 @@ description: Games built on Press Start, shown only through the engine's own ren
 kicker: Showcase
 headline: Made with Press Start.
 
-The first game, Team Fights, is built on the engine's crates. Its pictures appear here once the engine accepts
-them.
+The first game, Team Fights, a small team shooter made of primitives, is built on the engine's crates. Its
+pictures appear here once the engine accepts them as goldens; until then we show nothing rather than a mock-up.
 
 ## page-roadmap
 
@@ -444,8 +630,8 @@ description: The road to version 1, in order, without dates.
 kicker: Roadmap
 headline: The road, in order.
 
-The road in order, each stage with its state, re-synced from the engine. Until this page is built, the beta's page
-carries it: [the road](/beta/#roadmap).
+The road in order, each stage with its state, re-synced from the engine. Until this page is built, the home page's
+status board and the beta's page carry it: [the road](/beta/#roadmap).
 
 ## page-learn
 
@@ -464,7 +650,7 @@ description: Version notes and news from Press Start.
 kicker: News
 headline: News.
 
-Version notes will be posted here. Nothing is posted yet.
+Version notes will be posted here once there are versions. Nothing is posted yet.
 
 ## page-licensing
 
@@ -473,7 +659,8 @@ description: How Press Start will be licensed.
 kicker: Licensing
 headline: Source-available, with version 1.
 
-The plan is a source-available licence and an optional login that nothing requires. The terms are not written yet.
+The plan: the repository goes public under our own source-available licence. Free to make and ship games, with a
+royalty only above a revenue threshold, and an optional login that nothing requires. The terms are not written yet.
 
 ## page-about
 
