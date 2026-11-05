@@ -18,7 +18,7 @@ const TICKS_PER_S = 30;
 // /engine/determinism: the replay as a lab. Drag the tick (or play the run): run A, run B traced over
 // it, and run C with one different input at tick 140, drawn in red once it parts. The ledger shows the
 // three checksums every 20 ticks; the search log is the binary search that names the first differing
-// tick, computed here. Then the rules, the replay tape, and the honest scope.
+// tick, computed here. Then the rules, the replay tape, and the scope.
 export function Determinism() {
   const [tick, setTick] = useState<number>(SIM.ticks);
   // The tick a play started from; null while paused.

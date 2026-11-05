@@ -21,7 +21,7 @@ export const SITE_PAGE_IDS = [
 export type SitePageId = (typeof SITE_PAGE_IDS)[number];
 const PAGE_FIELDS = ['title', 'description', 'kicker', 'headline'] as const;
 // The home page's audience tabs (layout L1), one CONTENT.md section `site-audience-<id>` each.
-export const AUDIENCES = ['studios', 'solo', 'tooling', 'bevy'] as const;
+export const AUDIENCES = ['studios', 'solo', 'tooling', 'rust'] as const;
 
 // Every section of CONTENT.md the site renders, with the fields the code reads. check-content.ts
 // fails CI when CONTENT.md and this list disagree in either direction.

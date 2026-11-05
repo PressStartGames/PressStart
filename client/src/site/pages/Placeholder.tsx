@@ -27,7 +27,7 @@ const VISUALS: Partial<Record<SitePageId, ReactNode>> = {
 };
 
 // A page not designed yet: its CONTENT.md section `page-<id>` in the dark title band (with the home
-// page's illustration of that strength, where there is one), then the honest way on.
+// page's illustration of that strength, where there is one), then the way on.
 export function Placeholder({ id }: { id: SitePageId }) {
   const sid = `page-${id}`;
   const [lead = '', ...rest] = paragraphs(sid);

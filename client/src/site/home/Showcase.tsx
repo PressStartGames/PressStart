@@ -1,6 +1,13 @@
 import type { CSSProperties } from 'react';
 import { field } from '../../content';
-import { featuredFile, isPixelArt, pictureFor, rowFor, stripFiles } from '../../lib/renders';
+import {
+  crateLabel,
+  featuredFile,
+  isPixelArt,
+  pictureFor,
+  rowFor,
+  stripFiles,
+} from '../../lib/renders';
 import { pad, paragraphs } from '../text';
 import ui from '../ui.module.css';
 import styles from './Showcase.module.css';
@@ -78,7 +85,7 @@ export function Showcase() {
                             sizes={pixel ? undefined : '(max-width: 900px) 80vw, 34vw'}
                             width={pixel ? row.width : pic.img.w}
                             height={pixel ? row.height : pic.img.h}
-                            alt={`${row.test}, ${golden}, ${row.crate}`}
+                            alt={`${row.test}, ${golden}, ${crateLabel(row.crate)}`}
                             loading="lazy"
                             decoding="async"
                           />
@@ -88,7 +95,7 @@ export function Showcase() {
                         <span className={styles.frameNo}>{pad(i + 1)}</span>
                         <span className={styles.test}>{row.test}</span>
                         <span className={styles.crate}>
-                          {row.crate} · {golden}
+                          {crateLabel(row.crate)} · {golden}
                         </span>
                       </p>
                     </li>

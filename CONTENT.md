@@ -340,7 +340,7 @@ cta: Join the beta
 
 label: Footer
 legal: Privacy | Terms | Cookies
-line: A game engine built around Bevy. Version 1 is not public yet.
+line: The game engine an AI builds games in. Version 1 is not public yet.
 columns: Engine | Site | Legal
 beta: The beta
 discord: Discord
@@ -349,8 +349,8 @@ discord-line: Talk to the people building the engine.
 ## site-home
 
 title: Press Start · A game engine an AI can build in, and prove.
-description: Press Start is a game engine built around Bevy whose first user is an AI agent: scenes, laws and assets as documents, deterministic replay, and every feature measured against a reference tool.
-kicker: Private beta · built around Bevy
+description: Press Start is a game engine whose first user is an AI agent: scenes, laws and assets as documents, deterministic replay, and every feature measured against a reference tool.
+kicker: Private beta · written in Rust
 headline: A game engine an AI can build in, and prove.
 cta: Join the beta | See how it works
 small: Version 1 is not public yet. Windows first.
@@ -395,14 +395,14 @@ points: Query: the state as data | Capture: frames from a deterministic booth | 
 A running game answers four verbs: query, command, capture and control, plus input through the player's own door.
 Bring your own agent. The engine exposes data and verbs, not a model.
 
-## site-audience-bevy
+## site-audience-rust
 
-tab: Bevy developers
+tab: Rust developers
 headline: The missing pieces, built once and measured.
-points: Built around Bevy 0.19 | {{crates}} engine crates | {{oracles}} reference tools to match
+points: A Rust workspace you own | {{crates}} engine crates | {{oracles}} reference tools to match
 
-Terrain, navigation, physics, animation, UI layout, networking and more, as engine crates around Bevy. Each system
-is a Bevy plugin plus a document format, held against a reference tool. A game stays a normal Rust codebase.
+Terrain, navigation, physics, animation, UI layout, networking and more, as Rust engine crates. Each system is a
+plugin plus a document format, held against a reference tool. A game stays a normal Rust codebase.
 
 ## site-strengths
 
@@ -436,7 +436,7 @@ gate: same data · order declared
 readout: state checksum
 cores: 8 cores | 2 cores
 
-Bevy runs your systems across every core. Our gate refuses two systems that touch the same data in no declared
+The engine runs your systems across every core. Our gate refuses two systems that touch the same data in no declared
 order, and names both. Float sums are ordered. So the answer never depends on how many cores ran it.
 
 ## site-strength-oracles
@@ -457,9 +457,9 @@ word: Yours.
 headline: The game is your code.
 scope: The licence text is not final; it is published with version 1.
 screen: what a game is made of
-layers: Your game = a Rust workspace, your repository | Press Start = {{crates}} engine crates | Bevy = 0.19, open source
+layers: Your game = a Rust workspace, your repository | Press Start = {{crates}} engine crates, plugins your game adds
 
-A game on Press Start is a Rust workspace on Bevy that opens, reads and runs without us. No black box: the engine's
+A game on Press Start is a Rust workspace that opens, reads and runs without us. No black box: the engine's
 source goes public with version 1, under a source-available licence.
 
 ## site-verbs
@@ -495,7 +495,7 @@ test holds every clause of it, and we publish the misses: {{catalog.partial}} mo
 
 ## site-road
 
-label: Where we are, honestly
+label: Where we are
 headline: The road, in order. No dates.
 now: now
 stops: Now = The first game, Team Fights, is built on the engine and played. The engine is being readied for the public. | Next = The editor: everything built, reachable by hand and by agent, in one window. | Version 1 = A launcher, a new project from a template, save, build, Windows export. | Then = The public repository under our own licence, and a version every two weeks.
@@ -533,9 +533,9 @@ next: Next
 title: The engine · Press Start
 description: What Press Start is: a game engine where every system is a document plus a plugin.
 kicker: The engine
-headline: Built around Bevy, written as documents.
+headline: An engine written as documents.
 loop-label: How the engine works
-loop: Document = Scenes, laws and assets are files an agent can read and write. | Plugin = Each system is a Bevy plugin that reads its document, validated before the app exists. | World = The game steps on a fixed tick from one seed. | Agent = Your agent asks, edits, looks and steps through four verbs, then writes the next document.
+loop: Document = Scenes, laws and assets are files an agent can read and write. | Plugin = Each system is a plugin that reads its document, validated before the app exists. | World = The game steps on a fixed tick from one seed. | Agent = Your agent asks, edits, looks and steps through four verbs, then writes the next document.
 strengths-label: Five strengths
 strengths-headline: What the engine is good at, one page each.
 numbers-label: The engine in numbers
@@ -544,7 +544,7 @@ road-headline: What the engine does not do yet.
 road: The editor, a window to place objects and edit scenes by hand, is on the road. | The launcher, a new project from a template, save, build and Windows export arrive with version 1. | The source-available licence and the public repository arrive with version 1.
 road-link: The road, in order
 
-{{crates}} engine crates cover what Bevy leaves out. Every system is a document plus a plugin, validated before
+{{crates}} engine crates cover terrain, navigation, physics, animation, UI and more. Every system is a document plus a plugin, validated before
 the app exists, and every one of them can fail a test.
 
 ## page-engine-determinism
@@ -575,7 +575,7 @@ tape-label: The replay
 tape-headline: A replay names the build it was made on.
 tape-fields: seed | starting snapshot | input tape | command journal
 tape-refusal: refused: build differs
-scope-label: The honest scope
+scope-label: Where the claim stops
 scope: Same build, same platform. A claim across machines waits for its own gate.
 next: Next: all your cores, the same answer
 
