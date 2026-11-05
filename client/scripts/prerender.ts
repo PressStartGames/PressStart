@@ -75,6 +75,15 @@ const preload = faces
       `<link rel="preload" as="font" type="font/woff2" crossorigin href="${base}assets/${f}" />`,
   )
   .join('\n    ');
+// The main site (src/site) also preloads the two faces its hero sets above the fold, so the first paint
+// already has their metrics and nothing below them moves when they arrive (CLS). The beta is unchanged.
+const siteFaces = assets
+  .filter((f) => /^(space-grotesk-latin-wght|press-start-2p-latin-400)-normal.*\.woff2$/.test(f))
+  .map(
+    (f) =>
+      `<link rel="preload" as="font" type="font/woff2" crossorigin href="${base}assets/${f}" />`,
+  )
+  .join('\n    ');
 
 // PRERENDER_INLINE_CSS=1 inlines the area's stylesheets. Measured on 2026-11-01 (Lighthouse mobile):
 // the external file wins (LCP 2.4 s vs 2.6 s), so it is off by default and kept as an experiment.
@@ -91,7 +100,10 @@ for (const r of PRERENDER) {
     );
   }
   const page = template
-    .replace('<!--app-head-->', [head, preload, tags].filter(Boolean).join('\n    '))
+    .replace(
+      '<!--app-head-->',
+      [head, preload, area === 'site' ? siteFaces : '', tags].filter(Boolean).join('\n    '),
+    )
     .replace('<!--app-html-->', html);
   // CLAUDE.md: the site never names Bevy and never says "honest"/"honestly", wherever the words come from.
   const banned = /bevy|honest/i.exec(page);
@@ -113,8 +125,17 @@ for (const exp of EXPERIMENTS) {
       '<meta name="robots" content="noindex" />',
     ];
     const page = template
-      .replace('<!--app-head-->', [head, ...marks, preload, areaTags(area)].join('\n    '))
+      .replace(
+        '<!--app-head-->',
+        [head, ...marks, preload, area === 'site' ? siteFaces : '', areaTags(area)]
+          .filter(Boolean)
+          .join('\n    '),
+      )
       .replace('<!--app-html-->', html);
+    const banned = /bevy|honest/i.exec(page);
+    if (banned) {
+      throw new Error(`${variantFile(exp, variant)} contains the banned word "${banned[0]}"`);
+    }
     const out = join(dist, variantFile(exp, variant));
     mkdirSync(dirname(out), { recursive: true });
     writeFileSync(out, page);

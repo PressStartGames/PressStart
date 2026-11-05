@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import { CookieSettings } from '../components/CookieSettings';
+import { Logo } from '../components/Logo';
 import { field, splitList } from '../content';
 import { BETA_HOME, betaPath } from '../beta/paths';
 import { DISCORD_URL, REPO_URL } from '../lib/config';
@@ -18,7 +19,7 @@ export function Footer() {
             if (item === wordmark) {
               node = (
                 <Link to={BETA_HOME} className={styles.wordmark}>
-                  <span className="led" aria-hidden="true" />
+                  <Logo size={18} />
                   {item}
                 </Link>
               );

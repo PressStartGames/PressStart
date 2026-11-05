@@ -1,5 +1,21 @@
 .hero {
   padding: 72px 0 96px;
+  position: relative;
+  isolation: isolate;
+}
+
+/* The main site's faint dot grid on the chassis (site/tour/Hero.module.css), still, behind the hero and
+   faded downward; a static background, so it moves nothing and needs no script. */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(var(--hairline) 1px, transparent 1.4px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(180deg, #000 30%, transparent 95%);
+  -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent 95%);
+  pointer-events: none;
 }
 
 .text {

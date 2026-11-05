@@ -354,7 +354,7 @@ cta: Back to the site
 ## site-header
 
 *(The main site at pressstartgames.net, from here to the end of the file. Every section above is the beta's page,
-now served under /beta. These are placeholders: plans/main-site.md phase 2 designs the main site. Copy follows the
+now served under /beta. Layout L4 "Feature tour" (plans/main-site.md phase 2). Copy follows the
 press-start-website skill: present tense only for what is true today, no dates.)*
 
 wordmark: Press Start
@@ -362,24 +362,364 @@ skip: Skip to content
 nav-label: Site
 nav: Engine | Showcase | Roadmap | Learn | News | Licensing | About | Community
 cta: Join the beta
+menu: Menu
 
 ## site-footer
 
 label: Footer
 legal: Privacy | Terms | Cookies
-line: A game engine an AI can build in. Version 1 is not public yet.
+line: A game engine for people and the AI agents they work with. Version 1 is not public yet.
+columns: The engine | The project | Studio
+engine-links: Overview | Determinism | Parallel | Oracles | The AI surface | Ownership
+project-links: Showcase | Roadmap | Learn | News
+studio-links: About | Licensing | Community | The beta
+discord: Join us on Discord
+discord-note: Talk to the people building Press Start, and to each other.
+signoff: player 1 · ready
 
 ## site-home
 
 title: Press Start · A game engine an AI can build in, and prove.
-description: Press Start is a game engine whose first user is an AI agent: scenes, laws and assets as documents, deterministic replay, and every feature measured against a reference tool.
-kicker: Tests, not eyes.
+description: Press Start is a game engine written in Rust whose first user is an AI agent: scenes as documents, the same game on every run, every core with the same answer, every picture checked. A tour, one capability at a time.
+kicker: A game engine written in Rust
 headline: A game engine an AI can build in, and prove.
 headline-b: The engine an AI builds games in, and proves.
-cta: Join the beta | Read about the engine
+cta: Join the beta | Take the tour
+small: Private beta. Version 1 is not public yet. Windows first.
+select-label: select stage
+select-readout: world 1
+select-prompt: press start
 
-Your agent writes the game as documents, runs it on a fixed tick, and proves
-every frame against a reference. The main site is being designed; the beta's page tells the whole story today.
+Your agent writes the game as documents, plays it on a fixed tick and checks every picture against one a person
+accepted. You direct it, and every step leaves proof you can read.
+
+## site-tour
+
+label: The tour
+index-label: Tour index
+stage-word: stage
+more: Read more
+illustration: illustration · drawn in your browser
+verbatim: verbatim from the engine
+trimmed: from the engine · imports trimmed
+engine-word: engine
+seed-word: seed
+pass: PASS
+fail: FAIL
+
+## site-stage-documents
+
+kicker: Write it as data
+teaser: Scenes are files, not clicks.
+headline: Scenes are files, not clicks.
+tab-picture: What it means
+tab-code: The request
+layers: base · Health 10 / 10 · Tint grey · Name crate | patch 0 · Tint blue | patch 1 · Tint gold · Health max 25 · Name removed
+answer-label: the engine's answer
+answer: Tint · gold · patch 1 | Health.max · 25 · patch 1 | Health.current · 10 · base | Name · removed · patch 1
+sample-caption: An agent asks which patch set each value. The request is copied verbatim from the engine's scene guide, where a test sends it through the real wire and checks this answer.
+
+In most engines a level lives inside the editor, and the only way to change it is to click. In Press Start every
+scene, material, rig and menu is a plain document an agent can read and write. A change is a small patch laid on
+top, and the document under it stays as it was.
+
+The engine checks every document before the game starts, and a refusal names the wrong value and how to fix it.
+Ask which patch set a value, and you get an answer, not a guess.
+
+## site-sample-scene
+
+sample-commit: a79664d08601a850a3d9f99730875a05f6f628c3
+sample-source: docs/scene-agent.md
+sample-lines: 61-81
+
+```json
+{
+  "method": "pressstart.query.scene_provenance",
+  "params": {
+    "token": "<session token>",
+    "scene": {
+      "version": 1,
+      "entities": {
+        "1": { "components": { "Health": { "current": 10, "max": 10 }, "Tint": "grey" } },
+        "2": { "components": { "Name": "crate" }, "parent": 1 }
+      }
+    },
+    "chain": [
+      { "ops": [ { "op": "set_component", "entity": 1, "type_name": "Tint", "value": "blue" } ] },
+      { "ops": [
+        { "op": "set_component", "entity": 1, "type_name": "Tint", "value": "gold" },
+        { "op": "set_component", "entity": 1, "type_name": "Health", "value": { "current": 10, "max": 25 } },
+        { "op": "remove_component", "entity": 2, "type_name": "Name" }
+      ] }
+    ]
+  }
+}
+```
+
+## site-stage-determinism
+
+kicker: Same seed, same game
+teaser: Run it twice, get the same game.
+headline: Run it twice. Get the same game.
+small: Today: the same build on the same platform.
+modes: Same inputs | Change one input at tick 80
+heads: tick | run A | run B
+verdict-pass: every line matches
+verdict-fail: first difference at tick
+scrub-label: Tick
+caption: A small simulation drawn in your browser: one seed, a fixed tick, no clock, and a checksum of the whole state every 40 ticks. The engine's own replay checks its checksums the same way.
+
+Most engines play a slightly different game on every run: the frame rate nudges the physics and the dice are
+rolled fresh. Press Start rolls every die from one seed you can write down, never reads the clock, and steps the
+world on a fixed tick.
+
+Same seed, same inputs, same frame. So a test is a fact, a replay is exact, and "the bug at tick 340" is something
+one agent can hand to another.
+
+## site-stage-parallel
+
+kicker: Every core, one answer
+teaser: All your cores, the same answer.
+headline: All your cores. The same answer.
+cores: 8 cores | 4 cores | 2 cores
+lanes: input · physics · navigation · animation · camera · UI · audio · VFX
+core-word: core
+gate: same data · order declared
+readout: state checksum
+same: same
+small: We have not measured a speed-up yet, so we do not quote one.
+caption: An illustration: the same systems dealt onto 8, 4 or 2 cores. The checksum comes from the browser simulation above, and it does not move.
+
+A game's systems run across every core of the machine, and Press Start keeps it that way: nothing is slowed to
+one thread to make it repeatable.
+
+When two systems touch the same data, the engine insists on an order and refuses to build until one is declared,
+naming both. Sums are added in a fixed order. So the game you replay does not depend on how many cores ran it.
+
+## site-stage-goldens
+
+kicker: Pictures are tests
+teaser: Every picture is checked, pixel by pixel.
+headline: Every picture is checked, pixel by pixel.
+wipe-label: Compare this run with the golden
+candidate: this run
+golden: the golden
+verdict: PASS · 0 px differ
+steps: shot on one reference graphics card | compared pixel by pixel | accepted by a person, in a reviewed commit
+strip-label: the same character, three ticks
+caption: Accepted goldens from the engine's 2D rig tests, shown at their own pixels and scaled without smoothing. The engine has {{goldens.accepted}} accepted goldens today.
+
+When the engine draws something in a test, the frame is compared with a golden: a picture a person looked at and
+accepted. If the picture changes, the test fails and leaves the new frame beside the old one for a person to judge.
+
+A tool can suggest a golden. It can never accept one.
+
+## site-stage-oracles
+
+kicker: Held to a reference
+teaser: Measured against the tools you trust.
+headline: Measured against the tools you already trust.
+ours: Press Start
+theirs: the reference
+pairs: Physics = Jolt · PhysX | Navigation = Recast | UI layout = Chromium · Yoga | Text shaping = HarfBuzz | Lighting = Mitsuba | Meshes = Blender · Manifold
+count: {{oracles}} reference tools in all
+small: Parity is the bar. Not every feature meets it yet, and the misses are recorded.
+caption: Reference tools are named as plain text. They are compared against and never ship in the engine.
+
+We do not grade our own homework. Each part of the engine is held against the tool the industry already relies on
+for it, on the same scenes.
+
+Where our answer differs, the difference is written down with both numbers and a reason, and the disagreement is
+settled toward the reference.
+
+## site-stage-ai
+
+kicker: The game answers back
+teaser: Four verbs any agent can use.
+headline: The game answers back.
+verbs: query = Ask for the state, and get a complete answer. | command = Change it through the one door, journaled and stamped with its tick. | capture = Take a picture from a fixed photo booth. | control = Pause, step, seed, checksum, save, load.
+screen-label: four verbs
+tick-word: tick
+journal-word: journal
+captured: captured
+query-out: {bodies} bodies · ball at {x}, {y} · score {a} : {b}
+command-out: ball placed at the centre · {journal} #{n}
+capture-out: {captured} · id {id}
+control-out: stepped to {tick} {t} · checksum {sum}
+caption: An illustration: the engine's four verbs played on the small browser simulation. The verbs are the engine's; the game is a sketch.
+
+An agent cannot squint at a screenshot and know the game is right. So a running Press Start game answers four
+verbs: *query*, *command*, *capture* and *control*.
+
+Your agent asks for the state, changes it through one door, takes a picture and steps time, on the same surface the
+engine's own tests use. You bring the AI. The engine brings data and verbs.
+
+## site-stage-ownership
+
+kicker: Your code
+teaser: Plain Rust, and it is yours.
+headline: Your game is your code.
+small: A game is Rust code plus documents, both plain text.
+sample-caption: One of the engine's own tests, imports trimmed: a fixed-step app runs three ticks a frame, so ten frames are thirty ticks.
+
+A game on Press Start is a normal Rust codebase, and it is yours. {{crates}} engine crates bring what a game
+needs: terrain, physics, animation, UI, navigation, networking and more.
+
+Nothing hides behind a menu. The engine is tested the way your game will be: by code that runs, steps and asserts.
+
+## site-sample-test
+
+sample-commit: 45aeffd2a2ecc3b3049819151abfc1c1343fb2aa
+sample-source: docs/00-build-a-game/test-app.md
+sample-lines: 35-55
+
+```rust
+use press_start_test_app::{advance, fixed_step_app};
+
+#[derive(Resource, Default)]
+struct TickCount(u64);
+
+fn count_ticks(mut count: ResMut<TickCount>) {
+    count.0 += 1;
+}
+
+#[test]
+fn three_fixed_steps_a_frame_are_thirty_after_ten_frames() {
+    let mut app = fixed_step_app(3);
+    app.init_resource::<TickCount>();
+    app.add_systems(FixedUpdate, count_ticks);
+
+    app.update(); // priming: Startup runs, zero fixed steps
+    assert_eq!(app.world().resource::<TickCount>().0, 0);
+
+    advance(&mut app, 10);
+    assert_eq!(app.world().resource::<TickCount>().0, 30);
+}
+```
+
+## site-built
+
+kicker: Built today
+teaser: Every feature counted, misses included.
+headline: What is built, counted by a tool.
+legend: built | partly there | not yet
+of: of
+areas: world = World building · scenes, terrain, 2D, navigation | simulation = Simulation · physics, input, cameras | rendering = Rendering · lighting, shaders, textures | asset-creation = Asset creation · modeling, rigging, animation | game-services = Game services · audio, UI, save, localisation | networking-export = Reach · networking, export, platforms | missing-domains = Beyond the usual · what no engine ships, written down anyway
+
+We keep a checklist of everything a full game engine needs: {{catalog.total}} features, from terrain to crash
+reports. A feature counts as built only when a test holds every line of its description, and the tally is made by a
+tool, never by hand.
+
+Today {{catalog.built}} are built and {{catalog.partial}} are partly there, with the missing parts named. We publish
+the misses.
+
+## site-road
+
+kicker: The road
+teaser: Where we are, with no dates.
+headline: Where we are.
+stops: Now = Private beta. The engine is built and tested in private, and the list is open. | Next = Version 1. A launcher, a new project from a template, save, build, Windows export. No account required, and it works offline. | Then = Version 1.x. Regular releases, more of the engine, more platforms.
+now: you are here
+join-title: Want in early?
+join-body: Join the beta and we email you when version 1 opens. Nothing else, unless you ask.
+join-cta: Join the beta
+roadmap-link: The whole road
+
+Press Start is not public yet. This is where it is going, one line a stop, with no dates.
+
+## site-engine-steps
+
+kicker: How it works
+headline: How a game is made here.
+label: procedure
+lit: 12-14 | 16-17 | 19 | 20
+sample-caption: One of the engine's own tests, from its guide to a test app, imports trimmed.
+
+1. **Write the scene as data.** A scene is a base plus patches. A field is set by name, never by a click.
+2. **Check it before it runs.** Every document is validated before the app exists. A refusal names the value and
+   the fix.
+3. **Run it on a fixed tick.** A tick is the same tick on every run, driven by a recorded input tape.
+4. **Look with numbers, then pixels.** Ask for the state and its checksum, capture the frame, compare it with its
+   golden.
+
+## site-engine-strengths
+
+kicker: Five strengths
+headline: Five things it does differently.
+cards: engine-determinism = Same seed, same game = One seed, a fixed tick and no clock, so a replay is exact. | engine-parallel = Every core, one answer = Systems run in parallel and conflicts are ordered, so the answer never moves. | engine-oracles = Held to a reference = Each part is measured against the tool the industry already trusts. | engine-ai = The game answers back = Query, command, capture, control: four verbs for your own AI. | engine-ownership = Your code = A game is a normal Rust codebase, and it is yours.
+
+## site-engine-box
+
+kicker: In the box
+headline: What a game needs, in the box.
+families: Scenes = documents, prefabs, patches | Assets = meshes, textures, materials, glTF | Rendering = shaders, sprites, terrain | Physics = bodies, colliders, materials | Characters = controllers, animation, rigs | Camera = rigs and shake | Input = actions, bindings, one input funnel | Interface = layouts, menus, localisation | Audio = events and buses | Effects = particles | Navigation and AI = navmesh, crowds, behaviour trees | Save and network = save slots, networking as a document
+
+{{crates}} engine crates, in families. Each system is a document plus a plugin: the document holds the data
+and its rules, the plugin puts it in the app.
+
+## site-engine-numbers
+
+label: The engine in numbers
+tiles: {{crates}} = engine crates | {{catalog.built}} = features built, of {{catalog.total}} | {{oracles}} = reference tools | {{goldens.accepted}} = accepted goldens
+synced: synced from the engine at commit
+
+## site-ai-verbs
+
+kicker: Four verbs
+headline: One surface for people, tests and agents.
+details: query = Boundary state, schemas, the registry of what is saved and checksummed, every tool's manifest. A complete answer, or a loud refusal. | command = The one write path. Commands are declared per tool; an undeclared command is refused, never quietly run. Each one is journaled and stamped with its tick. | capture = Addressed pictures from a deterministic photo booth on one reference card. A turntable is a capture sequence: open the model and rotate it. | control = Pause, step any number of ticks, seed, checksum now, save, load, and input injected through the same funnel a player's input takes.
+sample-caption: The command an agent sends to place a prefab in a scene, verbatim from the engine's scene guide.
+
+## site-sample-command
+
+sample-commit: a79664d08601a850a3d9f99730875a05f6f628c3
+sample-source: docs/scene-agent.md
+sample-lines: 251-259
+
+```json
+{
+  "method": "pressstart.command.apply",
+  "params": {
+    "token": "<session token>",
+    "issuer": "agent:me",
+    "command": "spawn_prefab",
+    "payload": { "doc": "main.json", "prefab": "crate" }
+  }
+}
+```
+
+## site-ai-manifest
+
+kicker: Ask it
+headline: Ask it what it can do.
+
+Every tool lists its commands in a manifest. A command with no manifest entry fails the tool's build, and so does
+an entry with no command behind it. So "what can this engine do?" is a question with a complete answer, never a
+guess.
+
+## site-ai-door
+
+kicker: One door
+headline: The door stays at your desk.
+
+The wire is a development tool. A shipped game never carries it, so the verbs your agent uses while you build are
+not a way into your players' machines.
+
+## site-ai-road
+
+kicker: On the road
+headline: A chat beside the game.
+
+The direction: an editor with your game beside it and one chat next to both, where every change, by a click or by
+an agent, is one undo away.
+
+## site-stub
+
+screen-label: stage locked
+screen-line: under construction
+meanwhile: Meanwhile, the tour covers it
+tour: Take the tour
+home: Back to the start
 
 ## site-not-found
 
@@ -388,18 +728,19 @@ description: There is nothing at this address.
 kicker: 404
 headline: Tick not found.
 cta: Back to the start
+screen: continue?
 
-There is nothing at this address.
+There is nothing at this address. The tour starts at the beginning.
 
 ## page-engine
 
 title: The engine · Press Start
-description: What Press Start is: a game engine where every system is a document plus a plugin.
+description: What Press Start is: a game engine written in Rust, every system a document plus a plugin, checked before the game runs.
 kicker: The engine
 headline: An engine written as documents.
 
-{{crates}} engine crates. Every system is a document plus a plugin, validated before the app
-exists. This page will walk through the engine one strength at a time.
+Press Start is a game engine written in Rust, with an AI agent as its first user. Every system is a document
+plus a plugin, checked before the app exists, and every feature can fail a test.
 
 ## page-engine-determinism
 
@@ -408,8 +749,8 @@ description: Same seed, same inputs, same game, on the same build and the same p
 kicker: Determinism
 headline: Same seed, same inputs, same game.
 
-One seed, no wall clock, no sleep, a fixed tick and a checksum at the boundary. Replay is exact on the same build
-and the same platform. This page is a placeholder.
+One seed, no wall clock, no sleep, a fixed tick and a checksum of the state. A replay is exact on the same build
+and the same platform. The full page is being written; the tour shows it working today.
 
 ## page-engine-parallel
 
@@ -418,8 +759,8 @@ description: Systems run in parallel, and the answer stays the same.
 kicker: Parallel
 headline: All your cores, the same answer.
 
-Any two systems that touch the same data are ordered, or proven disjoint; every floating-point reduction is
-ordered. No speed-up figure is claimed. This page is a placeholder.
+Any two systems that touch the same data are ordered, or proven not to collide; every floating-point sum is added in
+a fixed order. No speed-up figure is claimed. The full page is being written; the tour shows it today.
 
 ## page-engine-oracles
 
@@ -428,28 +769,27 @@ description: Every feature measured against a reference tool the industry alread
 kicker: Oracles
 headline: Measured against a reference.
 
-{{oracles}} reference tools check the engine's subsystems. Parity is the bar, not an achievement. This page is a
-placeholder.
+{{oracles}} reference tools check the engine's parts. Parity is the bar, not an achievement, and the misses are
+recorded. The full page is being written; the tour shows the method today.
 
 ## page-engine-ai
 
 title: The AI surface · Press Start
-description: A running game answers four verbs: query, command, capture, control.
+description: A running game answers four verbs: query, command, capture, control. You bring the AI; the engine brings data and verbs.
 kicker: The AI surface
 headline: Your own AI, through the player's door.
 
-A running game answers four verbs: *query*, *command*, *capture*, *control*, plus input injection. The engine
-exposes data and verbs; you bring the agent. This page is a placeholder.
+A running game answers four verbs: *query*, *command*, *capture* and *control*, with input injected through the
+same funnel a player uses. The engine exposes data and verbs; you bring the agent.
 
 ## page-engine-ownership
 
 title: Ownership · Press Start
-description: A game on Press Start is your own Rust code.
+description: A game on Press Start is plain Rust code, and it is yours.
 kicker: Ownership
 headline: The game is your code.
 
-A game on Press Start is a Rust workspace you own. The source-available licence is on the road; its terms are not
-written yet. This page is a placeholder.
+A game on Press Start is a Rust workspace, and it is yours. The full page is being written.
 
 ## page-showcase
 
@@ -458,8 +798,8 @@ description: Games built on Press Start, shown only through the engine's own ren
 kicker: Showcase
 headline: Made with Press Start.
 
-The first game, Team Fights, is built on the engine's crates. Its pictures appear here once the engine accepts
-them.
+The first game, Team Fights, a small team shooter made of primitives, is built on the engine's crates. Its pictures
+appear here once the engine accepts them as goldens.
 
 ## page-roadmap
 
@@ -468,8 +808,7 @@ description: Where Press Start is going: private beta now, version 1 next, then 
 kicker: Roadmap
 headline: The road, in order.
 
-Now: private beta. Next: version 1. Then: version 1.x, with regular releases and more platforms. Until this page
-is built, the beta's page carries it: [the road](/beta/#roadmap).
+Direction only: three stops, a line each, with no dates.
 
 ## page-learn
 
@@ -497,7 +836,8 @@ description: How Press Start will be licensed.
 kicker: Licensing
 headline: Source-available, with version 1.
 
-The plan is a source-available licence and an optional login that nothing requires. The terms are not written yet.
+The plan is a source-available licence: free to make and ship games, with a royalty only above a revenue
+threshold, and an optional login that nothing requires.
 
 ## page-about
 
@@ -516,7 +856,8 @@ description: Where to find the people building Press Start.
 kicker: Community
 headline: Come build with us.
 
-The community links will be listed here. Today, the way in is the beta: [join the beta](/beta/).
+The way in today is the beta: [join the beta](/beta/). Talk to us on Discord; the link is in the footer of every
+page.
 
 ## page-privacy
 

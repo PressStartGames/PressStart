@@ -1,0 +1,257 @@
+.proof {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.modes {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-self: flex-start;
+  padding: 3px;
+  gap: 2px;
+  background: var(--chassis-recessed);
+  border: 1px solid var(--hairline);
+  border-radius: 6px;
+}
+
+.modes button {
+  min-height: 36px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+
+.modes button[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--chassis-raised);
+}
+
+.modes button:last-child[aria-pressed='true'] {
+  background: #b3261e;
+}
+
+.arenas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--screen-line);
+  border-bottom: 1px solid var(--screen-line);
+}
+
+.run {
+  position: relative;
+  margin: 0;
+  background: var(--screen);
+}
+
+.run figcaption {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.run[data-off] {
+  --accent: var(--fail);
+}
+
+.scrub {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px 4px;
+}
+
+.scrubLabel {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--screen-muted);
+}
+
+.scrub input {
+  flex: 1;
+  height: 24px;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.scrub input::-webkit-slider-runnable-track {
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent) var(--p), var(--screen-line) var(--p));
+}
+
+.scrub input::-moz-range-track {
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent) var(--p), var(--screen-line) var(--p));
+}
+
+.scrub input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 18px;
+  margin-top: -7px;
+  background: #fff;
+  border: 2px solid var(--screen);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.scrub input::-moz-range-thumb {
+  width: 12px;
+  height: 16px;
+  border-radius: 0;
+  background: #fff;
+  border: 2px solid var(--screen);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.scrub input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.ledger {
+  width: calc(100% - 24px);
+  margin: 4px 12px 0;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger th {
+  padding: 8px 6px;
+  text-align: left;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--screen-muted);
+  border-bottom: 1px solid var(--screen-line);
+}
+
+.row td {
+  padding: 5px 6px;
+  color: var(--screen-fg);
+  border-bottom: 1px solid color-mix(in srgb, var(--screen-line) 60%, transparent);
+  white-space: nowrap;
+}
+
+.row td:first-child {
+  color: var(--screen-muted);
+}
+
+.row[data-now] td {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.row[data-now] td:first-child {
+  color: var(--accent);
+}
+
+.mark {
+  width: 2ch;
+  text-align: center;
+  color: var(--accent) !important;
+}
+
+.row[data-bad] td:nth-child(3),
+.row[data-bad] .mark {
+  color: var(--fail) !important;
+}
+
+/* Rows print in order when first seen, and again when the run is changed. */
+:global(html.js.hydrated) .proof:not([data-visible]) .row {
+  opacity: 0;
+}
+
+:global(html.js) .proof[data-visible] .row {
+  animation: print 320ms steps(4, end) both;
+  animation-delay: calc(var(--i) * 90ms);
+}
+
+@keyframes print {
+  from {
+    opacity: 0;
+    transform: translateX(-6px);
+  }
+}
+
+.verdict {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 14px 18px 16px;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  color: var(--screen-fg);
+}
+
+.stamp {
+  padding: 4px 8px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--screen);
+  background: var(--accent);
+}
+
+.verdict[data-bad] .stamp {
+  background: var(--fail);
+}
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 12px;
+  margin: 0;
+  font-size: var(--t-14);
+  color: var(--ink-muted);
+}
+
+@media (max-width: 560px) {
+  .ledger {
+    width: calc(100% - 12px);
+    margin-inline: 6px;
+    font-size: 11px;
+  }
+
+  .row td,
+  .ledger th {
+    padding-inline: 4px;
+  }
+}
+
+@media (max-width: 380px) {
+  .row td {
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(html.js.hydrated) .proof:not([data-visible]) .row {
+    opacity: 1;
+  }
+
+  :global(html.js) .proof[data-visible] .row {
+    animation: none;
+  }
+}

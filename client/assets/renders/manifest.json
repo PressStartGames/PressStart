@@ -66,6 +66,28 @@
       "width": 640,
       "height": 360,
       "sha256": "63b1f297ec51fc0fe46b61c6ba2e1b9043d1ba68afcd510163bcd2656b6323f8"
+    },
+    {
+      "file": "rig2d-character-tick-03.png",
+      "engineCommit": "18c78f8b106f093f026d1002bfd2ede8416a1852",
+      "crate": "press_start_sprite_bevy",
+      "test": "rig2d-character-tick-03",
+      "sourcePath": "crates/press_start_sprite_bevy/goldens/rig2d-character-tick-03.png",
+      "kind": "golden",
+      "width": 128,
+      "height": 128,
+      "sha256": "6ea040e4f43345856a76e5c50ec14043981209e5d6981cf49671a8799b95ed4f"
+    },
+    {
+      "file": "rig2d-character-tick-40.png",
+      "engineCommit": "18c78f8b106f093f026d1002bfd2ede8416a1852",
+      "crate": "press_start_sprite_bevy",
+      "test": "rig2d-character-tick-40",
+      "sourcePath": "crates/press_start_sprite_bevy/goldens/rig2d-character-tick-40.png",
+      "kind": "golden",
+      "width": 128,
+      "height": 128,
+      "sha256": "cd3f9a80990ff2c61d875e1eb3d5497d1dc862d837f7088568e3520bd817eacc"
     }
   ],
   "featured": "world-terrain-splat-valley.png",

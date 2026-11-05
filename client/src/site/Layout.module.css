@@ -1,0 +1,403 @@
+.shell {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* The chassis bar. */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--chassis) 94%, transparent);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.bar {
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav {
+  display: flex;
+  gap: 4px;
+  margin-left: 12px;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+}
+
+.nav a,
+.menuPanel a {
+  position: relative;
+  padding: 8px 10px;
+  color: var(--ink-muted);
+  text-decoration: none;
+  border-radius: var(--radius);
+  transition:
+    color var(--fast) var(--ease),
+    background-color var(--fast) var(--ease);
+}
+
+.nav a:hover {
+  color: var(--ink);
+  background: var(--chassis-recessed);
+}
+
+.nav a[aria-current='page'] {
+  color: var(--ink);
+}
+
+.nav a[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 2px;
+  height: 2px;
+  background: var(--ink);
+}
+
+.cta {
+  margin-left: auto;
+  min-height: 40px;
+  padding: 0 16px;
+  font-size: 10px;
+  transform: none;
+  box-shadow: 0 3px 0 0 #000;
+}
+
+.cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 0 0 #000;
+}
+
+.menu {
+  display: none;
+  margin-left: auto;
+  position: relative;
+}
+
+.menuButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 12px;
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: var(--chassis-raised);
+}
+
+.menuButton::-webkit-details-marker {
+  display: none;
+}
+
+.menuGlyph {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.menuGlyph span {
+  width: 14px;
+  height: 2px;
+  background: var(--ink);
+}
+
+.menuPanel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  background: var(--screen);
+  border-radius: 6px;
+  box-shadow: 0 24px 48px -16px rgb(0 0 0 / 50%);
+  font-family: var(--font-mono);
+}
+
+.menuPanel a {
+  color: var(--screen-fg);
+  padding: 12px;
+}
+
+.menuPanel a:hover,
+.menuPanel a[aria-current='page'] {
+  background: var(--screen-raised);
+  color: var(--phosphor);
+}
+
+.main {
+  flex: 1;
+}
+
+/* The footer: the console's screen at the bottom of the page. */
+.footer {
+  margin-top: 48px;
+  background: var(--screen);
+  color: var(--screen-fg);
+  border-top: 4px solid var(--ink);
+}
+
+.footerTop {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 48px;
+  padding-block: 72px 56px;
+}
+
+.discord {
+  align-self: start;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  border: 1px solid var(--screen-line);
+  border-radius: 8px;
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgb(138 164 255 / 16%), transparent 60%),
+    var(--screen-raised);
+  color: var(--screen-fg);
+  text-decoration: none;
+  transition:
+    transform var(--mid) var(--ease),
+    border-color var(--mid) var(--ease);
+}
+
+.discord:hover {
+  transform: translateY(-3px);
+  border-color: var(--st-blue);
+}
+
+.discordIcon {
+  color: var(--st-blue);
+}
+
+.discordText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.discordTitle {
+  font-size: var(--t-28);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.discordNote {
+  font-size: var(--t-14);
+  color: var(--screen-muted);
+}
+
+.discordArrow {
+  font-family: var(--font-mono);
+  font-size: var(--t-28);
+  color: var(--st-blue);
+  transition: transform var(--mid) var(--ease);
+}
+
+.discord:hover .discordArrow {
+  transform: translateX(6px);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.columnTitle {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  color: var(--screen-muted);
+  margin-bottom: 16px;
+}
+
+.column ul,
+.legal {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.column li + li {
+  margin-top: 4px;
+}
+
+.column a,
+.legal a {
+  display: inline-block;
+  padding: 4px 0;
+  color: var(--screen-fg);
+  font-size: var(--t-16);
+  text-decoration: none;
+  transition: color var(--fast) var(--ease);
+}
+
+.column a:hover,
+.legal a:hover {
+  color: var(--phosphor);
+}
+
+.footerBottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 32px;
+  padding-block: 28px 40px;
+  border-top: 1px solid var(--screen-line);
+  font-size: var(--t-14);
+  color: var(--screen-muted);
+}
+
+.footerWordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  color: var(--screen-fg);
+}
+
+/* The mark is a dark square: on the dark footer a faint ring keeps its edge (rx 14 of 64). */
+.footerLogo {
+  border-radius: 22%;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 18%);
+}
+
+.line {
+  margin: 0;
+  flex: 1 1 320px;
+}
+
+.legal {
+  display: flex;
+  gap: 20px;
+}
+
+.legal a {
+  font-size: var(--t-14);
+  color: var(--screen-muted);
+}
+
+.signoff {
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--phosphor);
+}
+
+@media (max-width: 1180px) {
+  .nav {
+    display: none;
+  }
+
+  .menu {
+    display: block;
+  }
+
+  .cta {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .footerTop {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+    padding-block: 48px 40px;
+  }
+}
+
+@media (max-width: 560px) {
+  .bar {
+    gap: 10px;
+  }
+
+  .wordmark {
+    font-size: 9px;
+    gap: 8px;
+  }
+
+  .logo {
+    width: 16px;
+    height: 16px;
+  }
+
+  .cta {
+    padding: 0 10px;
+    gap: 6px;
+    font-size: 8px;
+    white-space: nowrap;
+    min-height: 40px;
+  }
+
+  .cta :global(.key-led) {
+    display: none;
+  }
+
+  .menuButton {
+    padding: 0 10px;
+  }
+
+  .menuButton {
+    font-size: 0;
+    gap: 0;
+  }
+
+  .columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .discord {
+    grid-template-columns: auto 1fr;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .discordArrow {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav a,
+  .menuPanel a,
+  .discord,
+  .discordArrow,
+  .column a,
+  .legal a {
+    transition: none;
+  }
+}

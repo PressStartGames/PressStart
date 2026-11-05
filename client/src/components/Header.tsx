@@ -4,10 +4,11 @@ import { BETA_HOME, isBetaHome } from '../beta/paths';
 import { field, splitList } from '../content';
 import { NAV_TARGETS } from '../content/schema';
 import { useMagnet } from '../lib/useMagnet';
+import { Logo } from './Logo';
 import { Pill } from './Pill';
 import styles from './Header.module.css';
 
-// The chassis bar: wordmark with its LED, a numbered mono nav, and the START key.
+// The chassis bar: wordmark with the mark (Logo), a numbered mono nav, and the START key.
 export function Header() {
   const { pathname } = useLocation();
   const home = isBetaHome(pathname);
@@ -30,7 +31,7 @@ export function Header() {
           className={styles.wordmark}
           aria-label={`${field('header', 'wordmark')}, home`}
         >
-          <span className="led" aria-hidden="true" />
+          <Logo size={20} className={styles.logo} />
           {field('header', 'wordmark')}
         </Link>
         {home && (
