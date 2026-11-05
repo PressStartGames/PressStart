@@ -1,10 +1,12 @@
 import { defineConfig, devices } from '@playwright/test';
 
 // Three builds of the site, one per sign-up mode (scripts/build-e2e.ts), each served by `vite preview`.
+// E2E_PORT_BASE lets several worktrees run the suite at once without sharing a server.
+const base = Number(process.env.E2E_PORT_BASE ?? 4173);
 const servers = [
-  { name: 'stub', port: 4173 },
-  { name: 'none', port: 4174 },
-  { name: 'fallback', port: 4175 },
+  { name: 'stub', port: base },
+  { name: 'none', port: base + 1 },
+  { name: 'fallback', port: base + 2 },
 ];
 
 export default defineConfig({
@@ -17,43 +19,47 @@ export default defineConfig({
   webServer: servers.map((s) => ({
     command: `pnpm exec vite preview --outDir dist-e2e/${s.name} --port ${s.port} --strictPort`,
     port: s.port,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
     timeout: 60_000,
   })),
   projects: [
     {
       name: 'stub',
       testMatch: /(home|signup-stub|motion|site)\.spec\.ts/,
-      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:4173' },
+      use: { ...devices['Desktop Chrome'], baseURL: `http://localhost:${base}` },
     },
     {
       name: 'stub-mobile-reduced-motion',
       testMatch: /(home|signup-stub|site)\.spec\.ts/,
       use: {
         ...devices['Pixel 7'],
-        baseURL: 'http://localhost:4173',
+        baseURL: `http://localhost:${base}`,
         contextOptions: { reducedMotion: 'reduce' },
       },
     },
     {
       name: 'mobile-pixel',
       testMatch: /mobile.spec.ts/,
-      use: { ...devices['Pixel 7'], baseURL: 'http://localhost:4173' },
+      use: { ...devices['Pixel 7'], baseURL: `http://localhost:${base}` },
     },
     {
       name: 'mobile-iphone',
       testMatch: /mobile.spec.ts/,
-      use: { ...devices['iPhone 14'], browserName: 'chromium', baseURL: 'http://localhost:4173' },
+      use: {
+        ...devices['iPhone 14'],
+        browserName: 'chromium',
+        baseURL: `http://localhost:${base}`,
+      },
     },
     {
       name: 'none',
       testMatch: /signup-none\.spec\.ts/,
-      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:4174' },
+      use: { ...devices['Desktop Chrome'], baseURL: `http://localhost:${base + 1}` },
     },
     {
       name: 'fallback',
       testMatch: /signup-fallback\.spec\.ts/,
-      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:4175' },
+      use: { ...devices['Desktop Chrome'], baseURL: `http://localhost:${base + 2}` },
     },
   ],
 });
