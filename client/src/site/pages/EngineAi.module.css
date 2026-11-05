@@ -1,6 +1,9 @@
 .play {
   padding-top: 56px;
-  max-width: 960px;
+}
+
+.play > * {
+  max-width: 980px;
 }
 
 .verbs {

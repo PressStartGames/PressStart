@@ -85,7 +85,7 @@ export function LedgerProof() {
               <th scope="col">{hA}</th>
               <th scope="col">{hB}</th>
               <th scope="col">
-                <span className="visually-hidden">{field(S, 'verdict-pass')}</span>
+                <span className="visually-hidden">{field('site-tour', 'pass')}</span>
               </th>
             </tr>
           </thead>

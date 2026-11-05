@@ -97,25 +97,33 @@ export function GoldenProof() {
         </div>
         <div className={styles.strip}>
           <p className={styles.stripLabel}>{field(S, 'strip-label')}</p>
-          <ul data-scroller>
-            {STRIP.map((g) => {
-              const row = rowFor(g.file);
-              return (
-                <li key={g.file} data-on={g === FEATURED ? '' : undefined}>
-                  <img
-                    className={styles.pix}
-                    src={g.src}
-                    width={128}
-                    height={128}
-                    alt={row?.test ?? ''}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <span>{row?.test.replace('rig2d-character-', '')}</span>
-                </li>
-              );
-            })}
-          </ul>
+          <div
+            className={styles.stripScroll}
+            role="region"
+            tabIndex={0}
+            aria-label={field(S, 'strip-label')}
+            data-scroller
+          >
+            <ul>
+              {STRIP.map((g) => {
+                const row = rowFor(g.file);
+                return (
+                  <li key={g.file} data-on={g === FEATURED ? '' : undefined}>
+                    <img
+                      className={styles.pix}
+                      src={g.src}
+                      width={128}
+                      height={128}
+                      alt={row?.test ?? ''}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span>{row?.test.replace('rig2d-character-', '')}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </Screen>
       <p className={styles.caption}>

@@ -241,7 +241,6 @@
     min-height: 0;
   }
 
-
   .log li {
     grid-template-columns: minmax(0, 1fr);
     gap: 0;

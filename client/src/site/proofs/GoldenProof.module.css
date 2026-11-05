@@ -160,7 +160,15 @@
   padding: 0;
   display: flex;
   gap: 14px;
+}
+
+.stripScroll {
   overflow-x: auto;
+}
+
+.stripScroll:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
 }
 
 .strip li {
