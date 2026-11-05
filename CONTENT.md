@@ -349,7 +349,7 @@ legal: Privacy | Terms | Cookies
 groups: The engine | The project | The studio | Legal
 discord: Discord
 line: A game engine built around Bevy. Version 1 is not public yet.
-synced: Every number on this site is read from the engine's own repository by a script. Last sync {{syncedAt}}, engine commit
+synced: Every count on this site is read from the engine's own repository by a script. Last sync {{syncedAt}}, engine commit
 
 ## site-home
 
@@ -471,7 +471,7 @@ now: The licence wave and the memory work are under way.
 1. 2026-11-03 | Road | The editor wave's first row | The editor must open any project: the first piece of the editor wave is written down.
 2. 2026-11-02 | Road | The repository split, planned | The engine will be published as its own repository on a fresh history, after the licence wave.
 3. 2026-10-30 | Game | Team Fights, stage 1, is done | The first game on the engine, a bot-vs-bot team shooter made of primitives on our own map, Sandcourt. The founder played it.
-4. 2026-10-26 | Engine | Cleanup 2.0 closed | Every finding of the engine's own quality gate, fixed at the root.
+4. 2026-10-26 | Engine | Cleanup 2.0 closed | Every finding of the engine's own quality gate, closed.
 5. 2026-10-25 | Engine | First-person control | The pieces a first-person shooter needed: first-person control, and AI that moves to a point over the navmesh.
 
 ## site-involved

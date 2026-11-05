@@ -4,6 +4,7 @@ import type { SitePageId } from '../content/schema';
 import { BASE, DISCORD_URL, FLAGS } from '../lib/config';
 import { sitePagePath } from '../routes';
 import styles from './Layout.module.css';
+import { preloadFonts } from './lib/fonts';
 import { STRENGTHS } from './lib/strengths';
 import ui from './ui/ui.module.css';
 
@@ -38,6 +39,7 @@ function NavLinks({ labels }: { labels: string[] }) {
 
 // The frame of every main-site page: skip link, header (wordmark, nav, the beta button), <main>, footer.
 export function MainLayout() {
+  preloadFonts();
   const nav = splitList(field('site-header', 'nav'), '|');
   const navLabel = (id: SitePageId) => nav[NAV_PAGES.indexOf(id)] ?? id;
   const legal = splitList(field('site-footer', 'legal'), '|');

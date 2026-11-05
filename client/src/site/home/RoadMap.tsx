@@ -1,6 +1,9 @@
 import { useRef } from 'react';
 import { field, splitList } from '../../content';
-import { desktop, motionOk, useGsap } from '../../lib/gsap';
+import { desktop, motionOk } from '../../lib/gsap';
+import { useScrollGsap } from '../lib/useScrollGsap';
+
+const desktopMotion = () => motionOk() && desktop();
 import { rows } from '../lib/copy';
 import type { IconName } from '../lib/icons';
 import { vars } from '../lib/vars';
@@ -44,31 +47,26 @@ export function RoadMap({ detailed = false }: { detailed?: boolean }) {
   const here = stages.findIndex(([s]) => s === 'now');
   const map = useRef<HTMLDivElement>(null);
 
-  useGsap(
-    ({ gsap }) => {
-      const el = map.current;
-      if (!el) return;
-      const path = el.querySelector('[data-path]');
-      const nodes = el.querySelectorAll('[data-node]');
-      const marker = el.querySelector('[data-marker]');
-      const tl = gsap.timeline({
-        scrollTrigger: { trigger: el, start: 'top 72%', once: true },
-      });
-      tl.fromTo(
-        path,
-        { strokeDashoffset: 1 },
-        { strokeDashoffset: 0, duration: 2.2, ease: 'power1.inOut' },
-        0,
-      );
-      nodes.forEach((n, i) => {
-        tl.from(n, { scale: 0.3, opacity: 0, duration: 0.5, ease: 'back.out(2.5)' }, i * 0.27);
-      });
-      if (marker) tl.from(marker, { y: -60, opacity: 0, duration: 0.9, ease: 'bounce.out' }, 2);
-    },
-    [],
-    () => motionOk() && desktop(),
-    true,
-  );
+  useScrollGsap(({ gsap }) => {
+    const el = map.current;
+    if (!el) return;
+    const path = el.querySelector('[data-path]');
+    const nodes = el.querySelectorAll('[data-node]');
+    const marker = el.querySelector('[data-marker]');
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: el, start: 'top 72%', once: true },
+    });
+    tl.fromTo(
+      path,
+      { strokeDashoffset: 1 },
+      { strokeDashoffset: 0, duration: 2.2, ease: 'power1.inOut' },
+      0,
+    );
+    nodes.forEach((n, i) => {
+      tl.from(n, { scale: 0.3, opacity: 0, duration: 0.5, ease: 'back.out(2.5)' }, i * 0.27);
+    });
+    if (marker) tl.from(marker, { y: -60, opacity: 0, duration: 0.9, ease: 'bounce.out' }, 2);
+  }, desktopMotion);
 
   return (
     <div className={styles.root}>

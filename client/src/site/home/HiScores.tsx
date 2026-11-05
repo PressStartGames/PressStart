@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { counts, field } from '../../content';
-import { useGsap } from '../../lib/gsap';
+import { useScrollGsap } from '../lib/useScrollGsap';
 import { paragraphs, rows } from '../lib/copy';
 import { SectionHead } from '../ui/SectionHead';
 import ui from '../ui/ui.module.css';
@@ -14,31 +14,26 @@ const PAD = 6;
 export function HiScores() {
   const id = 'site-scores';
   const board = useRef<HTMLTableSectionElement>(null);
-  useGsap(
-    ({ gsap }) => {
-      const cells = board.current?.querySelectorAll<HTMLElement>('[data-score]');
-      if (!cells?.length) return;
-      cells.forEach((cell, i) => {
-        const value = Number(cell.dataset.score);
-        const n = { v: 0 };
-        cell.textContent = '0';
-        gsap.to(n, {
-          v: value,
-          duration: 1.6,
-          delay: i * 0.12,
-          ease: 'power3.out',
-          snap: { v: 1 },
-          onUpdate: () => {
-            cell.textContent = String(n.v);
-          },
-          scrollTrigger: { trigger: board.current, start: 'top 85%', once: true },
-        });
+  useScrollGsap(({ gsap }) => {
+    const cells = board.current?.querySelectorAll<HTMLElement>('[data-score]');
+    if (!cells?.length) return;
+    cells.forEach((cell, i) => {
+      const value = Number(cell.dataset.score);
+      const n = { v: 0 };
+      cell.textContent = '0';
+      gsap.to(n, {
+        v: value,
+        duration: 1.6,
+        delay: i * 0.12,
+        ease: 'power3.out',
+        snap: { v: 1 },
+        onUpdate: () => {
+          cell.textContent = String(n.v);
+        },
+        scrollTrigger: { trigger: board.current, start: 'top 85%', once: true },
       });
-    },
-    [],
-    undefined,
-    true,
-  );
+    });
+  });
   return (
     <section
       className={`${ui.section} ${ui.wrap} ${styles.section}`}

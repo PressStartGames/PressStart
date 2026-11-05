@@ -1,4 +1,4 @@
-import { useRef, type PointerEvent } from 'react';
+import { useEffect, useRef, useState, type PointerEvent } from 'react';
 import { field } from '../../content';
 import { finePointer, motionOk } from '../../lib/gsap';
 import { SIM } from '../../lib/sim';
@@ -17,6 +17,17 @@ export function Handheld() {
   const g = useReplay();
   const device = useRef<HTMLDivElement>(null);
   const busy = g.phase !== 'done';
+  // The console slides in once the page's fonts are in, so the text above it never moves it (CLS).
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let live = true;
+    void document.fonts.ready.then(() => {
+      if (live) setReady(true);
+    });
+    return () => {
+      live = false;
+    };
+  }, []);
   const verdict = g.phase === 'done' ? field(id, `verdict-${g.verdict}`) : '';
 
   // Tilt toward the pointer (fine pointers, motion allowed): two CSS variables, no React state.
@@ -36,7 +47,12 @@ export function Handheld() {
 
   return (
     <figure className={styles.figure}>
-      <div className={styles.stage} onPointerMove={onMove} onPointerLeave={onLeave}>
+      <div
+        className={styles.stage}
+        data-ready={ready || undefined}
+        onPointerMove={onMove}
+        onPointerLeave={onLeave}
+      >
         <div ref={device} className={styles.device} data-phase={g.phase} data-verdict={g.verdict}>
           <div className={styles.left} aria-hidden="true">
             <span className={styles.dpad} />

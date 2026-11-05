@@ -7,7 +7,10 @@
 /* a soft wash of the page's tone behind the title */
 .band {
   position: absolute;
-  inset: -40% -10% 30% 30%;
+  top: -240px;
+  left: 30%;
+  right: -10%;
+  height: 640px;
   background: radial-gradient(40% 50% at 60% 50%, var(--tone), transparent 70%);
   opacity: 0.22;
   pointer-events: none;
@@ -67,7 +70,10 @@
 
 @media (max-width: 640px) {
   .band {
-    inset: -20% -40% 50% -10%;
+    top: -160px;
+    left: -10%;
+    right: -40%;
+    height: 420px;
     opacity: 0.16;
   }
 }

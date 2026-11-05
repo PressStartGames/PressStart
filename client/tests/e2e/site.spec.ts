@@ -7,9 +7,10 @@ import counts from '../../data/counts.json' with { type: 'json' };
 import { readFileSync } from 'node:fs';
 
 // The Discord invite as lib/config.ts defines it (read, not retyped; config.ts needs Vite's env).
-const DISCORD_URL = /DISCORD_URL = '([^']+)'/.exec(
-  readFileSync(new URL('../../src/lib/config.ts', import.meta.url), 'utf8'),
-)?.[1];
+const DISCORD_URL =
+  /DISCORD_URL = '([^']+)'/.exec(
+    readFileSync(new URL('../../src/lib/config.ts', import.meta.url), 'utf8'),
+  )?.[1] ?? 'DISCORD_URL missing from lib/config.ts';
 
 const PAGES = [
   { path: '/engine/', h1: 'Built around Bevy, written as documents.' },

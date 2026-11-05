@@ -45,15 +45,15 @@ without JavaScript.
    the misses (PARTIAL) and the sync date and engine commit. _Proves: nothing is typed by hand; we publish
    the misses._
 5. _The road_ — an overworld map of the road to version 1: cleared, now, next, ahead; no dates. The path
-   draws with the scroll and the "you are here" marker lands on the current stage.
+   draws in once when it scrolls into view and the "you are here" marker lands on the current stage.
 6. _Patch notes_ — what landed, from `mission/roadmap.md` (past dates only; the internal build lane is never
    mentioned).
-7. _Get involved_ — three doors: join the beta, follow the road, read how it works; the honest note that
-   the repository goes public with version 1.
+7. _Get involved_ — four cartridges: join the beta, say hello on Discord, follow the road, read how it
+   works; the honest note that the repository goes public with version 1.
 8. _Press Start_ — the closing band: a big pixel PRESS START on a screen and the beta button.
 
-**Footer** — dark screen colour, grouped links (Engine strengths, Project, Studio, Legal), the beta's line
-and the sync stamp from `counts.json`.
+**Footer** — dark screen colour, grouped links (Engine strengths, Project, Studio with Discord, Legal),
+the beta's line and the sync stamp from `counts.json`.
 
 **`/engine`** — hero; "how a game is made here" as a four-step loop (Write · Run · Prove · Own) with
 pixel icons; the five strengths as coloured cards linking to their pages; the four verbs as a mini console
@@ -73,7 +73,11 @@ already made, and what "beta" means.
 legal) — a styled "level not unlocked yet" page: the page's own honest copy from CONTENT.md, a pixel lock,
 and doors to the designed pages. **404** — "Tick not found", drawn as a checksum mismatch.
 
-## Motion moments (GSAP loaded lazily after idle; CSS for the rest)
+## Motion moments (GSAP loaded lazily; CSS for the rest)
+
+The scroll layer (ScrollTrigger, SplitText) loads only after the visitor first scrolls, presses a key or
+touches the page (`lib/useScrollGsap.ts`): a visit that never scrolls never pays for it, and the first
+paint never waits on it.
 
 | Moment                                                                                                  | How                                    | Shows                      |
 | ------------------------------------------------------------------------------------------------------- | -------------------------------------- | -------------------------- |
@@ -83,7 +87,7 @@ and doors to the designed pages. **404** — "Tick not found", drawn as a checks
 | Four buttons press in sequence when they enter (a combo)                                                | CSS on `data-visible`                  | the four values as one set |
 | Feature card illustrations play once on reveal (typing verbs, fanning documents, pixel compare)         | CSS                                    | each card's fact           |
 | High scores roll up digit by digit                                                                      | GSAP                                   | the counts are live data   |
-| The road's path draws with scroll, nodes pop, the marker lands on "now"                                 | GSAP ScrollTrigger scrub               | where we are               |
+| The road's path draws in, nodes pop, the marker lands on "now"                                          | GSAP timeline, ScrollTrigger once      | where we are               |
 | Section headings rise word by word                                                                      | GSAP SplitText                         | guides the eye             |
 | Core board on `/engine/parallel`: blocks drop into lanes, the gate orders a conflicting pair            | GSAP timeline                          | the parallel rule          |
 | Hover: buttons press with a spring, cards lift, links nudge                                             | CSS                                    | affordance                 |
