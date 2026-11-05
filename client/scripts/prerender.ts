@@ -99,6 +99,9 @@ for (const r of PRERENDER) {
       [head, preload, area === 'site' ? siteFaces : '', tags].filter(Boolean).join('\n    '),
     )
     .replace('<!--app-html-->', html);
+  // CLAUDE.md: the site never names Bevy and never says "honest"/"honestly", wherever the words come from.
+  const banned = /bevy|honest/i.exec(page);
+  if (banned) throw new Error(`${r.file} contains the banned word "${banned[0]}"`);
   const out = join(dist, r.file);
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, page);

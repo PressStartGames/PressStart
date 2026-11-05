@@ -70,7 +70,7 @@ test('the home page reads: one h1, landmarks, the way into the beta', async ({ p
   await join.click();
   await expect(page).toHaveURL(/\/beta\/$/);
   await expect(page.locator('h1')).toContainText('A game engine an AI can build in');
-  await expect(page.getByRole('heading', { name: 'Where we are, honestly.' })).toBeAttached();
+  await expect(page.getByRole('heading', { name: 'Where we are.' })).toBeAttached();
 });
 
 test('the tour: every stage is on the page, in the select screen and in the map', async ({
@@ -159,7 +159,7 @@ test('client navigation between site pages updates the title', async ({ page, is
   await nav.getByRole('link', { name: 'Engine' }).click();
   await expect(page).toHaveURL(/\/engine$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-    'Built around Bevy, written as documents.',
+    'An engine written as documents.',
   );
   await expect(page).toHaveTitle('The engine · Press Start');
 });

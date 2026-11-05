@@ -22,6 +22,10 @@ export interface RenderRow {
 
 export const renders = manifest.images as RenderRow[];
 export const rowFor = (file: string): RenderRow | undefined => renders.find((r) => r.file === file);
+// The crate as the page shows it: the manifest keeps the real name for provenance, the page drops the
+// "press_start_" prefix and the engine-internal "_bevy" suffix (CLAUDE.md: Bevy is never named on the site).
+export const crateLabel = (crate: string): string =>
+  crate.replace(/^press_start_/, '').replace(/_bevy$/, '');
 
 // The contact sheet: raster goldens as responsive pictures, pixel goldens as plain urls.
 const pictures = import.meta.glob('../../assets/renders/*.png', {
