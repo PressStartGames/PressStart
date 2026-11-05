@@ -14,12 +14,22 @@ for (const [mode, vars] of Object.entries(modes)) {
     ...process.env,
     ...vars,
     VITE_BASE: '/',
+    PS_MODE: 'e2e',
     DIST: `dist-e2e/${mode}`,
     SSR_DIST: `dist-e2e/${mode}-ssr`,
   };
   const run = (args: string[]) =>
     execFileSync('pnpm', ['exec', ...args], { env, stdio: 'inherit', shell: true });
-  run(['vite', 'build', '--outDir', `dist-e2e/${mode}`]);
-  run(['vite', 'build', '--ssr', 'src/entry-server.tsx', '--outDir', `dist-e2e/${mode}-ssr`]);
+  run(['vite', 'build', '--mode', 'e2e', '--outDir', `dist-e2e/${mode}`]);
+  run([
+    'vite',
+    'build',
+    '--ssr',
+    'src/entry-server.tsx',
+    '--outDir',
+    `dist-e2e/${mode}-ssr`,
+    '--mode',
+    'e2e',
+  ]);
   run(['tsx', 'scripts/prerender.ts']);
 }

@@ -2,7 +2,13 @@
 // be sent without another API call) sealed with AES-GCM under SESSION_SECRET, in one HttpOnly,
 // Secure, SameSite=Lax cookie scoped to the API path. Page scripts can never read it.
 
+// Production's name; other environments set SESSION_COOKIE_NAME (staging: ps_session_staging) and no
+// COOKIE_DOMAIN, so a session never crosses environments.
 export const COOKIE = 'ps_session';
+export function cookieName(env: { SESSION_COOKIE_NAME?: string }): string {
+  const n = (env.SESSION_COOKIE_NAME ?? '').trim();
+  return /^[A-Za-z0-9_-]+$/.test(n) ? n : COOKIE;
+}
 const MAX_AGE = 7 * 24 * 60 * 60; // the cookie lives a week; the refresh token decides the rest
 
 export interface SessionData {
@@ -69,9 +75,9 @@ export function readCookie(request: Request, name = COOKIE): string | null {
 
 // Domain is set only when configured (production: ".pressstartgames.net"); locally the cookie is
 // host-only so `wrangler dev` and the tests work on localhost.
-export function sessionCookie(value: string, domain?: string): string {
+export function sessionCookie(value: string, domain?: string, name = COOKIE): string {
   return [
-    `${COOKIE}=${value}`,
+    `${name}=${value}`,
     'Path=/api/v1',
     `Max-Age=${MAX_AGE}`,
     'HttpOnly',
@@ -83,9 +89,9 @@ export function sessionCookie(value: string, domain?: string): string {
     .join('; ');
 }
 
-export function clearCookie(domain?: string): string {
+export function clearCookie(domain?: string, name = COOKIE): string {
   return [
-    `${COOKIE}=`,
+    `${name}=`,
     'Path=/api/v1',
     'Max-Age=0',
     'HttpOnly',

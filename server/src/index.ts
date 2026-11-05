@@ -11,6 +11,7 @@
 import { handleAdmin } from './admin';
 import { adminCors, handleAuth } from './auth';
 import { processAll } from './broadcast';
+import { deliveryFor } from './delivery';
 import { json, type Env } from './env';
 import { alreadySubscribedMail, confirmationMail } from './mail';
 import { normaliseEmail, validEmail } from './email';
@@ -63,8 +64,9 @@ async function sendMail(
   text: string,
   html: string,
 ): Promise<void> {
-  if (!env.RESEND_API_KEY) {
-    console.log(`[mail not sent: no RESEND_API_KEY] to=${to} subject=${subject}\n${text}`);
+  const delivery = deliveryFor(env, to);
+  if (delivery !== 'send') {
+    console.log(`[mail not sent: ${delivery}] to=${to} subject=${subject}\n${text}`);
     return;
   }
   const res = await fetch('https://api.resend.com/emails', {
