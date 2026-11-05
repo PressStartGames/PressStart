@@ -25,6 +25,7 @@ export const BASE = import.meta.env.BASE_URL;
 // React Router's basename follows Vite's base ("/" or "/<repo>/").
 export const ROUTER_BASENAME = BASE.replace(/\/$/, '') || '/';
 export const REPO_URL = 'https://github.com/PressStartGames/PressStartWeb';
+export const DISCORD_URL = 'https://discord.gg/XrmRJ5p2Xf';
 // Bumped whenever CONTENT.md's `consent` line changes; the Worker stores it with the row.
 export const CONSENT_VERSION = '2026-11-01';
 // Feature flags (plans/main-site.md: "Join the beta" is flag-ready; phase 5 moves flags to GrowthBook).
