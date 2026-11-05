@@ -1,11 +1,11 @@
-# Staging: every push to `dev` deploys https://staging.pressstartgames.net (site Worker), its API Worker (after the
-# staging D1 migrations) and https://admin-staging.pressstartgames.net. No approval. Branches: `dev` -> staging
+# Staging: every push to `staging` deploys https://staging.pressstartgames.net (site Worker), its API Worker (after the
+# staging D1 migrations) and https://admin-staging.pressstartgames.net. No approval. Branches: `staging` -> staging
 # (this file), `main` -> production (deploy-production.yml, approval-gated).
 name: Deploy staging
 
 on:
   push:
-    branches: [dev]
+    branches: [staging]
   workflow_dispatch:
 
 permissions:

@@ -4,7 +4,7 @@
 # the run in GitHub (Actions -> the run -> Review deployments). Remove the reviewer in Settings -> Environments
 # -> production to deploy without the click.
 #
-# Branches: `dev` -> staging (deploy-staging.yml), `main` -> production (this file). The manual button deploys
+# Branches: `staging` -> staging (deploy-staging.yml), `main` -> production (this file). The manual button deploys
 # any ref that is already green on staging.
 name: Deploy production
 

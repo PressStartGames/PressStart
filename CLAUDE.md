@@ -33,12 +33,12 @@ client/   Vite + React 19 + TypeScript SPA (the site)
 server/   Cloudflare Worker + D1 (the email store): src/index.ts, schema.sql, wrangler.toml, scripts/
 docs/     the plan's brief, the reference screenshots
 site-worker/  edge/  beta-redirect/   the Cloudflare Workers that serve the site, its experiments, the old beta address
-.github/workflows/   ci.yml, deploy-staging.yml (dev), deploy-production.yml (main), _deploy.yml, preview.yml
+.github/workflows/   ci.yml, deploy-staging.yml (branch staging), deploy-production.yml (main), _deploy.yml, preview.yml
 ```
 
 A pnpm workspace at the root (`client`, `server`, `admin`, `site-worker`, `edge`); Node pinned in `.nvmrc`. **Branches:
-a push to `dev` deploys staging; a push to `main` deploys production after the founder approves the run** (GitHub
-Environment `production`). CI builds and tests every PR and every push to `dev` and `main`.
+a push to the `staging` branch deploys staging; a push to `main` deploys production after the founder approves the run** (GitHub
+Environment `production`). CI builds and tests every PR and every push to `staging` and `main`.
 
 ### client/ — the stack (PLAN.md §5, fixed)
 

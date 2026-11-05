@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main, dev]
+    branches: [main, staging]
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -27,9 +27,13 @@ jobs:
         run: pnpm test
       - name: Build the site (prerendered)
         run: pnpm --filter client build
+        # Lighthouse runs this build on localhost: the real analytics beacon and GrowthBook would fail there and log
+        # console errors (Best Practices), so CI builds it with both off. The deployed builds keep them.
         env:
           VITE_BASE: /
-          VITE_SITE_URL: https://beta.pressstartgames.net
+          VITE_SITE_URL: https://pressstartgames.net
+          VITE_CF_BEACON_TOKEN: ''
+          VITE_GROWTHBOOK_CLIENT_KEY: ''
       - name: Install Playwright Chromium
         run: pnpm --filter client exec playwright install --with-deps chromium
       - name: Build the three sign-up modes
