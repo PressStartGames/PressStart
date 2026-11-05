@@ -1,5 +1,76 @@
 /* /engine and /engine/oracles. */
 
+/* The map in the head: the three moves and their pages, on a screen. */
+.map {
+  margin: 0;
+  padding: 8px;
+  list-style: none;
+  border-radius: 16px;
+  background: var(--screen);
+  box-shadow:
+    0 0 0 1px #000 inset,
+    0 0 0 8px var(--chassis-raised),
+    0 0 0 9px var(--bezel-edge),
+    0 30px 60px -30px rgb(17 19 24 / 60%);
+}
+
+.map li + li {
+  border-top: 1px solid var(--screen-line);
+}
+
+.mapRow {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 4px 14px;
+  align-items: center;
+  padding: 14px 12px;
+  border-radius: 10px;
+  color: #fff;
+  text-decoration: none;
+  transition: background-color var(--fast) var(--ease);
+}
+
+.mapRow:hover {
+  background: var(--screen-raised);
+}
+
+.mapRow:focus-visible {
+  outline-color: var(--prove);
+}
+
+.mapTitle {
+  font-size: var(--t-18);
+  font-weight: 600;
+}
+
+.map .jumpIndex {
+  color: var(--screen-muted);
+}
+
+.mapPages {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mapPages span {
+  padding: 2px 8px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px var(--screen-line) inset;
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  color: var(--screen-fg);
+}
+
+.map [data-move='prove'] .jumpIcon {
+  color: var(--prove);
+}
+
+.map [data-move='own'] .jumpIcon {
+  color: var(--own);
+}
+
 /* The chapter jump list in the head. */
 .jump {
   display: flex;

@@ -18,44 +18,49 @@ export function PageHead({
   move,
   crumbs = [],
   children,
+  aside,
 }: {
   id: string;
   move?: Move;
   crumbs?: Crumb[];
   children?: ReactNode;
+  aside?: ReactNode;
 }) {
   const body = section(id).blocks.flatMap((b) => (b.type === 'p' ? [b.text] : []));
   return (
     <header className={styles.head} data-move={move}>
-      <div className="frame">
-        {crumbs.length ? (
-          <nav className={`${styles.crumbs} enter`} aria-label={field('site-stub', 'crumbs')}>
-            <ol>
-              {crumbs.map((c) => (
-                <li key={c.to}>
-                  <Link to={c.to}>{c.label}</Link>
-                </li>
-              ))}
-            </ol>
-          </nav>
-        ) : null}
-        <p className={`${styles.kicker} enter`}>
-          {move ? (
-            <span className={styles.chip} data-move={move}>
-              <PixelIcon name={move} size={16} />
-            </span>
+      <div className={`frame ${aside ? styles.headGrid : ''}`}>
+        <div>
+          {crumbs.length ? (
+            <nav className={`${styles.crumbs} enter`} aria-label={field('site-stub', 'crumbs')}>
+              <ol>
+                {crumbs.map((c) => (
+                  <li key={c.to}>
+                    <Link to={c.to}>{c.label}</Link>
+                  </li>
+                ))}
+              </ol>
+            </nav>
           ) : null}
-          {field(id, 'kicker')}
-        </p>
-        <h1 className={`${styles.h1} enter-solid`}>{field(id, 'headline')}</h1>
-        <div className={`${styles.lede} enter`}>
-          {body.map((t, i) => (
-            <p key={i}>
-              <Inline text={t} />
-            </p>
-          ))}
+          <p className={`${styles.kicker} enter`}>
+            {move ? (
+              <span className={styles.chip} data-move={move}>
+                <PixelIcon name={move} size={16} />
+              </span>
+            ) : null}
+            {field(id, 'kicker')}
+          </p>
+          <h1 className={`${styles.h1} enter-solid`}>{field(id, 'headline')}</h1>
+          <div className={`${styles.lede} enter`}>
+            {body.map((t, i) => (
+              <p key={i}>
+                <Inline text={t} />
+              </p>
+            ))}
+          </div>
+          {children}
         </div>
-        {children}
+        {aside}
       </div>
     </header>
   );

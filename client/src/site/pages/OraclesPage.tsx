@@ -5,7 +5,7 @@ import { rowFor } from '../../lib/renders';
 import { crumbsFor, GOLDEN_FILE, href, list, navEntry, rows } from '../data';
 import { Golden } from '../Golden';
 import { JoinBand } from '../JoinBand';
-import { reveal } from '../motion';
+import { countUp, reveal } from '../motion';
 import { PixelIcon } from '../PixelIcon';
 import ui from '../ui.module.css';
 import { FlapBoard } from './FlapBoard';
@@ -20,10 +20,25 @@ export function OraclesPage() {
   const steps = rows(S, 'steps');
   const rules = rows(S, 'rules');
   const golden = rowFor(GOLDEN_FILE);
+  // The reference-tool count, as the home page's facts strip says it (synced, never typed).
+  const refs = rows('site-home-facts', 'items')[2] ?? [];
   const [crate = '', test = '', commit = ''] = list(S, 'provenance');
   return (
     <>
-      <PageHead id="page-engine-oracles" move="prove" crumbs={crumbsFor('engine-oracles')} />
+      <PageHead
+        id="page-engine-oracles"
+        move="prove"
+        crumbs={crumbsFor('engine-oracles')}
+        aside={
+          <p className={`${styles.count} enter`}>
+            <span className={styles.countN} ref={countUp}>
+              {refs[0]}
+            </span>
+            <span className={styles.countLabel}>{refs[1]}</span>
+            <span className={styles.countNote}>{refs[2]}</span>
+          </p>
+        }
+      />
 
       <section className={`${ui.section} ${styles.steps}`} aria-labelledby="steps-title">
         <div className="frame">

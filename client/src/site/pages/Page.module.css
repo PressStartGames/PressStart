@@ -22,6 +22,19 @@
   --tint: #dbe1f5;
 }
 
+.headGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 48px 64px;
+  align-items: end;
+}
+
+@media (max-width: 960px) {
+  .headGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .crumbs ol {
   display: flex;
   flex-wrap: wrap;

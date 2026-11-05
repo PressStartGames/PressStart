@@ -22,21 +22,33 @@ export function EnginePage() {
   const road = list(S, 'road');
   return (
     <>
-      <PageHead id="page-engine">
-        <ol className={styles.jump}>
-          {chapters.map(([move = '', title = ''], i) => (
-            <li key={move}>
-              <a href={`#${move}`} data-move={move}>
-                <span className={styles.jumpIcon}>
-                  <PixelIcon name={move as Move} size={16} />
-                </span>
-                <span className={styles.jumpIndex}>0{i + 1}</span>
-                {title}
-              </a>
-            </li>
-          ))}
-        </ol>
-      </PageHead>
+      <PageHead
+        id="page-engine"
+        aside={
+          <ol
+            className={`${styles.map} enter`}
+            style={{ '--enter-delay': '200ms' } as CSSProperties}
+          >
+            {chapters.map(([move = '', title = ''], i) => (
+              <li key={move} data-move={move}>
+                <a href={`#${move}`} className={styles.mapRow}>
+                  <span className={styles.jumpIcon}>
+                    <PixelIcon name={move as Move} size={18} />
+                  </span>
+                  <span className={styles.mapTitle}>
+                    <span className={styles.jumpIndex}>0{i + 1}</span> {title}
+                  </span>
+                  <span className={styles.mapPages}>
+                    {(columns.find((c) => c.move === move)?.entries ?? []).map((e) => (
+                      <span key={e.id}>{e.label}</span>
+                    ))}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        }
+      />
 
       <div className={`frame ${styles.chapters}`}>
         {chapters.map(([move = '', title = '', text = ''], i) => {

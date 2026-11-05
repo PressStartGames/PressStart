@@ -1,4 +1,46 @@
 /* /engine/oracles. */
+.count {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  justify-self: end;
+  width: min(100%, 340px);
+  padding: 28px;
+  border-radius: 16px;
+  background: var(--screen);
+  color: var(--screen-fg);
+  box-shadow:
+    0 0 0 1px #000 inset,
+    0 0 0 8px var(--chassis-raised),
+    0 0 0 9px var(--bezel-edge),
+    0 30px 60px -30px rgb(17 19 24 / 60%);
+}
+
+.countN {
+  font-family: var(--font-pixel);
+  font-size: clamp(3rem, 2rem + 3vw, 4.5rem);
+  line-height: 1.1;
+  color: var(--prove);
+  text-shadow: 0 0 24px rgb(56 224 143 / 45%);
+  font-variant-numeric: tabular-nums;
+}
+
+.countLabel {
+  margin-top: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.countNote {
+  font-size: var(--t-14);
+  color: var(--screen-muted);
+}
+
+@media (max-width: 960px) {
+  .count {
+    justify-self: start;
+  }
+}
 .label,
 .labelOnDark {
   margin-bottom: 28px;
