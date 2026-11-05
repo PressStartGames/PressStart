@@ -110,7 +110,7 @@ export const CONTENT_SCHEMA: Record<string, readonly string[]> = {
   confirmed: ['kicker', 'headline', 'cta'],
   'not-found': ['kicker', 'headline', 'cta'],
   'site-header': ['wordmark', 'skip', 'nav-label', 'menu-label', 'menu', 'nav', 'cta'],
-  'site-footer': ['label', 'legal', 'line', 'columns', 'beta'],
+  'site-footer': ['label', 'legal', 'line', 'columns', 'beta', 'discord', 'discord-line'],
   'site-home': [
     'title',
     'description',

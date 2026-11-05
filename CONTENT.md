@@ -349,6 +349,8 @@ legal: Privacy | Terms | Cookies
 line: A game engine built around Bevy. Version 1 is not public yet.
 columns: Engine | Site | Legal
 beta: The beta
+discord: Discord
+discord-line: Talk to the people building the engine.
 
 ## site-home
 

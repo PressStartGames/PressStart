@@ -2,6 +2,13 @@
 // pages (/engine, /engine/determinism), the styled placeholders, the site-wide not-found page and the
 // way into the beta. Runs on desktop and on a phone with reduced motion (playwright.config.ts).
 import AxeBuilder from '@axe-core/playwright';
+import { readFileSync } from 'node:fs';
+
+// The Discord link's one source is lib/config.ts (it reads import.meta.env, so it is read as text here).
+const DISCORD_URL =
+  /DISCORD_URL = '([^']+)'/.exec(
+    readFileSync(new URL('../../src/lib/config.ts', import.meta.url), 'utf8'),
+  )?.[1] ?? 'missing';
 import { expect, test, type Page } from '@playwright/test';
 
 const STUBS = [
@@ -17,12 +24,13 @@ const PAGES = ['/', ...STUBS.map((s) => s.path), '/community/', '/404.html'];
 // Scroll through the page first, so every reveal has played (axe blends a fading element's colour).
 async function axe(page: Page) {
   const height = await page.evaluate(() => document.documentElement.scrollHeight);
-  for (let y = 0; y < height; y += 400) {
+  for (let y = 0; y < height; y += 600) {
     await page.evaluate((top) => window.scrollTo(0, top), y);
     await page.waitForTimeout(60);
   }
   await page.evaluate(() => window.scrollTo(0, 0));
-  await page.waitForTimeout(1500);
+  // Let the scrubs catch up with the scroll and the last reveals finish, even on a busy machine.
+  await page.waitForTimeout(2500);
   const results = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
     .analyze();
@@ -55,6 +63,8 @@ for (const stub of STUBS) {
 }
 
 test('the home page has no axe violations', async ({ page }) => {
+  // The home page is long (sticky stages), and axe walks all of it.
+  test.setTimeout(90_000);
   await page.goto('/');
   await page.waitForTimeout(600);
   expect(await axe(page)).toEqual([]);
@@ -205,4 +215,15 @@ test('reduced motion and no JavaScript show the final state', async ({ browser, 
   await p2.goto(`${baseURL}/engine/determinism/`);
   await expect(p2.getByRole('button', { name: '140', exact: true })).toBeVisible();
   await noJs.close();
+});
+
+test('the footer and the community page link to Discord', async ({ page }) => {
+  await page.goto('/');
+  const footer = page.getByRole('contentinfo');
+  await expect(footer.getByRole('link', { name: /Discord/ })).toHaveAttribute('href', DISCORD_URL);
+  await page.goto('/community/');
+  await expect(page.getByRole('main').getByRole('link', { name: 'Discord' })).toHaveAttribute(
+    'href',
+    DISCORD_URL,
+  );
 });

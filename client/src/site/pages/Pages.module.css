@@ -20,6 +20,15 @@
   background: repeating-linear-gradient(135deg, var(--amber) 0 2px, var(--ink) 2px 4px);
 }
 
+.wayLead {
+  margin-top: 20px;
+  max-width: 24ch;
+  font-size: var(--t-40);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
 .wayBody {
   margin-top: 20px;
   max-width: 54ch;

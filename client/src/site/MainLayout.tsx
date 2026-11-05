@@ -1,7 +1,7 @@
 import { Link, NavLink, Outlet, useLocation } from 'react-router';
 import { field, splitList } from '../content';
 import type { SitePageId } from '../content/schema';
-import { BASE, FLAGS } from '../lib/config';
+import { BASE, DISCORD_URL, FLAGS } from '../lib/config';
 import { sitePagePath } from '../routes';
 import { Motion } from './Motion';
 import styles from './Layout.module.css';
@@ -83,6 +83,19 @@ export function MainLayout() {
               {wordmark}
             </p>
             <p className={styles.line}>{field('site-footer', 'line')}</p>
+            <a className={styles.discord} href={DISCORD_URL} rel="noopener">
+              <span className={styles.pad} aria-hidden="true">
+                <span />
+                <span />
+              </span>
+              <span className={styles.discordText}>
+                <b>{field('site-footer', 'discord')}</b>
+                <span>{field('site-footer', 'discord-line')}</span>
+              </span>
+              <span className={styles.discordGo} aria-hidden="true">
+                →
+              </span>
+            </a>
             {FLAGS.joinBeta ? (
               <a className={styles.footCta} href={`${BASE}beta/`}>
                 {field('site-footer', 'beta')}

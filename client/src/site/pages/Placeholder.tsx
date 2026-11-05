@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { field } from '../../content';
 import { Inline } from '../../content/inline';
 import type { SitePageId } from '../../content/schema';
-import { BASE, FLAGS } from '../../lib/config';
+import { BASE, DISCORD_URL, FLAGS } from '../../lib/config';
 import { sitePagePath } from '../../routes';
 import { TitleBand } from '../components/TitleBand';
 import { Board } from '../home/visuals/Board';
@@ -46,6 +46,7 @@ export function Placeholder({ id }: { id: SitePageId }) {
               <span className={styles.building} aria-hidden="true" />
               {field('site-placeholder', 'label')}
             </p>
+            <p className={styles.wayLead}>{field(sid, 'description')}</p>
             {rest.map((p) => (
               <p key={p} className={styles.wayBody}>
                 <Inline text={p} />
@@ -65,6 +66,11 @@ export function Placeholder({ id }: { id: SitePageId }) {
               <Link className={ui.arrow} to={sitePagePath(next)}>
                 {field('site-placeholder', 'next')}: {field(`page-${next}`, 'kicker')}
               </Link>
+            ) : null}
+            {id === 'community' ? (
+              <a className={ui.arrow} href={DISCORD_URL} rel="noopener">
+                {field('site-footer', 'discord')}
+              </a>
             ) : null}
             {FLAGS.joinBeta ? (
               <a className={`${ui.btn} ${ui.btnInk}`} href={`${BASE}beta/`}>

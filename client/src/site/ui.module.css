@@ -137,3 +137,11 @@
     transition: none;
   }
 }
+
+@media (max-width: 560px) {
+  .btn {
+    white-space: normal;
+    padding-block: 12px;
+    line-height: 1.4;
+  }
+}
