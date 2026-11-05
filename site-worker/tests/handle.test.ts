@@ -74,12 +74,13 @@ describe('wrangler.jsonc', () => {
     expect(cfg.env.staging?.assets.run_worker_first).toBe(true);
   });
 
-  it('declares the GrowthBook vars, empty until the founder supplies them', () => {
+  it('declares a GrowthBook client key per environment (public sdk- keys) and the default host', () => {
     for (const e of ['staging', 'production']) {
-      expect(cfg.env[e]?.vars).toMatchObject({
-        GROWTHBOOK_CLIENT_KEY: '',
-        GROWTHBOOK_API_HOST: '',
-      });
+      expect(cfg.env[e]?.vars?.GROWTHBOOK_CLIENT_KEY).toMatch(/^sdk-[A-Za-z0-9]+$/);
+      expect(cfg.env[e]?.vars?.GROWTHBOOK_API_HOST).toBe('');
     }
+    expect(cfg.env.staging?.vars?.GROWTHBOOK_CLIENT_KEY).not.toBe(
+      cfg.env.production?.vars?.GROWTHBOOK_CLIENT_KEY,
+    );
   });
 });
