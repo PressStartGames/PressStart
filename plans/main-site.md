@@ -37,12 +37,12 @@ Update the status column as phases land.
 |---|---|---|---|---|
 | 0 | Rename and housekeeping | Founder + Claude | — | done 2026-11-05 |
 | 1 | Routing skeleton: one app, `/` and `/beta/*` | Claude (agent) | Opus | done (local, branch main-site/routing) |
-| 2 | Four layouts for `/`, one worktree each | Claude (4 agents) | Opus | open |
+| 2 | Four layouts for `/`, one worktree each | Claude (4 agents) | Opus | done: the founder chose L4 Feature tour (2026-11-05) |
 | 3 | The React standard (skill + lint) for all three apps | Claude (agent) | Sonnet | done (local, merged into main-site/routing) |
 | 4 | Analytics with consent, the new promise | Claude (agent) | Sonnet | done, integrated on `main-site/integration` (local); needs the GA4 measurement IDs, the Cloudflare Web Analytics token and the founder's approval of the privacy wording |
 | 5 | Feature flags and split testing (GrowthBook) | Claude (agent) + founder (account) | Sonnet | done, integrated on `main-site/integration` (local; the site Worker runs `edge/` `handleHtml` on `/`); needs the GrowthBook account, SDK client keys (staging + production, set as `VITE_GROWTHBOOK_CLIENT_KEY` and the Worker var `GROWTHBOOK_CLIENT_KEY`), and the `join-beta-cta` and `home-headline` features created |
 | 6 | Environments and the pipeline | Claude (agent) + founder (token, keys) | Sonnet | done, integrated on `main-site/integration` (local); needs the founder's Cloudflare token + account id (staging and production GitHub Environments), the `production` reviewer rule, the staging D1 id, DNS for `staging` / `admin-staging`, WorkOS production keys |
-| 7 | Production cut-over | Claude + founder (approval) | — | open |
+| 7 | Production cut-over | Claude + founder (approval) | — | done 2026-11-05: pressstartgames.net live, beta.* redirects to /beta |
 
 Phases 3–6 run after phase 1 and can overlap with phase 2 (separate worktrees, separate files). Phase 2's
 winner is merged before phase 7. Design work (1, 2) uses the strongest model because design quality was the
