@@ -32,11 +32,13 @@ client/   Vite + React 19 + TypeScript SPA (the site)
           src/{sections,components,lib,pages,content,styles}  data/  assets/renders/  public/  scripts/  tests/
 server/   Cloudflare Worker + D1 (the email store): src/index.ts, schema.sql, wrangler.toml, scripts/
 docs/     the plan's brief, the reference screenshots
-.github/workflows/   ci.yml (both packages), deploy.yml (client -> gh-pages)
+site-worker/  edge/  beta-redirect/   the Cloudflare Workers that serve the site, its experiments, the old beta address
+.github/workflows/   ci.yml, deploy-staging.yml (dev), deploy-production.yml (main), _deploy.yml, preview.yml
 ```
 
-A pnpm workspace at the root (`client`, `server`); Node pinned in `.nvmrc` (current LTS). Client deploy = a push
-to `main` (deploy.yml -> `gh-pages`); no PR preview deploys (Pages has one site), CI builds and tests every PR.
+A pnpm workspace at the root (`client`, `server`, `admin`, `site-worker`, `edge`); Node pinned in `.nvmrc`. **Branches:
+a push to `dev` deploys staging; a push to `main` deploys production after the founder approves the run** (GitHub
+Environment `production`). CI builds and tests every PR and every push to `dev` and `main`.
 
 ### client/ — the stack (PLAN.md §5, fixed)
 
@@ -52,7 +54,7 @@ to `main` (deploy.yml -> `gh-pages`); no PR preview deploys (Pages has one site)
 - **WCAG 2.2 AA**: landmarks, one `h1`, visible labels, a `role="status"` live region for the form, focus moved to
   the result, a skip link, visible focus rings. **`prefers-reduced-motion` is respected everywhere**: every
   animation has a final-state fallback, which is also the no-JS state.
-- **Lighthouse (mobile) ≥ 95 / 100 / 100 / 100**; LCP ≤ 2.0 s, CLS ≤ 0.02, TBT ≤ 150 ms, initial JS ≤ 90 KB gzip,
+- **Lighthouse (mobile) ≥ 95 / 100 / 100 / 100**; LCP ≤ 2.0 s, CLS ≤ 0.02, TBT ≤ 150 ms, initial JS ≤ 125 KB gzip (founder, 2026-11-05: React + the router + the copy sit at ~120 KB),
   first view ≤ 1.2 MB; asserted in `lighthouserc.json` in CI.
 - Tests: Vitest (content, sign-up state machine); Playwright e2e + axe on `vite preview`, stubbed API, reduced motion.
 
@@ -69,17 +71,16 @@ no user agent stored). CORS admits only the site's origin(s). `scripts/export-si
 3. neither set -> the sign-up block renders a static "coming soon" card (no form, no dead button).
 The e2e suite covers all three.
 
-## Hosting
+## Hosting (Cloudflare since 2026-11-05; GitHub Pages retired)
 
-- **Client on GitHub Pages.** `.github/workflows/deploy.yml` (free GitHub-hosted runners) builds `client/` and
-  publishes `client/dist` to the `gh-pages` branch on every push to `main`.
-- **SPA routing on Pages — decided: prerendered routes + `404.html`; no hash routing.** Each route is emitted as
-  `<route>/index.html`, so Pages serves `/privacy` and `/confirmed` directly; the prerendered not-found page is
-  copied to `dist/404.html`. Hash routing is refused: it defeats prerendering, link previews and the confirm
-  redirect. Vite's `base` comes from `VITE_BASE` (`/` for a custom domain via `public/CNAME`; `/<repo>/` for a
-  project page) and React Router's `basename` follows it.
-- **The server deploys separately**: `wrangler deploy` from `server/` (by hand, or a `deploy-server.yml` on
-  `workflow_dispatch`), D1 migrations from `server/schema.sql`, on its own origin (`*.workers.dev` or `api.<domain>`).
+- **Site on Cloudflare Workers static assets** (`site-worker/`): `https://pressstartgames.net` (main site at `/`, beta at
+  `/beta/*`) and `https://staging.pressstartgames.net`. Every route is prerendered to `<route>/index.html`; unknown
+  paths get the nearest `404.html` (`/beta/x` -> `beta/404.html`). No hash routing. `VITE_BASE` is `/`.
+- **`beta.pressstartgames.net`** is a 301 to `https://pressstartgames.net/beta<path>` (`beta-redirect/`).
+- Environments, keys and every resource id: `C:/Yanivs/GameDev/PressStartGames/INFRASTRUCTURE.md`; key values only in the
+  git-ignored `.env.secrets.local` (`scripts/sync-secrets.mjs` pushes them to Worker and GitHub secrets).
+- **The API Worker** (`server/`) answers `https://pressstartgames.net/api/v1/*` (and staging's); it deploys with the site
+  through the branch workflows, D1 migrations first.
 
 ## Ground rules
 

@@ -247,8 +247,8 @@ Decided, with the reason recorded in the code or README:
 - Latin-only font subsets.
 
 Open, for the founder:
-- The 90 KB JS budget in CLAUDE.md is unreachable with React 19.3 + React Router; dropping the router for the
-  prerendered routes would land near 88 KB.
+- The JS budget is 125 KB gzip (raised from 90 KB by the founder on 2026-11-05; the site sits at ~120 KB). The known
+  saving if it is ever needed: stop bundling all of CONTENT.md into the shared entry (split the copy per area).
 - LCP 2.4 s vs the 2.0 s target on simulated mobile (first paint itself lands at 2.1 s).
 - Which sign-up backend (see above); Turnstile and Resend keys; the sending domain.
 - The contact address (the footer shows plain text until then). Discord is decided: https://discord.gg/XrmRJ5p2Xf

@@ -33,7 +33,7 @@ by `client` and `admin` (`reactConfig`) and `server` (`nodeConfig`). **[L]** = e
 
 - **[L] No barrel/index imports**: import the defining module. Why: tree-shaking and splitting.
 - **Route-level code splitting**: routes via `React.lazy`/the router's `lazy`; only the first-paint route is in
-  the entry. Initial JS <= 90 KB gzip (CI asserts it).
+  the entry. Initial JS <= 125 KB gzip (measured by hand; not asserted in CI).
 - **Load heavy or conditional things on demand** (`import()` for the sim, charts, Turnstile) only when used;
   preload on hover/focus of the trigger.
 - **Third-party scripts after load/idle** (analytics, Turnstile, GA after consent), `defer`/`async`.
@@ -122,7 +122,7 @@ by `client` and `admin` (`reactConfig`) and `server` (`nodeConfig`). **[L]** = e
 
 ## 11. Performance budgets (CI-asserted, `lighthouserc.json`)
 
-Lighthouse mobile >= 95 / 100 / 100 / 100; LCP <= 2.0 s; CLS <= 0.02; TBT <= 150 ms; initial JS <= 90 KB gzip;
+Lighthouse mobile >= 95 / 100 / 100 / 100; LCP <= 2.0 s; CLS <= 0.02; TBT <= 150 ms; initial JS <= 125 KB gzip;
 first view <= 1.2 MB. Reserve space (width/height, `aspect-ratio`, font fallback metrics). The h1 is the LCP
 element and paints in the prerendered HTML.
 
