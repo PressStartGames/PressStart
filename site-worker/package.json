@@ -1,0 +1,26 @@
+{
+  "name": "site-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --port 8791 --inspector-port 9291",
+    "deploy:staging": "wrangler deploy --env staging",
+    "deploy:production": "wrangler deploy --env production",
+    "preview": "wrangler versions upload --env staging",
+    "check:envs": "wrangler deploy --dry-run --env staging && wrangler deploy --dry-run --env production",
+    "test": "vitest run",
+    "lint": "eslint . && prettier --check . && tsc --noEmit -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261016.1",
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.19.2",
+    "eslint": "10.13.0",
+    "globals": "16.5.0",
+    "prettier": "3.9.10",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.71.2",
+    "vitest": "3.2.7",
+    "wrangler": "4.151.1"
+  }
+}

@@ -11,10 +11,12 @@
 import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { loadEnv } from 'vite';
 
 const dist = resolve(process.env.DIST ?? 'dist');
 const ssrDist = resolve(process.env.SSR_DIST ?? 'dist-ssr');
-const base = process.env.VITE_BASE ?? '/';
+// Same env files as the build (PS_MODE is set by build.ts / build-e2e.ts; process.env still wins).
+const base = loadEnv(process.env.PS_MODE ?? 'production', process.cwd(), 'VITE_').VITE_BASE || '/';
 
 interface ManifestChunk {
   file: string;

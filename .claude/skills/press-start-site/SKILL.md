@@ -73,7 +73,7 @@ server/             the email store: a Cloudflare Worker + D1 (not deployed yet;
 ```
 pnpm install
 pnpm --filter client dev            # localhost:5173, sign-up in stub mode (.env.development)
-pnpm --filter client build          # vite build + vite build --ssr + prerender -> client/dist (+404.html)
+pnpm --filter client build          # vite build + SSR + prerender -> client/dist (+404.html); add `--mode staging` for staging
 pnpm --filter client preview
 pnpm lint                           # both packages: eslint, prettier --check, tsc, check-content, check-renders
 pnpm test                           # both packages: vitest
@@ -81,11 +81,56 @@ pnpm --filter client build:e2e      # three builds (stub/none/fallback) -> clien
 pnpm --filter client test:e2e       # playwright + axe against the three previews (ports 4173-4175)
 pnpm --filter client lighthouse     # lhci on client/dist; locally needs CHROME_PATH (see pitfalls)
 pnpm --filter client sync-facts -- C:/Yanivs/GameDev/PressStart   # refresh data/counts.json
-pnpm --filter server dev | deploy | export:signups | migrate:local
+pnpm --filter server dev | deploy | deploy:staging | deploy:production | check:envs | export:signups | migrate:local
+pnpm --filter admin dev | build | build:staging | deploy:staging | deploy:production | check:envs
+pnpm --filter site-worker dev | test | preview | deploy:staging | deploy:production | check:envs
 ```
 
 CI runs exactly `pnpm lint`, `pnpm test`, the client build, `build:e2e`, `test:e2e` and `lighthouse`. Keep
 them green; the deploy workflow does not wait for CI, so run them before pushing to `main`.
+
+## Environments and the pipeline (plans/main-site.md Phase 6)
+
+| | Local | Staging | Production |
+|---|---|---|---|
+| Site | `pnpm --filter client dev` (5173, stub sign-up) | `staging.pressstartgames.net` (site Worker `press-start-site-staging`, noindex) | `pressstartgames.net` (site Worker `press-start-site`; until Phase 7 the live beta is still Pages) |
+| API | `pnpm --filter server dev` (8787), local D1 | `staging.pressstartgames.net/api/v1/*`, Worker `press-start-signups-staging` | `pressstartgames.net/api/v1/*`, Worker `press-start-signups` (unchanged) |
+| Admin | `pnpm --filter admin dev` (5175) against the local API | `admin-staging.pressstartgames.net` (`press-start-admin-staging`) | `admin.pressstartgames.net` (`press-start-admin`, unchanged) |
+| D1 | local | `press-start-signups-staging` | `press-start-signups` |
+| Vite mode / env file | `development` / `.env.development` | `staging` / `.env.staging` | `production` / `.env.production` |
+| Mail (`MAIL_MODE`) | `log` (nothing sent) | `allowlist` (only `MAIL_ALLOWLIST`, `@pressstartgames.net`) | `live` |
+| Session cookie | `ps_session`, host-only | `ps_session_staging`, host-only | `ps_session`, `Domain=.pressstartgames.net` (unchanged) |
+| WorkOS | staging environment | staging environment | staging keys until the founder swaps in production keys |
+
+- **Env files hold public values only** (`client/.env.<mode>`, `admin/.env.<mode>`); `.env.<mode>.local` and
+  `.env.local` are git-ignored overrides; secrets are Worker secrets (`wrangler secret put NAME --env staging`)
+  or GitHub Environment secrets, never Vite variables. `.env.e2e` is the lenient mode the e2e builds use.
+- **Typed config check** (`client/scripts/env-check.ts`, `admin/env-check.ts`), run from `vite.config.ts` before
+  every build: `staging` and `production` fail fast with a message naming the variable and the mode (site
+  URL, base, sign-up endpoint or fallback, https only; the admin's `VITE_API_BASE`); `development` and `e2e`
+  are lenient. `pnpm --filter client build [--mode staging]` (default production; `scripts/build.ts` runs the
+  client build, SSR bundle and prerender in the same mode).
+- **Wrangler**: `server/wrangler.toml` and `admin/wrangler.jsonc` keep their TOP LEVEL exactly as production
+  was before environments existed, and add `[env.staging]` / `[env.production]` (the latter repeats the
+  top level with the Worker name pinned; keep the two in sync). `site-worker/wrangler.jsonc` has a
+  local top level and the two envs. Dry-run any of them without a login: `pnpm --filter <pkg> check:envs`.
+- **The site Worker** (`site-worker/`): static assets from `../client/dist`, `not_found_handling: 404-page`
+  (`/x` -> `404.html`, `/beta/x` -> `beta/404.html`), `html_handling: auto-trailing-slash`. Production is
+  pure static serving (`run_worker_first: false`); staging runs the script for every request only to add
+  `X-Robots-Tag: noindex`. `src/worker.ts` has the marked EDGE INTEGRATION POINT (how `edge/experiments.ts`
+  plugs in). `pnpm --filter site-worker dev` serves `client/dist` on 8791.
+- **Workflows**: `ci.yml` (checks, plus an `environments` job: staging builds, Wrangler dry-runs, a missing value
+  must fail); `preview.yml` (PR: `wrangler versions upload --env staging`, URL commented on the PR; skipped
+  with a notice without the Cloudflare secrets); `deploy-staging.yml` (push to `main` -> `_deploy.yml`: D1
+  migrations, API, admin, site Worker, smoke test; skipped with a notice without the secrets);
+  `deploy-production.yml` (manual, typed confirmation, the GitHub Environment `production` approval gate,
+  `deploy_site` off by default because it is the Phase 7 cut-over). `deploy.yml` (Pages, the live beta) is
+  untouched in behaviour until Phase 7 and is retired after it. Vite bakes public values in, so "the same
+  build" is the same commit built once per mode.
+- **Founder-provided** (none of this exists until then): Cloudflare API token + account id as secrets of the
+  `staging` and `production` GitHub Environments, the `production` reviewer rule, the staging D1 id in
+  `server/wrangler.toml`, DNS records for `staging` and `admin-staging`, Worker secrets per environment,
+  WorkOS production keys, optional environment variables (Turnstile site key, GA4, GrowthBook).
 
 ## Hosting and deploy (GitHub Pages)
 

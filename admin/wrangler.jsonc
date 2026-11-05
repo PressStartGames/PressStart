@@ -1,5 +1,10 @@
 // The admin console: static files served by a Worker with static assets (Cloudflare has folded
 // Pages into Workers). `_headers` in public/ sets noindex and the security headers.
+//
+// Environments (plans/main-site.md Phase 6). The TOP LEVEL is production exactly as it was before
+// environments existed (so a bare `wrangler deploy` is unchanged); `env.production` repeats it with the
+// Worker name pinned (wrangler would otherwise name it press-start-admin-production). Keep the two in
+// sync. Build first with the matching mode: `pnpm --filter admin deploy:staging|deploy:production`.
 {
   "$schema": "../node_modules/wrangler/config-schema.json",
   "name": "press-start-admin",
@@ -10,4 +15,24 @@
   },
   "routes": [{ "pattern": "admin.pressstartgames.net", "custom_domain": true }],
   "workers_dev": false,
+  "env": {
+    "staging": {
+      "name": "press-start-admin-staging",
+      "assets": {
+        "directory": "./dist",
+        "not_found_handling": "single-page-application",
+      },
+      "routes": [{ "pattern": "admin-staging.pressstartgames.net", "custom_domain": true }],
+      "workers_dev": false,
+    },
+    "production": {
+      "name": "press-start-admin",
+      "assets": {
+        "directory": "./dist",
+        "not_found_handling": "single-page-application",
+      },
+      "routes": [{ "pattern": "admin.pressstartgames.net", "custom_domain": true }],
+      "workers_dev": false,
+    },
+  },
 }

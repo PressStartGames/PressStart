@@ -8,7 +8,11 @@
     "preview": "vite preview --port 4176 --strictPort",
     "test:e2e": "playwright test",
     "lint": "eslint . && prettier --check . && tsc --noEmit -p tsconfig.json",
-    "deploy": "vite build && wrangler deploy"
+    "build:staging": "tsc --noEmit -p tsconfig.json && vite build --mode staging",
+    "deploy": "vite build && wrangler deploy",
+    "check:envs": "wrangler deploy --dry-run --env staging && wrangler deploy --dry-run --env production",
+    "deploy:staging": "vite build --mode staging && wrangler deploy --env staging",
+    "deploy:production": "vite build --mode production && wrangler deploy --env production"
   },
   "dependencies": {
     "@casl/ability": "7.0.2",

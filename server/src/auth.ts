@@ -3,7 +3,15 @@
 import { abilityFor, type AppAbility } from './ability';
 import { hashKey, json, type Env } from './env';
 import { normaliseEmail, validEmail } from './email';
-import { clearCookie, readCookie, seal, sessionCookie, unseal, type SessionData } from './session';
+import {
+  clearCookie,
+  cookieName,
+  readCookie,
+  seal,
+  sessionCookie,
+  unseal,
+  type SessionData,
+} from './session';
 import {
   refresh,
   revokeSession,
@@ -51,7 +59,7 @@ export function originAllowed(env: Env, request: Request): boolean {
 }
 
 export async function getSession(env: Env, request: Request): Promise<Session | null> {
-  const raw = readCookie(request);
+  const raw = readCookie(request, cookieName(env));
   if (!raw) return null;
   const data = await unseal(env.SESSION_SECRET, raw);
   if (!data) return null;
@@ -72,7 +80,7 @@ export async function getSession(env: Env, request: Request): Promise<Session | 
         claims,
         email: fresh.user?.email ?? data.e,
         ability: abilityFor(claims.permissions),
-        setCookie: sessionCookie(sealed, env.COOKIE_DOMAIN),
+        setCookie: sessionCookie(sealed, env.COOKIE_DOMAIN, cookieName(env)),
       };
     } catch {
       return null;
@@ -110,7 +118,7 @@ async function startSession(env: Env, result: AuthResult, cors: Record<string, s
   return json(
     200,
     sessionView({ claims, email: result.user.email, ability: abilityFor(claims.permissions) }),
-    { ...cors, 'set-cookie': sessionCookie(sealed, env.COOKIE_DOMAIN) },
+    { ...cors, 'set-cookie': sessionCookie(sealed, env.COOKIE_DOMAIN, cookieName(env)) },
   );
 }
 
@@ -187,7 +195,11 @@ export async function handleAuth(
   if (path === '/auth/logout' && request.method === 'POST') {
     const s = await getSession(env, request);
     if (s?.claims.sid) await revokeSession(env, s.claims.sid).catch(() => undefined);
-    return json(200, { ok: true }, { ...cors, 'set-cookie': clearCookie(env.COOKIE_DOMAIN) });
+    return json(
+      200,
+      { ok: true },
+      { ...cors, 'set-cookie': clearCookie(env.COOKIE_DOMAIN, cookieName(env)) },
+    );
   }
 
   return json(404, { error: 'not-found' }, cors);

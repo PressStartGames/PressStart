@@ -4,6 +4,7 @@
 // rows are marked 'sent' after. A crash between the call and the update leaves 'claimed' rows that
 // the next run re-sends with the SAME key, which Resend deduplicates (24 h), so nobody gets the mail
 // twice. A daily cap (Resend free plan: 100/day) pauses the send; the cron trigger resumes it.
+import { deliveryFor, mailMode } from './delivery';
 import type { Env } from './env';
 import { markdownToHtml, markdownToText } from './markdown';
 import { signToken } from './token';
@@ -68,9 +69,12 @@ ${markdownToHtml(b.body_md)}
 
 type Mail = Awaited<ReturnType<typeof renderMail>>;
 
-async function resendBatch(env: Env, mails: Mail[], idempotencyKey: string): Promise<void> {
-  if (!env.RESEND_API_KEY) {
-    console.log(`[batch not sent: no RESEND_API_KEY] ${mails.length} mails key=${idempotencyKey}`);
+async function resendBatch(env: Env, all: Mail[], idempotencyKey: string): Promise<void> {
+  const mails = all.filter((m) => deliveryFor(env, m.to[0] ?? '') === 'send');
+  if (mails.length === 0) {
+    console.log(
+      `[batch not sent: ${mailMode(env)}] ${all.length} mails, none deliverable key=${idempotencyKey}`,
+    );
     return;
   }
   const res = await fetch('https://api.resend.com/emails/batch', {
@@ -87,8 +91,9 @@ async function resendBatch(env: Env, mails: Mail[], idempotencyKey: string): Pro
 
 export async function sendOne(env: Env, b: Pick<Broadcast, 'subject' | 'body_md'>, to: string) {
   const mail = await renderMail(env, b, to);
-  if (!env.RESEND_API_KEY) {
-    console.log(`[test mail not sent: no RESEND_API_KEY] to=${to}`);
+  const delivery = deliveryFor(env, to);
+  if (delivery !== 'send') {
+    console.log(`[test mail not sent: ${delivery}] to=${to}`);
     return;
   }
   const res = await fetch('https://api.resend.com/emails', {

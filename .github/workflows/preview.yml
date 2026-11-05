@@ -1,0 +1,61 @@
+# Pull requests get a preview of the site: a version of the staging site Worker uploaded with
+# `wrangler versions upload` (NOT deployed: staging itself only changes on a merge to main). The URL is
+# posted on the PR. Skipped with a notice when the CLOUDFLARE_API_TOKEN secret is absent (and always for
+# fork PRs, which never receive secrets). The checks (lint, tests, e2e, Lighthouse) are ci.yml's.
+#
+# The preview serves the site only: its origin is a workers.dev address that the staging API does not
+# allow in CORS, so a sign-up on a preview shows the error state. Everything else is reviewable.
+# The very first upload needs the staging Worker to exist: run Deploy staging once.
+name: Preview
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Check the Cloudflare credentials
+        id: gate
+        run: |
+          if [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::No preview: CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID are not available to this run (not set yet, or a fork PR)."
+          fi
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.enabled == 'true'
+      - uses: ./.github/actions/setup
+        if: steps.gate.outputs.enabled == 'true'
+      - name: Build the site in staging mode
+        if: steps.gate.outputs.enabled == 'true'
+        run: pnpm --filter client build --mode staging
+      - name: Upload a version of the staging site Worker
+        id: upload
+        if: steps.gate.outputs.enabled == 'true'
+        run: |
+          pnpm --filter site-worker exec wrangler versions upload --env staging \
+            --message "PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.head.sha }}" \
+            | tee upload.log
+          url="$(grep -oE 'https://[A-Za-z0-9.-]+\.workers\.dev' upload.log | head -1 || true)"
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+      - name: Comment the preview URL
+        if: steps.gate.outputs.enabled == 'true' && steps.upload.outputs.url != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr comment "${{ github.event.pull_request.number }}" --edit-last --create-if-none \
+            --body "Preview of ${{ github.event.pull_request.head.sha }}: ${{ steps.upload.outputs.url }}"

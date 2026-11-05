@@ -1,0 +1,47 @@
+# Production, on demand only. The job runs in the GitHub Environment `production`, which must have the
+# founder as a required reviewer: nothing below starts (no build, no D1 migration, no deploy) until the
+# founder approves. As a second guard the dispatcher must type "deploy production".
+#
+# `deploy_site` is OFF by default: it publishes the new main site on https://pressstartgames.net/*,
+# which is the Phase 7 cut-over step, not a routine deploy. With it off, this updates the API Worker (and
+# runs its D1 migrations) and the admin console only. Pages (deploy.yml) keeps serving the live beta.
+name: Deploy production
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: Type "deploy production" to confirm
+        required: true
+        type: string
+      ref:
+        description: Git ref to deploy (a commit that is already green on staging)
+        required: true
+        default: main
+        type: string
+      deploy_site:
+        description: Also publish the site Worker on pressstartgames.net/* (Phase 7 cut-over)
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the confirmation
+        run: |
+          [ "${{ inputs.confirm }}" = "deploy production" ] || { echo "::error::type exactly: deploy production"; exit 1; }
+
+  production:
+    needs: guard
+    uses: ./.github/workflows/_deploy.yml
+    with:
+      environment: production
+      ref: ${{ inputs.ref }}
+      deploy_site: ${{ inputs.deploy_site }}
+      require_token: true
+    secrets: inherit

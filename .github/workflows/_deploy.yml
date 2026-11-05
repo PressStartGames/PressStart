@@ -1,0 +1,131 @@
+# Reusable: deploy one environment of the Cloudflare side (API Worker + D1 migrations, admin console,
+# site Worker). Called by deploy-staging.yml (every push to main) and deploy-production.yml (manual, behind
+# the GitHub Environment `production` approval). Nothing here touches GitHub Pages: deploy.yml keeps
+# publishing the live beta to gh-pages until the Phase 7 cut-over, and is not affected by these workflows.
+#
+# What Vite bakes into a build (site URL, API origin) differs per environment, so "the same build" means
+# the same COMMIT built once per mode, not one artifact copied across.
+#
+# Needs, as secrets of the GitHub Environment named by `environment`: CLOUDFLARE_API_TOKEN (Workers
+# Scripts: Edit, D1: Edit, Workers Routes / Zone: Workers Routes Edit; not DNS) and CLOUDFLARE_ACCOUNT_ID.
+# Optional environment variables (public values): VITE_TURNSTILE_SITE_KEY, VITE_GA_MEASUREMENT_ID,
+# VITE_GROWTHBOOK_CLIENT_KEY, VITE_SIGNUP_ENDPOINT, VITE_SITE_URL, VITE_API_BASE (they override the
+# committed .env.<mode> only when set).
+name: Deploy environment (reusable)
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: staging or production
+        type: string
+        required: true
+      ref:
+        description: Git ref to build (default the triggering commit)
+        type: string
+        default: ''
+      deploy_site:
+        description: Also deploy the site Worker (in production this puts the new site on the root domain)
+        type: boolean
+        default: true
+      require_token:
+        description: Fail (instead of skipping with a notice) when the Cloudflare token is missing
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment: ${{ inputs.environment }}
+    concurrency:
+      group: deploy-${{ inputs.environment }}
+      cancel-in-progress: false
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      DEPLOY_ENV: ${{ inputs.environment }}
+      VITE_SIGNUP_ENDPOINT: ${{ vars.VITE_SIGNUP_ENDPOINT }}
+      VITE_SIGNUP_FALLBACK_URL: ${{ vars.VITE_SIGNUP_FALLBACK_URL }}
+      VITE_SITE_URL: ${{ vars.VITE_SITE_URL }}
+      VITE_TURNSTILE_SITE_KEY: ${{ vars.VITE_TURNSTILE_SITE_KEY }}
+      VITE_GA_MEASUREMENT_ID: ${{ vars.VITE_GA_MEASUREMENT_ID }}
+      VITE_GROWTHBOOK_CLIENT_KEY: ${{ vars.VITE_GROWTHBOOK_CLIENT_KEY }}
+      VITE_API_BASE: ${{ vars.VITE_API_BASE }}
+    steps:
+      - name: Check the Cloudflare credentials
+        id: gate
+        run: |
+          if [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          elif [ "${{ inputs.require_token }}" = "true" ]; then
+            echo "::error::CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID are not set as secrets of the '$DEPLOY_ENV' environment."
+            exit 1
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Skipping the $DEPLOY_ENV deploy: CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID are not set as secrets of the '$DEPLOY_ENV' GitHub Environment yet."
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.enabled == 'true'
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: ./.github/actions/setup
+        if: steps.gate.outputs.enabled == 'true'
+
+      - name: Resolve the environment
+        id: target
+        if: steps.gate.outputs.enabled == 'true'
+        run: |
+          case "$DEPLOY_ENV" in
+            staging)    echo "host=staging.pressstartgames.net" >> "$GITHUB_OUTPUT"; echo "db=press-start-signups-staging" >> "$GITHUB_OUTPUT" ;;
+            production) echo "host=pressstartgames.net" >> "$GITHUB_OUTPUT"; echo "db=press-start-signups" >> "$GITHUB_OUTPUT" ;;
+            *) echo "::error::unknown environment $DEPLOY_ENV"; exit 1 ;;
+          esac
+
+      - name: Write the public build values (only the ones that are set)
+        if: steps.gate.outputs.enabled == 'true'
+        run: |
+          bash .github/scripts/write-env-local.sh client "$DEPLOY_ENV"
+          bash .github/scripts/write-env-local.sh admin "$DEPLOY_ENV"
+
+      - name: Build the site (prerendered)
+        if: steps.gate.outputs.enabled == 'true'
+        run: pnpm --filter client build --mode "$DEPLOY_ENV"
+      - name: Build the admin console
+        if: steps.gate.outputs.enabled == 'true'
+        run: pnpm --filter admin exec vite build --mode "$DEPLOY_ENV"
+
+      # Order matters: schema first, then the code that needs it. Production migrations only ever run
+      # here, i.e. after the Environment's approval.
+      - name: Apply D1 migrations (${{ inputs.environment }})
+        if: steps.gate.outputs.enabled == 'true'
+        run: pnpm --filter server exec wrangler d1 migrations apply "${{ steps.target.outputs.db }}" --remote --env "$DEPLOY_ENV"
+      - name: Deploy the API Worker
+        if: steps.gate.outputs.enabled == 'true'
+        run: pnpm --filter server exec wrangler deploy --env "$DEPLOY_ENV"
+      - name: Deploy the admin console
+        if: steps.gate.outputs.enabled == 'true'
+        run: pnpm --filter admin exec wrangler deploy --env "$DEPLOY_ENV"
+      - name: Deploy the site Worker
+        if: steps.gate.outputs.enabled == 'true' && inputs.deploy_site
+        run: pnpm --filter site-worker exec wrangler deploy --env "$DEPLOY_ENV"
+
+      - name: Smoke test
+        if: steps.gate.outputs.enabled == 'true'
+        run: |
+          host="${{ steps.target.outputs.host }}"
+          for i in 1 2 3 4 5 6; do
+            if curl -fsS "https://$host/api/v1/health" | grep -q '"ok":true'; then api=ok; break; fi
+            sleep 10
+          done
+          [ "${api:-}" = ok ] || { echo "::error::https://$host/api/v1/health did not answer ok"; exit 1; }
+          if [ "${{ inputs.deploy_site }}" = "true" ]; then
+            curl -fsS -o /dev/null "https://$host/" && curl -fsS -o /dev/null "https://$host/beta/"
+          fi
+          echo "### Deployed $DEPLOY_ENV at $(git rev-parse --short HEAD)" >> "$GITHUB_STEP_SUMMARY"
+          echo "https://$host" >> "$GITHUB_STEP_SUMMARY"

@@ -9,7 +9,10 @@ export interface Env {
   SITE_URL: string; // where /confirmed lives
   API_URL: string; // this Worker's public origin (for the links in the mail)
   MAIL_FROM: string;
-  COOKIE_DOMAIN?: string; // ".pressstartgames.net" in production
+  COOKIE_DOMAIN?: string; // ".pressstartgames.net" in production; unset elsewhere = host-only cookie
+  SESSION_COOKIE_NAME?: string; // default "ps_session" (production); staging sets its own so envs never share one
+  MAIL_MODE?: string; // log | allowlist | live (delivery.ts); unset = live with a Resend key, else log
+  MAIL_ALLOWLIST?: string; // allowlist mode: comma-separated addresses or "@domain" entries
   DAILY_SEND_CAP?: string; // broadcast mails per UTC day (Resend free plan: 100)
   TURNSTILE_SECRET_KEY?: string; // unset locally -> Turnstile is skipped
   RESEND_API_KEY?: string; // unset locally -> the mail is logged, not sent
