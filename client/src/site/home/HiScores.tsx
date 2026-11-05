@@ -40,7 +40,10 @@ export function HiScores() {
     true,
   );
   return (
-    <section className={`${ui.section} ${ui.wrap} ${styles.section}`} aria-labelledby="scores-title">
+    <section
+      className={`${ui.section} ${ui.wrap} ${styles.section}`}
+      aria-labelledby="scores-title"
+    >
       <SectionHead
         id="scores-title"
         kicker={field(id, 'kicker')}

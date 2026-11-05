@@ -7,7 +7,7 @@
 
 .map {
   position: relative;
-  aspect-ratio: 1000 / 380;
+  aspect-ratio: 1000 / 336;
   padding: 0;
   border-radius: var(--l3-r);
   background:
@@ -23,7 +23,7 @@
   left: 0;
   top: 0;
   width: 100%;
-  height: calc(100% * 300 / 380);
+  height: calc(100% * 300 / 336);
   overflow: visible;
 }
 
@@ -54,7 +54,7 @@
 .stage {
   position: absolute;
   left: var(--x);
-  top: calc(var(--y) * 300 / 380);
+  top: calc(var(--y) * 300 / 336);
   width: 12.5%;
   display: grid;
   justify-items: center;

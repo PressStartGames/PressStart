@@ -17,10 +17,7 @@ export function Handheld() {
   const g = useReplay();
   const device = useRef<HTMLDivElement>(null);
   const busy = g.phase !== 'done';
-  const verdict =
-    g.phase === 'done'
-      ? field(id, `verdict-${g.verdict}`)
-      : '';
+  const verdict = g.phase === 'done' ? field(id, `verdict-${g.verdict}`) : '';
 
   // Tilt toward the pointer (fine pointers, motion allowed): two CSS variables, no React state.
   const onMove = (e: PointerEvent<HTMLDivElement>) => {
@@ -40,7 +37,7 @@ export function Handheld() {
   return (
     <figure className={styles.figure}>
       <div className={styles.stage} onPointerMove={onMove} onPointerLeave={onLeave}>
-        <div ref={device} className={styles.device} data-phase={g.phase}>
+        <div ref={device} className={styles.device} data-phase={g.phase} data-verdict={g.verdict}>
           <div className={styles.left} aria-hidden="true">
             <span className={styles.dpad} />
             <span className={styles.grille} />
@@ -93,7 +90,7 @@ export function Handheld() {
               </button>
               <button
                 type="button"
-                className={styles.key}
+                className={`${styles.key} ${styles.keyStart}`}
                 onClick={g.start}
                 disabled={busy}
                 aria-label={`${field(id, 'start')}: ${field(id, 'start-label')}`}

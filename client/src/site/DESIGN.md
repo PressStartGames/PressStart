@@ -15,7 +15,7 @@ The proof stays — every number is synced, every claim is the website skill's "
 presented as play, then explained in one plain sentence.
 
 **Colour.** The console's grey and phosphor, plus the four face-button colours of a controller, used as
-*meaning*, not decoration: red = Deterministic, amber = All cores, blue = Measured, green = Yours. Each
+_meaning_, not decoration: red = Deterministic, amber = All cores, blue = Measured, green = Yours. Each
 strength keeps its colour on every page (cards, badges, the strength sub-page's accent). Bigger radii (12–24 px)
 and soft drop shadows make the chassis feel like a held object; screens keep their hard 4 px bezels.
 
@@ -31,25 +31,26 @@ test output); the beta keeps its golden section.
 without JavaScript.
 
 **Home `/`**
-1. *Hero* — kicker, the one h1, a plain lede, two CTAs, the beta's honest small line. Beside it **the
+
+1. _Hero_ — kicker, the one h1, a plain lede, two CTAs, the beta's honest small line. Beside it **the
    handheld**: a CSS-drawn console whose screen plays the seeded simulation. START replays it and the
    checksum lands on the same value ("Run 2 = Run 1"); SELECT changes the seed and the game, and the checksum,
-   change. *Proves: same seed, same inputs, same game — by letting the visitor try it.*
-2. *Four buttons* (the value-badge strip) — Deterministic · All cores · Measured · Yours as four coloured
-   arcade buttons, each a link to its strength page. *Proves: the four strengths, one line each.*
-3. *Features* — a bento of six cards, each with its own small illustration; four tagged **Today**, two
-   tagged **On the road** (the editor's chat beside the game; offline, no login). *Proves: what it is like to
-   build here, with the roadmap items labelled as such.*
-4. *High scores* — the synced counts as an arcade score table that rolls up when it scrolls in, including
-   the misses (PARTIAL) and the sync date and engine commit. *Proves: nothing is typed by hand; we publish
-   the misses.*
-5. *The road* — an overworld map of the road to version 1: cleared, now, next, ahead; no dates. The path
+   change. _Proves: same seed, same inputs, same game — by letting the visitor try it._
+2. _Four buttons_ (the value-badge strip) — Deterministic · All cores · Measured · Yours as four coloured
+   arcade buttons, each a link to its strength page. _Proves: the four strengths, one line each._
+3. _Features_ — a bento of six cards, each with its own small illustration; four tagged **Today**, two
+   tagged **On the road** (the editor's chat beside the game; offline, no login). _Proves: what it is like to
+   build here, with the roadmap items labelled as such._
+4. _High scores_ — the synced counts as an arcade score table that rolls up when it scrolls in, including
+   the misses (PARTIAL) and the sync date and engine commit. _Proves: nothing is typed by hand; we publish
+   the misses._
+5. _The road_ — an overworld map of the road to version 1: cleared, now, next, ahead; no dates. The path
    draws with the scroll and the "you are here" marker lands on the current stage.
-6. *Patch notes* — what landed, from `mission/roadmap.md` (past dates only; the internal build lane is never
+6. _Patch notes_ — what landed, from `mission/roadmap.md` (past dates only; the internal build lane is never
    mentioned).
-7. *Get involved* — three doors: join the beta, follow the road, read how it works; the honest note that
+7. _Get involved_ — three doors: join the beta, follow the road, read how it works; the honest note that
    the repository goes public with version 1.
-8. *Press Start* — the closing band: a big pixel PRESS START on a screen and the beta button.
+8. _Press Start_ — the closing band: a big pixel PRESS START on a screen and the beta button.
 
 **Footer** — dark screen colour, grouped links (Engine strengths, Project, Studio, Legal), the beta's line
 and the sync stamp from `counts.json`.
@@ -74,18 +75,18 @@ and doors to the designed pages. **404** — "Tick not found", drawn as a checks
 
 ## Motion moments (GSAP loaded lazily after idle; CSS for the rest)
 
-| Moment | How | Shows |
-|---|---|---|
-| Load: text rises, the handheld slides up and powers on (splash, then the game runs 240 ticks and stops) | CSS keyframes + one rAF loop that ends | determinism as a toy |
-| Pointer tilt of the handheld (fine pointers only) | CSS variables from `pointermove` | it is an object you hold |
-| START / SELECT: replay, re-seed, verdict stamp | rAF loop, ends | same seed = same checksum |
-| Four buttons press in sequence when they enter (a combo) | CSS on `data-visible` | the four values as one set |
-| Feature card illustrations play once on reveal (typing verbs, fanning documents, pixel compare) | CSS | each card's fact |
-| High scores roll up digit by digit | GSAP | the counts are live data |
-| The road's path draws with scroll, nodes pop, the marker lands on "now" | GSAP ScrollTrigger scrub | where we are |
-| Section headings rise word by word | GSAP SplitText | guides the eye |
-| Core board on `/engine/parallel`: blocks drop into lanes, the gate orders a conflicting pair | GSAP timeline | the parallel rule |
-| Hover: buttons press with a spring, cards lift, links nudge | CSS | affordance |
+| Moment                                                                                                  | How                                    | Shows                      |
+| ------------------------------------------------------------------------------------------------------- | -------------------------------------- | -------------------------- |
+| Load: text rises, the handheld slides up and powers on (splash, then the game runs 240 ticks and stops) | CSS keyframes + one rAF loop that ends | determinism as a toy       |
+| Pointer tilt of the handheld (fine pointers only)                                                       | CSS variables from `pointermove`       | it is an object you hold   |
+| START / SELECT: replay, re-seed, verdict stamp                                                          | rAF loop, ends                         | same seed = same checksum  |
+| Four buttons press in sequence when they enter (a combo)                                                | CSS on `data-visible`                  | the four values as one set |
+| Feature card illustrations play once on reveal (typing verbs, fanning documents, pixel compare)         | CSS                                    | each card's fact           |
+| High scores roll up digit by digit                                                                      | GSAP                                   | the counts are live data   |
+| The road's path draws with scroll, nodes pop, the marker lands on "now"                                 | GSAP ScrollTrigger scrub               | where we are               |
+| Section headings rise word by word                                                                      | GSAP SplitText                         | guides the eye             |
+| Core board on `/engine/parallel`: blocks drop into lanes, the gate orders a conflicting pair            | GSAP timeline                          | the parallel rule          |
+| Hover: buttons press with a spring, cards lift, links nudge                                             | CSS                                    | affordance                 |
 
 Rules: the prerendered HTML is the final state; hidden initial states exist only under `html.js` /
 `html.js.hydrated`; `prefers-reduced-motion: reduce` shows the final state and turns the handheld into a

@@ -36,7 +36,7 @@ export function CoreBoard() {
       if (!el) return;
       const blocks = el.querySelectorAll('[data-block]');
       const camera = el.querySelector('[data-was]');
-      const gate = el.querySelector('[data-gate]');
+      const gate = el.querySelectorAll('[data-gate]');
       const clash = el.querySelector('[data-clash]');
       const was = Number((camera as HTMLElement | null)?.dataset.was ?? 0);
       const tl = gsap.timeline({ delay: 0.5 });
@@ -64,9 +64,12 @@ export function CoreBoard() {
     <figure className={styles.figure}>
       <div className={styles.cabinet}>
         <div ref={board} className={styles.board}>
-          <p className={styles.label} aria-hidden="true">
-            {field(id, 'label')}
-          </p>
+          <div className={styles.header}>
+            <p className={styles.label}>{field(id, 'label')}</p>
+            <p className={styles.gateLabel} data-gate>
+              {field(id, 'gate')}
+            </p>
+          </div>
           <div className={styles.lanes}>
             {cores.map((c, lane) => (
               <div key={c} className={styles.lane}>
@@ -98,9 +101,9 @@ export function CoreBoard() {
                         className={styles.gate}
                         data-gate
                         style={vars({ '--from': pct(50) })}
+                        aria-hidden="true"
                       >
-                        <span className={styles.gateArrow} aria-hidden="true" />
-                        <span className={styles.gateLabel}>{field(id, 'gate')}</span>
+                        <span className={styles.gateArrow} />
                       </span>
                     </>
                   ) : null}

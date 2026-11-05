@@ -1,5 +1,6 @@
 // Hand-drawn pixel icons (graphics data, not copy). '#' = currentColor, 'o' = the icon's accent
 // (--icon-accent), '.' = empty. Every row of an icon has the same length.
+// prettier-ignore
 export const ICONS = {
   dice: [
     '.########.',

@@ -86,9 +86,7 @@
 }
 
 .screenArt {
-  background:
-    radial-gradient(120% 120% at 0% 0%, #172033, transparent 60%),
-    var(--screen);
+  background: radial-gradient(120% 120% at 0% 0%, #172033, transparent 60%), var(--screen);
   color: var(--screen-fg);
 }
 

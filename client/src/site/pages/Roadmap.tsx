@@ -13,7 +13,10 @@ export function Roadmap() {
   return (
     <>
       <PageHero id="page-roadmap" tone="amber" />
-      <section className={`${ui.sectionTight} ${ui.wrap}`} aria-label={field('site-road', 'kicker')}>
+      <section
+        className={`${ui.sectionTight} ${ui.wrap}`}
+        aria-label={field('site-road', 'kicker')}
+      >
         <RoadMap detailed />
       </section>
       <section className={`${ui.section} ${ui.wrap}`} aria-labelledby="decisions-title">

@@ -419,6 +419,18 @@ html:global(.js) .stamp {
   background: linear-gradient(#5d646f, #3a404a);
 }
 
+/* After a run, START nudges three times: press me. */
+html:global(.js) .device[data-phase='done'] .keyStart .keyCap {
+  animation: nudge 700ms var(--l3-spring) 3 600ms;
+}
+
+@keyframes nudge {
+  40% {
+    transform: rotate(-18deg) translateY(3px);
+    box-shadow: 0 0 0 #111318;
+  }
+}
+
 /* verdict and caption under the console */
 .verdict {
   min-height: 28px;
@@ -506,6 +518,7 @@ html:global(.js) .stamp {
   html:global(.js) .stage,
   html:global(.js) .led,
   html:global(.js) .stamp,
+  html:global(.js) .device[data-phase='done'] .keyStart .keyCap,
   .device[data-phase='splash'] .splash span {
     animation: none;
   }

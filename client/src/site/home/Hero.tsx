@@ -19,8 +19,12 @@ export function Hero() {
       <div className={`${ui.wrap} ${styles.grid}`}>
         <div className={styles.copy}>
           <p className={`${styles.kicker} enter`}>
-            <span className={styles.p1} aria-hidden="true">P1</span>
-            <span className={styles.p2} aria-hidden="true">P2</span>
+            <span className={styles.p1} aria-hidden="true">
+              P1
+            </span>
+            <span className={styles.p2} aria-hidden="true">
+              P2
+            </span>
             {field(id, 'kicker')}
           </p>
           <h1 id="home-title" className={`${styles.title} enter-solid`}>

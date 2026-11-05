@@ -12,20 +12,33 @@ import { SectionHead } from '../ui/SectionHead';
 import ui from '../ui/ui.module.css';
 import styles from './Parallel.module.css';
 
+// The digits where two printed numbers stop agreeing, marked.
+function Digits({ value, other }: { value: string; other: string }) {
+  let i = 0;
+  while (i < value.length && value[i] === other[i]) i++;
+  return (
+    <output className={styles.result}>
+      {value.slice(0, i)}
+      {i < value.length ? <span className={styles.drift}>{value.slice(i)}</span> : null}
+    </output>
+  );
+}
+
 // The same numbers added in two orders, computed where the page is rendered (plain IEEE doubles, the
 // same on the server and in every browser).
 function FloatSum() {
   const id = 'site-parallel-floats';
   const nums = splitList(field(id, 'numbers'), '|');
-  const forward = nums.reduce((s, n) => s + Number(n), 0);
-  const backward = [...nums].reverse().reduce((s, n) => s + Number(n), 0);
+  const back = [...nums].reverse();
+  const forward = String(nums.reduce((s, n) => s + Number(n), 0));
+  const backward = String(back.reduce((s, n) => s + Number(n), 0));
   const same = forward === backward;
   return (
     <div className={styles.sums}>
       <div className={styles.sum}>
         <span className={styles.sumLabel}>{field(id, 'left')}</span>
-        <code className={styles.expr}>{nums.join(' + ')}</code>
-        <output className={styles.result}>{String(forward)}</output>
+        <code className={styles.expr}>{nums.join(' + ')} =</code>
+        <Digits value={forward} other={backward} />
       </div>
       <div className={styles.verdict} data-same={same || undefined}>
         <span className={styles.neq} aria-hidden="true">
@@ -35,8 +48,8 @@ function FloatSum() {
       </div>
       <div className={styles.sum}>
         <span className={styles.sumLabel}>{field(id, 'right')}</span>
-        <code className={styles.expr}>{[...nums].reverse().join(' + ')}</code>
-        <output className={styles.result}>{String(backward)}</output>
+        <code className={styles.expr}>{back.join(' + ')} =</code>
+        <Digits value={backward} other={forward} />
       </div>
       <p className={styles.live}>{field(id, 'live')}</p>
     </div>
@@ -50,7 +63,10 @@ export function Parallel() {
     <>
       <PageHero id="page-engine-parallel" tone="amber" art={<CoreBoard />} />
 
-      <section className={`${ui.section} ${ui.wrap} ${styles.floats}`} aria-labelledby="floats-title">
+      <section
+        className={`${ui.section} ${ui.wrap} ${styles.floats}`}
+        aria-labelledby="floats-title"
+      >
         <SectionHead
           id="floats-title"
           kicker={field('site-parallel-floats', 'kicker')}

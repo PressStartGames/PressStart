@@ -40,8 +40,7 @@ export function RoadMap({ detailed = false }: { detailed?: boolean }) {
   const id = 'site-road';
   const stages = rows(id);
   const labels = splitList(field(id, 'states'), '|');
-  const stateLabel = (s: string) =>
-    labels[['cleared', 'now', 'next', 'ahead'].indexOf(s)] ?? s;
+  const stateLabel = (s: string) => labels[['cleared', 'now', 'next', 'ahead'].indexOf(s)] ?? s;
   const here = stages.findIndex(([s]) => s === 'now');
   const map = useRef<HTMLDivElement>(null);
 
@@ -55,7 +54,12 @@ export function RoadMap({ detailed = false }: { detailed?: boolean }) {
       const tl = gsap.timeline({
         scrollTrigger: { trigger: el, start: 'top 72%', once: true },
       });
-      tl.fromTo(path, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 2.2, ease: 'power1.inOut' }, 0);
+      tl.fromTo(
+        path,
+        { strokeDashoffset: 1 },
+        { strokeDashoffset: 0, duration: 2.2, ease: 'power1.inOut' },
+        0,
+      );
       nodes.forEach((n, i) => {
         tl.from(n, { scale: 0.3, opacity: 0, duration: 0.5, ease: 'back.out(2.5)' }, i * 0.27);
       });
@@ -69,11 +73,7 @@ export function RoadMap({ detailed = false }: { detailed?: boolean }) {
   return (
     <div className={styles.root}>
       <div ref={map} className={styles.map}>
-        <svg
-          className={styles.path}
-          viewBox={`0 0 ${W} ${H}`}
-          aria-hidden="true"
-        >
+        <svg className={styles.path} viewBox={`0 0 ${W} ${H}`} aria-hidden="true">
           <path d={pathThrough(stages.length)} className={styles.trail} />
           <path d={pathThrough(stages.length)} className={styles.road} pathLength={1} data-path />
         </svg>

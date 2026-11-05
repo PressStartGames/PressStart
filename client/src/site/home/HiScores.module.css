@@ -43,8 +43,7 @@
   border-radius: 10px;
   overflow: hidden;
   background:
-    radial-gradient(90% 70% at 50% 0%, rgb(56 224 143 / 10%), transparent 70%),
-    var(--screen);
+    radial-gradient(90% 70% at 50% 0%, rgb(56 224 143 / 10%), transparent 70%), var(--screen);
   color: var(--screen-fg);
   font-family: var(--font-mono);
 }

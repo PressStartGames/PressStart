@@ -46,7 +46,8 @@
   border-radius: 50%;
   color: rgb(17 19 24 / 78%);
   --icon-accent: #fff;
-  background: radial-gradient(circle at 35% 28%, rgb(255 255 255 / 55%), transparent 46%), var(--tone);
+  background:
+    radial-gradient(circle at 35% 28%, rgb(255 255 255 / 55%), transparent 46%), var(--tone);
   box-shadow:
     0 6px 0 var(--tone-deep),
     0 12px 18px -8px rgb(17 19 24 / 55%),

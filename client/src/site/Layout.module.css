@@ -188,6 +188,9 @@
 }
 
 .synced code {
+  padding: 0 4px;
+  border-radius: 3px;
+  background: rgb(56 224 143 / 12%);
   color: var(--l3-green);
 }
 

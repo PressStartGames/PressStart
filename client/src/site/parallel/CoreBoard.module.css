@@ -16,14 +16,21 @@
   padding: 18px 18px 22px;
   border-radius: 10px;
   background:
-    radial-gradient(80% 60% at 50% 0%, rgb(255 181 71 / 10%), transparent 70%),
-    var(--screen);
+    radial-gradient(80% 60% at 50% 0%, rgb(255 181 71 / 10%), transparent 70%), var(--screen);
   color: var(--screen-fg);
   overflow: hidden;
 }
 
-.label {
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
   margin-bottom: 16px;
+}
+
+.label {
   font-family: var(--font-pixel);
   font-size: 8px;
   letter-spacing: 0.12em;
@@ -54,8 +61,8 @@
   position: relative;
   height: 40px;
   border-radius: 8px;
-  background: repeating-linear-gradient(90deg, rgb(255 255 255 / 5%) 0 1px, transparent 1px 32px),
-    #12161d;
+  background:
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 5%) 0 1px, transparent 1px 32px), #12161d;
 }
 
 .block {
@@ -132,11 +139,7 @@
 }
 
 .gateLabel {
-  position: absolute;
-  left: 50%;
-  bottom: calc(100% + 2px);
-  transform: translateX(-60%);
-  padding: 3px 7px;
+  padding: 4px 8px;
   border-radius: 5px;
   background: var(--l3-amber);
   color: var(--ink);

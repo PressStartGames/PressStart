@@ -11,8 +11,7 @@
   background:
     radial-gradient(60% 80% at 50% 0%, rgb(56 224 143 / 14%), transparent 70%),
     radial-gradient(40% 60% at 15% 100%, rgb(255 90 60 / 18%), transparent 70%),
-    radial-gradient(40% 60% at 85% 100%, rgb(91 127 255 / 18%), transparent 70%),
-    var(--screen);
+    radial-gradient(40% 60% at 85% 100%, rgb(91 127 255 / 18%), transparent 70%), var(--screen);
   color: var(--screen-fg);
   box-shadow:
     0 0 0 10px #22262e,

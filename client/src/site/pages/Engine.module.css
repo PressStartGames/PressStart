@@ -235,7 +235,8 @@ html:global(.js.hydrated) .loop[data-seen] .stepIcon {
   height: 60px;
   margin-bottom: 8px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 28%, rgb(255 255 255 / 50%), transparent 46%), var(--tone);
+  background:
+    radial-gradient(circle at 35% 28%, rgb(255 255 255 / 50%), transparent 46%), var(--tone);
   color: var(--ink);
   --icon-accent: #fff;
   box-shadow: 0 5px 0 var(--tone-deep);
@@ -302,8 +303,7 @@ html:global(.js.hydrated) .loop[data-seen] .stepIcon {
   padding: 12px 0;
   border-radius: 10px;
   background:
-    radial-gradient(90% 70% at 50% 0%, rgb(56 224 143 / 10%), transparent 70%),
-    var(--screen);
+    radial-gradient(90% 70% at 50% 0%, rgb(56 224 143 / 10%), transparent 70%), var(--screen);
   color: var(--screen-fg);
 }
 

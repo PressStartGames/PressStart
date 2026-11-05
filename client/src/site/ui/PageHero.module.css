@@ -64,3 +64,10 @@
     margin-top: 20px;
   }
 }
+
+@media (max-width: 640px) {
+  .band {
+    inset: -20% -40% 50% -10%;
+    opacity: 0.16;
+  }
+}

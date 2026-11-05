@@ -46,7 +46,7 @@ export function useReplay() {
     const start = () => {
       const t0 = performance.now();
       const frame = (now: number) => {
-        const tick = Math.min(SIM.ticks, Math.floor((now - t0) / TICK_MS));
+        const tick = Math.max(0, Math.min(SIM.ticks, Math.floor((now - t0) / TICK_MS)));
         const done = tick >= SIM.ticks;
         setR((prev) => ({ ...prev, tick, phase: done ? 'done' : 'running' }));
         if (!done) raf.current = requestAnimationFrame(frame);
