@@ -342,20 +342,20 @@ label: Footer
 legal: Privacy | Terms | Cookies
 groups: The engine | The project | The studio | Legal
 discord: Discord
-line: A game engine built around Bevy. Version 1 is not public yet.
+line: A game engine an AI can build in. Version 1 is not public yet.
 synced: Every count on this site is read from the engine's own repository by a script. Last sync {{syncedAt}}, engine commit
 
 ## site-home
 
 title: Press Start · A game engine an AI can build in, and prove.
-description: Press Start is a game engine built around Bevy that you and your AI build games in: scenes as documents, a fixed tick, exact replays, and every feature measured against a reference tool.
+description: Press Start is a game engine that you and your AI build games in: scenes as documents, a fixed tick, exact replays, and every feature measured against a reference tool.
 kicker: Player 1: you. Player 2: your AI.
 headline: A game engine an AI can build in, and prove.
 cta: Join the beta | Explore the engine
 small: Private beta. Version 1 is not public yet.
 
 Your AI writes the game as documents. Press Start runs it on a fixed tick and checks every frame against a
-reference, so you can see what it built, and trust it. The code stays yours: real Rust, built around Bevy.
+reference, so you can see what it built, and trust it. The code stays yours: a real Rust workspace.
 
 ## site-handheld
 
@@ -385,7 +385,7 @@ label: Four things nobody else ships
 1. **Deterministic.** Same seed, same inputs, same game. Every time.
 2. **All cores.** Systems run in parallel, and the answer stays the same.
 3. **Measured.** Held against {{oracles}} reference tools the industry trusts.
-4. **Yours.** A game is real Rust on Bevy. You own the code.
+4. **Yours.** A game is real Rust code, and you own it.
 
 ## site-features
 
@@ -428,7 +428,7 @@ name: name
 Every number here is read from the engine's own repository by a script. Nobody types them in, and the misses
 are on the board too.
 
-1. {{crates}} | engine crates | of our own Rust, built around Bevy
+1. {{crates}} | engine crates | of the engine's own Rust code
 2. {{oracles}} | reference tools | the industry's own tools we measure against
 3. {{goldens.accepted}} | accepted pictures | goldens a human accepted, shot on one reference card
 4. {{catalog.built}} | features built | of {{catalog.total}} on our checklist of everything an engine needs
@@ -437,7 +437,7 @@ are on the board too.
 ## site-road
 
 kicker: The road
-headline: Where we are, honestly.
+headline: Where we are.
 states: cleared | now | next | ahead
 here: you are here
 cta: See the whole road
@@ -486,7 +486,7 @@ headline: Press Start
 cta: Join the beta
 alt: Explore the engine
 
-You bring the game and your AI. We bring an engine that keeps score honestly. Join the beta and we will email you
+You bring the game and your AI. We bring an engine that keeps an exact score. Join the beta and we will email you
 when your invite is ready.
 
 ## site-placeholder
@@ -508,18 +508,18 @@ There is nothing at this address. The page you want is probably on the one road 
 ## page-engine
 
 title: The engine · Press Start
-description: What Press Start is: a game engine built around Bevy, every system a document plus a plugin, built so you and your AI can prove what you made.
+description: What Press Start is: a game engine where every system is a document plus a plugin, built so you and your AI can prove what you made.
 kicker: The engine
 headline: An engine written as documents.
 
-{{crates}} engine crates cover what Bevy leaves out: terrain, shaders, physics, animation, UI, navigation,
+{{crates}} engine crates cover terrain, shaders, physics, animation, UI, navigation,
 networking and more. Every system is a document plus a plugin, checked before the app exists, so your AI can read
 it, change it and prove it.
 
 ## site-engine-stack
 
 label: the stack
-layers: Your game · a Rust workspace you own | Press Start · {{crates}} engine crates | Bevy · the ECS, renderer and app underneath
+layers: Your game · a Rust workspace you own | Press Start · {{crates}} engine crates | Rust · one language for the engine and the game
 
 ## site-engine-loop
 
@@ -529,7 +529,7 @@ headline: Write it. Run it. Prove it. Own it.
 1. Write | A scene is a base plus patches. A field is set by name, never by a click, and every document is checked before the game runs.
 2. Run | One seed, a fixed tick, no clock. Tick 128 is the same tick on every run, driven by a recorded input tape.
 3. Prove | Numbers first, then pixels: query the state and its checksum, capture the frame, compare it with its golden.
-4. Own | A game is a Rust workspace on Bevy. It opens, reads and plays without us.
+4. Own | A game is a Rust workspace you own. It opens, reads and plays without us.
 
 ## site-engine-strengths
 
@@ -578,8 +578,8 @@ description: Systems run in parallel on every core, and the answer stays the sam
 kicker: All cores
 headline: All your cores, the same answer.
 
-Bevy runs a game's systems across every core of the machine. Press Start keeps them there, and makes sure the
-answer never depends on which core finished first.
+A game's systems run side by side on every core of the machine, and Press Start makes sure the answer never
+depends on which core finished first.
 
 ## site-parallel-board
 
@@ -660,11 +660,11 @@ exposes data and verbs; you bring the AI. This page is being built.
 ## page-engine-ownership
 
 title: Yours · Press Start
-description: A game on Press Start is Rust code on Bevy that you own.
+description: A game on Press Start is Rust code that you own.
 kicker: Yours
 headline: The game is your code.
 
-A game on Press Start is a Rust workspace on Bevy that opens, reads and plays without us. The source-available
+A game on Press Start is a Rust workspace that opens, reads and plays without us. The source-available
 licence is on the road; its terms are not final yet. This page is being built.
 
 ## page-showcase
@@ -741,7 +741,7 @@ description: The mission and the method behind Press Start.
 kicker: About
 headline: Tests, not eyes.
 
-Press Start is a game engine built around Bevy, made so that you and your AI can build a game and prove it. Every
+Press Start is a game engine made so that you and your AI can build a game and prove it. Every
 feature can fail a test; the misses are counted and published.
 
 ## page-community

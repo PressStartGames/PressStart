@@ -26,7 +26,7 @@ const DOORS: readonly Door[] = [
 ];
 
 // "Come build with us": the ways in today (the beta behind its flag, Discord), then the road and the
-// engine pages; the honest note that the repository opens with version 1.
+// engine pages; the note that the repository opens with version 1.
 export function Involved() {
   const id = 'site-involved';
   const doors = rows(id)

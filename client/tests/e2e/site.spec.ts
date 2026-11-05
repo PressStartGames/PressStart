@@ -13,7 +13,7 @@ const DISCORD_URL =
   )?.[1] ?? 'DISCORD_URL missing from lib/config.ts';
 
 const PAGES = [
-  { path: '/engine/', h1: 'Built around Bevy, written as documents.' },
+  { path: '/engine/', h1: 'An engine written as documents.' },
   { path: '/engine/parallel/', h1: 'All your cores, the same answer.' },
   { path: '/engine/determinism/', h1: 'Same seed, same inputs, same game.' },
   { path: '/roadmap/', h1: 'The road, in order.' },
@@ -61,7 +61,7 @@ test('the home page reads: one h1, landmarks, the way into the beta', async ({ p
   await expect(page.getByRole('main')).toBeVisible();
   await expect(page.getByRole('contentinfo')).toBeVisible();
   await expect(page).toHaveTitle(/Press Start/);
-  for (const name of ['Where we are, honestly.', 'Come build with us.', 'Press Start']) {
+  for (const name of ['Where we are.', 'Come build with us.', 'Press Start']) {
     await expect(page.getByRole('heading', { level: 2, name })).toBeAttached();
   }
   expect(errors, 'no hydration or runtime errors').toEqual([]);

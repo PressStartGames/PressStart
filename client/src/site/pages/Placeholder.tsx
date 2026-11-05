@@ -12,7 +12,7 @@ import styles from './Placeholder.module.css';
 // The designed pages a locked page points to.
 const OPEN: readonly SitePageId[] = ['engine', 'engine-parallel', 'roadmap', 'news'];
 
-// A page not designed yet: its honest copy from CONTENT.md (`page-<id>`), a locked-level card, and
+// A page not designed yet: its own copy from CONTENT.md (`page-<id>`), a locked-level card, and
 // doors to the pages that are open. Strength pages keep their colour; /community also gets the doors
 // to the beta and Discord.
 export function Placeholder({ id }: { id: SitePageId }) {

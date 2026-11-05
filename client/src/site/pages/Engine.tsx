@@ -18,7 +18,7 @@ const LOOP_ICONS: readonly IconName[] = ['doc', 'play', 'target', 'key'];
 const LOOP_TONES = ['blue', 'red', 'green', 'amber'] as const;
 const STACK_TONES = ['red', 'ink', 'blue'] as const;
 
-// Three blocks, your game on the engine on Bevy, stacking in when the page loads.
+// Three blocks, your game on the engine on Rust, stacking in when the page loads.
 function Stack() {
   const layers = splitList(field('site-engine-stack', 'layers'), '|');
   return (
