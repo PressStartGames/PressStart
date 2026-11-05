@@ -126,6 +126,9 @@ importers:
       '@fontsource/press-start-2p':
         specifier: 5.3.0
         version: 5.3.0
+      '@growthbook/growthbook':
+        specifier: 1.8.0
+        version: 1.8.0
       gsap:
         specifier: 3.15.0
         version: 3.15.0
@@ -196,6 +199,34 @@ importers:
       vite-imagetools:
         specifier: 8.0.0
         version: 8.0.0(rollup@4.67.4)
+      vitest:
+        specifier: 3.2.7
+        version: 3.2.7(@types/node@24.19.2)(tsx@4.23.15)
+
+  edge:
+    dependencies:
+      '@growthbook/growthbook':
+        specifier: 1.8.0
+        version: 1.8.0
+    devDependencies:
+      '@eslint/js':
+        specifier: 10.0.1
+        version: 10.0.1(eslint@10.13.0)
+      eslint:
+        specifier: 10.13.0
+        version: 10.13.0
+      globals:
+        specifier: 16.5.0
+        version: 16.5.0
+      prettier:
+        specifier: 3.9.10
+        version: 3.9.10
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+      typescript-eslint:
+        specifier: 8.71.2
+        version: 8.71.2(eslint@10.13.0)(typescript@5.9.3)
       vitest:
         specifier: 3.2.7
         version: 3.2.7(@types/node@24.19.2)(tsx@4.23.15)
@@ -626,6 +657,10 @@ packages:
 
   '@formatjs/intl-localematcher@0.6.2':
     resolution: {integrity: sha512-XOMO2Hupl0wdd172Y06h6kLpBz6Dv+J4okPLl4LPtzbr8f66WbIoy4ev98EBuZ6ZK4h5ydTN6XneT4QVpD7cdA==}
+
+  '@growthbook/growthbook@1.8.0':
+    resolution: {integrity: sha512-WlS5bCwm0EJQDdTNkiPGE1X9EdvU7BIaAbHP8pg/5xP1stRyUI7sPQMpC21p6B2c/VvgxatGn/tM+r0SYnhfQw==}
+    engines: {node: '>=10'}
 
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
@@ -1885,6 +1920,10 @@ packages:
 
   devtools-protocol@0.0.1608973:
     resolution: {integrity: sha512-Tpm17fxYzt+J7VrGdc1k8YdRqS3YV7se/M6KeemEqvUbq/n7At1rWVuXMxQgpWkdwSdIEKYbU//Bve+Shm4YNQ==}
+
+  dom-mutator@0.6.0:
+    resolution: {integrity: sha512-iCt9o0aYfXMUkz/43ZOAUFQYotjGB+GNbYJiJdz4TgXkyToXbbRy5S6FbTp72lRBtfpUMwEc1KmpFEU4CZeoNg==}
+    engines: {node: '>=10'}
 
   dot-prop@5.3.0:
     resolution: {integrity: sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==}
@@ -3959,6 +3998,10 @@ snapshots:
     dependencies:
       tslib: 2.9.1
 
+  '@growthbook/growthbook@1.8.0':
+    dependencies:
+      dom-mutator: 0.6.0
+
   '@humanfs/core@0.19.2':
     dependencies:
       '@humanfs/types': 0.15.0
@@ -5100,6 +5143,8 @@ snapshots:
   devtools-protocol@0.0.1467305: {}
 
   devtools-protocol@0.0.1608973: {}
+
+  dom-mutator@0.6.0: {}
 
   dot-prop@5.3.0:
     dependencies:
