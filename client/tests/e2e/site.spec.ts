@@ -5,7 +5,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
 const STUBS = [
-  { path: '/engine/', h1: 'Built around Bevy, written as documents.' },
+  { path: '/engine/', h1: 'An engine written as documents.' },
   { path: '/engine/determinism/', h1: 'Same seed, same inputs, same game.' },
   { path: '/roadmap/', h1: 'The road, in order.' },
   { path: '/privacy/', h1: 'Privacy.' },
@@ -31,7 +31,7 @@ test('the home page reads: one h1, landmarks, the way into the beta', async ({ p
   await join.click();
   await expect(page).toHaveURL(/\/beta\/$/);
   await expect(page.locator('h1')).toContainText('A game engine an AI can build in');
-  await expect(page.getByRole('heading', { name: 'Where we are, honestly.' })).toBeAttached();
+  await expect(page.getByRole('heading', { name: 'Where we are.' })).toBeAttached();
 });
 
 for (const stub of STUBS) {
@@ -57,7 +57,7 @@ test('client navigation between site pages updates the title', async ({ page }) 
     .click();
   await expect(page).toHaveURL(/\/engine$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
-    'Built around Bevy, written as documents.',
+    'An engine written as documents.',
   );
   await expect(page).toHaveTitle('The engine · Press Start');
 });

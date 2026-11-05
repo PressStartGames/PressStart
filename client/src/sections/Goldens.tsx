@@ -3,7 +3,14 @@ import { Body } from '../components/Body';
 import { Reveal } from '../components/Reveal';
 import { Screen } from '../components/Screen';
 import { counts, field, section, splitList } from '../content';
-import { featuredFile, isPixelArt, pictureFor, rowFor, stripFiles } from '../lib/renders';
+import {
+  crateLabel,
+  featuredFile,
+  isPixelArt,
+  pictureFor,
+  rowFor,
+  stripFiles,
+} from '../lib/renders';
 import styles from './Goldens.module.css';
 
 // The review screen: "this run" over "the golden", a wipe between them, the verdict; the three
@@ -32,7 +39,7 @@ export function Goldens({ index, label }: { index: string; label: string }) {
           {featured && pic && (
             <Reveal className={styles.review} delay={120}>
               <Screen
-                label={`${featured.crate.replace('press_start_', '')} · ${featured.test}`}
+                label={`${crateLabel(featured.crate)} · ${featured.test}`}
                 readout={`engine ${featured.engineCommit.slice(0, 7)}`}
                 className={styles.reviewScreen}
               >
@@ -59,7 +66,7 @@ export function Goldens({ index, label }: { index: string; label: string }) {
                         sizes="(max-width: 900px) 100vw, 760px"
                         width={pic.img.w}
                         height={pic.img.h}
-                        alt={`${featured.test}, an accepted golden of ${featured.crate}`}
+                        alt={`${featured.test}, an accepted golden of the engine's ${crateLabel(featured.crate)} crate`}
                         loading="lazy"
                         decoding="async"
                       />
@@ -130,13 +137,13 @@ export function Goldens({ index, label }: { index: string; label: string }) {
                         sizes={pixel ? undefined : '240px'}
                         width={pixel ? row.width : p.img.w}
                         height={pixel ? row.height : p.img.h}
-                        alt={`${row.test}, an accepted golden of ${row.crate}`}
+                        alt={`${row.test}, an accepted golden of the engine's ${crateLabel(row.crate)} crate`}
                         loading="lazy"
                         decoding="async"
                       />
                     </div>
                     <span className={styles.slideCaption}>
-                      <span className={styles.crate}>{row.crate.replace('press_start_', '')}</span>
+                      <span className={styles.crate}>{crateLabel(row.crate)}</span>
                       <span className={styles.test}>{row.test}</span>
                     </span>
                   </li>

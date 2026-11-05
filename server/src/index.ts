@@ -27,7 +27,14 @@ interface WaitlistBody {
   consentVersion?: unknown;
 }
 
-const ROLES = new Set(['Games with AI agents', 'AI tools', 'Bevy projects', 'Something else']);
+// 'Bevy projects' stays accepted for pages built before 2026-11-05 (the option became 'Rust games').
+const ROLES = new Set([
+  'Games with AI agents',
+  'AI tools',
+  'Rust games',
+  'Bevy projects',
+  'Something else',
+]);
 const RESEND_COOLDOWN_MS = 10 * 60 * 1000;
 
 function corsHeaders(env: Env, origin: string | null): Record<string, string> {

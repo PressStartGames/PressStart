@@ -66,7 +66,7 @@ sync's result differs from the table above, the sync wins and this table is upda
 ## True today vs roadmap
 
 Present tense only for TRUE TODAY:
-- built around Bevy; 89 engine crates; every system a document plus a plugin, validated before the app exists;
+- 89 engine crates; every system a document plus a plugin, validated before the app exists;
 - the four-verb wire (query, command, capture, control) plus input injection, in-repo;
 - deterministic replay **scoped to the same build on the same platform** (one seed, no wall clock, no sleep, fixed
   tick, boundary checksum);
@@ -83,6 +83,8 @@ ROADMAP (a plan, worded without dates, only in the roadmap section and the FAQ):
 - the public repository (at version 1); public CI.
 
 Never claimed or mentioned:
+- **Bevy is never named on the site** (the engine is built around it internally; the site does not say so) and the
+  words "honest"/"honestly" are not used. Founder, 2026-11-05; `check-content` enforces it.
 - **No MCP server exists**; the external-agent door is the editor's brokered API, which is roadmap. Say "your own
   AI; the engine exposes data and verbs".
 - **The build lane** (the engine's internal build and test scheduler) is internal tooling and is never mentioned.
