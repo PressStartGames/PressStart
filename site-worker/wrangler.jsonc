@@ -42,7 +42,7 @@
       },
       // GROWTHBOOK_*: the SDK connection's client key (public) for the edge experiments. Empty = no experiment is live
       // and `/` is the static control page. The founder supplies the key (plans/main-site.md Phase 5).
-      "vars": { "ROBOTS_NOINDEX": "true", "GROWTHBOOK_CLIENT_KEY": "", "GROWTHBOOK_API_HOST": "" },
+      "vars": { "ROBOTS_NOINDEX": "true", "GROWTHBOOK_CLIENT_KEY": "sdk-MsIOwkHEOu57k3BY", "GROWTHBOOK_API_HOST": "" },
       "routes": [
         // A custom domain: Cloudflare creates the DNS record itself (the deploy login cannot edit DNS).
         { "pattern": "staging.pressstartgames.net", "custom_domain": true },
@@ -64,7 +64,7 @@
         // Only the edge's routes (edge/config.ts WORKER_FIRST_ROUTES); everything else is static.
         "run_worker_first": ["/"],
       },
-      "vars": { "GROWTHBOOK_CLIENT_KEY": "", "GROWTHBOOK_API_HOST": "" },
+      "vars": { "GROWTHBOOK_CLIENT_KEY": "sdk-MyyuD6XlbjnHXOF", "GROWTHBOOK_API_HOST": "" },
       // Phase 7 step 3: this route is what puts the new site on the root. It is deployed only by the
       // approval-gated production job.
       "routes": [{ "pattern": "pressstartgames.net/*", "zone_name": "pressstartgames.net" }],

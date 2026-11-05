@@ -20,7 +20,7 @@ API_URL = "https://pressstartgames.net"
 MAIL_FROM = "Press Start <beta@pressstartgames.net>"
 ADMIN_ORIGINS = "https://admin.pressstartgames.net,http://localhost:5175"
 COOKIE_DOMAIN = ".pressstartgames.net"
-WORKOS_CLIENT_ID = "client_01M6M5QGTBJ536RCM2VP67SB5X"
+WORKOS_CLIENT_ID = "client_01M6M5QH71V8T2AXTANYC02039"
 # Broadcast mails per UTC day. Resend's free plan allows 100 mails a day IN TOTAL (confirmation
 # mails included), so this leaves room for sign-ups; raise it with Resend Pro.
 DAILY_SEND_CAP = "80"
@@ -119,7 +119,7 @@ API_URL = "https://pressstartgames.net"
 MAIL_FROM = "Press Start <beta@pressstartgames.net>"
 ADMIN_ORIGINS = "https://admin.pressstartgames.net,http://localhost:5175"
 COOKIE_DOMAIN = ".pressstartgames.net"
-WORKOS_CLIENT_ID = "client_01M6M5QGTBJ536RCM2VP67SB5X"
+WORKOS_CLIENT_ID = "client_01M6M5QH71V8T2AXTANYC02039"
 DAILY_SEND_CAP = "80"
 # New in Phase 6 and a no-op today (a Resend key already means live); explicit so a missing value can
 # never silently put production in log mode.
