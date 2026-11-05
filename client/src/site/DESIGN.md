@@ -62,18 +62,18 @@ panel linking to the designed pages. No lorem, no fake content.
 
 ## Motion moments (GSAP lazy-loaded after idle; CSS for the rest)
 
-| Moment                                                                           | What it shows                   | Final state (= no-JS = reduced motion) |
-| -------------------------------------------------------------------------------- | ------------------------------- | -------------------------------------- |
-| Load: h1 lines rise, lede and CTAs follow                                        | where to start reading          | text in place                          |
-| Suite console boots pane by pane, the run plays 0 → 240, rows stamp PASS         | two runs, one game              | tick 240, every row PASS               |
-| Mega-menu: panel unfolds, columns stagger, indicator slides under the open group | the map of the engine           | panel shown/hidden instantly           |
-| Facts count up on view                                                           | the numbers are real and synced | the numbers                            |
-| The pillar rail draws with scroll; the active pillar lights                      | the order: build → prove → own  | rail drawn                             |
-| Verb console types its exchange                                                  | what an agent can ask           | the last exchange shown                |
-| Evidence cards: lanes fill, the PASS stamp lands; pointer light on hover         | the proof per strength          | diagrams complete                      |
-| Cartridge seats into its slot                                                    | the game is yours               | cartridge seated                       |
-| Status bars grow from zero                                                       | how much is built               | bars at their value                    |
-| Split-flap board flips to each reference                                         | many tools, one bar             | board settled                          |
+| Moment                                                                                                                         | What it shows                   | Final state (= no-JS = reduced motion) |
+| ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------- | -------------------------------------- |
+| Load: h1 words rise (CSS, transform only: the LCP text paints at once), the moves' underlines draw                             | where to start reading          | text in place                          |
+| Suite console: the console flattens from a tilt as it scrolls in (CSS scroll timeline); the run plays 0 → 240, rows stamp PASS | two runs, one game              | tick 240, every row PASS               |
+| Mega-menu: panel unfolds, columns stagger, the open group turns into a dark key                                                | the map of the engine           | panel shown/hidden instantly           |
+| Facts count up on view                                                                                                         | the numbers are real and synced | the numbers                            |
+| GSAP ScrollTrigger: a signal runs along the moves' track with the scroll, lighting each move                                   | the order: build → prove → own  | track full, all lit                    |
+| Verb console steps through the four exchanges once; keys replay one                                                            | what an agent can ask           | all four exchanges readable            |
+| Evidence cards: lanes fill, the PASS stamp lands; pointer light on hover                                                       | the proof per strength          | diagrams complete                      |
+| GSAP ScrollTrigger: the cartridge follows the scroll into its slot, the lamp lights                                            | the game is yours               | cartridge seated                       |
+| Status bars grow from zero                                                                                                     | how much is built               | bars at their value                    |
+| Split-flap board flips to each reference                                                                                       | many tools, one bar             | board settled                          |
 
 Compositor-only (transform/opacity), no layout animation, nothing loops after it settles, every block has a
 `prefers-reduced-motion: reduce` branch.
