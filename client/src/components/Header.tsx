@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { Link, useLocation } from 'react-router';
+import { BETA_HOME, isBetaHome } from '../beta/paths';
 import { field, splitList } from '../content';
 import { NAV_TARGETS } from '../content/schema';
 import { useMagnet } from '../lib/useMagnet';
@@ -9,7 +10,7 @@ import styles from './Header.module.css';
 // The chassis bar: wordmark with its LED, a numbered mono nav, and the START key.
 export function Header() {
   const { pathname } = useLocation();
-  const home = pathname === '/';
+  const home = isBetaHome(pathname);
   const nav = splitList(field('header', 'nav'));
   const magnet = useRef<HTMLSpanElement>(null);
   const menuRef = useRef<HTMLDetailsElement>(null);
@@ -25,7 +26,7 @@ export function Header() {
     <header className={styles.header}>
       <div className={`frame ${styles.inner}`}>
         <Link
-          to="/"
+          to={BETA_HOME}
           className={styles.wordmark}
           aria-label={`${field('header', 'wordmark')}, home`}
         >
@@ -63,7 +64,7 @@ export function Header() {
           </details>
         )}
         <span ref={magnet} className={styles.cta}>
-          <Pill variant="start" href={home ? '#signup' : `${import.meta.env.BASE_URL}#signup`}>
+          <Pill variant="start" href={home ? '#signup' : `${import.meta.env.BASE_URL}beta/#signup`}>
             {field('header', 'cta')}
           </Pill>
         </span>

@@ -27,3 +27,7 @@ export const ROUTER_BASENAME = BASE.replace(/\/$/, '') || '/';
 export const REPO_URL = 'https://github.com/PressStartGames/PressStartWeb';
 // Bumped whenever CONTENT.md's `consent` line changes; the Worker stores it with the row.
 export const CONSENT_VERSION = '2026-11-01';
+// Feature flags (plans/main-site.md: "Join the beta" is flag-ready; phase 5 moves flags to GrowthBook).
+export const FLAGS = {
+  joinBeta: env('VITE_FLAG_JOIN_BETA') !== 'off',
+};

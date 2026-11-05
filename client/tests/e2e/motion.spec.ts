@@ -8,7 +8,7 @@ test.use({ viewport: { width: 1440, height: 900 } });
 test('the hero timeline hands over to the attract mode and the headline keeps its sentence', async ({
   page,
 }) => {
-  await page.goto('/');
+  await page.goto('/beta/');
   const h1 = page.locator('h1');
   await expect(h1).toHaveAttribute('aria-label', /A game engine an AI can build in/, {
     timeout: 10_000,
@@ -20,7 +20,7 @@ test('the hero timeline hands over to the attract mode and the headline keeps it
 });
 
 test('the procedure lights the step and its code lines, forward and back', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/beta/');
   await page.waitForTimeout(3000);
   const steps = page.locator('#build ol > li');
   const last = steps.last();
@@ -35,7 +35,7 @@ test('the procedure lights the step and its code lines, forward and back', async
 });
 
 test('the cores screen scrubs to its end state and back', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/beta/');
   await page.waitForTimeout(3000);
   const section = page.locator('#parallel');
   await section.evaluate((el) =>
@@ -55,7 +55,7 @@ test('the cores screen scrubs to its end state and back', async ({ page }) => {
 });
 
 test('sign-up: the cartridge seats after a valid address', async ({ page }) => {
-  await page.goto('/#signup');
+  await page.goto('/beta/#signup');
   await page.getByLabel('Email').fill('player@example.com');
   await page.getByRole('button', { name: 'Request access' }).click();
   await expect(page.getByRole('status').filter({ hasText: 'Player 1 ready' })).toBeVisible({

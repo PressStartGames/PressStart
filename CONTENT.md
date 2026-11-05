@@ -258,7 +258,7 @@ slot-label: insert cartridge
 ready-label: player 1
 
 consent: We store your email, and your answer if you give one, only to send beta access and release news. One click
-unsubscribes and deletes it. [Privacy](/privacy)
+unsubscribes and deletes it. [Privacy](/beta/privacy)
 
 ## faq
 
@@ -327,3 +327,196 @@ headline: Tick not found.
 There is nothing at this address. The page you want is probably on the one road we have.
 
 cta: Back to the site
+
+## site-header
+
+*(The main site at pressstartgames.net, from here to the end of the file. Every section above is the beta's page,
+now served under /beta. These are placeholders: plans/main-site.md phase 2 designs the main site. Copy follows the
+press-start-website skill: present tense only for what is true today, no dates.)*
+
+wordmark: Press Start
+skip: Skip to content
+nav-label: Site
+nav: Engine | Showcase | Roadmap | Learn | News | Licensing | About | Community
+cta: Join the beta
+
+## site-footer
+
+label: Footer
+legal: Privacy | Terms | Cookies
+line: A game engine built around Bevy. Version 1 is not public yet.
+
+## site-home
+
+title: Press Start · A game engine an AI can build in, and prove.
+description: Press Start is a game engine built around Bevy whose first user is an AI agent: scenes, laws and assets as documents, deterministic replay, and every feature measured against a reference tool.
+kicker: Tests, not eyes.
+headline: A game engine an AI can build in, and prove.
+cta: Join the beta | Read about the engine
+
+Press Start is built around Bevy. Your agent writes the game as documents, runs it on a fixed tick, and proves
+every frame against a reference. The main site is being designed; the beta's page tells the whole story today.
+
+## site-not-found
+
+title: Not found · Press Start
+description: There is nothing at this address.
+kicker: 404
+headline: Tick not found.
+cta: Back to the start
+
+There is nothing at this address.
+
+## page-engine
+
+title: The engine · Press Start
+description: What Press Start is: a game engine built around Bevy, every system a document plus a plugin.
+kicker: The engine
+headline: Built around Bevy, written as documents.
+
+{{crates}} engine crates cover what Bevy leaves out. Every system is a document plus a plugin, validated before
+the app exists. This page will walk through the engine one strength at a time.
+
+## page-engine-determinism
+
+title: Determinism · Press Start
+description: Same seed, same inputs, same game, on the same build and the same platform.
+kicker: Determinism
+headline: Same seed, same inputs, same game.
+
+One seed, no wall clock, no sleep, a fixed tick and a checksum at the boundary. Replay is exact on the same build
+and the same platform. This page is a placeholder.
+
+## page-engine-parallel
+
+title: Parallel · Press Start
+description: Systems run in parallel, and the answer stays the same.
+kicker: Parallel
+headline: All your cores, the same answer.
+
+Any two systems that touch the same data are ordered, or proven disjoint; every floating-point reduction is
+ordered. No speed-up figure is claimed. This page is a placeholder.
+
+## page-engine-oracles
+
+title: Oracles · Press Start
+description: Every feature measured against a reference tool the industry already trusts.
+kicker: Oracles
+headline: Measured against a reference.
+
+{{oracles}} reference tools check the engine's subsystems. Parity is the bar, not an achievement. This page is a
+placeholder.
+
+## page-engine-ai
+
+title: The AI surface · Press Start
+description: A running game answers four verbs: query, command, capture, control.
+kicker: The AI surface
+headline: Your own AI, through the player's door.
+
+A running game answers four verbs: *query*, *command*, *capture*, *control*, plus input injection. The engine
+exposes data and verbs; you bring the agent. This page is a placeholder.
+
+## page-engine-ownership
+
+title: Ownership · Press Start
+description: A game on Press Start is Rust code on Bevy.
+kicker: Ownership
+headline: The game is your code.
+
+A game on Press Start is a Rust workspace on Bevy. The source-available licence is on the road; its terms are not
+written yet. This page is a placeholder.
+
+## page-showcase
+
+title: Showcase · Press Start
+description: Games built on Press Start, shown only through the engine's own renders.
+kicker: Showcase
+headline: Made with Press Start.
+
+The first game, Team Fights, is built on the engine's crates. Its pictures appear here once the engine accepts
+them.
+
+## page-roadmap
+
+title: Roadmap · Press Start
+description: The road to version 1, in order, without dates.
+kicker: Roadmap
+headline: The road, in order.
+
+The road in order, each stage with its state, re-synced from the engine. Until this page is built, the beta's page
+carries it: [the road](/beta/#roadmap).
+
+## page-learn
+
+title: Learn · Press Start
+description: How a game is built on Press Start.
+kicker: Learn
+headline: Build a game.
+
+Guides will live here. The shape of a game today: documents, a fixed tick, a reference to prove against, and four
+verbs for your agent.
+
+## page-news
+
+title: News · Press Start
+description: Version notes and news from Press Start.
+kicker: News
+headline: News.
+
+Version notes will be posted here. Nothing is posted yet.
+
+## page-licensing
+
+title: Licensing · Press Start
+description: How Press Start will be licensed.
+kicker: Licensing
+headline: Source-available, with version 1.
+
+The plan is a source-available licence and an optional login that nothing requires. The terms are not written yet.
+
+## page-about
+
+title: About · Press Start
+description: The mission and the method behind Press Start.
+kicker: About
+headline: Tests, not eyes.
+
+Press Start is a game engine built around Bevy whose first user is an AI agent. Every feature can fail a test; the
+misses are counted and published.
+
+## page-community
+
+title: Community · Press Start
+description: Where to find the people building Press Start.
+kicker: Community
+headline: Come build with us.
+
+The community links will be listed here. Today, the way in is the beta: [join the beta](/beta/).
+
+## page-privacy
+
+title: Privacy · Press Start
+description: The site's privacy notice.
+kicker: Legal
+headline: Privacy.
+
+The site-wide privacy notice is being written. The beta sign-up's notice is here: [beta privacy](/beta/privacy).
+
+## page-terms
+
+title: Terms · Press Start
+description: The site's terms of use.
+kicker: Legal
+headline: Terms.
+
+The site's terms are being written.
+
+## page-cookies
+
+title: Cookies · Press Start
+description: The cookies this site sets.
+kicker: Legal
+headline: Cookies.
+
+This site sets no cookies.

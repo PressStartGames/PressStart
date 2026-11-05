@@ -1,3 +1,26 @@
+// The main site's placeholder pages (plans/main-site.md phase 1), one CONTENT.md section `page-<id>` each,
+// served at `/<id>` with dashes as path separators (engine-determinism -> /engine/determinism).
+export const SITE_PAGE_IDS = [
+  'engine',
+  'engine-determinism',
+  'engine-parallel',
+  'engine-oracles',
+  'engine-ai',
+  'engine-ownership',
+  'showcase',
+  'roadmap',
+  'learn',
+  'news',
+  'licensing',
+  'about',
+  'community',
+  'privacy',
+  'terms',
+  'cookies',
+] as const;
+export type SitePageId = (typeof SITE_PAGE_IDS)[number];
+const PAGE_FIELDS = ['title', 'description', 'kicker', 'headline'] as const;
+
 // Every section of CONTENT.md the site renders, with the fields the code reads. check-content.ts
 // fails CI when CONTENT.md and this list disagree in either direction.
 export const CONTENT_SCHEMA: Record<string, readonly string[]> = {
@@ -84,6 +107,11 @@ export const CONTENT_SCHEMA: Record<string, readonly string[]> = {
   privacy: ['headline', 'small'],
   confirmed: ['kicker', 'headline', 'cta'],
   'not-found': ['kicker', 'headline', 'cta'],
+  'site-header': ['wordmark', 'skip', 'nav-label', 'nav', 'cta'],
+  'site-footer': ['label', 'legal', 'line'],
+  'site-home': ['title', 'description', 'kicker', 'headline', 'cta'],
+  'site-not-found': ['title', 'description', 'kicker', 'headline', 'cta'],
+  ...Object.fromEntries(SITE_PAGE_IDS.map((id) => [`page-${id}`, PAGE_FIELDS])),
 };
 
 // The nav labels in CONTENT.md's header map to these section ids (first word, lower-cased).

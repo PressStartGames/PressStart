@@ -23,12 +23,12 @@ export default defineConfig({
   projects: [
     {
       name: 'stub',
-      testMatch: /(home|signup-stub|motion)\.spec\.ts/,
+      testMatch: /(home|signup-stub|motion|site)\.spec\.ts/,
       use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:4173' },
     },
     {
       name: 'stub-mobile-reduced-motion',
-      testMatch: /(home|signup-stub)\.spec\.ts/,
+      testMatch: /(home|signup-stub|site)\.spec\.ts/,
       use: {
         ...devices['Pixel 7'],
         baseURL: 'http://localhost:4173',

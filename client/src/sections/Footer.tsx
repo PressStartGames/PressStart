@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import { field, splitList } from '../content';
+import { BETA_HOME, betaPath } from '../beta/paths';
 import { REPO_URL } from '../lib/config';
 import styles from './Footer.module.css';
 
@@ -15,13 +16,13 @@ export function Footer() {
             let node: React.ReactNode = <span>{item}</span>;
             if (item === wordmark) {
               node = (
-                <Link to="/" className={styles.wordmark}>
+                <Link to={BETA_HOME} className={styles.wordmark}>
                   <span className="led" aria-hidden="true" />
                   {item}
                 </Link>
               );
             } else if (item === 'Privacy') {
-              node = <Link to="/privacy">{item}</Link>;
+              node = <Link to={betaPath('privacy')}>{item}</Link>;
             } else if (item === 'GitHub') {
               node = (
                 <a href={REPO_URL} rel="noopener">

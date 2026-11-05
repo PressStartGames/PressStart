@@ -1,25 +1,25 @@
-import { Route, Routes } from 'react-router';
-import { Header } from './components/Header';
-import { Confirmed } from './pages/Confirmed';
-import { Home } from './pages/Home';
-import { NotFound } from './pages/NotFound';
-import { Privacy } from './pages/Privacy';
+import { Suspense, useEffect } from 'react';
+import { useLocation, useRoutes } from 'react-router';
+import { resolveRoute, routes } from './routes';
 
+// One app, two areas (src/routes.tsx). Each area's layout owns its skip link, header, <main> and
+// footer; the prerendered <head> carries the first page's meta, RouteHead keeps it in step after.
 export function App() {
+  const element = useRoutes(routes);
   return (
     <>
-      <a href="#main" className="skip-link">
-        Skip to content
-      </a>
-      <Header />
-      <main id="main">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/confirmed" element={<Confirmed />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
+      <RouteHead />
+      <Suspense fallback={null}>{element}</Suspense>
     </>
   );
+}
+
+function RouteHead() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    const { meta } = resolveRoute(pathname);
+    if (document.title !== meta.title) document.title = meta.title;
+    document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description);
+  }, [pathname]);
+  return null;
 }

@@ -11,13 +11,13 @@
       (function () {
         var h = document.documentElement;
         h.classList.add('js');
-        // The console boots only on the home route, only when motion is allowed. The class delays the
-        // hero's load sequence; the Boot component removes it when the boot screen lifts.
+        // The console boots only on the beta's home route (/beta/), only when motion is allowed. The
+        // class delays the hero's load sequence; the Boot component removes it when the screen lifts.
         var base = document.querySelector('meta[name="app-base"]');
         var home = (base && base.content) || '/';
-        var p = location.pathname.replace(/index\.html$/, '');
+        var p = location.pathname.replace(/index\.html$/, '').replace(/\/$/, '');
         if (
-          p === home &&
+          p === home + 'beta' &&
           !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
           !sessionStorage.getItem('ps-booted')
         ) {

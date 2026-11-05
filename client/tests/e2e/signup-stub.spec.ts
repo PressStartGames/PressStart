@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test.describe('sign-up (stub endpoint)', () => {
   test('a valid address flips the card to Player 1 ready', async ({ page }) => {
-    await page.goto('/#signup');
+    await page.goto('/beta/#signup');
     await page.getByLabel('Email').fill('player@example.com');
     await page.getByRole('button', { name: 'Request access' }).click();
     const card = page.getByRole('status').filter({ hasText: 'Player 1 ready' });
@@ -12,7 +12,7 @@ test.describe('sign-up (stub endpoint)', () => {
   });
 
   test('an invalid address is refused on the client', async ({ page }) => {
-    await page.goto('/#signup');
+    await page.goto('/beta/#signup');
     await page.getByLabel('Email').fill('not-an-address');
     await page.getByRole('button', { name: 'Request access' }).click();
     await expect(page.getByRole('status')).toHaveText('That address does not look right.');
@@ -20,7 +20,7 @@ test.describe('sign-up (stub endpoint)', () => {
   });
 
   test('an existing address and a server failure show their lines', async ({ page }) => {
-    await page.goto('/#signup');
+    await page.goto('/beta/#signup');
     await page.getByLabel('Email').fill('existing@example.com');
     await page.getByRole('button', { name: 'Request access' }).click();
     await expect(page.getByRole('status')).toHaveText('You are already on the list.', {
@@ -35,7 +35,7 @@ test.describe('sign-up (stub endpoint)', () => {
   });
 
   test('the honeypot is not reachable by a person', async ({ page }) => {
-    await page.goto('/#signup');
+    await page.goto('/beta/#signup');
     const honeypot = page.locator('input[name="website"]');
     await expect(honeypot).toBeAttached();
     expect(await honeypot.getAttribute('tabindex')).toBe('-1');

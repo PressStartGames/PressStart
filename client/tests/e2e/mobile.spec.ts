@@ -46,10 +46,10 @@ async function assertNoOverflow(page: Page) {
   ).toBeLessThanOrEqual(vw);
 }
 
-for (const route of ['/', '/privacy/', '/confirmed/', '/404.html']) {
+for (const route of ['/beta/', '/beta/privacy/', '/beta/confirmed/', '/beta/404.html']) {
   test(`no horizontal overflow on ${route}`, async ({ page }) => {
     await page.goto(route);
-    await page.waitForTimeout(route === '/' ? 3200 : 600);
+    await page.waitForTimeout(route === '/beta/' ? 3200 : 600);
     await assertNoOverflow(page);
     const height = await page.evaluate(() => document.body.scrollHeight);
     for (let y = 0; y < height; y += 500) {
@@ -61,7 +61,7 @@ for (const route of ['/', '/privacy/', '/confirmed/', '/404.html']) {
 }
 
 test('the boot lifts within three seconds and the hero is readable', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/beta/');
   await expect(page.locator('html')).not.toHaveClass(/booting/, { timeout: 3000 });
   await expect(page.locator('h1')).toBeVisible();
   const box = await page.locator('h1').boundingBox();
@@ -70,7 +70,7 @@ test('the boot lifts within three seconds and the hero is readable', async ({ pa
 });
 
 test('the header menu opens, lists the sections and navigates', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/beta/');
   await page.waitForTimeout(3200);
   const menu = page.getByRole('group').filter({ has: page.getByText('Menu') });
   const summary = page.locator('header summary');
@@ -86,7 +86,7 @@ test('the header menu opens, lists the sections and navigates', async ({ page })
 });
 
 test('the header menu works from the keyboard', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/beta/');
   await page.waitForTimeout(3200);
   await page.locator('header summary').focus();
   await page.keyboard.press('Enter');
@@ -96,7 +96,7 @@ test('the header menu works from the keyboard', async ({ page }) => {
 });
 
 test('the sign-up succeeds by tap', async ({ page }) => {
-  await page.goto('/#signup');
+  await page.goto('/beta/#signup');
   await page.waitForTimeout(1500);
   const email = page.getByLabel('Email');
   await email.tap();
@@ -110,7 +110,7 @@ test('the sign-up succeeds by tap', async ({ page }) => {
 });
 
 test('tap targets in the header are at least 44 px tall', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/beta/');
   await page.waitForTimeout(3200);
   for (const sel of ['header summary', 'header a[href*="signup"]']) {
     const box = await page.locator(sel).first().boundingBox();

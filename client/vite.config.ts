@@ -17,6 +17,8 @@ export default defineConfig(({ mode }) => ({
   build: {
     target: 'es2022',
     sourcemap: false,
+    // scripts/prerender.ts reads it to link each page's area chunk (and deletes it afterwards).
+    manifest: true,
   },
   ssr: {
     noExternal: mode === 'production' ? [/@fontsource/] : [],

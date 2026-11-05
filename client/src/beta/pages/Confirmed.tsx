@@ -1,24 +1,26 @@
-import { Body } from '../components/Body';
-import { Pill } from '../components/Pill';
-import { field, section } from '../content';
-import { Footer } from '../sections/Footer';
+import { Body } from '../../components/Body';
+import { Pill } from '../../components/Pill';
+import { field, section } from '../../content';
+import { Footer } from '../../sections/Footer';
+import { BETA_HOME } from '../paths';
 import styles from './Page.module.css';
 
-export function NotFound() {
-  const s = section('not-found');
+// Where the double opt-in link lands (the Worker's /api/confirm redirects here).
+export function Confirmed() {
+  const s = section('confirmed');
   return (
     <div className={styles.page}>
       <div className={`frame row ${styles.main}`}>
         <div className="spine">
-          <span className="spine-label">error</span>
+          <span className="spine-label">player 1</span>
         </div>
         <div>
           <p className={`${styles.kicker} enter`}>
             <span className="led" aria-hidden="true" />
-            {field('not-found', 'kicker')}
+            {field('confirmed', 'kicker')}
           </p>
           <h1 className="enter-solid" style={{ '--enter-delay': '80ms' } as React.CSSProperties}>
-            {field('not-found', 'headline')}
+            {field('confirmed', 'headline')}
           </h1>
           <div
             className={`${styles.body} enter`}
@@ -30,7 +32,7 @@ export function NotFound() {
             className={`${styles.cta} enter`}
             style={{ '--enter-delay': '240ms' } as React.CSSProperties}
           >
-            <Pill to="/">{field('not-found', 'cta')}</Pill>
+            <Pill to={BETA_HOME}>{field('confirmed', 'cta')}</Pill>
           </div>
         </div>
       </div>

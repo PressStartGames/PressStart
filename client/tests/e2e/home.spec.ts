@@ -6,7 +6,7 @@ const LAST = String(SIM.ticks).padStart(3, '0');
 const MATCH = `${ROW_TICKS.length}/${ROW_TICKS.length} checksums match`;
 
 test('the home page reads: one h1, landmarks, the fixed CTA, the honest line', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/beta/');
   await expect(page.locator('h1')).toHaveCount(1);
   await expect(page.locator('h1')).toContainText('A game engine an AI can build in');
   await expect(page.getByRole('banner')).toBeVisible();
@@ -18,7 +18,7 @@ test('the home page reads: one h1, landmarks, the fixed CTA, the honest line', a
 
 test('the replay strip reaches tick 128 and stamps PASS', async ({ page }) => {
   test.slow(); // boot + a full ~9 s run
-  await page.goto('/');
+  await page.goto('/beta/');
   const strip = page.locator('figure').first();
   // The attract mode idles at tick 0 until the screen is in view, then runs for ~9 s.
   await strip.scrollIntoViewIfNeeded();
@@ -27,14 +27,14 @@ test('the replay strip reaches tick 128 and stamps PASS', async ({ page }) => {
 });
 
 test('the number tiles show the synced counts', async ({ page }) => {
-  await page.goto('/#built');
+  await page.goto('/beta/#built');
   const built = page.locator('#built');
   await expect(built.getByText('engine crates')).toBeVisible();
   await expect(built.getByText(/synced \d{4}-\d{2}-\d{2} · engine [0-9a-f]{7}/)).toBeVisible();
 });
 
 test('the skip link, nav anchors and the FAQ work from the keyboard', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/beta/');
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
   const q = page.getByText('Is it open source?');
@@ -44,7 +44,7 @@ test('the skip link, nav anchors and the FAQ work from the keyboard', async ({ p
 
 test('has no axe violations', async ({ page }) => {
   test.slow(); // boot + a full strip run + the scroll-through + the audit
-  await page.goto('/');
+  await page.goto('/beta/');
   // Scroll through so every reveal has fired, then let the page settle before auditing.
   await page.locator('figure').first().scrollIntoViewIfNeeded();
   await expect(page.getByText(MATCH)).toBeVisible({ timeout: 20_000 });
@@ -69,9 +69,9 @@ test('has no axe violations', async ({ page }) => {
 });
 
 test('the privacy and not-found routes are prerendered', async ({ page }) => {
-  await page.goto('/privacy/');
+  await page.goto('/beta/privacy/');
   await expect(page.getByRole('heading', { level: 1, name: 'Privacy.' })).toBeVisible();
-  const res = await page.goto('/404.html');
+  const res = await page.goto('/beta/404.html');
   expect(res?.ok()).toBe(true);
   await expect(page.getByRole('heading', { level: 1, name: 'Tick not found.' })).toBeVisible();
 });
@@ -79,7 +79,7 @@ test('the privacy and not-found routes are prerendered', async ({ page }) => {
 test('renders without JavaScript', async ({ browser, baseURL }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
-  await page.goto(`${baseURL}/`);
+  await page.goto(`${baseURL}/beta/`);
   await expect(page.locator('h1')).toBeVisible();
   const h2 = page.getByRole('heading', {
     name: 'What the engine covers, and how much of it is built.',
@@ -92,7 +92,7 @@ test('renders without JavaScript', async ({ browser, baseURL }) => {
 });
 
 test('sets no cookie', async ({ page, context }) => {
-  await page.goto('/');
+  await page.goto('/beta/');
   await page.waitForTimeout(500);
   expect(await context.cookies()).toEqual([]);
 });

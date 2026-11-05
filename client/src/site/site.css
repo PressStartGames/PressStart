@@ -1,0 +1,3 @@
+/* The main site's global stylesheet. Phase 1 reuses the console's tokens, fonts and primitives through
+   an @import (inlined at build, so it is not a module shared with the beta's chunk). */
+@import '../styles/base.css';

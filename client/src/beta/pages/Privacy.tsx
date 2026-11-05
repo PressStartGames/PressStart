@@ -1,6 +1,6 @@
-import { Body } from '../components/Body';
-import { field, section } from '../content';
-import { Footer } from '../sections/Footer';
+import { Body } from '../../components/Body';
+import { field, section } from '../../content';
+import { Footer } from '../../sections/Footer';
 import styles from './Page.module.css';
 
 export function Privacy() {

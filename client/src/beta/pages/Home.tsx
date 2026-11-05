@@ -1,18 +1,18 @@
-import { Boot } from '../components/Boot';
-import { field, splitList } from '../content';
-import { Build } from '../sections/Build';
-import { BuiltToday } from '../sections/BuiltToday';
-import { Determinism } from '../sections/Determinism';
-import { Faq } from '../sections/Faq';
-import { Footer } from '../sections/Footer';
-import { Goldens } from '../sections/Goldens';
-import { Hero } from '../sections/Hero';
-import { Oracles } from '../sections/Oracles';
-import { Parallel } from '../sections/Parallel';
-import { Problem } from '../sections/Problem';
-import { Roadmap } from '../sections/Roadmap';
-import { Signup } from '../sections/Signup';
-import { What } from '../sections/What';
+import { Boot } from '../../components/Boot';
+import { field, splitList } from '../../content';
+import { Build } from '../../sections/Build';
+import { BuiltToday } from '../../sections/BuiltToday';
+import { Determinism } from '../../sections/Determinism';
+import { Faq } from '../../sections/Faq';
+import { Footer } from '../../sections/Footer';
+import { Goldens } from '../../sections/Goldens';
+import { Hero } from '../../sections/Hero';
+import { Oracles } from '../../sections/Oracles';
+import { Parallel } from '../../sections/Parallel';
+import { Problem } from '../../sections/Problem';
+import { Roadmap } from '../../sections/Roadmap';
+import { Signup } from '../../sections/Signup';
+import { What } from '../../sections/What';
 
 // One machine, one grey chassis, screens set into it. The spine index (00 BOOT, 01 BUILD …)
 // comes from CONTENT.md's header.index, one entry per section in page order.
