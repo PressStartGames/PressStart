@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { Link } from 'react-router';
 import { field } from '../../content';
 import { stage } from '../tour/stages';
@@ -17,18 +17,20 @@ const MEANWHILE: Record<string, string[]> = {
   roadmap: ['road', 'built'],
   learn: ['documents', 'ai', 'ownership'],
   news: ['road'],
-  licensing: ['ownership', 'road'],
+  licensing: ['ownership'],
   about: ['documents', 'oracles', 'built'],
   community: ['road'],
 };
 
 // A page not designed yet, said plainly: its real sentences from CONTENT.md (`page-<id>`), a locked stage,
 // and the tour's stages that answer the question today.
-export function Placeholder({ id }: { id: string }) {
+export function Placeholder({ id, children }: { id: string; children?: ReactNode }) {
   const links = (MEANWHILE[id] ?? []).map(stage);
   return (
     <>
-      <PageHead id={`page-${id}`} icon="lock" color="var(--st-gold)" />
+      <PageHead id={`page-${id}`} icon="lock" color="var(--st-gold)">
+        {children && <div className={styles.headExtra}>{children}</div>}
+      </PageHead>
       <div
         className={`frame ${styles.locked}`}
         style={{ '--accent': 'var(--st-gold)' } as CSSProperties}

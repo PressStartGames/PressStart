@@ -40,7 +40,7 @@ JetBrains Mono readouts, Space Grotesk) and answers the founder's notes:
 | 1-6 | The game answers back  | The four verbs                                                                  | A small console: query / command / capture / control played on the browser simulation                                                                                         |
 | 1-7 | Your game is your code | Plain Rust, and it is yours                                                     | The engine's own test, imports trimmed, with its commit                                                                                                                       |
 | ★   | Built today            | The feature count, misses included                                              | Seven level bars (built / partly / not yet), synced counts                                                                                                                    |
-| ▶   | The road               | Where we are, no dates                                                          | Four stops, "now" lit; the Join-the-beta card                                                                                                                                 |
+| ▶   | The road               | Where we are, no dates                                                          | Three stops, "now" lit; the Join-the-beta card                                                                                                                                |
 
 **`/engine`** — what the engine is: the four-step procedure with the verbatim test lit step by step; the
 five strengths as cartridges (to their pages); what is in the box (the engine families); the synced numbers.

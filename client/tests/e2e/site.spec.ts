@@ -89,6 +89,26 @@ test('the tour: every stage is on the page, in the select screen and in the map'
   await expect(page.locator('#goldens')).toBeInViewport({ timeout: 10_000 });
 });
 
+// The road is direction only: three stops, no dates, no internal work (founder, 2026-11-05).
+test('the road has three stops, now, next and then, on the home page and /roadmap', async ({
+  page,
+}) => {
+  for (const [path, root] of [
+    ['/', '#road'],
+    ['/roadmap/', 'main'],
+  ] as const) {
+    await page.goto(path);
+    const stops = page.locator(`${root} ol li`);
+    await expect(stops).toHaveCount(3);
+    await expect(stops.nth(0)).toContainText('Private beta');
+    await expect(stops.nth(1)).toContainText('Version 1.');
+    await expect(stops.nth(2)).toContainText('Version 1.x');
+    await expect(page.locator('main')).not.toContainText(
+      /licen[cs]e wave|repository split|rewrit|\bwaves?\b/i,
+    );
+  }
+});
+
 test('the footer links Discord from DISCORD_URL', async ({ page }) => {
   expect(DISCORD_URL).toMatch(/^https:\/\/discord\.gg\//);
   await page.goto('/');

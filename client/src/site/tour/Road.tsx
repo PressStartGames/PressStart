@@ -10,15 +10,14 @@ import { pairs } from './stages';
 
 const S = 'site-road';
 
-// Stage 1-9: the road to version 1, in order and without dates. The player stands on "now"; the stops
-// ahead light in sequence the first time the road is seen. Then the one ask of the page: join the beta
-// (behind FLAGS.joinBeta; without it the card keeps the road link only).
-export function Road() {
+// The road's three stops (now, next, then), direction only and without dates. The player stands on "now";
+// the stops ahead light in sequence the first time the road is seen. Also the body of /roadmap.
+export function RoadStops() {
   const ref = useRef<HTMLDivElement>(null);
   useInView(ref);
   const stops = pairs(field(S, 'stops'));
   return (
-    <div className={styles.proof} ref={ref} data-io>
+    <div className={styles.stops} ref={ref} data-io>
       <ol className={styles.road}>
         {stops.map(([name, what], i) => (
           <li
@@ -38,6 +37,16 @@ export function Road() {
           </li>
         ))}
       </ol>
+    </div>
+  );
+}
+
+// Stage 1-9: the road, then the one ask of the page: join the beta (behind FLAGS.joinBeta; without it the
+// card keeps the road link only).
+export function Road() {
+  return (
+    <div className={styles.proof}>
+      <RoadStops />
       <Screen label={field('site-footer', 'signoff')}>
         <div className={styles.join}>
           <div>

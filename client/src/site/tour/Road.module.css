@@ -5,13 +5,17 @@
   min-width: 0;
 }
 
+.stops {
+  min-width: 0;
+}
+
 .road {
   position: relative;
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
 }
 
@@ -81,7 +85,7 @@
 }
 
 /* First sight: the stops light in order; the player hops onto "now". */
-:global(html.js.hydrated) .proof:not([data-visible]) .stop {
+:global(html.js.hydrated) .stops:not([data-visible]) .stop {
   opacity: 0;
   transform: translateY(10px);
 }
@@ -92,7 +96,7 @@
     transform 500ms var(--ease) calc(var(--i) * 160ms);
 }
 
-:global(html.js) .proof[data-visible] .stop[data-now] .marker svg {
+:global(html.js) .stops[data-visible] .stop[data-now] .marker svg {
   animation: hop 520ms var(--ease) 300ms 2;
 }
 
@@ -198,7 +202,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :global(html.js.hydrated) .proof:not([data-visible]) .stop {
+  :global(html.js.hydrated) .stops:not([data-visible]) .stop {
     opacity: 1;
     transform: none;
   }
@@ -207,7 +211,7 @@
     transition: none;
   }
 
-  :global(html.js) .proof[data-visible] .stop[data-now] .marker svg {
+  :global(html.js) .stops[data-visible] .stop[data-now] .marker svg {
     animation: none;
   }
 }

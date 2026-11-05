@@ -391,7 +391,7 @@ sample-caption: An agent asks which patch set each value. The request is copied 
 
 In most engines a level lives inside the editor, and the only way to change it is to click. In Press Start every
 scene, material, rig and menu is a plain document an agent can read and write. A change is a small patch laid on
-top, never a rewrite.
+top, and the document under it stays as it was.
 
 The engine checks every document before the game starts, and a refusal names the wrong value and how to fix it.
 Ask which patch set a value, and you get an answer, not a guess.
@@ -529,7 +529,7 @@ engine's own tests use. You bring the AI. The engine brings data and verbs.
 kicker: Your code
 teaser: Plain Rust, and it is yours.
 headline: Your game is your code.
-small: On the road: the public repository under our own source-available licence, at version 1.
+small: A game is Rust code plus documents, both plain text.
 sample-caption: One of the engine's own tests, imports trimmed: a fixed-step app runs three ticks a frame, so ten frames are thirty ticks.
 
 A game on Press Start is a normal Rust codebase, and it is yours. {{crates}} engine crates bring what a game
@@ -588,15 +588,14 @@ the misses.
 kicker: The road
 teaser: Where we are, with no dates.
 headline: Where we are.
-stops: Now = The engine and its first game, Team Fights, built and tested in private. | Version 1 = A launcher, a new project from a template, save, build, Windows export. No account needed, and it works offline. | Then = The big performance pain points, one full release gate, and the public repository under our own source-available licence. | After = A version every two weeks, the remaining gaps, more platforms.
+stops: Now = Private beta. The engine is built and tested in private, and the list is open. | Next = Version 1. A launcher, a new project from a template, save, build, Windows export. No account required, and it works offline. | Then = Version 1.x. Regular releases, more of the engine, more platforms.
 now: you are here
 join-title: Want in early?
 join-body: Join the beta and we email you when version 1 opens. Nothing else, unless you ask.
 join-cta: Join the beta
 roadmap-link: The whole road
 
-Press Start is not public yet. This is the road to version 1, in order. We publish dates only when we have earned
-them.
+Press Start is not public yet. This is where it is going, one line a stop, with no dates.
 
 ## site-engine-steps
 
@@ -679,13 +678,10 @@ not a way into your players' machines.
 ## site-ai-road
 
 kicker: On the road
-headline: With the editor: a chat beside the game.
+headline: A chat beside the game.
 
-The editor is the next big stage. The plan is a normal editor window and game window, with one chat beside them in
-three modes. Planning reads and ends in a plan written in your words. Manual proposes and waits for your yes. Full
-access builds, while a second agent judges the result against the plan.
-
-Every change, by a click or by an agent, will be one undo away.
+The direction: an editor with your game beside it and one chat next to both, where every change, by a click or by
+an agent, is one undo away.
 
 ## site-stub
 
@@ -763,8 +759,7 @@ description: A game on Press Start is plain Rust code, and it is yours.
 kicker: Ownership
 headline: The game is your code.
 
-A game on Press Start is a Rust workspace, and it is yours. The source-available licence is on the road; its
-terms are not written yet. The full page is being written.
+A game on Press Start is a Rust workspace, and it is yours. The full page is being written.
 
 ## page-showcase
 
@@ -783,8 +778,7 @@ description: Where Press Start is going: private beta now, version 1 next, then 
 kicker: Roadmap
 headline: The road, in order.
 
-The road in order, each stage with its state, re-synced from the engine. Until this page is built, the home page
-carries the short version: [the road](/#road).
+Direction only: three stops, a line each, with no dates.
 
 ## page-learn
 
@@ -813,7 +807,7 @@ kicker: Licensing
 headline: Source-available, with version 1.
 
 The plan is a source-available licence: free to make and ship games, with a royalty only above a revenue
-threshold, and an optional login that nothing requires. The terms are not written yet.
+threshold, and an optional login that nothing requires.
 
 ## page-about
 

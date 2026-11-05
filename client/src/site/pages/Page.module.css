@@ -200,6 +200,11 @@
   color: var(--accent);
 }
 
+/* A placeholder page's own body under its head (the road on /roadmap). */
+.headExtra {
+  margin-top: 48px;
+}
+
 /* The locked stage on placeholder pages. */
 .locked {
   padding-block: 64px 32px;
