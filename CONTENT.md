@@ -455,7 +455,7 @@ differ, the difference is a recorded row with both numbers and a reason, never a
 
 word: Yours.
 headline: The game is your code.
-scope: The licence text is not final; it is published with version 1.
+scope: The licence text is published with version 1.
 screen: what a game is made of
 layers: Your game = a Rust workspace, your repository | Press Start = {{crates}} engine crates, plugins your game adds
 
@@ -498,14 +498,14 @@ test holds every clause of it, and we publish the misses: {{catalog.partial}} mo
 label: Where we are
 headline: The road, in order. No dates.
 now: now
-stops: Now = The first game, Team Fights, is built on the engine and played. The engine is being readied for the public. | Next = The editor: everything built, reachable by hand and by agent, in one window. | Version 1 = A launcher, a new project from a template, save, build, Windows export. | Then = The public repository under our own licence, and a version every two weeks.
+stops: Private beta = The engine is built and tested in private, and the list is open. | Version 1 = A launcher, a new project from a template, save, build, Windows export. No account required; it works offline. | Version 1.x = Regular releases, more of the engine, more platforms.
 link: The whole road
 
 ## site-licence
 
 kicker: Licensing
 headline: Free to make and ship. Yours to read.
-small: The licence text, the rate and the threshold are not final. They are published with version 1.
+small: The licence text, the rate and the threshold are published with version 1.
 cta: Join the beta | Read about licensing
 end: Ready, player one?
 
@@ -539,9 +539,9 @@ loop: Document = Scenes, laws and assets are files an agent can read and write. 
 strengths-label: Five strengths
 strengths-headline: What the engine is good at, one page each.
 numbers-label: The engine in numbers
-road-label: Not there yet
-road-headline: What the engine does not do yet.
-road: The editor, a window to place objects and edit scenes by hand, is on the road. | The launcher, a new project from a template, save, build and Windows export arrive with version 1. | The source-available licence and the public repository arrive with version 1.
+road-label: Where we are
+road-headline: The road, in order. No dates.
+road: Now, private beta: the engine is built and tested in private, and the list is open. | Next, version 1: a launcher, a new project from a template, save, build, Windows export. No account required; it works offline. | Then, version 1.x: regular releases, more of the engine, more platforms.
 road-link: The road, in order
 
 {{crates}} engine crates cover terrain, navigation, physics, animation, UI and more. Every system is a document plus a plugin, validated before
@@ -624,8 +624,8 @@ description: A game on Press Start is your own Rust code.
 kicker: Ownership
 headline: The game is your code.
 
-A game on Press Start is a Rust workspace you own. The source-available licence is on the road; its terms are not
-written yet. This page is a placeholder.
+A game on Press Start is a Rust workspace you own. The engine will be source-available; the licence text is
+published with version 1. This page is a placeholder.
 
 ## page-showcase
 
@@ -644,8 +644,14 @@ description: Where Press Start is going: private beta now, version 1 next, then 
 kicker: Roadmap
 headline: The road, in order.
 
-Now: private beta. Next: version 1. Then: version 1.x, with regular releases and more platforms. Until this page
-is built, the beta's page carries it: [the road](/beta/#roadmap).
+Three stops, in order. No dates.
+
+**Now: private beta.** The engine is built and tested in private, and the list is open.
+
+**Next: version 1.** A launcher, a new project from a template, save, build, Windows export. No account required;
+it works offline.
+
+**Then: version 1.x.** Regular releases, more of the engine, more platforms.
 
 ## page-learn
 
@@ -673,7 +679,8 @@ description: How Press Start will be licensed.
 kicker: Licensing
 headline: Source-available, with version 1.
 
-The plan is a source-available licence and an optional login that nothing requires. The terms are not written yet.
+The plan is a source-available licence and an optional login that nothing requires. The licence text is published
+with version 1.
 
 ## page-about
 

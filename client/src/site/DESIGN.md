@@ -36,7 +36,7 @@ the giant wordmark.
 
 - **/engine** — "An engine written as documents." The loop of the engine as a four-stop diagram
   (document → plugin → running world → your agent, the wire back), the five strengths as large index cards linking to
-  their pages, the numbers band, and a "not there yet" panel (editor, launcher, export are on the road).
+  their pages, the numbers band, and the road panel (the three stops: private beta, version 1, version 1.x).
 - **/engine/determinism** (the strength sub-page) — a hands-on replay: drag the tick slider (or press play) and
   watch run A, run B traced over it, and run C — the same seed with one different input at tick 140. The ledger turns
   red from the first checkpoint after it, and the binary search the engine uses to locate a divergence is run live

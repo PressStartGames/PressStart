@@ -21,7 +21,7 @@ const STRENGTHS: readonly SitePageId[] = [
 const RING = [0, 90, 180, 270];
 
 // /engine: the engine's loop as a ring (document -> plugin -> world -> agent -> the next document),
-// the five strengths as index cards, the synced numbers, and what the engine does not do yet.
+// the five strengths as index cards, the synced numbers, and the road (three stops).
 export function Engine() {
   const loop = pairs(ID, 'loop');
   return (

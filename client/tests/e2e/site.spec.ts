@@ -165,6 +165,32 @@ test('the home page plays its acts: four ways in, four strengths, the film, the 
   await expect(page.getByRole('heading', { name: 'The road, in order. No dates.' })).toBeAttached();
 });
 
+// The road is direction only (founder, 2026-11-05): three stops, a line each, no internal work.
+const ROAD = ['Private beta', 'Version 1', 'Version 1.x'];
+const INTERNAL = /licen[cs]e (wave|work)|\bwaves?\b|rewrit|repo(sitory)? split|editor|stage \d/i;
+
+test('the road has three stops, private beta lit as now, and names no internal work', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const road = page.locator('ol').filter({ hasText: 'Private beta' });
+  const stops = road.locator('li');
+  await expect(stops).toHaveCount(3);
+  for (const [i, name] of ROAD.entries()) await expect(stops.nth(i)).toContainText(name);
+  await expect(stops.nth(0)).toHaveAttribute('data-now', 'true');
+  for (const path of ['/', '/engine/', '/roadmap/']) {
+    await page.goto(path);
+    expect(await page.locator('main').innerText()).not.toMatch(INTERNAL);
+  }
+  await page.goto('/roadmap/');
+  for (const stop of ['Now: private beta.', 'Next: version 1.', 'Then: version 1.x.']) {
+    await expect(page.getByText(stop, { exact: true })).toBeAttached();
+  }
+  await page.goto('/engine/');
+  await expect(page.getByRole('heading', { name: 'The road, in order. No dates.' })).toBeAttached();
+  await expect(page.locator('li').filter({ hasText: /^Now, private beta:/ })).toHaveCount(1);
+});
+
 test('the determinism lab scrubs the run and names the first differing tick', async ({ page }) => {
   await page.goto('/engine/determinism/');
   const slider = page.getByRole('slider', { name: /Tick/ });

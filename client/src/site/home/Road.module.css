@@ -18,7 +18,7 @@
   margin: 48px 0 32px;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
   position: relative;
 }
