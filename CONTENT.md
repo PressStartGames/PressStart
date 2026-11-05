@@ -279,6 +279,17 @@ manual-label: manual
    set with the licence text.
 7. **When?** When version 1 passes its release gate. We do not publish dates we have not earned.
 
+## consent-banner
+
+label: Cookie consent
+text: We count visits without cookies. May we also use Google Analytics, with cookies, to see which pages help?
+accept: Accept
+decline: Decline
+privacy: Privacy
+settings: Cookie settings
+saved-granted: Analytics is on.
+saved-denied: Analytics is off.
+
 ## footer
 
 links: Press Start · © 2026 · Licence · Privacy · GitHub · Discord · contact
@@ -292,19 +303,37 @@ licence-stub: Licence: source-available, published with version 1.
 
 headline: Privacy.
 
-small: Last updated 2026-11-01.
+small: Last updated 2026-11-05.
 
-**What we store.** Your email address, your answer to "What do you build?" if you gave one, the version of the
-consent text you agreed to and the time you agreed. Nothing else: no IP address, no user agent, no cookies, no
-trackers.
+**Our promise.** We do not sell your data and we do not share it with anyone who uses it for their own purposes.
+We count visits without cookies. We use Google Analytics only if you say yes. We use your email only for beta
+news.
 
-**Why.** To send you beta access and Press Start release news. That is the only use. The lawful basis is your
+**The beta list.** If you sign up we store your email address, your answer to "What do you build?" if you gave
+one, the version of the consent text you agreed to and the time you agreed. No IP address and no user agent are
+stored with it. The only use is to send you beta access and Press Start release news. The lawful basis is your
 consent.
 
-**Who processes it.** Cloudflare stores the list (a D1 database) and serves the sign-up; Resend sends the
-confirmation and the news. Neither receives anything beyond what is needed to do that.
+**Visit counts.** Every visit is counted with Cloudflare Web Analytics, which sets no cookies and keeps no
+personal profile of you. We see page views and countries, nothing that identifies a person.
 
-**How long.** Until you unsubscribe, or 30 days after version 1 ships if you never confirmed your address.
+**Google Analytics, only if you accept.** A banner asks once. If you press Accept, Google Analytics 4 loads and
+sets cookies so we can see which pages help; Google is our processor for this and receives your visit data. If you
+press Decline, nothing from Google loads and no cookie is set. You can change your answer at any time with
+"Cookie settings" in the footer, which also removes the cookies.
+
+**Experiments.** If you accept, we may show some visitors a different headline to learn which reads better. A
+cookie remembers which one you saw. If you decline, you always see the original and nothing is remembered. The page
+reads its on and off switches from our feature-flag service, GrowthBook, with a request that carries no cookie
+and no identifier of yours.
+
+**Who processes it.** Cloudflare stores the list (a D1 database), serves this site and counts visits; Resend
+sends the confirmation and the news; Google processes analytics data only if you accept. None of them may use
+it for anything else.
+
+**How long.** The list: until you unsubscribe, or 30 days after version 1 ships if you never confirmed your
+address. Cookies: the choice cookie and the experiment cookies last at most 6 months; Google's last as long as
+Google sets them and are removed when you withdraw.
 
 **Your choices.** One click in any email we send unsubscribes you and deletes your row. You can also ask for a
 copy or a deletion by writing to the contact address in the footer.
@@ -352,6 +381,7 @@ title: Press Start · A game engine an AI can build in, and prove.
 description: Press Start is a game engine built around Bevy whose first user is an AI agent: scenes, laws and assets as documents, deterministic replay, and every feature measured against a reference tool.
 kicker: Tests, not eyes.
 headline: A game engine an AI can build in, and prove.
+headline-b: The engine an AI builds games in, and proves.
 cta: Join the beta | Read about the engine
 
 Press Start is built around Bevy. Your agent writes the game as documents, runs it on a fixed tick, and proves
@@ -497,11 +527,16 @@ The community links will be listed here. Today, the way in is the beta: [join th
 ## page-privacy
 
 title: Privacy · Press Start
-description: The site's privacy notice.
+description: What this site stores and what it never does.
 kicker: Legal
 headline: Privacy.
 
-The site-wide privacy notice is being written. The beta sign-up's notice is here: [beta privacy](/beta/privacy).
+We do not sell your data and we do not share it with anyone who uses it for their own purposes. We count visits
+without cookies, with Cloudflare Web Analytics. We use Google Analytics only if you accept it in the banner, and
+you can change your answer at any time with "Cookie settings" in the footer. If you join the beta, your email is
+used only for beta news.
+
+The full notice is being written. The beta sign-up's notice, which already covers all of this, is here: [beta privacy](/beta/privacy).
 
 ## page-terms
 
@@ -515,8 +550,11 @@ The site's terms are being written.
 ## page-cookies
 
 title: Cookies · Press Start
-description: The cookies this site sets.
+description: The cookies this site sets, and when.
 kicker: Legal
 headline: Cookies.
 
-This site sets no cookies.
+Until you press Accept in the banner, this site sets no cookie. If you accept: one choice cookie (ps_consent) so
+the site remembers your answer; Google Analytics' own cookies (_ga and _ga_*); and, only when an experiment is
+running, an experiment cookie (ps_exp) and a random visitor number (ps_vid). If you decline, nothing is set. You
+can change your answer from "Cookie settings" in the footer; withdrawing removes these cookies.

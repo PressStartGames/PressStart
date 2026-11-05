@@ -1,4 +1,5 @@
 import { Link } from 'react-router';
+import { CookieSettings } from '../components/CookieSettings';
 import { field, splitList } from '../content';
 import { BETA_HOME, betaPath } from '../beta/paths';
 import { DISCORD_URL, REPO_URL } from '../lib/config';
@@ -40,6 +41,7 @@ export function Footer() {
             }
             return <li key={item}>{node}</li>;
           })}
+          <CookieSettings item />
         </ul>
         <p className={`mono ${styles.line}`}>{field('footer', 'licence-stub')}</p>
       </div>

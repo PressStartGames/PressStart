@@ -24,6 +24,8 @@ case "$app" in
     add VITE_TURNSTILE_SITE_KEY
     add VITE_GA_MEASUREMENT_ID
     add VITE_GROWTHBOOK_CLIENT_KEY
+    add VITE_GROWTHBOOK_API_HOST
+    add VITE_CF_BEACON_TOKEN
     ;;
   admin)
     add VITE_API_BASE

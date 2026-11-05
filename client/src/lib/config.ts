@@ -28,7 +28,12 @@ export const REPO_URL = 'https://github.com/PressStartGames/PressStartWeb';
 export const DISCORD_URL = 'https://discord.gg/XrmRJ5p2Xf';
 // Bumped whenever CONTENT.md's `consent` line changes; the Worker stores it with the row.
 export const CONSENT_VERSION = '2026-11-01';
-// Feature flags (plans/main-site.md: "Join the beta" is flag-ready; phase 5 moves flags to GrowthBook).
-export const FLAGS = {
-  joinBeta: env('VITE_FLAG_JOIN_BETA') !== 'off',
-};
+// Analytics and flags (plans/main-site.md phases 4-5). All public build-time values, all optional: unset means off.
+export const GA_MEASUREMENT_ID = env('VITE_GA_MEASUREMENT_ID');
+export const ANALYTICS_ENABLED = GA_MEASUREMENT_ID !== '';
+export const CF_BEACON_TOKEN = env('VITE_CF_BEACON_TOKEN');
+export const GROWTHBOOK_CLIENT_KEY = env('VITE_GROWTHBOOK_CLIENT_KEY');
+export const GROWTHBOOK_API_HOST = env('VITE_GROWTHBOOK_API_HOST') || 'https://cdn.growthbook.io';
+// Feature flags: the flag layer (lib/flags.ts) backs FLAGS.joinBeta with GrowthBook, falling back to
+// VITE_FLAG_JOIN_BETA. Components should prefer the useJoinBeta() hook; FLAGS.joinBeta keeps working.
+export { FLAGS } from './flags';

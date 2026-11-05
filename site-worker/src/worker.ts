@@ -1,39 +1,22 @@
-// The site Worker. With no experiments configured this is pure static-asset serving: the platform
-// answers asset requests itself (assets.run_worker_first is false in production) and this script only
-// runs where wrangler.jsonc turns run_worker_first on (staging, for the noindex header).
+// The site Worker. Static-asset serving for client/dist, with one seam: `handleHtml` from the edge package
+// (edge/experiments.ts, Phase 5) runs first on the experiment routes (`WORKER_FIRST_ROUTES`, today `/`).
 //
-// ---------------------------------------------------------------------------------------------------
-// EDGE INTEGRATION POINT (Phase 4/5: consent, flags, experiments at the edge)
-//
-// The edge module lives at the repository top level in `edge/experiments.ts` and exports
-//     handleHtml(request, env, assets): Promise<Response>   // HTML requests; may rewrite or pick a variant
-//     a list of route patterns it wants to see first         // for run_worker_first
-// To plug it in, three edits and nothing else:
-//   1. here: import { handleHtml } from '../../edge/experiments'; and in `routeRequest` below replace
-//      the body with
-//          if (wantsHtml(request)) return handleHtml(request, env, env.ASSETS);
-//          return env.ASSETS.fetch(request);
-//   2. wrangler.jsonc, every env: set "run_worker_first" to the module's patterns (a list such as
-//      ["/", "/engine/*"]), so only those paths pay for a Worker invocation and every other asset is
-//      still served straight from the platform.
-//   3. add any experiment vars to the env's `vars` and secrets with `wrangler secret put --env <env>`.
-// `env.ASSETS` is the Fetcher for client/dist, so handleHtml fetches the static page, then edits it.
-// ---------------------------------------------------------------------------------------------------
+//   - Without a `ps_consent=granted` cookie, or without a GrowthBook client key, `/` is the plain static control
+//     page (the edge adds `Vary: Cookie` and `Cache-Control: private, no-cache` on that route only).
+//   - Every other path goes straight to the assets.
+//   - wrangler.jsonc `run_worker_first`: production lists exactly the edge's routes (every other asset is
+//     served by the platform without waking this script); staging runs the Worker for every request so it can
+//     add `X-Robots-Tag: noindex`. tests/handle.test.ts keeps both in step with edge/config.ts.
+import { handleHtml, type EdgeEnv } from '../../edge/experiments';
 
-export interface Env {
+export interface Env extends EdgeEnv {
   ASSETS: Fetcher;
   /** "true" on staging: the whole origin asks search engines to stay away. */
   ROBOTS_NOINDEX?: string;
 }
 
-// Used by the edge wiring described above.
-export function wantsHtml(request: Request): boolean {
-  return (request.headers.get('accept') ?? '').includes('text/html');
-}
-
-// The seam: today every request is plain static serving.
 async function routeRequest(request: Request, env: Env): Promise<Response> {
-  return env.ASSETS.fetch(request);
+  return handleHtml(request, env, env.ASSETS);
 }
 
 export async function handle(request: Request, env: Env): Promise<Response> {

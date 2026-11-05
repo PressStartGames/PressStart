@@ -9,7 +9,7 @@
 # Needs, as secrets of the GitHub Environment named by `environment`: CLOUDFLARE_API_TOKEN (Workers
 # Scripts: Edit, D1: Edit, Workers Routes / Zone: Workers Routes Edit; not DNS) and CLOUDFLARE_ACCOUNT_ID.
 # Optional environment variables (public values): VITE_TURNSTILE_SITE_KEY, VITE_GA_MEASUREMENT_ID,
-# VITE_GROWTHBOOK_CLIENT_KEY, VITE_SIGNUP_ENDPOINT, VITE_SITE_URL, VITE_API_BASE (they override the
+# VITE_GROWTHBOOK_CLIENT_KEY, VITE_GROWTHBOOK_API_HOST, VITE_CF_BEACON_TOKEN, VITE_SIGNUP_ENDPOINT, VITE_SITE_URL, VITE_API_BASE (they override the
 # committed .env.<mode> only when set).
 name: Deploy environment (reusable)
 
@@ -55,6 +55,8 @@ jobs:
       VITE_TURNSTILE_SITE_KEY: ${{ vars.VITE_TURNSTILE_SITE_KEY }}
       VITE_GA_MEASUREMENT_ID: ${{ vars.VITE_GA_MEASUREMENT_ID }}
       VITE_GROWTHBOOK_CLIENT_KEY: ${{ vars.VITE_GROWTHBOOK_CLIENT_KEY }}
+      VITE_GROWTHBOOK_API_HOST: ${{ vars.VITE_GROWTHBOOK_API_HOST }}
+      VITE_CF_BEACON_TOKEN: ${{ vars.VITE_CF_BEACON_TOKEN }}
       VITE_API_BASE: ${{ vars.VITE_API_BASE }}
     steps:
       - name: Check the Cloudflare credentials

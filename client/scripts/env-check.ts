@@ -37,6 +37,19 @@ export function checkClientEnv(mode: string, env: Env): string[] {
       `VITE_SIGNUP_ENDPOINT must be "stub" or an absolute http(s) URL (got "${endpoint}")`,
     );
 
+  // Phase 4/5 public ids: optional (empty = that feature is off), validated in shape when set.
+  const ga = get('VITE_GA_MEASUREMENT_ID');
+  if (ga && !/^G-[A-Z0-9]{4,}$/.test(ga))
+    problems.push(`VITE_GA_MEASUREMENT_ID must look like G-XXXXXXXXXX (got "${ga}")`);
+  const gbKey = get('VITE_GROWTHBOOK_CLIENT_KEY');
+  if (gbKey && !/^sdk-[A-Za-z0-9]+$/.test(gbKey))
+    problems.push(`VITE_GROWTHBOOK_CLIENT_KEY must look like sdk-XXXX (got "${gbKey}")`);
+  const gbHost = get('VITE_GROWTHBOOK_API_HOST');
+  if (gbHost && !isHttpUrl(gbHost))
+    problems.push(`VITE_GROWTHBOOK_API_HOST must be an absolute http(s) URL (got "${gbHost}")`);
+  if (/s/.test(get('VITE_CF_BEACON_TOKEN')))
+    problems.push('VITE_CF_BEACON_TOKEN must not contain whitespace');
+
   if (!STRICT_MODES.includes(mode)) return problems;
 
   // Strict modes: required values.
@@ -47,6 +60,8 @@ export function checkClientEnv(mode: string, env: Env): string[] {
     problems.push('set VITE_SIGNUP_ENDPOINT (the API origin) or VITE_SIGNUP_FALLBACK_URL');
   if (get('VITE_SITE_URL').startsWith('http://'))
     problems.push('VITE_SITE_URL must be https in a deployed mode');
+  if (gbHost.startsWith('http://'))
+    problems.push('VITE_GROWTHBOOK_API_HOST must be https in a deployed mode');
   if (endpoint.startsWith('http://'))
     problems.push('VITE_SIGNUP_ENDPOINT must be https in a deployed mode');
   return problems;

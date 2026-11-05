@@ -115,10 +115,14 @@ them green; the deploy workflow does not wait for CI, so run them before pushing
   top level with the Worker name pinned; keep the two in sync). `site-worker/wrangler.jsonc` has a
   local top level and the two envs. Dry-run any of them without a login: `pnpm --filter <pkg> check:envs`.
 - **The site Worker** (`site-worker/`): static assets from `../client/dist`, `not_found_handling: 404-page`
-  (`/x` -> `404.html`, `/beta/x` -> `beta/404.html`), `html_handling: auto-trailing-slash`. Production is
-  pure static serving (`run_worker_first: false`); staging runs the script for every request only to add
-  `X-Robots-Tag: noindex`. `src/worker.ts` has the marked EDGE INTEGRATION POINT (how `edge/experiments.ts`
-  plugs in). `pnpm --filter site-worker dev` serves `client/dist` on 8791.
+  (`/x` -> `404.html`, `/beta/x` -> `beta/404.html`), `html_handling: auto-trailing-slash`. The Worker runs
+  `handleHtml` from `edge/experiments.ts` (`routeRequest` in `src/worker.ts`): production wakes it only for
+  `WORKER_FIRST_ROUTES` (`["/"]`, `run_worker_first`), staging for every request (the `X-Robots-Tag: noindex`
+  header; the edge passes non-experiment routes straight to the assets). With no `GROWTHBOOK_CLIENT_KEY` var or no
+  `ps_consent=granted` cookie `/` is the plain static control page. `tests/handle.test.ts` keeps wrangler.jsonc in
+  step with `edge/config.ts`. The public ids `VITE_GA_MEASUREMENT_ID`, `VITE_CF_BEACON_TOKEN`,
+  `VITE_GROWTHBOOK_CLIENT_KEY`, `VITE_GROWTHBOOK_API_HOST` are empty in `.env.staging`/`.env.production` (optional
+  GitHub Environment variables); the e2e build's fake ids live in `.env.e2e`. `pnpm --filter site-worker dev` serves `client/dist` on 8791.
 - **Workflows**: `ci.yml` (checks, plus an `environments` job: staging builds, Wrangler dry-runs, a missing value
   must fail); `preview.yml` (PR: `wrangler versions upload --env staging`, URL commented on the PR; skipped
   with a notice without the Cloudflare secrets); `deploy-staging.yml` (push to `main` -> `_deploy.yml`: D1
@@ -254,6 +258,20 @@ Open, for the founder:
 The founder's taste, in their words (2026-11-01): "less technical, more friendly and appealing, but keep the
 proof"; "the colour scheme was a bit boring"; "the animation should be more elaborate"; "no placeholders, real
 data"; "first solid design and sign-ups". Act accordingly before adding anything.
+
+## Analytics, consent and flags (plans/main-site.md phases 4-5)
+
+All off when its env value is unset. Public build-time vars (never secrets): `VITE_GA_MEASUREMENT_ID` (GA4, `G-...`;
+also enables the banner), `VITE_CF_BEACON_TOKEN` (Cloudflare Web Analytics, cookieless), `VITE_GROWTHBOOK_CLIENT_KEY` and
+`VITE_GROWTHBOOK_API_HOST` (default https://cdn.growthbook.io), `VITE_FLAG_JOIN_BETA=off` (fallback when GrowthBook is
+absent). Worker vars for `edge/`: `GROWTHBOOK_CLIENT_KEY`, `GROWTHBOOK_API_HOST`. Each needs a staging and a production value.
+
+- Consent: `src/lib/consent.ts` (choice in localStorage; Accept also writes the functional cookie `ps_consent=granted`),
+  `components/ConsentBanner.tsx` (lazy, mounted in App.tsx after hydration), `<CookieSettings item />` in each footer,
+  `lib/analytics.ts` (lazy: Consent Mode defaults denied first, gtag.js only after Accept, events). `track()` is a no-op
+  until Accept. Never add a tag or cookie outside this path.
+- Flags: `lib/flags.ts`; use `useJoinBeta()` (`{on, label}`); `FLAGS.joinBeta` still works (App re-mounts when a flag changes).
+- Experiments are chosen at the edge: see `edge/README.md`. A variant's copy is the control's CONTENT.md field plus `-b`.
 
 ## Pitfalls
 

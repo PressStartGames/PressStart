@@ -43,6 +43,26 @@ describe('client build config check', () => {
     expect(checkClientEnv('development', { VITE_SITE_URL: 'nope' })).toHaveLength(1);
   });
 
+  it('treats the analytics and flag ids as optional but checks their shape', () => {
+    expect(checkClientEnv('production', { ...good, VITE_GA_MEASUREMENT_ID: '' })).toEqual([]);
+    expect(
+      checkClientEnv('production', {
+        ...good,
+        VITE_GA_MEASUREMENT_ID: 'G-ABC123XYZ9',
+        VITE_CF_BEACON_TOKEN: 'abc123',
+        VITE_GROWTHBOOK_CLIENT_KEY: 'sdk-AbC123',
+        VITE_GROWTHBOOK_API_HOST: 'https://cdn.growthbook.io',
+      }),
+    ).toEqual([]);
+    expect(checkClientEnv('staging', { ...good, VITE_GA_MEASUREMENT_ID: 'UA-1' })).toHaveLength(1);
+    expect(checkClientEnv('staging', { ...good, VITE_GROWTHBOOK_CLIENT_KEY: 'key' })).toHaveLength(
+      1,
+    );
+    expect(
+      checkClientEnv('production', { ...good, VITE_GROWTHBOOK_API_HOST: 'http://gb.test' }),
+    ).toHaveLength(1);
+  });
+
   it('throws one readable error', () => {
     expect(() => assertClientEnv('production', {})).toThrow(
       /--mode production[\s\S]*\.env\.production/,

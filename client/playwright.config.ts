@@ -25,7 +25,7 @@ export default defineConfig({
   projects: [
     {
       name: 'stub',
-      testMatch: /(home|signup-stub|motion|site)\.spec\.ts/,
+      testMatch: /(home|signup-stub|motion|site|analytics)\.spec\.ts/,
       use: { ...devices['Desktop Chrome'], baseURL: `http://localhost:${base}` },
     },
     {

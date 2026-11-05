@@ -1,8 +1,9 @@
 // The site Worker (plans/main-site.md Phase 6): serves client/dist (the main site at /, the beta at
-// /beta/*) from Workers static assets. With no experiments configured it is pure static serving:
-// Cloudflare answers every asset request itself and the script in src/worker.ts is never invoked for a
-// hit (run_worker_first is false). Unknown paths get the nearest 404.html (/x -> 404.html,
-// /beta/x -> beta/404.html), which prerender.ts emits.
+// /beta/*) from Workers static assets. Cloudflare answers asset requests itself; the script in src/worker.ts
+// runs only where run_worker_first says: the edge's routes ("/", edge/config.ts WORKER_FIRST_ROUTES) so the
+// home headline can be an experiment, and every request on staging (the noindex header). Without a GrowthBook
+// key, or without the visitor's consent cookie, "/" is the plain static page. Unknown paths get the nearest
+// 404.html (/x -> 404.html, /beta/x -> beta/404.html), which prerender.ts emits.
 //
 // The TOP LEVEL is local (`pnpm --filter site-worker dev`, port 8791): no routes. Deploys always name an
 // environment: `deploy:staging` / `deploy:production`, or the workflows in .github/workflows/.
@@ -21,10 +22,8 @@
     "binding": "ASSETS",
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash",
-    // EDGE INTEGRATION (Phase 4/5): when edge/experiments.ts exists, list its route patterns here, e.g.
-    // "run_worker_first": ["/", "/engine/*"], and see src/worker.ts for the three-line wiring. Until
-    // then the Worker is not invoked for assets at all.
-    "run_worker_first": false,
+    // Local: only the edge's routes (edge/config.ts WORKER_FIRST_ROUTES) wake the Worker.
+    "run_worker_first": ["/"],
   },
   "observability": { "enabled": true },
   "env": {
@@ -37,10 +36,13 @@
         "not_found_handling": "404-page",
         "html_handling": "auto-trailing-slash",
         // Staging runs the Worker for every request so it can add `X-Robots-Tag: noindex` (the build is
-        // the production build; only this header differs). Production stays static-only.
+        // the production build; only this header differs). The edge handler passes every route that has no
+        // experiment straight to the assets, so this is a superset of WORKER_FIRST_ROUTES.
         "run_worker_first": true,
       },
-      "vars": { "ROBOTS_NOINDEX": "true" },
+      // GROWTHBOOK_*: the SDK connection's client key (public) for the edge experiments. Empty = no experiment is live
+      // and `/` is the static control page. The founder supplies the key (plans/main-site.md Phase 5).
+      "vars": { "ROBOTS_NOINDEX": "true", "GROWTHBOOK_CLIENT_KEY": "", "GROWTHBOOK_API_HOST": "" },
       "routes": [
         { "pattern": "staging.pressstartgames.net/*", "zone_name": "pressstartgames.net" },
       ],
@@ -58,8 +60,10 @@
         "binding": "ASSETS",
         "not_found_handling": "404-page",
         "html_handling": "auto-trailing-slash",
-        "run_worker_first": false,
+        // Only the edge's routes (edge/config.ts WORKER_FIRST_ROUTES); everything else is static.
+        "run_worker_first": ["/"],
       },
+      "vars": { "GROWTHBOOK_CLIENT_KEY": "", "GROWTHBOOK_API_HOST": "" },
       // Phase 7 step 3: this route is what puts the new site on the root. It is deployed only by the
       // approval-gated production job.
       "routes": [{ "pattern": "pressstartgames.net/*", "zone_name": "pressstartgames.net" }],
