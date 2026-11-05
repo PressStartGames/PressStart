@@ -71,7 +71,7 @@ async function stubApi(page: Page, initial: Partial<Stub> = {}): Promise<Stub> {
           },
           {
             email: 'cy@example.com',
-            role: 'Bevy projects',
+            role: 'Rust games',
             created_at: '2026-11-01T10:00:00Z',
             confirmed_at: null,
           },

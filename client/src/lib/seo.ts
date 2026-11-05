@@ -15,7 +15,7 @@ export function routeMeta(pathname: string): RouteMeta {
       return {
         title: `${SITE_NAME} · ${field('hero', 'headline')}`,
         description:
-          'Press Start is a game engine built around Bevy whose first user is an AI agent: scenes, laws and assets as documents, deterministic replay, and every feature measured against a reference tool. Private beta.',
+          'Press Start is a game engine whose first user is an AI agent: scenes, laws and assets as documents, deterministic replay, and every feature measured against a reference tool. Private beta.',
       };
     case '/privacy':
       return {

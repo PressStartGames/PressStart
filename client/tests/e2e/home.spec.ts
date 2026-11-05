@@ -5,14 +5,14 @@ import { ROW_TICKS, SIM } from '../../src/lib/sim';
 const LAST = String(SIM.ticks).padStart(3, '0');
 const MATCH = `${ROW_TICKS.length}/${ROW_TICKS.length} checksums match`;
 
-test('the home page reads: one h1, landmarks, the fixed CTA, the honest line', async ({ page }) => {
+test('the home page reads: one h1, landmarks, the fixed CTA, the status line', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('h1')).toHaveCount(1);
   await expect(page.locator('h1')).toContainText('A game engine an AI can build in');
   await expect(page.getByRole('banner')).toBeVisible();
   await expect(page.getByRole('main')).toBeVisible();
   await expect(page.getByRole('banner').getByRole('link', { name: 'Join the beta' })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Where we are, honestly.' })).toBeAttached();
+  await expect(page.getByRole('heading', { name: 'Where we are.' })).toBeAttached();
   await expect(page.getByText('Private beta. Version 1 is not public yet.')).toBeVisible();
 });
 

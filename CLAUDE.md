@@ -85,7 +85,12 @@ The e2e suite covers all three.
 - Numbers come from the sync script against the engine repository, never typed by hand.
 - No stock images. No logos of other engines or tools (reference tools are named as plain mono text only).
 - **"Unity for AI" is never used publicly** (the engine's internal line); say "the engine an AI builds games in".
-- **The honesty section is on the home page** ("Where we are, honestly", plus the hero's small line).
+- **The status section is on the home page** ("Where we are", plus the hero's small line).
+- **Bevy is never named on the site** (main site and beta: copy, meta, alt text, code samples; trim `use bevy::…`
+  lines from excerpts and never display a crate name containing `bevy`). Bevy is MIT/Apache-2.0: its notice ships
+  with the engine, the website owes no attribution. Internal docs may name it. (Founder, 2026-11-05.)
+- **The words "honest" and "honestly" are never used on the site.** The rules about truth still apply; the copy
+  just does not say so. `check-content` enforces both rules over CONTENT.md and `client/src`.
 - **No dates promised** for the beta or version 1. The present tense only for what is true today (the skill lists
   true today vs roadmap). The engine's internal build lane is never mentioned; no MCP server is claimed.
 - No cookies, no trackers; analytics is Cloudflare Web Analytics (cookieless), added at M4. Secrets never committed
