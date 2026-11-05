@@ -24,6 +24,6 @@ export const TURNSTILE_SITE_KEY = env('VITE_TURNSTILE_SITE_KEY');
 export const BASE = import.meta.env.BASE_URL;
 // React Router's basename follows Vite's base ("/" or "/<repo>/").
 export const ROUTER_BASENAME = BASE.replace(/\/$/, '') || '/';
-export const REPO_URL = 'https://github.com/PressStartGames/PressStart';
+export const REPO_URL = 'https://github.com/PressStartGames/PressStartWeb';
 // Bumped whenever CONTENT.md's `consent` line changes; the Worker stores it with the row.
 export const CONSENT_VERSION = '2026-11-01';

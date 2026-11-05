@@ -29,7 +29,7 @@ jobs:
         run: pnpm --filter client build
         env:
           VITE_BASE: /
-          VITE_SITE_URL: https://pressstartgames.github.io/PressStart
+          VITE_SITE_URL: https://beta.pressstartgames.net
       - name: Install Playwright Chromium
         run: pnpm --filter client exec playwright install --with-deps chromium
       - name: Build the three sign-up modes

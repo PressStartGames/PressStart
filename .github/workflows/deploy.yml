@@ -1,6 +1,6 @@
 # Client -> GitHub Pages (gh-pages branch) on every push to main. The Worker deploys separately
-# (deploy-server.yml). The project page lives at https://pressstartgames.github.io/PressStart/,
-# so VITE_BASE is /PressStart/; with a custom domain (public/CNAME) set it to /.
+# (deploy-server.yml). The site is served on the custom domain https://beta.pressstartgames.net
+# (client/public/CNAME), so VITE_BASE is /.
 name: Deploy site
 
 on:

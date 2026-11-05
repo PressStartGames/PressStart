@@ -9,8 +9,8 @@ description: Handover for the Press Start beta landing page repository — what 
 
 The marketing and beta sign-up site for **Press Start**, a game engine built around Bevy that an AI agent can
 build in, run and prove. One page, one job: say what the engine is, prove it with the engine's own output,
-collect emails. Repository: `https://github.com/PressStartGames/PressStart`, branch `main`.
-Live: `https://pressstartgames.github.io/PressStart/` (GitHub Pages, project page, from the `gh-pages` branch).
+collect emails. Repository: `https://github.com/PressStartGames/PressStartWeb` (renamed from `PressStart` on 2026-11-05), branch `main`.
+Live: `https://beta.pressstartgames.net` (GitHub Pages, custom domain, from the `gh-pages` branch); the plan in `plans/main-site.md` moves it to `https://pressstartgames.net/beta`.
 
 Governing documents, in order of authority:
 
@@ -81,8 +81,8 @@ them green; the deploy workflow does not wait for CI, so run them before pushing
 
 ## Hosting and deploy (GitHub Pages)
 
-- `deploy.yml` runs on every push to `main`: builds `client/` with `VITE_BASE=/PressStart/` and
-  `VITE_SITE_URL=https://pressstartgames.github.io/PressStart`, then publishes `client/dist` to the `gh-pages`
+- `deploy.yml` runs on every push to `main`: builds `client/` with `VITE_BASE=/` and
+  `VITE_SITE_URL=https://beta.pressstartgames.net` (custom domain, `client/public/CNAME`), then publishes `client/dist` to the `gh-pages`
   branch (`peaceiris/actions-gh-pages`, orphan commits). Pages is configured on that branch, root. It takes
   about a minute after the push.
 - Base path matters: Vite's `base` comes from `VITE_BASE`; React Router's basename follows it

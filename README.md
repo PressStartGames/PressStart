@@ -52,7 +52,7 @@ pnpm --filter server export:signups            # confirmed rows -> signups-YYYY-
 ## Deploying
 
 - The site deploys to the `gh-pages` branch on every push to `main` (`deploy.yml`); GitHub Pages serves
-  it at `https://pressstartgames.github.io/PressStart/` (set Pages to the `gh-pages` branch once).
+  it at `https://beta.pressstartgames.net` (custom domain; Pages set to the `gh-pages` branch).
 - The Worker: `wrangler d1 create press-start-signups`, paste the id into `server/wrangler.toml`, set the
   three secrets with `wrangler secret put`, then `pnpm --filter server deploy` (or run `deploy-server.yml`).
   Then set the repository variables `VITE_SIGNUP_ENDPOINT` (the Worker's origin) and
