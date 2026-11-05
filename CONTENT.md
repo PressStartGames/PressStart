@@ -285,8 +285,8 @@ links: Press Start · © 2026 · Licence · Privacy · GitHub · Discord · cont
 
 licence-stub: Licence: source-available, published with version 1.
 
-*(GitHub links to this website's repository until the engine is public. Discord and the contact address wait on
-PLAN.md §10 question 7.)*
+*(GitHub links to this website's repository until the engine is public. Discord links to the community server
+(https://discord.gg/XrmRJ5p2Xf, `DISCORD_URL` in client/src/lib/config.ts); the contact address waits on PLAN.md §10 question 7.)*
 
 ## privacy
 
