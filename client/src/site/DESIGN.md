@@ -27,9 +27,10 @@ pointers. Phone: a "Menu" button opens a drawer (modal dialog, focus trapped, Es
 No JS: panels open on `:hover`/`:focus-within`; on a phone "Menu" is a link to the footer's site map.
 
 **Home `/`**
+
 1. **Hero** — h1 (the LCP, prerendered), plain-language lede, two CTAs, then the **suite console**: one
-   dark screen with three panes wired left to right — *the document* (amber), *the run* (green arena drawn
-   from `lib/sim.ts`), *the proof* (two checksum columns stamping PASS). Captioned as an illustration drawn
+   dark screen with three panes wired left to right — _the document_ (amber), _the run_ (green arena drawn
+   from `lib/sim.ts`), _the proof_ (two checksum columns stamping PASS). Captioned as an illustration drawn
    in the browser. Controls: replay, and "another seed" (the second run diverges in red: the proof can fail).
 2. **Facts strip** — synced counts (crates, built of total, reference tools, accepted goldens) with what
    each means in five words.
@@ -61,18 +62,18 @@ panel linking to the designed pages. No lorem, no fake content.
 
 ## Motion moments (GSAP lazy-loaded after idle; CSS for the rest)
 
-| Moment | What it shows | Final state (= no-JS = reduced motion) |
-|---|---|---|
-| Load: h1 lines rise, lede and CTAs follow | where to start reading | text in place |
-| Suite console boots pane by pane, the run plays 0 → 240, rows stamp PASS | two runs, one game | tick 240, every row PASS |
-| Mega-menu: panel unfolds, columns stagger, indicator slides under the open group | the map of the engine | panel shown/hidden instantly |
-| Facts count up on view | the numbers are real and synced | the numbers |
-| The pillar rail draws with scroll; the active pillar lights | the order: build → prove → own | rail drawn |
-| Verb console types its exchange | what an agent can ask | the last exchange shown |
-| Evidence cards: lanes fill, the PASS stamp lands; pointer light on hover | the proof per strength | diagrams complete |
-| Cartridge seats into its slot | the game is yours | cartridge seated |
-| Status bars grow from zero | how much is built | bars at their value |
-| Split-flap board flips to each reference | many tools, one bar | board settled |
+| Moment                                                                           | What it shows                   | Final state (= no-JS = reduced motion) |
+| -------------------------------------------------------------------------------- | ------------------------------- | -------------------------------------- |
+| Load: h1 lines rise, lede and CTAs follow                                        | where to start reading          | text in place                          |
+| Suite console boots pane by pane, the run plays 0 → 240, rows stamp PASS         | two runs, one game              | tick 240, every row PASS               |
+| Mega-menu: panel unfolds, columns stagger, indicator slides under the open group | the map of the engine           | panel shown/hidden instantly           |
+| Facts count up on view                                                           | the numbers are real and synced | the numbers                            |
+| The pillar rail draws with scroll; the active pillar lights                      | the order: build → prove → own  | rail drawn                             |
+| Verb console types its exchange                                                  | what an agent can ask           | the last exchange shown                |
+| Evidence cards: lanes fill, the PASS stamp lands; pointer light on hover         | the proof per strength          | diagrams complete                      |
+| Cartridge seats into its slot                                                    | the game is yours               | cartridge seated                       |
+| Status bars grow from zero                                                       | how much is built               | bars at their value                    |
+| Split-flap board flips to each reference                                         | many tools, one bar             | board settled                          |
 
 Compositor-only (transform/opacity), no layout animation, nothing loops after it settles, every block has a
 `prefers-reduced-motion: reduce` branch.

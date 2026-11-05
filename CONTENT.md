@@ -355,7 +355,7 @@ engine-prove: engine-determinism = Determinism = Same seed, same inputs, same ga
 engine-own: engine-ownership = Ownership = The game is a Rust workspace you own | licensing = Licensing = Source-available, with version 1
 overview: engine = The engine = Built around Bevy, written as documents. Start here for the whole map.
 resources: learn = Learn = The shape of a game on Press Start | roadmap = Roadmap = The road to version 1, in order | showcase = Showcase = The first game, Team Fights | news = News = Version notes, once there are versions
-company: about = About = The mission and the method | community = Community = Where to find us | licensing = Licensing = How the engine will be licensed
+company: about = About = The mission and the method | community = Community = Discord, and the people building it | licensing = Licensing = How the engine will be licensed
 beta: Private beta · Version 1 is not public yet. Join to hear first.
 
 ## site-footer
@@ -366,6 +366,8 @@ line: A game engine built around Bevy. Version 1 is not public yet.
 map-label: Site map
 columns: Engine | Prove | Resources | Company
 synced: Counts synced from the engine at commit
+discord: Discord
+discord-note: Talk with the people building Press Start
 
 ## site-home
 
@@ -386,6 +388,7 @@ browser by client/src/lib/sim.ts; it is an illustration of the engine's rule, no
 label: the suite · an illustration
 panes: the document | the run | the proof
 doc-name: two-a-side.game
+doc-check: ✓ checked before the run starts
 doc-lines: game = two-a-side | seed = 0x5eed | clock = none | tick = fixed | players = 4 | input tape = tick 120 · jump
 ledger-head: tick | run A | run B
 pass: PASS
@@ -444,7 +447,7 @@ cards: engine-determinism = Same seed, same game = One seed, no clock, a fixed t
 lanes: input | physics | animation | camera | UI
 gate: ordered
 references: Jolt · PhysX · Recast · Chromium · Yoga · HarfBuzz · Mitsuba · Blender · Manifold
-golden: this run | the golden | 0 px differ
+golden: an accepted golden | compared pixel for pixel
 small: Parity with each reference is the bar, not a claim. The misses are written down with both numbers.
 
 ## site-home-own
@@ -488,7 +491,7 @@ items: Studios and solo developers = who want an AI to do real work on a real ga
 
 ## site-home-next
 
-items: learn = Learn = Build a game = The shape of a game today: documents, a fixed tick, a reference to prove against, and four verbs for your agent. Guides follow. = See the shape | licensing = Licensing = Free to make and ship = Source-available, with a royalty only above a revenue threshold. The terms are written with version 1. = How it will work | community = Community = Come build with us = The way in today is the beta. Places to talk with us follow. = Find us
+items: learn = Learn = Build a game = The shape of a game today: documents, a fixed tick, a reference to prove against, and four verbs for your agent. Guides follow. = See the shape | licensing = Licensing = Free to make and ship = Source-available, with a royalty only above a revenue threshold. The terms are written with version 1. = How it will work | community = Community = Come build with us = Talk with the people building the engine on Discord. The way into the engine itself is the beta. = Join the Discord
 
 ## site-home-join
 
@@ -517,6 +520,7 @@ There is nothing at this address. The site map below has every page we have.
 label: This page is being written
 today: What you can read today
 links: engine | engine-oracles | roadmap
+crumbs: Breadcrumb
 
 ## page-engine
 
@@ -679,7 +683,7 @@ description: Where to find the people building Press Start.
 kicker: Community
 headline: Come build with us.
 
-The community links will be listed here. Today, the way in is the beta: [join the beta](/beta/).
+Talk with the people building Press Start on Discord. The way into the engine itself is the beta: [join the beta](/beta/).
 
 ## page-privacy
 

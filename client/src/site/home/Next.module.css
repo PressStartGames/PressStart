@@ -1,0 +1,142 @@
+.next {
+  padding-block: 0 var(--section-pad);
+  background: var(--chassis);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  min-height: 300px;
+  border-radius: 18px;
+  background: var(--screen);
+  color: var(--screen-fg);
+  overflow: hidden;
+}
+
+/* A soft lamp in each card's colour. */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: auto -30% -60% auto;
+  width: 80%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glow), transparent 65%);
+  transition: transform 700ms var(--ease);
+}
+
+.card:hover::before {
+  transform: scale(1.2) translate(-6%, -6%);
+}
+
+.card[data-id='learn'] {
+  --glow: rgb(255 181 71 / 26%);
+  --accent: var(--build);
+}
+
+.card[data-id='licensing'] {
+  --glow: rgb(124 149 255 / 30%);
+  --accent: var(--own);
+}
+
+.card[data-id='community'] {
+  --glow: rgb(56 224 143 / 24%);
+  --accent: var(--prove);
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.title {
+  position: relative;
+  margin-top: 40px;
+  font-size: var(--t-28);
+  color: #fff;
+}
+
+.text {
+  position: relative;
+  margin-top: 10px;
+  font-size: var(--t-16);
+  color: var(--screen-muted);
+}
+
+.link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: flex-start;
+  min-height: 44px;
+  margin-top: auto;
+  padding-top: 20px;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  font-weight: 600;
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 6px;
+}
+
+.link::after {
+  content: '';
+  position: absolute;
+  inset: -1000px -1000px 0;
+}
+
+.link:focus-visible {
+  outline: none;
+}
+
+.card:has(.link:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.link span {
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card:hover .link span {
+  transform: translateX(4px);
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card {
+    min-height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card::before,
+  .link span {
+    transition: none;
+  }
+
+  .card:hover::before,
+  .card:hover .link span {
+    transform: none;
+  }
+}

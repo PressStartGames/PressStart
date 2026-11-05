@@ -1,3 +1,40 @@
-/* The main site's global stylesheet. Phase 1 reuses the console's tokens, fonts and primitives through
-   an @import (inlined at build, so it is not a module shared with the beta's chunk). */
+/* The main site's global stylesheet (layout L2 "Platform suite", ./DESIGN.md). The console's tokens,
+   fonts and primitives come through the @import (inlined at build, so it is not a module shared with the
+   beta's chunk). Below it: only the site's own tokens (new names, never overriding the console's) and
+   the reveal states. Components style themselves through CSS Modules. */
 @import '../styles/base.css';
+
+:root {
+  /* The three moves' signal colours: fills and lines on screens; the -ink variants for text on chassis. */
+  --build: #ffb547;
+  --build-ink: #8a5300;
+  --build-soft: rgb(255 181 71 / 16%);
+  --prove: #38e08f;
+  --prove-ink: #0b6b3f;
+  --prove-soft: rgb(56 224 143 / 16%);
+  --own: #7c95ff;
+  --own-ink: #2c47c9;
+  --own-soft: rgb(124 149 255 / 18%);
+
+  --bezel: linear-gradient(180deg, #f7f8f9, #d9dde2);
+  --bezel-edge: #b9bfc7;
+  --lift: 0 1px 0 rgb(255 255 255 / 70%) inset, 0 18px 40px -24px rgb(17 19 24 / 45%);
+  --lift-hover: 0 1px 0 rgb(255 255 255 / 70%) inset, 0 28px 56px -28px rgb(17 19 24 / 55%);
+  --card-radius: 12px;
+  --screen-radius: 8px;
+  --section-pad: clamp(72px, 6vw + 40px, 136px);
+}
+
+/* Scroll reveals: hidden only after hydration, when motion is allowed, until in view. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js.hydrated [data-reveal]:not([data-visible]) {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  html.js [data-reveal] {
+    transition:
+      opacity 800ms var(--ease) var(--d, 0ms),
+      transform 800ms var(--ease) var(--d, 0ms);
+  }
+}

@@ -1,0 +1,146 @@
+/* The catalog board: a dark screen with one stacked bar per area. */
+.board {
+  padding: 24px;
+  border-radius: var(--card-radius);
+  background: var(--screen);
+  color: var(--screen-fg);
+  box-shadow:
+    0 0 0 1px #000 inset,
+    0 30px 60px -36px rgb(17 19 24 / 70%);
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 0 0 18px;
+  padding: 0 0 16px;
+  list-style: none;
+  border-bottom: 1px solid var(--screen-line);
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  color: var(--screen-muted);
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend li::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--k);
+}
+
+[data-kind='built'] {
+  --k: var(--prove);
+}
+
+[data-kind='partial'] {
+  --k: var(--build);
+}
+
+[data-kind='skip'] {
+  --k: #5b6472;
+}
+
+[data-kind='rest'] {
+  --k: #232b36;
+}
+
+.areas {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.area {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.9fr) minmax(0, 1.6fr) 13ch;
+  gap: 16px;
+  align-items: center;
+}
+
+.name {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  color: #fff;
+  font-size: var(--t-16);
+  line-height: 1.25;
+}
+
+.what {
+  font-weight: 400;
+  font-size: var(--t-12);
+  color: var(--screen-muted);
+}
+
+.bar {
+  display: flex;
+  gap: 2px;
+  height: 14px;
+  border-radius: 3px;
+  overflow: hidden;
+  transform-origin: left;
+}
+
+.bar span {
+  flex-basis: 0;
+  background: var(--k);
+}
+
+.count {
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  font-variant-numeric: tabular-nums;
+  color: var(--screen-muted);
+  text-align: right;
+}
+
+.count strong {
+  font-size: var(--t-16);
+  font-weight: 600;
+  color: var(--prove);
+}
+
+.total {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--screen-line);
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  color: var(--screen-fg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :global(html.js) .bar {
+    transition: transform 1000ms var(--ease) calc(var(--n) * 90ms + 150ms);
+  }
+
+  :global(html.js.hydrated) .board:not([data-visible]) .bar {
+    transform: scaleX(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .board {
+    padding: 18px 16px;
+  }
+
+  .area {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 12px;
+  }
+
+  .bar {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}

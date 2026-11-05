@@ -1,16 +1,18 @@
 import { Link } from 'react-router';
 import { field } from '../../content';
-import styles from '../site.module.css';
-import { Page } from './Page';
+import ui from '../ui.module.css';
+import styles from './Page.module.css';
+import { PageHead } from './PageHead';
 
+// Anything unknown outside /beta (prerendered to 404.html). The footer's site map lists every page.
 export function NotFound() {
   return (
-    <Page id="site-not-found">
+    <PageHead id="site-not-found">
       <p className={styles.actions}>
-        <Link className={styles.link} to="/">
+        <Link className={`${ui.btn} ${ui.primary}`} to="/">
           {field('site-not-found', 'cta')}
         </Link>
       </p>
-    </Page>
+    </PageHead>
   );
 }

@@ -1,0 +1,230 @@
+.build {
+  background: linear-gradient(180deg, var(--chassis), var(--chassis-raised));
+  border-top: 1px solid var(--hairline);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 64px;
+  align-items: center;
+}
+
+.lede {
+  margin-block: 24px 28px;
+  font-size: var(--t-18);
+}
+
+.screen {
+  padding: 18px 20px 20px;
+  min-height: 380px;
+}
+
+.screenHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  color: var(--screen-muted);
+}
+
+.lamp {
+  width: 8px;
+  height: 8px;
+  background: var(--build);
+  box-shadow: 0 0 10px var(--build);
+}
+
+.transcript {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  line-height: 1.55;
+}
+
+.exchange {
+  position: relative;
+  padding: 10px 12px 10px 14px;
+  border-radius: 6px;
+  color: #8b949f;
+  transition: background-color 400ms var(--ease);
+}
+
+.exchange::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--build);
+  transform: scaleY(0);
+  transition: transform 400ms var(--ease);
+}
+
+.exchange[data-active] {
+  background: var(--screen-raised);
+  color: var(--screen-fg);
+}
+
+.exchange[data-active]::before {
+  transform: none;
+}
+
+.exchange + .exchange {
+  margin-top: 4px;
+}
+
+.ask,
+.answer {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  column-gap: 8px;
+}
+
+.answer {
+  margin-top: 4px;
+}
+
+.exchange[data-active] .answer {
+  color: var(--build);
+}
+
+.who {
+  grid-row: span 2;
+  font-size: var(--t-12);
+  color: #7d8691;
+}
+
+.verb {
+  font-size: var(--t-12);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8b949f;
+}
+
+.exchange[data-active] .verb {
+  color: #fff;
+}
+
+/* The keypad under the screen: four console keys. */
+.keys {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.key {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-height: 72px;
+  padding: 10px 12px;
+  border: 1px solid var(--bezel-edge);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #fff, var(--chassis-raised));
+  box-shadow: 0 4px 0 var(--bezel-edge);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 120ms var(--ease),
+    box-shadow 120ms var(--ease);
+}
+
+.key:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 0 var(--bezel-edge);
+}
+
+.key:active,
+.key[aria-pressed='true'] {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--bezel-edge);
+}
+
+.keyLed {
+  width: 18px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--hairline);
+  transition: background-color 200ms var(--ease);
+}
+
+.key[aria-pressed='true'] .keyLed {
+  background: var(--build);
+  box-shadow: 0 0 8px var(--build);
+}
+
+.keyVerb {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.keyLabel {
+  font-size: var(--t-14);
+  color: var(--ink-muted);
+}
+
+.note {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  color: var(--ink-muted);
+}
+
+@keyframes answer-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :global(html.js.hydrated) .exchange[data-active] .answer {
+    animation: answer-in 500ms var(--ease) both 120ms;
+  }
+}
+
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+}
+
+@media (max-width: 560px) {
+  .keys {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .screen {
+    padding: 14px 12px 16px;
+    min-height: 0;
+  }
+
+  .ask,
+  .answer {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .who {
+    grid-row: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exchange,
+  .exchange::before,
+  .key,
+  .keyLed {
+    transition: none;
+  }
+}

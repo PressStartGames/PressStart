@@ -1,0 +1,675 @@
+/* The header, the mega-menu and the phone drawer. */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  isolation: isolate;
+}
+
+/* The bar's glass on a pseudo-element: a backdrop-filter on the header itself would trap the
+   fixed-position drawer inside it. */
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgb(231 233 236 / 88%);
+  backdrop-filter: saturate(1.4) blur(14px);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  border-bottom: 1px solid transparent;
+  transition:
+    border-color var(--mid) var(--ease),
+    box-shadow var(--mid) var(--ease);
+}
+
+.header[data-scrolled]::before,
+.header[data-open]::before {
+  border-bottom-color: var(--hairline);
+  box-shadow: 0 10px 30px -24px rgb(17 19 24 / 60%);
+}
+
+.bar {
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.mark {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: var(--screen);
+  box-shadow:
+    0 0 0 1px #000 inset,
+    0 2px 0 var(--bezel-edge);
+}
+
+.mark span {
+  width: 8px;
+  height: 8px;
+  background: var(--prove);
+  box-shadow: 0 0 8px var(--prove);
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.wordmark:hover .mark span {
+  transform: scale(1.35);
+}
+
+.nav {
+  flex: 1;
+  min-width: 0;
+}
+
+.groups {
+  display: flex;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background-color var(--mid) var(--ease),
+    color var(--mid) var(--ease);
+}
+
+.trigger:hover {
+  background: var(--chassis-recessed);
+}
+
+.trigger[aria-expanded='true'] {
+  background: var(--screen);
+  color: #fff;
+}
+
+.chev {
+  transition: transform var(--mid) var(--ease);
+}
+
+.trigger[aria-expanded='true'] .chev {
+  transform: rotate(180deg);
+}
+
+/* The panel: full width under the bar. Hidden by visibility (out of the tab order), shown by the
+   group's data-open (JS) or by hover/focus-within when there is no JavaScript. */
+.panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--chassis-raised);
+  border-bottom: 1px solid var(--hairline);
+  box-shadow: 0 40px 60px -40px rgb(17 19 24 / 55%);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition:
+    opacity 200ms var(--ease),
+    transform 260ms var(--ease),
+    visibility 0s linear 260ms;
+}
+
+.group[data-open] > .panel {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 240ms var(--ease),
+    transform 380ms var(--ease),
+    visibility 0s;
+}
+
+:global(html:not(.js)) .group:hover > .panel,
+:global(html:not(.js)) .group:focus-within > .panel {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+}
+
+.panelInner {
+  padding-block: 28px 32px;
+}
+
+/* Columns stagger in as the panel opens. */
+.panelInner > * {
+  transition:
+    opacity 360ms var(--ease),
+    transform 420ms var(--ease);
+}
+
+.group:not([data-open]) .panelInner > * {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+:global(html:not(.js)) .group .panelInner > * {
+  opacity: 1;
+  transform: none;
+}
+
+.group[data-open] .panelInner > :nth-child(2) {
+  transition-delay: 40ms;
+}
+
+.group[data-open] .panelInner > :nth-child(3) {
+  transition-delay: 80ms;
+}
+
+.group[data-open] .panelInner > :nth-child(4) {
+  transition-delay: 120ms;
+}
+
+.engineGrid {
+  display: grid;
+  grid-template-columns: 1.1fr repeat(3, 1fr);
+  gap: 24px;
+}
+
+.listGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 32px;
+  align-items: start;
+}
+
+/* The overview card: a small screen with the three moves' bars. */
+.overview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border-radius: var(--card-radius);
+  background: var(--screen);
+  color: var(--screen-fg);
+  text-decoration: none;
+  box-shadow: 0 0 0 1px #000 inset;
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.overview:hover {
+  transform: translateY(-3px);
+}
+
+.overviewBars {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.overviewBars span {
+  height: 6px;
+  flex: 1;
+  border-radius: 3px;
+  background: var(--prove);
+  transform-origin: left;
+  transition: transform 500ms var(--ease);
+}
+
+.overviewBars [data-move='build'] {
+  background: var(--build);
+}
+
+.overviewBars [data-move='own'] {
+  background: var(--own);
+}
+
+.group:not([data-open]) .overviewBars span {
+  transform: scaleX(0.2);
+}
+
+:global(html:not(.js)) .group .overviewBars span {
+  transform: none;
+}
+
+.overviewLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--t-22);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.overviewNote {
+  font-size: var(--t-14);
+  color: var(--screen-muted);
+}
+
+.overviewBeta {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--screen-line);
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  line-height: 1.5;
+  color: var(--screen-fg);
+}
+
+.column {
+  min-width: 0;
+}
+
+.columnHead {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 0 12px 12px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.columnIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--screen);
+  color: var(--prove);
+}
+
+.columnIcon[data-move='build'] {
+  color: var(--build);
+}
+
+.columnIcon[data-move='own'] {
+  color: var(--own);
+}
+
+.columnLabel {
+  display: block;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.columnNote {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--t-14);
+  line-height: 1.35;
+  color: var(--ink-muted);
+}
+
+.entries {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entriesRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+}
+
+.entry {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: background-color var(--fast) var(--ease);
+}
+
+.entry:hover,
+.entry:focus-visible {
+  background: var(--chassis-recessed);
+}
+
+.entryLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--t-16);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.entryArrow {
+  font-family: var(--font-mono);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity var(--mid) var(--ease),
+    transform var(--mid) var(--ease);
+}
+
+.entry:hover .entryArrow,
+.entry:focus-visible .entryArrow,
+.overview:hover .entryArrow,
+.overview:focus-visible .entryArrow {
+  opacity: 1;
+  transform: none;
+}
+
+.entryNote {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--t-14);
+  line-height: 1.4;
+  color: var(--ink-muted);
+}
+
+.betaLine {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 16px;
+  border-radius: var(--card-radius);
+  background: var(--screen);
+  color: var(--screen-fg);
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  line-height: 1.5;
+}
+
+/* The page behind an open panel dims. */
+.scrim {
+  position: fixed;
+  inset: var(--header-h) 0 0;
+  z-index: -2;
+  background: rgb(11 13 16 / 28%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity var(--mid) var(--ease),
+    visibility 0s linear var(--mid);
+}
+
+.header[data-open] .scrim {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--mid) var(--ease),
+    visibility 0s;
+}
+
+.end {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.cta {
+  min-height: 42px;
+  padding: 0 18px;
+}
+
+.menuButton {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--bezel-edge);
+  border-radius: 999px;
+  background: var(--chassis-raised);
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.burger {
+  display: grid;
+  gap: 4px;
+}
+
+.burger span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: currentColor;
+}
+
+/* The drawer (phone): a dark console panel from the right. */
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  width: min(440px, 100%);
+  display: flex;
+  flex-direction: column;
+  background: var(--screen);
+  color: var(--screen-fg);
+  box-shadow: -30px 0 60px -20px rgb(0 0 0 / 50%);
+  visibility: hidden;
+  transform: translateX(100%);
+  transition:
+    transform 380ms var(--ease),
+    visibility 0s linear 380ms;
+}
+
+.drawer[data-open] {
+  visibility: visible;
+  transform: none;
+  transition:
+    transform 420ms var(--ease),
+    visibility 0s;
+}
+
+.drawerTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-h);
+  padding: 0 var(--gutter);
+  border-bottom: 1px solid var(--screen-line);
+}
+
+.drawerTitle {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  color: #fff;
+}
+
+.drawerClose {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--screen-line);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  color: var(--screen-fg);
+  cursor: pointer;
+}
+
+.drawerClose:focus-visible,
+.drawer a:focus-visible {
+  outline-color: var(--prove);
+}
+
+.drawerBody {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 8px var(--gutter) 24px;
+}
+
+.drawerGroup {
+  padding-block: 16px;
+  border-bottom: 1px solid var(--screen-line);
+}
+
+.drawerGroup ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.drawerHead {
+  margin-bottom: 6px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--screen-muted);
+}
+
+.drawerHead[data-move='build'] {
+  color: var(--build);
+}
+
+.drawerHead[data-move='prove'] {
+  color: var(--prove);
+}
+
+.drawerHead[data-move='own'] {
+  color: var(--own);
+}
+
+.drawer a {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  color: #fff;
+  font-size: var(--t-18);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.drawerNote {
+  font-size: var(--t-14);
+  font-weight: 400;
+  color: var(--screen-muted);
+}
+
+.drawerFoot {
+  padding: 16px var(--gutter) calc(16px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--screen-line);
+}
+
+.drawerFoot a {
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  font-size: var(--t-14);
+  background: var(--prove);
+  color: var(--screen);
+}
+
+.noJs,
+.jsOnly {
+  display: none;
+}
+
+@media (max-width: 1080px) {
+  .engineGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .overview {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .overviewBars {
+    width: 80px;
+    flex: none;
+    margin: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav {
+    display: none;
+  }
+
+  .scrim {
+    display: none;
+  }
+
+  :global(html:not(.js)) .noJs,
+  :global(html.js) .jsOnly {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 520px) {
+  .end .cta {
+    display: none;
+  }
+
+  .drawerFoot .cta {
+    display: inline-flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .group[data-open] > .panel,
+  .panelInner > *,
+  .drawer,
+  .drawer[data-open],
+  .scrim,
+  .overviewBars span,
+  .entryArrow,
+  .mark span,
+  .overview {
+    transition: none;
+  }
+
+  .group:not([data-open]) .panelInner > *,
+  .group:not([data-open]) .overviewBars span {
+    transform: none;
+    opacity: 1;
+  }
+
+  .panel {
+    transform: none;
+  }
+}

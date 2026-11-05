@@ -1,0 +1,249 @@
+/* 03 Own the code: a cobalt-lit stage with the cartridge, and the two ledgers. */
+.own {
+  background: var(--chassis);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: 72px;
+  align-items: center;
+}
+
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 520px;
+  padding: 48px 32px 56px;
+  border-radius: 24px;
+  background:
+    radial-gradient(60% 50% at 50% 70%, rgb(124 149 255 / 30%), transparent 70%),
+    linear-gradient(180deg, #121830, var(--screen));
+  box-shadow:
+    0 0 0 1px #000 inset,
+    0 30px 60px -30px rgb(17 19 24 / 60%);
+  overflow: hidden;
+}
+
+/* The cartridge. */
+.cart {
+  position: relative;
+  z-index: 1;
+  width: min(260px, 70%);
+  aspect-ratio: 5 / 6;
+  margin-bottom: -46px;
+  padding: 26px 22px 0;
+  border-radius: 14px 14px 6px 6px;
+  background: linear-gradient(180deg, #3a4150, #232832);
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 18%) inset,
+    0 -6px 0 rgb(0 0 0 / 25%) inset,
+    0 24px 40px -10px rgb(0 0 0 / 60%);
+}
+
+.grip {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 40%;
+  height: 6px;
+  translate: -50% 0;
+  border-radius: 3px;
+  background: repeating-linear-gradient(90deg, #1a1e25 0 4px, transparent 4px 8px);
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: 62%;
+  padding: 16px;
+  border-radius: 6px;
+  background: linear-gradient(160deg, #8ea3ff, var(--own) 60%, #5b74e6);
+  color: #0b1240;
+  box-shadow: 0 0 0 2px rgb(0 0 0 / 25%) inset;
+}
+
+.labelTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: auto;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.labelLine {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pins {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: 8px;
+  height: 14px;
+  background: repeating-linear-gradient(90deg, #d4a94a 0 6px, transparent 6px 10px);
+  border-radius: 2px;
+}
+
+/* The slot it seats into. */
+.slot {
+  position: relative;
+  z-index: 2;
+  width: min(340px, 90%);
+  height: 70px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #e9ecf0, #c9ced6);
+  box-shadow:
+    0 1px 0 #fff inset,
+    0 18px 30px -12px rgb(0 0 0 / 60%);
+}
+
+.slotMouth {
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 12px;
+  border-radius: 0 0 6px 6px;
+  background: #0a0c10;
+}
+
+.slotLed {
+  position: absolute;
+  right: 22px;
+  bottom: 18px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--prove);
+  box-shadow: 0 0 12px var(--prove);
+}
+
+.lede {
+  margin-block: 24px 32px;
+  font-size: var(--t-18);
+}
+
+.ledgers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.ledger {
+  padding: 20px;
+  border-radius: var(--card-radius);
+  background: var(--chassis-raised);
+  border: 1px solid var(--bezel-edge);
+}
+
+.ledger + .ledger {
+  background: transparent;
+  border-style: dashed;
+}
+
+.ledgerHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.on,
+.off {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  background: var(--prove);
+  box-shadow: 0 0 8px var(--prove);
+}
+
+.off {
+  background: transparent;
+  box-shadow: 0 0 0 1.5px var(--ink-muted) inset;
+}
+
+.ledger ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ledger li {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding-block: 6px;
+  font-size: var(--t-16);
+  line-height: 1.4;
+}
+
+.ledger li + li {
+  border-top: 1px solid var(--hairline);
+}
+
+.tick {
+  flex: none;
+  color: var(--prove-ink);
+  translate: 0 2px;
+}
+
+.ring {
+  flex: none;
+  color: var(--ink-muted);
+  translate: 0 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :global(html.js) .cart {
+    transition: transform 1100ms cubic-bezier(0.22, 1.2, 0.36, 1) 250ms;
+  }
+
+  :global(html.js.hydrated) .stage:not([data-visible]) .cart {
+    transform: translateY(-120px) rotate(-4deg);
+  }
+
+  :global(html.js) .slotLed {
+    transition:
+      opacity 200ms linear 1200ms,
+      transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1) 1200ms;
+  }
+
+  :global(html.js.hydrated) .stage:not([data-visible]) .slotLed {
+    opacity: 0.15;
+    transform: scale(0.5);
+  }
+}
+
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .stage {
+    min-height: 380px;
+    order: 2;
+  }
+}
+
+@media (max-width: 560px) {
+  .ledgers {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

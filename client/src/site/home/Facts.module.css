@@ -1,0 +1,78 @@
+.facts {
+  padding-block: 40px 8px;
+  background: var(--chassis-recessed);
+}
+
+.label {
+  margin-bottom: 18px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-radius: var(--card-radius);
+  background: var(--chassis-raised);
+  border: 1px solid var(--bezel-edge);
+  box-shadow: var(--lift);
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 24px 24px 26px;
+}
+
+.item + .item {
+  border-left: 1px solid var(--hairline);
+}
+
+.n {
+  font-family: var(--font-mono);
+  font-size: clamp(2.25rem, 1.5rem + 2.4vw, 3.5rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.what {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.note {
+  font-size: var(--t-14);
+  color: var(--ink-muted);
+}
+
+@media (max-width: 900px) {
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .item:nth-child(3) {
+    border-left: 0;
+  }
+
+  .item:nth-child(n + 3) {
+    border-top: 1px solid var(--hairline);
+  }
+}
+
+@media (max-width: 420px) {
+  .item {
+    padding: 18px 16px 20px;
+  }
+}

@@ -1,0 +1,477 @@
+/* The hero's suite console: three panes on one screen, wired left to right. */
+.figure {
+  margin: 0;
+}
+
+.bezel {
+  padding: 12px;
+}
+
+.console {
+  padding: 0 0 16px;
+  background:
+    radial-gradient(120% 80% at 50% 0%, rgb(56 224 143 / 7%), transparent 60%), var(--screen);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--screen-line);
+  color: var(--screen-muted);
+}
+
+.lamp {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--prove);
+  box-shadow: 0 0 10px var(--prove);
+}
+
+.tick {
+  margin-left: auto;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  font-variant-numeric: tabular-nums;
+  color: var(--screen-muted);
+}
+
+.tick span {
+  color: var(--build);
+}
+
+.panes {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.75fr) 28px minmax(0, 1.7fr) 28px minmax(250px, 1fr);
+  align-items: stretch;
+  padding: 16px 16px 0;
+}
+
+.pane {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  background: var(--screen-raised);
+  box-shadow: 0 0 0 1px var(--screen-line) inset;
+  padding: 12px;
+}
+
+.paneHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--screen-fg);
+}
+
+.paneDot {
+  width: 6px;
+  height: 6px;
+  background: var(--screen-fg);
+}
+
+.paneHead[data-move='build'] .paneDot {
+  background: var(--build);
+  box-shadow: 0 0 8px var(--build);
+}
+
+.paneHead[data-move='prove'] .paneDot {
+  background: var(--prove);
+  box-shadow: 0 0 8px var(--prove);
+}
+
+/* The wire between panes: a line with a travelling pulse while the run plays. */
+.wire {
+  position: relative;
+  align-self: center;
+  height: 2px;
+  margin-inline: 2px;
+  background: var(--screen-line);
+  overflow: hidden;
+}
+
+.wire::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--prove), transparent);
+  transform: translateX(-100%);
+}
+
+.console[data-playing] .wire::after {
+  animation: pulse 900ms linear 3;
+}
+
+@keyframes pulse {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* The document pane. */
+.file {
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  color: var(--build);
+}
+
+.code {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: line;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 2;
+}
+
+.code li {
+  position: relative;
+  padding-left: 26px;
+  border-radius: 3px;
+  line-height: 1.5;
+  padding-block: 4px;
+  transition: background-color 400ms var(--ease);
+}
+
+.code li::before {
+  counter-increment: line;
+  content: counter(line);
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  color: #5d6773;
+}
+
+.code li[data-flash] {
+  background: var(--build-soft);
+}
+
+.code li[data-changed] {
+  background: rgb(255 107 91 / 14%);
+}
+
+.key {
+  color: var(--screen-fg);
+}
+
+.check {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px dashed var(--screen-line);
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  color: var(--build);
+}
+
+.op {
+  color: #7d8691;
+}
+
+.val {
+  color: var(--build);
+}
+
+.alt {
+  color: var(--fail);
+}
+
+/* The run pane. */
+.run {
+  padding: 12px 12px 12px;
+}
+
+.legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--screen-muted);
+}
+
+.legendA,
+.legendB {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  margin-left: 6px;
+  background: var(--prove);
+}
+
+.legendB {
+  background: transparent;
+  box-shadow: 0 0 0 1.5px #fff inset;
+}
+
+.arena {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: 4px;
+}
+
+.grid line {
+  stroke: rgb(56 224 143 / 18%);
+  stroke-width: 1;
+}
+
+.floorLine {
+  stroke: var(--prove);
+  stroke-width: 2;
+}
+
+.goal rect {
+  fill: none;
+  stroke: var(--screen-muted);
+  stroke-width: 2;
+}
+
+.score {
+  font-family: var(--font-pixel);
+  font-size: 22px;
+  fill: var(--screen-fg);
+}
+
+.teamA {
+  fill: var(--prove);
+}
+
+.teamB {
+  fill: var(--build);
+}
+
+.eye {
+  fill: var(--screen);
+}
+
+.ball {
+  fill: #fff;
+}
+
+.shadow {
+  fill: rgb(0 0 0 / 55%);
+}
+
+.ghost {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+  opacity: 0.75;
+}
+
+/* The proof pane. */
+.ledger {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ledger th {
+  padding: 0 4px 6px;
+  text-align: left;
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--screen-muted);
+  border-bottom: 1px solid var(--screen-line);
+}
+
+.ledger td {
+  padding: 5px 4px;
+  color: var(--screen-fg);
+  white-space: nowrap;
+}
+
+.ledger td:first-child {
+  color: var(--screen-muted);
+}
+
+.ledger tr:not([data-ok]) .b {
+  color: var(--fail);
+}
+
+.stamp {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.8;
+  color: var(--screen);
+  background: var(--prove);
+}
+
+.ledger tr:not([data-ok]) .stamp {
+  background: var(--fail);
+}
+
+.verdict {
+  margin-top: auto;
+  padding: 10px 10px 0;
+  border-top: 1px dashed var(--screen-line);
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  color: var(--fail);
+}
+
+.verdict[data-ok] {
+  color: var(--prove);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 14px 16px 0;
+}
+
+.control {
+  min-height: 40px;
+  font-size: var(--t-12);
+}
+
+.control[aria-pressed='true'] {
+  border-color: var(--fail);
+  color: #fff;
+}
+
+:global(html:not(.js)) .controls {
+  display: none;
+}
+
+.caption {
+  max-width: 88ch;
+  margin: 16px auto 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  line-height: 1.6;
+  color: var(--ink-muted);
+}
+
+/* While a run plays: rows wait for their tick, then stamp in. */
+@media (prefers-reduced-motion: no-preference) {
+  .console[data-playing] tbody tr:not([data-done]) td {
+    opacity: 0;
+  }
+
+  .console[data-playing] tbody tr:not([data-done]) .stamp {
+    transform: scale(2.2) rotate(-8deg);
+    opacity: 0;
+  }
+
+  .stamp {
+    transition:
+      transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1),
+      opacity 200ms var(--ease);
+  }
+
+  .ledger td {
+    transition: opacity 200ms var(--ease);
+  }
+
+  .console[data-playing] .verdict {
+    opacity: 0;
+  }
+
+  .verdict {
+    transition: opacity 400ms var(--ease);
+  }
+}
+
+@media (max-width: 1120px) {
+  .panes {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .run {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .wire {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .bezel {
+    padding: 6px;
+  }
+
+  .top {
+    padding: 12px 14px;
+  }
+
+  .panes {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 10px 10px 0;
+    gap: 10px;
+  }
+
+  .doc {
+    grid-row: 2;
+  }
+
+  .code {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 8px;
+    line-height: 1.8;
+    font-size: 12px;
+  }
+
+  .code li {
+    padding-left: 0;
+  }
+
+  .code li::before {
+    display: none;
+  }
+
+  .controls {
+    padding: 12px 10px 0;
+  }
+
+  .control {
+    flex: 1 1 0;
+    justify-content: center;
+    padding-inline: 12px;
+  }
+
+  .top .tick {
+    display: none;
+  }
+
+  .caption {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .console[data-playing] .wire::after {
+    animation: none;
+  }
+
+  .code li {
+    transition: none;
+  }
+}

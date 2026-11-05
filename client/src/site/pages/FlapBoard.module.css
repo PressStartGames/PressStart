@@ -1,0 +1,112 @@
+/* The reference board: a split-flap departures board on a dark screen. */
+.board {
+  padding: 24px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #14181f, #0b0d10);
+  box-shadow:
+    0 0 0 1px #000 inset,
+    0 0 0 10px var(--chassis-raised),
+    0 0 0 11px var(--bezel-edge),
+    0 40px 70px -40px rgb(17 19 24 / 70%);
+  color: var(--screen-fg);
+}
+
+.head {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 20px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--screen-line);
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--build);
+}
+
+.rows {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 20px;
+  align-items: center;
+}
+
+.what {
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  color: var(--screen-muted);
+}
+
+.tiles {
+  margin: 0;
+  min-width: 0;
+}
+
+.tileRow {
+  display: flex;
+  gap: 3px;
+}
+
+.tile {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 1 1 0;
+  max-width: 28px;
+  min-width: 0;
+  height: 36px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #222833 0 49%, #1a1f28 51%);
+  font-family: var(--font-mono);
+  font-size: var(--t-18);
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #f4f6f8;
+  box-shadow: 0 1px 0 #000;
+}
+
+/* The hinge across the middle of each tile. */
+.tile::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgb(0 0 0 / 70%);
+}
+
+@media (max-width: 640px) {
+  .board {
+    padding: 16px 12px;
+    box-shadow:
+      0 0 0 1px #000 inset,
+      0 0 0 6px var(--chassis-raised),
+      0 0 0 7px var(--bezel-edge);
+  }
+
+  .head {
+    display: none;
+  }
+
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .tile {
+    height: 26px;
+    font-size: var(--t-14);
+  }
+
+  .tileRow {
+    gap: 2px;
+  }
+}

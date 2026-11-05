@@ -1,0 +1,363 @@
+/* 02 Prove: the dark booth section, four evidence cards. */
+.prove {
+  position: relative;
+  background:
+    radial-gradient(70% 50% at 85% 0%, rgb(56 224 143 / 10%), transparent 70%),
+    radial-gradient(60% 40% at 0% 100%, rgb(124 149 255 / 8%), transparent 70%), var(--screen);
+  color: var(--screen-fg);
+}
+
+.prove h2,
+.prove h3 {
+  color: #fff;
+}
+
+.prove a:focus-visible {
+  outline-color: var(--prove);
+}
+
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px 64px;
+  align-items: end;
+  margin-bottom: 56px;
+}
+
+.head > p:first-child {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+  color: var(--screen-muted);
+}
+
+.head > div {
+  color: var(--screen-muted);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--card-radius);
+  background: var(--screen-raised);
+  box-shadow: 0 0 0 1px var(--screen-line) inset;
+  overflow: hidden;
+  transition: box-shadow var(--mid) var(--ease);
+}
+
+.card:hover {
+  box-shadow: 0 0 0 1px var(--prove) inset;
+}
+
+.window {
+  position: relative;
+  height: 240px;
+  padding: 22px 24px;
+  background:
+    linear-gradient(rgb(56 224 143 / 5%) 1px, transparent 1px) 0 0 / 100% 22px,
+    #07090c;
+  border-bottom: 1px solid var(--screen-line);
+  overflow: hidden;
+}
+
+.cardBody {
+  position: relative;
+  padding: 22px 24px 26px;
+}
+
+.cardTitle {
+  font-size: var(--t-22);
+}
+
+/* The title's link covers the card. */
+.cardLink {
+  color: #fff;
+  text-decoration: none;
+}
+
+.cardLink::after {
+  content: '';
+  position: absolute;
+  inset: -1000px 0 0;
+}
+
+.card:has(.cardLink:focus-visible) {
+  outline: 2px solid var(--prove);
+  outline-offset: 2px;
+}
+
+.cardLink:focus-visible {
+  outline: none;
+}
+
+.cardText {
+  margin-top: 8px;
+  max-width: 48ch;
+  font-size: var(--t-16);
+  color: var(--screen-muted);
+}
+
+.more {
+  position: absolute;
+  top: 22px;
+  right: 24px;
+  font-family: var(--font-mono);
+  color: var(--prove);
+  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card:hover .more {
+  transform: translateX(6px);
+}
+
+.small {
+  margin-top: 28px;
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  color: var(--screen-muted);
+}
+
+/* Visual 1: the two-run ledger. */
+.ledger {
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  font-variant-numeric: tabular-nums;
+}
+
+.ledgerRow {
+  display: grid;
+  grid-template-columns: 3.5ch 9ch 9ch auto;
+  gap: 18px;
+  align-items: center;
+  padding-block: 8px;
+  border-bottom: 1px dashed var(--screen-line);
+}
+
+.dim {
+  color: var(--screen-muted);
+}
+
+.pass {
+  justify-self: start;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: var(--prove);
+  color: var(--screen);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.8;
+}
+
+/* Visual 2: the lanes. */
+.lanes {
+  position: relative;
+  display: grid;
+  gap: 9px;
+  padding-top: 4px;
+}
+
+.lane {
+  display: grid;
+  grid-template-columns: 82px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  color: var(--screen-muted);
+}
+
+.track {
+  position: relative;
+  height: 24px;
+  border-radius: 4px;
+  background: rgb(255 255 255 / 3%);
+}
+
+.block {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  border-radius: 3px;
+  background: #2b3542;
+}
+
+.block[data-gated] {
+  background: var(--prove);
+  box-shadow: 0 0 12px rgb(56 224 143 / 45%);
+}
+
+.gate {
+  justify-self: end;
+  margin-top: 2px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  border: 1px solid var(--prove);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--prove);
+}
+
+/* Visual 3: the reference names. */
+.refs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.refs li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 10px;
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px var(--screen-line) inset;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  color: var(--screen-fg);
+}
+
+.refs svg {
+  color: var(--prove);
+}
+
+/* Visual 4: the golden in its crop frame. */
+.golden {
+  position: absolute;
+  inset: 0;
+}
+
+.goldenPic img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 55%;
+}
+
+.crop {
+  position: absolute;
+  inset: 22px 34% 22px 30%;
+  border: 2px solid var(--prove);
+  box-shadow: 0 0 0 999px rgb(7 9 12 / 55%);
+}
+
+.goldenLabel,
+.goldenHow {
+  position: absolute;
+  left: 24px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: var(--screen);
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+
+.goldenLabel {
+  top: 22px;
+  color: var(--screen-fg);
+}
+
+.goldenHow {
+  bottom: 22px;
+  color: var(--prove);
+}
+
+/* Motion: each diagram plays once as its card arrives. */
+@media (prefers-reduced-motion: no-preference) {
+  :global(html.js) .card {
+    transition:
+      opacity 800ms var(--ease) var(--d),
+      transform 800ms var(--ease) var(--d),
+      box-shadow var(--mid) var(--ease);
+  }
+
+  :global(html.js.hydrated) .card:not([data-visible]) {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  :global(html.js) .ledgerRow,
+  :global(html.js) .block,
+  :global(html.js) .refs li {
+    transition:
+      opacity 500ms var(--ease),
+      transform 600ms var(--ease);
+    transition-delay: calc(var(--d) + 300ms + var(--n) * 120ms);
+  }
+
+  :global(html.js.hydrated) .card:not([data-visible]) .ledgerRow {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+
+  :global(html.js.hydrated) .card:not([data-visible]) .block {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  :global(html.js.hydrated) .card:not([data-visible]) .refs li {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+
+  :global(html.js) .crop {
+    transition:
+      transform 900ms var(--ease) calc(var(--d) + 300ms),
+      opacity 500ms var(--ease) calc(var(--d) + 300ms);
+  }
+
+  :global(html.js.hydrated) .card:not([data-visible]) .crop {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+@media (max-width: 900px) {
+  .head {
+    grid-template-columns: minmax(0, 1fr);
+    margin-bottom: 36px;
+  }
+
+  .cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .window {
+    padding: 18px 16px;
+  }
+
+  .ledgerRow {
+    grid-template-columns: 3.5ch 8ch 8ch auto;
+    gap: 10px;
+    font-size: var(--t-12);
+  }
+
+  .lane {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .more {
+    transition: none;
+  }
+
+  .card:hover .more {
+    transform: none;
+  }
+}

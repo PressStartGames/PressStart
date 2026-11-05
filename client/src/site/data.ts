@@ -59,3 +59,32 @@ export function navModel() {
     company: navEntries('company'),
   };
 }
+
+// The one accepted golden the main site shows (a row in assets/renders/manifest.json).
+export const GOLDEN_FILE = 'world-terrain-splat-valley.png';
+
+// The nav's label and note for a page (the first group that lists it).
+export function navEntry(id: string): NavEntry {
+  const m = navModel();
+  const all = [m.overview, ...m.columns.flatMap((c) => c.entries), ...m.resources, ...m.company];
+  const e = all.find((x) => x.id === id);
+  if (!e) throw new Error(`site-nav does not list page "${id}"`);
+  return e;
+}
+
+// Which move a page belongs to (its tint, chip and breadcrumb).
+export function moveOf(id: string): Move | undefined {
+  return navModel().columns.find((c) => c.entries.some((e) => e.id === id))?.move;
+}
+
+// Breadcrumbs above a page in the Engine group: the engine overview, then the page's move.
+export function crumbsFor(id: string): Array<{ label: string; to: string }> {
+  const move = moveOf(id);
+  if (!move || id === 'engine') return [];
+  const m = navModel();
+  const col = m.columns.find((c) => c.move === move);
+  return [
+    { label: m.overview.label, to: sitePagePath(m.overview.id) },
+    { label: col?.label ?? move, to: `${sitePagePath(m.overview.id)}#${move}` },
+  ];
+}

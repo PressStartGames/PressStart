@@ -1,0 +1,199 @@
+/* Shared pieces of the main site: buttons, section heads, chips, the screen bezel. */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow var(--mid) var(--ease),
+    background-color var(--mid) var(--ease);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.primary {
+  background: var(--ink);
+  color: #fff;
+  box-shadow: 0 10px 24px -12px rgb(17 19 24 / 70%);
+}
+
+.primary .led {
+  width: 8px;
+  height: 8px;
+  background: var(--prove);
+  box-shadow: 0 0 10px var(--prove);
+}
+
+.primary:hover {
+  box-shadow: 0 16px 30px -12px rgb(17 19 24 / 70%);
+}
+
+.ghost {
+  background: var(--chassis-raised);
+  color: var(--ink);
+  border-color: var(--bezel-edge);
+}
+
+.ghost:hover {
+  background: #fff;
+}
+
+.onScreen {
+  background: var(--prove);
+  color: var(--screen);
+}
+
+.onScreenGhost {
+  background: transparent;
+  color: var(--screen-fg);
+  border-color: var(--screen-line);
+}
+
+.onScreenGhost:hover {
+  border-color: var(--screen-muted);
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn:hover .arrow,
+.textLink:hover .arrow {
+  transform: translateX(4px);
+}
+
+.textLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--bezel-edge);
+  text-underline-offset: 6px;
+  transition: text-decoration-color var(--mid) var(--ease);
+}
+
+.textLink:hover {
+  text-decoration-color: currentColor;
+}
+
+/* Section heads: a pixel kicker with its move's colour chip, then the h2. */
+.section {
+  padding-block: var(--section-pad);
+}
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.chip {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--screen);
+  color: var(--prove);
+}
+
+.chip[data-move='build'] {
+  color: var(--build);
+}
+
+.chip[data-move='own'] {
+  color: var(--own);
+}
+
+.h2 {
+  font-size: clamp(2.125rem, 1.2rem + 3.4vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  max-width: 16ch;
+}
+
+.lede {
+  font-size: var(--t-22);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--ink-muted);
+  max-width: 54ch;
+}
+
+.lede p + p {
+  margin-top: 0.8em;
+}
+
+/* A dark screen set into a chassis bezel. */
+.bezel {
+  padding: 10px;
+  border-radius: calc(var(--screen-radius) + 10px);
+  background: var(--bezel);
+  border: 1px solid var(--bezel-edge);
+  box-shadow: var(--lift);
+}
+
+.screen {
+  position: relative;
+  border-radius: var(--screen-radius);
+  background: var(--screen);
+  color: var(--screen-fg);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px #000 inset,
+    0 2px 12px rgb(0 0 0 / 50%) inset;
+}
+
+.pixel {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .arrow,
+  .textLink {
+    transition: none;
+  }
+
+  .btn:hover,
+  .btn:hover .arrow,
+  .textLink:hover .arrow {
+    transform: none;
+  }
+}

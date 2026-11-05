@@ -1,69 +1,38 @@
-import { Link, NavLink, Outlet } from 'react-router';
-import { field, splitList } from '../content';
-import type { SitePageId } from '../content/schema';
-import { BASE, FLAGS } from '../lib/config';
-import { sitePagePath } from '../routes';
+import { useEffect, useRef } from 'react';
+import { Outlet, useLocation } from 'react-router';
+import { field } from '../content';
+import { SiteHeader } from './nav/SiteHeader';
+import { SiteFooter } from './SiteFooter';
 import styles from './site.module.css';
 
-// The nav's labels in CONTENT.md map, in order, to these pages.
-const NAV_PAGES: readonly SitePageId[] = [
-  'engine',
-  'showcase',
-  'roadmap',
-  'learn',
-  'news',
-  'licensing',
-  'about',
-  'community',
-];
-const LEGAL_PAGES: readonly SitePageId[] = ['privacy', 'terms', 'cookies'];
-
-// Placeholder frame for the main site; phase 2 designs it (see ./index.tsx).
+// The main site's frame: skip link, the header with the mega-menu, <main>, the footer.
 export function MainLayout() {
-  const nav = splitList(field('site-header', 'nav'), '|');
-  const legal = splitList(field('site-footer', 'legal'), '|');
-  const wordmark = field('site-header', 'wordmark');
-  const joinBeta = FLAGS.joinBeta && (
-    <a className={styles.cta} href={`${BASE}beta/`}>
-      {field('site-header', 'cta')}
-    </a>
-  );
+  const { pathname, hash } = useLocation();
+  const mainRef = useRef<HTMLElement>(null);
+  const first = useRef(true);
+
+  // A client navigation lands at the top of the new page with focus on <main> (the prerendered first
+  // load keeps the browser's own scroll and focus).
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    if (hash) return;
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    mainRef.current?.focus({ preventScroll: true });
+  }, [pathname, hash]);
+
   return (
     <div className={styles.shell}>
       <a href="#main" className="skip-link">
         {field('site-header', 'skip')}
       </a>
-      <header className={styles.header}>
-        <div className={`frame ${styles.bar}`}>
-          <Link to="/" className={styles.wordmark} aria-label={`${wordmark}, home`}>
-            <span className="led" aria-hidden="true" />
-            {wordmark}
-          </Link>
-          <nav className={styles.nav} aria-label={field('site-header', 'nav-label')}>
-            {NAV_PAGES.map((id, i) => (
-              <NavLink key={id} to={sitePagePath(id)}>
-                {nav[i] ?? id}
-              </NavLink>
-            ))}
-          </nav>
-          {joinBeta}
-        </div>
-      </header>
-      <main id="main" className={styles.main}>
+      <SiteHeader />
+      <main id="main" ref={mainRef} tabIndex={-1} className={styles.main}>
         <Outlet />
       </main>
-      <footer className={styles.footer} aria-label={field('site-footer', 'label')}>
-        <div className={`frame ${styles.footerInner}`}>
-          <p className="mono">{field('site-footer', 'line')}</p>
-          <ul className={styles.legal}>
-            {LEGAL_PAGES.map((id, i) => (
-              <li key={id}>
-                <Link to={sitePagePath(id)}>{legal[i] ?? id}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

@@ -1,25 +1,29 @@
-import { Link } from 'react-router';
-import { field, splitList } from '../../content';
-import { BASE, FLAGS } from '../../lib/config';
-import { sitePagePath } from '../../routes';
-import styles from '../site.module.css';
-import { Page } from './Page';
+import { Audience } from '../home/Audience';
+import { Build } from '../home/Build';
+import { Facts } from '../home/Facts';
+import { Hero } from '../home/Hero';
+import { Moves } from '../home/Moves';
+import { Next } from '../home/Next';
+import { Own } from '../home/Own';
+import { Prove } from '../home/Prove';
+import { Status } from '../home/Status';
+import { JoinBand } from '../JoinBand';
 
-// Placeholder home; phase 2 designs it.
+// The home page (./DESIGN.md): hero + suite console, the synced facts, the three moves overview and
+// one deep section per move, the honest status board, who it is for, the teasers, the closing band.
 export function Home() {
-  const [join = '', engine = ''] = splitList(field('site-home', 'cta'), '|');
   return (
-    <Page id="site-home">
-      <p className={styles.actions}>
-        {FLAGS.joinBeta && (
-          <a className={styles.cta} href={`${BASE}beta/`}>
-            {join}
-          </a>
-        )}
-        <Link className={styles.link} to={sitePagePath('engine')}>
-          {engine}
-        </Link>
-      </p>
-    </Page>
+    <>
+      <Hero />
+      <Facts />
+      <Moves />
+      <Build />
+      <Prove />
+      <Own />
+      <Status />
+      <Audience />
+      <Next />
+      <JoinBand />
+    </>
   );
 }

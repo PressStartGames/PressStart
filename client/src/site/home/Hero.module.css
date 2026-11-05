@@ -1,0 +1,153 @@
+.hero {
+  position: relative;
+  padding: clamp(40px, 4vw + 8px, 72px) 0 clamp(40px, 4vw, 64px);
+  overflow: clip;
+  background:
+    radial-gradient(circle at 1px 1px, rgb(17 19 24 / 9%) 1px, transparent 1.5px) 0 0 / 24px 24px,
+    var(--chassis);
+}
+
+/* The chassis darkens under the console: a stage. */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 46%;
+  z-index: 0;
+  background: linear-gradient(180deg, transparent, var(--chassis-recessed));
+  pointer-events: none;
+}
+
+.head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.kicker {
+  margin-bottom: 28px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--chassis-raised);
+  border: 1px solid var(--bezel-edge);
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.h1 {
+  font-size: clamp(2.6rem, 1rem + 5.6vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  max-width: 13ch;
+}
+
+.word {
+  position: relative;
+  display: inline-block;
+}
+
+/* The move's underline: a pixel bar under the word, drawn after the words land. */
+.word[data-move]::after {
+  content: '';
+  position: absolute;
+  left: 0.04em;
+  right: 0.04em;
+  bottom: -0.02em;
+  height: 0.09em;
+  background: var(--prove);
+  transform-origin: left;
+}
+
+.word[data-move='build']::after {
+  background: var(--build);
+}
+
+.lede {
+  margin-top: 28px;
+  max-width: 50ch;
+  font-size: var(--t-22);
+  line-height: 1.45;
+  color: var(--ink-muted);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.stage {
+  position: relative;
+  z-index: 1;
+  margin-top: clamp(40px, 4vw, 64px);
+  perspective: 1600px;
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(0.5em) rotate(3deg);
+  }
+}
+
+@keyframes draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :global(html.js) .word {
+    animation: rise 900ms var(--ease) both;
+    animation-delay: calc(var(--i) * 45ms);
+  }
+
+  :global(html.js) .word[data-move]::after {
+    animation: draw 700ms var(--ease) both;
+    animation-delay: 900ms;
+  }
+
+  /* The console tilts back on the chassis and flattens as it scrolls into the reading position. */
+  @supports (animation-timeline: view()) {
+    .stage > * {
+      animation: flatten linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+      transform-origin: 50% 0%;
+    }
+  }
+}
+
+@keyframes flatten {
+  from {
+    transform: rotateX(16deg) scale(0.94);
+  }
+}
+
+@media (max-width: 640px) {
+  .head {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .actions {
+    justify-content: flex-start;
+  }
+
+  .h1 {
+    max-width: none;
+  }
+}
