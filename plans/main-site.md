@@ -184,3 +184,20 @@ Done when: the never-break list passes in production and the founder signs off.
 | Phase 6 | Cloudflare API token for Actions; WorkOS production keys |
 | Phase 7 | Approve the production deploy; sign off |
 | Any time | Secret rotation from 2026-11-04 (see `INFRASTRUCTURE.md` §6) |
+
+## Future: whole-site split test (founder, 2026-11-05; not built yet)
+
+Only one design exists today (L4 Feature tour), so nothing is built. When a second design exists:
+
+- **What is split:** whole designs (look and layout, every page), not single elements. The archived layouts
+  (`archive/layout-cinematic|suite|community` on GitHub) are candidates.
+- **Who:** every visitor, not only those who accepted analytics. Nobody is tracked: no ids, no profile.
+- **The winner:** beta sign-ups and confirmed sign-ups per design. The API stamps each sign-up row with the design
+  the visitor saw (a `variant` column); the admin console shows sign-ups and confirmations per design from D1. GA4
+  and GrowthBook are optional extras, not the source of truth.
+- **Mechanism:** each design is a full prerendered build under its own prefix; the site Worker picks the design
+  on HTML requests (`run_worker_first` for HTML routes; mind the free tier's 100k Worker requests a day).
+- **Open point for build time:** keeping a visitor on one design across visits needs a cookie holding only the
+  design letter; under EU rules that usually needs consent. Decide then: a privacy-page line and the cookie, or
+  no cookie (a visitor may see a different design per visit, which blurs the result).
+- The sample `home-headline` experiment (Phase 5) stays wired but is not started.
