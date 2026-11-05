@@ -36,10 +36,10 @@ JetBrains Mono readouts, Space Grotesk) and answers the founder's notes:
 | 1-2 | Same seed, same game   | Determinism: two runs, one checksum per line                                    | The checksum ledger (browser simulation): run A vs run B with two mini arenas and a tick scrubber; "change one input at tick 80" breaks it and names the first differing tick |
 | 1-3 | Every core, one answer | Parallel systems, ordered conflicts, the same checksum                          | The core board: systems dealt onto 8 / 4 / 2 cores (buttons), the gated pair, the unchanged checksum                                                                          |
 | 1-4 | Pictures are tests     | Goldens: a person accepts, a tool never does                                    | The golden wipe: drag between "this run" and "the golden" (a real accepted golden), PASS stamp; three ticks of the character as a filmstrip                                   |
-| 1-5 | Held to a reference    | Oracles as a method; parity is the bar                                          | A wiring board: our subsystem → the reference tool, drawn on scroll; the honest line                                                                                          |
+| 1-5 | Held to a reference    | Oracles as a method; parity is the bar                                          | A wiring board: our subsystem → the reference tool, drawn on scroll; the misses line                                                                                          |
 | 1-6 | The game answers back  | The four verbs                                                                  | A small console: query / command / capture / control played on the browser simulation                                                                                         |
-| 1-7 | Your game is your code | Plain Rust on Bevy                                                              | The engine's own test, verbatim, with its commit                                                                                                                              |
-| ★   | Built today            | The feature count, honestly                                                     | Seven level bars (built / partly / not yet), synced counts                                                                                                                    |
+| 1-7 | Your game is your code | Plain Rust, and it is yours                                                     | The engine's own test, imports trimmed, with its commit                                                                                                                       |
+| ★   | Built today            | The feature count, misses included                                              | Seven level bars (built / partly / not yet), synced counts                                                                                                                    |
 | ▶   | The road               | Where we are, no dates                                                          | Four stops, "now" lit; the Join-the-beta card                                                                                                                                 |
 
 **`/engine`** — what the engine is: the four-step procedure with the verbatim test lit step by step; the
@@ -49,11 +49,11 @@ five strengths as cartridges (to their pages); what is in the box (the engine fa
 request, the live console, "ask what it can do" (the manifest gate), "one door" (the wire never ships in a
 game), and an explicitly labelled _On the road_ block for the editor's chat.
 
-**Every other route** — a styled, honest "stage under construction" page: its real two sentences from
+**Every other route** — a styled "stage under construction" page: its real two sentences from
 CONTENT.md, a locked-stage screen, and the links that already answer the question today.
 
 **Frame** — a chassis header (wordmark + LED, eight nav links, "Join the beta" behind `FLAGS.joinBeta`), a
-`<details>` menu on phones that works without JavaScript; a footer with four link columns and the honest line.
+`<details>` menu on phones that works without JavaScript; a footer with four link columns and the status line.
 
 ## Motion moments (all: final state = reduced motion = no JS; compositor-only where it loops; nothing runs once settled)
 
@@ -73,7 +73,7 @@ CONTENT.md, a locked-stage screen, and the links that already answer the questio
 11. **Road** — the stops light in sequence up to "now".
 12. **Hover** — cartridges lift with a pixel shadow; keys press down on `:active`; links draw their underline.
 
-## Honesty (the press-start-website skill, binding)
+## True today (the press-start-website skill, binding)
 
 Present tense only for what is true today; the roadmap block and the road are worded without dates. Every
 browser simulation is captioned as an illustration. Code is verbatim with commit, file and lines in

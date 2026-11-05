@@ -9,7 +9,7 @@ import { stage } from './stages';
 
 // One stage of the tour: the chip (icon, number, name) wipes open, the claim rises, then two or three
 // friendly paragraphs beside the proof. Odd stages put the proof first on wide screens, so the page
-// zig-zags like a map. `aside` is a small honest line; `more` links to the stage's own page.
+// zig-zags like a map. `aside` is a small status line; `more` links to the stage's own page.
 export function StageFrame({
   id,
   children,

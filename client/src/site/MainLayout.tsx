@@ -38,7 +38,7 @@ const COLUMNS: ReadonlyArray<{ key: string; pages: ReadonlyArray<SitePageId | 'b
 
 // The chassis frame of the main site: skip link, a header with the wordmark, eight pages and the START key
 // (a <details> menu on phones that works without JavaScript), <main>, and a dark footer that ends the page
-// like the console's screen: the Discord invitation, three link columns, the honest line.
+// like the console's screen: the Discord invitation, three link columns, the status line.
 export function MainLayout() {
   const nav = splitList(field('site-header', 'nav'), '|');
   const legal = splitList(field('site-footer', 'legal'), '|');

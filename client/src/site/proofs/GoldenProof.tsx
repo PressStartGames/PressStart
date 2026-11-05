@@ -3,7 +3,7 @@ import tick03 from '../../../assets/renders/rig2d-character-tick-03.png?url';
 import tick35 from '../../../assets/renders/rig2d-character-tick-35.png?url';
 import tick40 from '../../../assets/renders/rig2d-character-tick-40.png?url';
 import { field, splitList } from '../../content';
-import { rowFor } from '../../lib/renders';
+import { crateLabel, rowFor } from '../../lib/renders';
 import { Screen } from '../ui/Screen';
 import { useInView } from '../ui/useInView';
 import { tween } from './play';
@@ -37,7 +37,7 @@ export function GoldenProof() {
   return (
     <div className={styles.proof} ref={ref} data-io>
       <Screen
-        label={featured ? featured.crate.replace('press_start_', '') : ''}
+        label={featured ? crateLabel(featured.crate) : ''}
         readout={
           featured
             ? `${field('site-tour', 'engine-word')} ${featured.engineCommit.slice(0, 7)}`

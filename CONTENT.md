@@ -339,7 +339,7 @@ menu: Menu
 
 label: Footer
 legal: Privacy | Terms | Cookies
-line: A game engine built around Bevy, for people and the AI agents they work with. Version 1 is not public yet.
+line: A game engine for people and the AI agents they work with. Version 1 is not public yet.
 columns: The engine | The project | Studio
 engine-links: Overview | Determinism | Parallel | Oracles | The AI surface | Ownership
 project-links: Showcase | Roadmap | Learn | News
@@ -351,8 +351,8 @@ signoff: player 1 · ready
 ## site-home
 
 title: Press Start · A game engine an AI can build in, and prove.
-description: Press Start is a game engine built around Bevy whose first user is an AI agent: scenes as documents, the same game on every run, every core with the same answer, every picture checked. A tour, one capability at a time.
-kicker: A game engine built around Bevy
+description: Press Start is a game engine written in Rust whose first user is an AI agent: scenes as documents, the same game on every run, every core with the same answer, every picture checked. A tour, one capability at a time.
+kicker: A game engine written in Rust
 headline: A game engine an AI can build in, and prove.
 cta: Join the beta | Take the tour
 small: Private beta. Version 1 is not public yet. Windows first.
@@ -371,6 +371,7 @@ stage-word: stage
 more: Read more
 illustration: illustration · drawn in your browser
 verbatim: verbatim from the engine
+trimmed: from the engine · imports trimmed
 engine-word: engine
 seed-word: seed
 pass: PASS
@@ -459,8 +460,8 @@ same: same
 small: We have not measured a speed-up yet, so we do not quote one.
 caption: An illustration: the same systems dealt onto 8, 4 or 2 cores. The checksum comes from the browser simulation above, and it does not move.
 
-Bevy runs a game's systems across every core of the machine, and Press Start keeps it that way: nothing is slowed
-to one thread to make it repeatable.
+A game's systems run across every core of the machine, and Press Start keeps it that way: nothing is slowed to
+one thread to make it repeatable.
 
 When two systems touch the same data, the engine insists on an order and refuses to build until one is declared,
 naming both. Sums are added in a fixed order. So the game you replay does not depend on how many cores ran it.
@@ -526,13 +527,13 @@ engine's own tests use. You bring the AI. The engine brings data and verbs.
 ## site-stage-ownership
 
 kicker: Your code
-teaser: Plain Rust on Bevy, and it is yours.
+teaser: Plain Rust, and it is yours.
 headline: Your game is your code.
 small: On the road: the public repository under our own source-available licence, at version 1.
-sample-caption: One of the engine's own tests, copied verbatim: a fixed-step app runs three ticks a frame, so ten frames are thirty ticks.
+sample-caption: One of the engine's own tests, imports trimmed: a fixed-step app runs three ticks a frame, so ten frames are thirty ticks.
 
-A game on Press Start is a normal Rust codebase on Bevy, and it is yours. {{crates}} engine crates fill in what
-Bevy leaves out: terrain, physics, animation, UI, navigation, networking and more.
+A game on Press Start is a normal Rust codebase, and it is yours. {{crates}} engine crates bring what a game
+needs: terrain, physics, animation, UI, navigation, networking and more.
 
 Nothing hides behind a menu. The engine is tested the way your game will be: by code that runs, steps and asserts.
 
@@ -540,12 +541,9 @@ Nothing hides behind a menu. The engine is tested the way your game will be: by 
 
 sample-commit: 45aeffd2a2ecc3b3049819151abfc1c1343fb2aa
 sample-source: docs/00-build-a-game/test-app.md
-sample-lines: 32-55
+sample-lines: 35-55
 
 ```rust
-use bevy::app::FixedUpdate;
-use bevy::ecs::resource::Resource;
-use bevy::ecs::system::ResMut;
 use press_start_test_app::{advance, fixed_step_app};
 
 #[derive(Resource, Default)]
@@ -572,8 +570,8 @@ fn three_fixed_steps_a_frame_are_thirty_after_ten_frames() {
 ## site-built
 
 kicker: Built today
-teaser: Counted honestly, misses included.
-headline: What is built, counted honestly.
+teaser: Every feature counted, misses included.
+headline: What is built, counted by a tool.
 legend: built | partly there | not yet
 of: of
 areas: world = World building · scenes, terrain, 2D, navigation | simulation = Simulation · physics, input, cameras | rendering = Rendering · lighting, shaders, textures | asset-creation = Asset creation · modeling, rigging, animation | game-services = Game services · audio, UI, save, localisation | networking-export = Reach · networking, export, platforms | missing-domains = Beyond the usual · what no engine ships, written down anyway
@@ -589,7 +587,7 @@ the misses.
 
 kicker: The road
 teaser: Where we are, with no dates.
-headline: Where we are, honestly.
+headline: Where we are.
 stops: Now = The engine and its first game, Team Fights, built and tested in private. | Version 1 = A launcher, a new project from a template, save, build, Windows export. No account needed, and it works offline. | Then = The big performance pain points, one full release gate, and the public repository under our own source-available licence. | After = A version every two weeks, the remaining gaps, more platforms.
 now: you are here
 join-title: Want in early?
@@ -605,8 +603,8 @@ them.
 kicker: How it works
 headline: How a game is made here.
 label: procedure
-lit: 15-17 | 19-20 | 22 | 23
-sample-caption: press_start_testkit's own test, copied verbatim from the engine's guide to a test app.
+lit: 12-14 | 16-17 | 19 | 20
+sample-caption: One of the engine's own tests, from its guide to a test app, imports trimmed.
 
 1. **Write the scene as data.** A scene is a base plus patches. A field is set by name, never by a click.
 2. **Check it before it runs.** Every document is validated before the app exists. A refusal names the value and
@@ -619,15 +617,15 @@ sample-caption: press_start_testkit's own test, copied verbatim from the engine'
 
 kicker: Five strengths
 headline: Five things it does differently.
-cards: engine-determinism = Same seed, same game = One seed, a fixed tick and no clock, so a replay is exact. | engine-parallel = Every core, one answer = Systems run in parallel and conflicts are ordered, so the answer never moves. | engine-oracles = Held to a reference = Each part is measured against the tool the industry already trusts. | engine-ai = The game answers back = Query, command, capture, control: four verbs for your own AI. | engine-ownership = Your code = A game is a normal Rust codebase on Bevy, and it is yours.
+cards: engine-determinism = Same seed, same game = One seed, a fixed tick and no clock, so a replay is exact. | engine-parallel = Every core, one answer = Systems run in parallel and conflicts are ordered, so the answer never moves. | engine-oracles = Held to a reference = Each part is measured against the tool the industry already trusts. | engine-ai = The game answers back = Query, command, capture, control: four verbs for your own AI. | engine-ownership = Your code = A game is a normal Rust codebase, and it is yours.
 
 ## site-engine-box
 
 kicker: In the box
-headline: What Bevy leaves out, filled in.
+headline: What a game needs, in the box.
 families: Scenes = documents, prefabs, patches | Assets = meshes, textures, materials, glTF | Rendering = shaders, sprites, terrain | Physics = bodies, colliders, materials | Characters = controllers, animation, rigs | Camera = rigs and shake | Input = actions, bindings, one input funnel | Interface = layouts, menus, localisation | Audio = events and buses | Effects = particles | Navigation and AI = navmesh, crowds, behaviour trees | Save and network = save slots, networking as a document
 
-{{crates}} engine crates, in families. Each system is a document plus a Bevy plugin: the document holds the data
+{{crates}} engine crates, in families. Each system is a document plus a plugin: the document holds the data
 and its rules, the plugin puts it in the app.
 
 ## site-engine-numbers
@@ -711,11 +709,11 @@ There is nothing at this address. The tour starts at the beginning.
 ## page-engine
 
 title: The engine · Press Start
-description: What Press Start is: a game engine built around Bevy, every system a document plus a plugin, checked before the game runs.
+description: What Press Start is: a game engine written in Rust, every system a document plus a plugin, checked before the game runs.
 kicker: The engine
 headline: An engine written as documents.
 
-Press Start is a game engine built around Bevy, with an AI agent as its first user. Every system is a document
+Press Start is a game engine written in Rust, with an AI agent as its first user. Every system is a document
 plus a plugin, checked before the app exists, and every feature can fail a test.
 
 ## page-engine-determinism
@@ -761,12 +759,12 @@ same funnel a player uses. The engine exposes data and verbs; you bring the agen
 ## page-engine-ownership
 
 title: Ownership · Press Start
-description: A game on Press Start is Rust code on Bevy, and it is yours.
+description: A game on Press Start is plain Rust code, and it is yours.
 kicker: Ownership
 headline: The game is your code.
 
-A game on Press Start is a Rust workspace on Bevy. The source-available licence is on the road; its terms are not
-written yet. The full page is being written.
+A game on Press Start is a Rust workspace, and it is yours. The source-available licence is on the road; its
+terms are not written yet. The full page is being written.
 
 ## page-showcase
 

@@ -1,5 +1,5 @@
 // The main site, layout L4 "Feature tour" (src/site/DESIGN.md): the tour on the home page, /engine,
-// /engine/ai, the honest placeholders, the site-wide not-found page and the way into the beta. Runs on
+// /engine/ai, the placeholder pages, the site-wide not-found page and the way into the beta. Runs on
 // desktop and on a phone with reduced motion (playwright.config.ts).
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
@@ -11,7 +11,7 @@ const DISCORD_URL = /DISCORD_URL = '([^']+)'/.exec(
 )?.[1];
 
 const PAGES = [
-  { path: '/engine/', h1: 'Built around Bevy, written as documents.' },
+  { path: '/engine/', h1: 'An engine written as documents.' },
   { path: '/engine/ai/', h1: 'Your own AI, through the player' },
   { path: '/engine/determinism/', h1: 'Same seed, same inputs, same game.' },
   { path: '/roadmap/', h1: 'The road, in order.' },

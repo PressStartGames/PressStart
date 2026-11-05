@@ -142,6 +142,7 @@ export const CONTENT_SCHEMA: Record<string, readonly string[]> = {
     'more',
     'illustration',
     'verbatim',
+    'trimmed',
     'engine-word',
     'seed-word',
     'pass',

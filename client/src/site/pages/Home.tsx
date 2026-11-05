@@ -58,7 +58,7 @@ export function Home() {
             <Code
               sample="site-sample-test"
               caption={field('site-stage-ownership', 'sample-caption')}
-              label={field('site-tour', 'verbatim')}
+              label={field('site-tour', 'trimmed')}
             />
           </StageFrame>
           <StageFrame id="built" wide>

@@ -29,7 +29,7 @@ function range(spec: string): number[] {
   return Array.from({ length: b - a + 1 }, (_, i) => a + i);
 }
 
-// /engine: what the engine is. The procedure (four steps, the verbatim test lit step by step as the
+// /engine: what the engine is. The procedure (four steps, the engine's own test lit step by step as the
 // reader scrolls), the five strengths as cartridges to their pages, the families in the box, and the
 // synced numbers.
 export function Engine() {
@@ -92,7 +92,7 @@ export function Engine() {
             <Code
               sample="site-sample-test"
               caption={field('site-engine-steps', 'sample-caption')}
-              label={field('site-tour', 'verbatim')}
+              label={field('site-tour', 'trimmed')}
               lit={lit}
             />
           </div>

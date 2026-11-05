@@ -7,7 +7,7 @@
 //   home      /
 //   stub      every other page, given `id` (CONTENT.md section `page-<id>`, path from routes.tsx);
 //             pages/Stub.tsx sends /engine and /engine/ai to their designed pages, the rest to an
-//             honest placeholder
+//             placeholder
 //   notFound  anything unknown outside /beta (prerendered to 404.html)
 // Layout L4 "Feature tour": the design brief is ./DESIGN.md. Nothing under src/beta, src/sections or
 // src/components is imported here (only plain modules from src/lib and src/content), so the beta's

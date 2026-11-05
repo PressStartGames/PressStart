@@ -22,7 +22,7 @@ const MEANWHILE: Record<string, string[]> = {
   community: ['road'],
 };
 
-// A page not designed yet, honestly: its real sentences from CONTENT.md (`page-<id>`), a locked stage,
+// A page not designed yet, said plainly: its real sentences from CONTENT.md (`page-<id>`), a locked stage,
 // and the tour's stages that answer the question today.
 export function Placeholder({ id }: { id: string }) {
   const links = (MEANWHILE[id] ?? []).map(stage);
