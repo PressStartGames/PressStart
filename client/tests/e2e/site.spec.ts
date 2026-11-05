@@ -68,7 +68,7 @@ test('the home page reads: one h1, landmarks, the three moves, the way into the 
   await join.click();
   await expect(page).toHaveURL(/\/beta\/$/);
   await expect(page.locator('h1')).toContainText('A game engine an AI can build in');
-  await expect(page.getByRole('heading', { name: 'Where we are, honestly.' })).toBeAttached();
+  await expect(page.getByRole('heading', { name: 'Where we are.' })).toBeAttached();
 });
 
 test('the suite console proves, then fails on another seed', async ({ page }) => {

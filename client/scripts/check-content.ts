@@ -1,7 +1,8 @@
 // CI gate: CONTENT.md and src/content/schema.ts agree (every section the code renders exists with its
 // fields, and every section in CONTENT.md is rendered), every placeholder resolves against
 // data/counts.json, and no builder note or raw placeholder survives into the copy.
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fillPlaceholders, parseContent } from '../src/content/parse.ts';
 import { CONTENT_SCHEMA } from '../src/content/schema.ts';
@@ -12,6 +13,7 @@ const counts = JSON.parse(
 ) as unknown;
 
 const errors: string[] = [];
+const BANNED = /bevy|honest/i;
 let content;
 try {
   content = fillPlaceholders(parseContent(md), counts);
@@ -43,7 +45,24 @@ for (const s of Object.values(content)) {
       if (/\*\(/.test(t)) errors.push(`section "${s.id}" keeps a builder note: ${t}`);
       if (/unity for ai/i.test(t)) errors.push(`section "${s.id}" uses the internal line`);
     }
+    // Founder, 2026-11-05: the site never names Bevy and never says "honest"/"honestly".
+    const words = BANNED.exec(JSON.stringify(b));
+    if (words) errors.push(`section "${s.id}" uses the banned word "${words[0]}"`);
   }
+}
+
+// The same rule for words that live in code (meta, alt text, aria labels): comments are skipped.
+const srcDir = fileURLToPath(new URL('../src', import.meta.url));
+for (const entry of readdirSync(srcDir, { recursive: true, withFileTypes: true })) {
+  if (!entry.isFile() || !/\.(tsx?|css|html)$/.test(entry.name)) continue;
+  const file = join(entry.parentPath, entry.name);
+  // renders.ts strips the engine-internal crate suffix, so it must spell it.
+  if (file.replace(/\\/g, '/').endsWith('lib/renders.ts')) continue;
+  const code = readFileSync(file, 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/(^|[^:])\/\/.*$/gm, '$1');
+  const hit = BANNED.exec(code);
+  if (hit) errors.push(`${file} uses the banned word "${hit[0]}"`);
 }
 
 if (errors.length) {
