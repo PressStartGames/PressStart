@@ -80,7 +80,7 @@ COOKIE_DOMAIN = ""
 WORKOS_CLIENT_ID = "client_01M6M5QGTBJ536RCM2VP67SB5X"
 # Staging mails only our own addresses: never the real list.
 MAIL_MODE = "allowlist"
-MAIL_ALLOWLIST = "@pressstartgames.net"
+MAIL_ALLOWLIST = "@pressstartgames.net,yanivkalfa@gmail.com"
 DAILY_SEND_CAP = "20"
 
 [env.staging.triggers]
