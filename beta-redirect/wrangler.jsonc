@@ -1,0 +1,11 @@
+// The old beta address: a 301 to the beta on the root domain. Deploy: `npx wrangler deploy -c beta-redirect/wrangler.jsonc`
+// from the repository root (wrangler from any package). The `beta` DNS record must be proxied (orange cloud) for
+// the route to fire; set back to DNS only to fall back to GitHub Pages.
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "press-start-beta-redirect",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": false,
+  "routes": [{ "pattern": "beta.pressstartgames.net/*", "zone_name": "pressstartgames.net" }],
+}

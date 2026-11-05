@@ -14,8 +14,8 @@ routes = [{ pattern = "pressstartgames.net/api/v1/*", zone_name = "pressstartgam
 workers_dev = true
 
 [vars]
-ALLOWED_ORIGINS = "https://beta.pressstartgames.net,https://pressstartgames.github.io,http://localhost:5173,http://localhost:4173"
-SITE_URL = "https://beta.pressstartgames.net"
+ALLOWED_ORIGINS = "https://pressstartgames.net,https://beta.pressstartgames.net,https://pressstartgames.github.io,http://localhost:5173,http://localhost:4173"
+SITE_URL = "https://pressstartgames.net/beta"
 API_URL = "https://pressstartgames.net"
 MAIL_FROM = "Press Start <beta@pressstartgames.net>"
 ADMIN_ORIGINS = "https://admin.pressstartgames.net,http://localhost:5175"
@@ -113,8 +113,8 @@ routes = [{ pattern = "pressstartgames.net/api/v1/*", zone_name = "pressstartgam
 workers_dev = true
 
 [env.production.vars]
-ALLOWED_ORIGINS = "https://beta.pressstartgames.net,https://pressstartgames.github.io,http://localhost:5173,http://localhost:4173"
-SITE_URL = "https://beta.pressstartgames.net"
+ALLOWED_ORIGINS = "https://pressstartgames.net,https://beta.pressstartgames.net,https://pressstartgames.github.io,http://localhost:5173,http://localhost:4173"
+SITE_URL = "https://pressstartgames.net/beta"
 API_URL = "https://pressstartgames.net"
 MAIL_FROM = "Press Start <beta@pressstartgames.net>"
 ADMIN_ORIGINS = "https://admin.pressstartgames.net,http://localhost:5175"
@@ -124,7 +124,7 @@ DAILY_SEND_CAP = "80"
 # New in Phase 6 and a no-op today (a Resend key already means live); explicit so a missing value can
 # never silently put production in log mode.
 MAIL_MODE = "live"
-# Phase 7 changes SITE_URL to https://pressstartgames.net/beta and adds the root origin to ALLOWED_ORIGINS.
+# Phase 7 (2026-11-05): SITE_URL is the beta on the root domain; the old beta origin stays allowed during the switch.
 
 [env.production.triggers]
 crons = ["*/15 * * * *"]

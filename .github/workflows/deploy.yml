@@ -1,15 +1,10 @@
-# Client -> GitHub Pages (gh-pages branch) on every push to main. The Worker deploys separately
-# (deploy-server.yml). The site is served on the custom domain https://beta.pressstartgames.net
-# (client/public/CNAME), so VITE_BASE is /.
-#
-# This is the LIVE beta and stays as it is until the Phase 7 cut-over (the main site and /beta move to
-# Cloudflare, beta.pressstartgames.net redirects); Pages is retired after that. The environment workflows
-# (deploy-staging.yml, deploy-production.yml, preview.yml) do not touch it.
-name: Deploy site
+# RETIRED 2026-11-05 (plans/main-site.md Phase 7). The site now runs on Cloudflare (site-worker/, deployed by
+# deploy-staging.yml and deploy-production.yml); beta.pressstartgames.net is a 301 to https://pressstartgames.net/beta
+# (beta-redirect/, the beta DNS record proxied). This GitHub Pages job is kept for a two-week grace period as a
+# manual fallback only: set the beta DNS record back to DNS only, then run it by hand. Delete it after the grace.
+name: Deploy site (GitHub Pages, retired)
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
