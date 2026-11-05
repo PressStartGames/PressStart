@@ -25,8 +25,7 @@ kicker: Tests, not eyes.
 headline: A game engine an AI can build in, and prove.
 cta: Join the beta | See what is built ↓
 
-Press Start is built on Bevy. Your agent writes the game as documents, runs it on a fixed tick, and proves every
-frame against a reference. Same seed, same inputs, same game. Every time.
+Your agent writes the game as documents, runs it on a fixed tick, and proves every frame against a reference. Same seed, same inputs, same game. Every time.
 
 small: Private beta. Version 1 is not public yet. Windows first.
 
@@ -66,7 +65,7 @@ headline: An engine whose first user is an agent. You direct it.
 spec-label: spec sheet
 
 **Everything is a document.** Scenes, laws and assets are files an agent can read and write. {{crates}} engine
-crates cover what Bevy leaves out: terrain, shaders, physics, animation, UI, navigation, networking and more.
+crates cover terrain, shaders, physics, animation, UI, navigation, networking and more.
 
 **The game answers back.** A running game answers four verbs: *query*, *command*, *capture*, *control*. Your agent
 asks, edits, looks and steps through the same door a player uses.
@@ -90,15 +89,12 @@ headline: How an agent builds a game here.
 
 procedure-label: procedure
 
-sample-caption: press_start_testkit's own test, copied verbatim from docs/00-build-a-game/test-app.md
+sample-caption: press_start_testkit's own test, copied from docs/00-build-a-game/test-app.md (imports trimmed)
 sample-commit: 45aeffd2a2ecc3b3049819151abfc1c1343fb2aa
 sample-source: docs/00-build-a-game/test-app.md
-sample-lines: 15-17 | 19-20 | 22 | 23
+sample-lines: 12-14 | 16-17 | 19 | 20
 
 ```rust
-use bevy::app::FixedUpdate;
-use bevy::ecs::resource::Resource;
-use bevy::ecs::system::ResMut;
 use press_start_test_app::{advance, fixed_step_app};
 
 #[derive(Resource, Default)]
@@ -140,7 +136,7 @@ agent can hand to another. *Today: the same build on the same platform.*
 kicker: every core
 headline: All your cores. The same answer.
 
-Bevy runs your game's systems across every core of the machine, and Press Start keeps it that way: nothing is
+Press Start runs your game's systems across every core of the machine, and nothing is
 slowed to a single thread to make it reproducible. Our gate refuses two systems that touch the same data in no
 declared order, and names both. A parallel sum must be ordered or order-independent, never "whatever the scheduler
 did". So the replay does not depend on how many cores ran it.
@@ -217,7 +213,7 @@ bar-legend: BUILT | PARTIAL | SKIP | not yet
 
 ## roadmap
 
-headline: Where we are, honestly.
+headline: Where we are.
 
 Press Start is not public yet. This is the road to version 1, in order:
 
@@ -244,7 +240,7 @@ We will email you when your invite is ready. Nothing else, unless you ask.
 
 field-email: Email
 field-role: What do you build? (optional)
-field-role-options: Games with AI agents | AI tools | Bevy projects | Something else
+field-role-options: Games with AI agents | AI tools | Rust games | Something else
 cta: Request access
 busy: Sending…
 state-success: Check your inbox to confirm.
@@ -272,12 +268,10 @@ manual-label: manual
    require one.
 3. **Which AI does it work with?** Your own. The engine exposes data and verbs, not a model. *(Keep this line until
    the editor's agent door is specified; do not name a vendor.)*
-4. **Is it a Bevy fork?** No. It is built around Bevy 0.19: each system is a Bevy plugin plus our own document
-   formats, and a game is a normal Rust codebase you own.
-5. **Which platforms?** Windows first at version 1. More platforms follow.
-6. **How much will it cost?** Using and shipping is free below a revenue threshold. The threshold and the rate are
+4. **Which platforms?** Windows first at version 1. More platforms follow.
+5. **How much will it cost?** Using and shipping is free below a revenue threshold. The threshold and the rate are
    set with the licence text.
-7. **When?** When version 1 passes its release gate. We do not publish dates we have not earned.
+6. **When?** When version 1 passes its release gate. We do not publish dates we have not earned.
 
 ## footer
 
@@ -344,17 +338,17 @@ cta: Join the beta
 
 label: Footer
 legal: Privacy | Terms | Cookies
-line: A game engine built around Bevy. Version 1 is not public yet.
+line: A game engine an AI can build in. Version 1 is not public yet.
 
 ## site-home
 
 title: Press Start · A game engine an AI can build in, and prove.
-description: Press Start is a game engine built around Bevy whose first user is an AI agent: scenes, laws and assets as documents, deterministic replay, and every feature measured against a reference tool.
+description: Press Start is a game engine whose first user is an AI agent: scenes, laws and assets as documents, deterministic replay, and every feature measured against a reference tool.
 kicker: Tests, not eyes.
 headline: A game engine an AI can build in, and prove.
 cta: Join the beta | Read about the engine
 
-Press Start is built around Bevy. Your agent writes the game as documents, runs it on a fixed tick, and proves
+Your agent writes the game as documents, runs it on a fixed tick, and proves
 every frame against a reference. The main site is being designed; the beta's page tells the whole story today.
 
 ## site-not-found
@@ -370,12 +364,12 @@ There is nothing at this address.
 ## page-engine
 
 title: The engine · Press Start
-description: What Press Start is: a game engine built around Bevy, every system a document plus a plugin.
+description: What Press Start is: a game engine where every system is a document plus a plugin.
 kicker: The engine
-headline: Built around Bevy, written as documents.
+headline: An engine written as documents.
 
-{{crates}} engine crates cover what Bevy leaves out. Every system is a document plus a plugin, validated before
-the app exists. This page will walk through the engine one strength at a time.
+{{crates}} engine crates. Every system is a document plus a plugin, validated before the app
+exists. This page will walk through the engine one strength at a time.
 
 ## page-engine-determinism
 
@@ -420,11 +414,11 @@ exposes data and verbs; you bring the agent. This page is a placeholder.
 ## page-engine-ownership
 
 title: Ownership · Press Start
-description: A game on Press Start is Rust code on Bevy.
+description: A game on Press Start is your own Rust code.
 kicker: Ownership
 headline: The game is your code.
 
-A game on Press Start is a Rust workspace on Bevy. The source-available licence is on the road; its terms are not
+A game on Press Start is a Rust workspace you own. The source-available licence is on the road; its terms are not
 written yet. This page is a placeholder.
 
 ## page-showcase
@@ -482,7 +476,7 @@ description: The mission and the method behind Press Start.
 kicker: About
 headline: Tests, not eyes.
 
-Press Start is a game engine built around Bevy whose first user is an AI agent. Every feature can fail a test; the
+Press Start is a game engine whose first user is an AI agent. Every feature can fail a test; the
 misses are counted and published.
 
 ## page-community
