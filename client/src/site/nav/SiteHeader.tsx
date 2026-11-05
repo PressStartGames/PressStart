@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
+import { flushSync } from 'react-dom';
 import { Link } from 'react-router';
 import { field } from '../../content';
 import { BASE, FLAGS } from '../../lib/config';
@@ -55,9 +56,9 @@ export function SiteHeader() {
     const i = GROUPS.indexOf(g);
     if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setOpen(g);
-      // The panel is in the DOM already (hidden by CSS); focus its first link once it shows.
-      requestAnimationFrame(() => panelLinks(g)[0]?.focus());
+      // Show the panel now (it is in the DOM, hidden by CSS), then move focus to its first link.
+      flushSync(() => setOpen(g));
+      panelLinks(g)[0]?.focus();
     } else if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
       e.preventDefault();
       const next = GROUPS[(i + (e.key === 'ArrowRight' ? 1 : GROUPS.length - 1)) % GROUPS.length];

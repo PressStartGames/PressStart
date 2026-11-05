@@ -124,7 +124,7 @@ test('the footer links Discord and the whole site map', async ({ page }) => {
 test('the mega-menu works by keyboard: open, arrows, Escape, focus returns', async ({ page }) => {
   test.skip(isPhone(), 'the phone has the drawer instead');
   await page.goto('/');
-  const nav = page.getByRole('navigation', { name: 'Site' });
+  const nav = page.getByRole('navigation', { name: 'Site', exact: true });
   const engine = nav.getByRole('button', { name: 'Engine' });
   await expect(engine).toHaveAttribute('aria-expanded', 'false');
   await engine.focus();
@@ -161,7 +161,7 @@ test('client navigation through the menu updates the title and lands on the page
       .getByRole('link', { name: /Oracles/ })
       .click();
   } else {
-    const nav = page.getByRole('navigation', { name: 'Site' });
+    const nav = page.getByRole('navigation', { name: 'Site', exact: true });
     await nav.getByRole('button', { name: 'Engine' }).click();
     await nav.getByRole('link', { name: /Oracles/ }).click();
   }
@@ -264,7 +264,7 @@ test('the main site renders without JavaScript', async ({ browser, baseURL }) =>
   }
   await page.goto(`${baseURL}/`);
   await page
-    .getByRole('navigation', { name: 'Site' })
+    .getByRole('navigation', { name: 'Site', exact: true })
     .getByRole('button', { name: 'Engine' })
     .focus();
   await expect(page.getByRole('link', { name: /Determinism/ }).first()).toBeVisible();
