@@ -9,7 +9,7 @@ import styles from './Status.module.css';
 
 const S = 'site-home-status';
 
-// Where we are, honestly: the catalog by area (synced) and the road in order, without dates.
+// Where we are: the catalog by area (synced) and the road in order, without dates.
 export function Status() {
   const body = section(S).blocks.flatMap((b) => (b.type === 'p' ? [b.text] : []));
   const road = rows(S, 'road');

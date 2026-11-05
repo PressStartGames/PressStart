@@ -13,7 +13,7 @@ const DISCORD_URL =
   )?.[1] ?? 'missing';
 
 const PAGES = [
-  { path: '/engine/', h1: 'Built around Bevy, written as documents.' },
+  { path: '/engine/', h1: 'An engine written as documents.' },
   { path: '/engine/oracles/', h1: 'Measured against a reference.' },
   { path: '/engine/determinism/', h1: 'Same seed, same inputs, same game.' },
   { path: '/roadmap/', h1: 'The road, in order.' },

@@ -11,7 +11,7 @@ import styles from './Page.module.css';
 import { PageHead } from './PageHead';
 
 // Every main-site page outside the home page arrives here with its id (routes.tsx). The designed
-// pages (/engine, /engine/oracles) render themselves; every other page is an honest placeholder: its
+// pages (/engine, /engine/oracles) render themselves; every other page is a plain placeholder: its
 // own head, a note that it is being written, and the pages that exist today.
 export function Stub({ id = '' }: { id?: string }) {
   if (id === 'engine') return <EnginePage />;

@@ -39,12 +39,12 @@ No JS: panels open on `:hover`/`:focus-within`; on a phone "Menu" is a link to t
    capture, control as console keys; each shows a plain-words exchange (illustration, not the wire format).
 5. **02 Prove** — four **evidence cards** (same seed, all cores, a reference, pictures are tests), each a
    small live diagram and a link to its strength page.
-6. **03 Own the code** — the game as a **cartridge** you own: Rust on Bevy, fixed at the root, nothing
+6. **03 Own the code** — the game as a **cartridge** you own: plain Rust, fixed at the root, nothing
    requires a login (decided), source-available with version 1 (road). True-today and road visibly split.
-7. **Status board** — "Where we are, honestly": the catalog by area (synced), BUILT / PARTIAL / SKIP bars,
+7. **Status board** — "Where we are": the catalog by area (synced), BUILT / PARTIAL / SKIP bars,
    and the road's stops without dates.
 8. **Made for** — four audiences, one line each.
-9. **Learn + Licensing teasers** — two cards, honest about what exists today.
+9. **Learn + Licensing teasers** — two cards, plain about what exists today.
 10. **Join band** — the closing CTA.
 
 **Footer** — a full site map in four columns (the no-JS phone menu points here), the line, legal links.
@@ -55,9 +55,9 @@ the engine covers" (synced catalog areas); a true-today / on-the-road ledger.
 **`/engine/oracles`** (the strength page) — the method in three steps (same scene in both → both numbers
 recorded → disagreements resolve toward the reference); a **split-flap reference board** (domain →
 reference tool, plain mono text, no logos); the two rules (parity is the bar; speed at the reference's
-thread count); one accepted golden in a review frame with its provenance row; the honest misses.
+thread count); one accepted golden in a review frame with its provenance row; the recorded misses.
 
-**Other routes** — a styled placeholder: the page's own kicker, h1 and honest copy, a "what exists today"
+**Other routes** — a styled placeholder: the page's own kicker, h1 and plain copy, a "what exists today"
 panel linking to the designed pages. No lorem, no fake content.
 
 ## Motion moments (GSAP lazy-loaded after idle; CSS for the rest)
@@ -83,6 +83,6 @@ Compositor-only (transform/opacity), no layout animation, nothing loops after it
 - Hero/console: determinism — the same seed gives the same checksums, another seed does not.
 - Facts: every count is synced from the engine (`counts.json`), never typed.
 - Build: the engine is data and verbs an agent can use; no MCP is claimed — "your own AI".
-- Prove: determinism, ordered parallelism, oracles, goldens — each with its honesty line.
-- Own: real Rust on Bevy today; licence and login decisions worded as the road.
+- Prove: determinism, ordered parallelism, oracles, goldens — each with its line on what is and is not claimed.
+- Own: a real Rust workspace today; licence and login decisions worded as the road.
 - Status: the misses are published (BUILT/PARTIAL/SKIP per area); no dates.

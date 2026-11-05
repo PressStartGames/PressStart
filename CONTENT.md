@@ -347,7 +347,7 @@ move-notes: Write the game as files an agent can read | Show it is right, with n
 engine-build: engine-ai = The AI surface = Four verbs your agent uses to ask, edit, look and step
 engine-prove: engine-determinism = Determinism = Same seed, same inputs, same game | engine-parallel = Parallel = All your cores, the same answer | engine-oracles = Oracles = Held against the tools the industry trusts
 engine-own: engine-ownership = Ownership = The game is a Rust workspace you own | licensing = Licensing = Source-available, with version 1
-overview: engine = The engine = Built around Bevy, written as documents. Start here for the whole map.
+overview: engine = The engine = Written as documents, proven by tests. Start here for the whole map.
 resources: learn = Learn = The shape of a game on Press Start | roadmap = Roadmap = The road to version 1, in order | showcase = Showcase = The first game, Team Fights | news = News = Version notes, once there are versions
 company: about = About = The mission and the method | community = Community = Discord, and the people building it | licensing = Licensing = How the engine will be licensed
 beta: Private beta · Version 1 is not public yet. Join to hear first.
@@ -356,7 +356,7 @@ beta: Private beta · Version 1 is not public yet. Join to hear first.
 
 label: Footer
 legal: Privacy | Terms | Cookies
-line: A game engine built around Bevy. Version 1 is not public yet.
+line: The engine an AI builds games in. Version 1 is not public yet.
 map-label: Site map
 columns: Engine | Prove | Resources | Company
 synced: Counts synced from the engine at commit
@@ -366,13 +366,13 @@ discord-note: Talk with the people building Press Start
 ## site-home
 
 title: Press Start · A game engine an AI can build in, and prove.
-description: Press Start is a game engine built around Bevy whose first user is an AI agent: the game written as documents, a replay that is exact, and every feature measured against a reference tool.
+description: Press Start is a game engine whose first user is an AI agent: the game written as documents, a replay that is exact, and every feature measured against a reference tool.
 kicker: Private beta · Windows first
 headline: A game engine an AI can build in, and prove.
 cta: Join the beta | Explore the engine
 
 Your agent writes the game as documents, runs it on a fixed tick and proves every frame against a reference.
-Same seed, same inputs, same game. Built around Bevy, and the code is yours.
+Same seed, same inputs, same game, and the code stays yours.
 
 ## site-home-console
 
@@ -398,7 +398,7 @@ caption: Drawn in your browser: a small simulation stepped from one seed on a fi
 *(Every number is a placeholder synced from the engine; never typed.)*
 
 label: In numbers, synced from the engine
-items: {{crates}} = engine crates = what Bevy leaves out, built | {{catalog.built}} = things built = of the {{catalog.total}} an engine needs | {{oracles}} = reference tools = that hold the engine to account | {{goldens.accepted}} = accepted goldens = pictures that are tests
+items: {{crates}} = engine crates = from terrain to networking, built | {{catalog.built}} = things built = of the {{catalog.total}} an engine needs | {{oracles}} = reference tools = that hold the engine to account | {{goldens.accepted}} = accepted goldens = pictures that are tests
 
 ## site-home-moves
 
@@ -408,7 +408,7 @@ headline: Build it as data. Prove it. Own it.
 Most engines are built for a human with a mouse. Press Start is built so that an agent can do the work and
 you can trust what it did: the game is files, the proof is numbers, and the code stays yours.
 
-items: build = Build as data = Scenes, rules and assets are documents. Your agent reads and writes them; the running game answers back. | prove = Prove = Every feature can fail a test. Replays are exact, threads keep their order, and a reference tool checks the result. | own = Own the code = A game is a Rust workspace on Bevy. It opens, reads and runs without us.
+items: build = Build as data = Scenes, rules and assets are documents. Your agent reads and writes them; the running game answers back. | prove = Prove = Every feature can fail a test. Replays are exact, threads keep their order, and a reference tool checks the result. | own = Own the code = A game is a Rust workspace you own. It opens, reads and runs without us.
 
 ## site-home-build
 
@@ -416,7 +416,7 @@ kicker: 01 · Build as data
 headline: Everything is a document. The game answers back.
 
 A scene is a file, not a pile of clicks: a base plus patches, every field set by name and checked before
-the game starts. A refusal names the value and the fix. {{crates}} engine crates cover what Bevy leaves out:
+the game starts. A refusal names the value and the fix. {{crates}} engine crates cover the systems a game needs:
 terrain, physics, animation, UI, navigation, networking and more.
 
 A running game answers four verbs. Your agent asks, edits, looks and steps through the same door a player
@@ -449,20 +449,20 @@ small: Parity with each reference is the bar, not a claim. The misses are writte
 kicker: 03 · Own the code
 headline: The game is your code.
 
-A game on Press Start is a Rust workspace on Bevy: it opens, reads and runs without us. A bug a game finds is
+A game on Press Start is a plain Rust workspace: it opens, reads and runs without us. A bug a game finds is
 fixed in the engine, at its root, never patched around in your code.
 
 today-label: True today
-today: A Rust workspace on Bevy | Every system a Bevy plugin plus a document | Bugs fixed in the engine, at the root
+today: A plain Rust workspace | Every system a plugin plus a document | Bugs fixed in the engine, at the root
 road-label: On the road, with version 1
 road: Source-available: free to make and ship, a royalty only above a threshold | An optional account; nothing requires a login | Works fully offline · Windows first
 cart-label: your game
-cart-lines: Rust · Bevy | your repository | yours to ship
+cart-lines: Rust workspace | your repository | yours to ship
 link: Ownership and licensing
 
 ## site-home-status
 
-kicker: Where we are, honestly
+kicker: Where we are
 headline: Version 1 is not public yet. Here is how far it is.
 
 We keep a checklist of everything a game engine needs: {{catalog.total}} things in seven areas. A thing counts as
@@ -481,7 +481,7 @@ link: The whole road
 kicker: Made for
 headline: Who it is for.
 
-items: Studios and solo developers = who want an AI to do real work on a real game, and need to trust what it did. | Teams burned by flaky tests = who want a fixed tick, a seed, and a replay that is exact by construction. | Bevy projects = that need the missing pieces, built once, measured against the industry's tools, and owned as Rust. | Builders of AI tools for games = who need an engine that answers questions instead of being screenshotted.
+items: Studios and solo developers = who want an AI to do real work on a real game, and need to trust what it did. | Teams burned by flaky tests = who want a fixed tick, a seed, and a replay that is exact by construction. | Rust developers = who want the pieces a game needs, built once, measured against the industry's tools, and owned as Rust. | Builders of AI tools for games = who need an engine that answers questions instead of being screenshotted.
 
 ## site-home-next
 
@@ -519,24 +519,24 @@ crumbs: Breadcrumb
 ## page-engine
 
 title: The engine · Press Start
-description: What Press Start is: a game engine built around Bevy, every system a document plus a plugin, every feature able to fail a test.
+description: What Press Start is: the engine an AI builds games in, every system a document plus a plugin, every feature able to fail a test.
 kicker: The engine
 headline: An engine written as documents.
 
-Press Start is a game engine built around Bevy, with an AI agent as its first user. {{crates}} engine crates
-cover what Bevy leaves out. Every system is a document plus a plugin, checked before the game starts; every
-feature can fail a test; the game you build is Rust code you own.
+Press Start is a game engine with an AI agent as its first user. {{crates}} engine crates cover the
+systems a game needs, from terrain to networking. Every system is a document plus a plugin, checked before
+the game starts; every feature can fail a test; the game you build is Rust code you own.
 
 ## site-engine
 
 *(The /engine page below its header: the three moves as chapters, the catalog, the ledger.)*
 
-chapters: build = Build as data = The game is written as documents: scenes, rules, materials, rigs and UI, all data with one canonical byte form. A running game answers four verbs. | prove = Prove = Every claim has a test behind it: an exact replay, an ordered schedule, a reference tool, a golden picture. | own = Own the code = A game is a Rust workspace on Bevy. What the engine depends on is vendored, patched and owned.
+chapters: build = Build as data = The game is written as documents: scenes, rules, materials, rigs and UI, all data with one canonical byte form. A running game answers four verbs. | prove = Prove = Every claim has a test behind it: an exact replay, an ordered schedule, a reference tool, a golden picture. | own = Own the code = A game is a Rust workspace you own. What the engine depends on is vendored, patched and owned.
 pages-label: Read the detail
 covers-label: What the engine covers
 covers: A checklist of {{catalog.total}} things a game engine needs, in seven areas. Built means a test holds every clause.
 ledger-label: True today, and on the road
-today: Built around Bevy · {{crates}} engine crates | Every system a document plus a plugin, validated before the app exists | Four verbs: query, command, capture, control, plus input injection | Exact replay on the same build and platform | Held against {{oracles}} reference tools | Pictures checked against {{goldens.accepted}} accepted goldens | The first game, Team Fights, built on the crates
+today: {{crates}} engine crates, from terrain to networking | Every system a document plus a plugin, validated before the app exists | Four verbs: query, command, capture, control, plus input injection | Exact replay on the same build and platform | Held against {{oracles}} reference tools | Pictures checked against {{goldens.accepted}} accepted goldens | The first game, Team Fights, built on the crates
 road: The editor, with an undo for every change | A launcher, a new project, save, build, Windows export | An optional login nothing requires; fully offline | The source-available licence text | The public repository
 today-head: True today
 road-head: On the road · no dates
@@ -608,7 +608,7 @@ description: A game on Press Start is your own Rust code.
 kicker: Ownership
 headline: The game is your code.
 
-A game on Press Start is a Rust workspace on Bevy. The source-available licence is on the road; its terms are not
+A game on Press Start is a Rust workspace you own. The source-available licence is on the road; its terms are not
 written yet. This page is being written.
 
 ## page-showcase

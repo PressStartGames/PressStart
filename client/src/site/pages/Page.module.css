@@ -112,7 +112,7 @@
   margin-top: 0.8em;
 }
 
-/* Placeholder pages: one honest panel, then the pages that exist. */
+/* Placeholder pages: one plain panel, then the pages that exist. */
 .stub {
   padding-block: 56px var(--section-pad);
 }

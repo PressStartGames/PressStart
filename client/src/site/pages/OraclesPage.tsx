@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import { Link } from 'react-router';
 import { field } from '../../content';
-import { rowFor } from '../../lib/renders';
+import { crateLabel, rowFor } from '../../lib/renders';
 import { crumbsFor, GOLDEN_FILE, href, list, navEntry, rows } from '../data';
 import { Golden } from '../Golden';
 import { JoinBand } from '../JoinBand';
@@ -116,7 +116,7 @@ export function OraclesPage() {
                 <dl className={styles.provenance}>
                   <div>
                     <dt>{crate}</dt>
-                    <dd>{golden.crate}</dd>
+                    <dd>{crateLabel(golden.crate)}</dd>
                   </div>
                   <div>
                     <dt>{test}</dt>
