@@ -210,6 +210,20 @@ The founder's taste, in their words (2026-11-01): "less technical, more friendly
 proof"; "the colour scheme was a bit boring"; "the animation should be more elaborate"; "no placeholders, real
 data"; "first solid design and sign-ups". Act accordingly before adding anything.
 
+## Analytics, consent and flags (plans/main-site.md phases 4-5)
+
+All off when its env value is unset. Public build-time vars (never secrets): `VITE_GA_MEASUREMENT_ID` (GA4, `G-...`;
+also enables the banner), `VITE_CF_BEACON_TOKEN` (Cloudflare Web Analytics, cookieless), `VITE_GROWTHBOOK_CLIENT_KEY` and
+`VITE_GROWTHBOOK_API_HOST` (default https://cdn.growthbook.io), `VITE_FLAG_JOIN_BETA=off` (fallback when GrowthBook is
+absent). Worker vars for `edge/`: `GROWTHBOOK_CLIENT_KEY`, `GROWTHBOOK_API_HOST`. Each needs a staging and a production value.
+
+- Consent: `src/lib/consent.ts` (choice in localStorage; Accept also writes the functional cookie `ps_consent=granted`),
+  `components/ConsentBanner.tsx` (lazy, mounted in App.tsx after hydration), `<CookieSettings item />` in each footer,
+  `lib/analytics.ts` (lazy: Consent Mode defaults denied first, gtag.js only after Accept, events). `track()` is a no-op
+  until Accept. Never add a tag or cookie outside this path.
+- Flags: `lib/flags.ts`; use `useJoinBeta()` (`{on, label}`); `FLAGS.joinBeta` still works (App re-mounts when a flag changes).
+- Experiments are chosen at the edge: see `edge/README.md`. A variant's copy is the control's CONTENT.md field plus `-b`.
+
 ## Pitfalls
 
 - **Windows + bash**: `/tmp` in bash is `C:\Users\neta\AppData\Local\Temp`, but Node resolves `/tmp` to

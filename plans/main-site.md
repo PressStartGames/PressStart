@@ -39,8 +39,8 @@ Update the status column as phases land.
 | 1 | Routing skeleton: one app, `/` and `/beta/*` | Claude (agent) | Opus | done (local, branch main-site/routing) |
 | 2 | Four layouts for `/`, one worktree each | Claude (4 agents) | Opus | open |
 | 3 | The React standard (skill + lint) for all three apps | Claude (agent) | Sonnet | done (local, merged into main-site/routing) |
-| 4 | Analytics with consent, the new promise | Claude (agent) | Sonnet | open |
-| 5 | Feature flags and split testing (GrowthBook) | Claude (agent) + founder (account) | Sonnet | open |
+| 4 | Analytics with consent, the new promise | Claude (agent) | Sonnet | done locally (branch main-site/analytics-flags); needs the GA4 measurement IDs, the Cloudflare Web Analytics token and the founder's approval of the privacy wording |
+| 5 | Feature flags and split testing (GrowthBook) | Claude (agent) + founder (account) | Sonnet | done locally (branch main-site/analytics-flags); needs the GrowthBook account, SDK client keys (staging + production), the `join-beta-cta` and `home-headline` features created, and Phase 6's Worker wired to edge/ |
 | 6 | Environments and the pipeline | Claude (agent) + founder (token, keys) | Sonnet | open |
 | 7 | Production cut-over | Claude + founder (approval) | — | open |
 

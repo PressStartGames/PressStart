@@ -90,7 +90,10 @@ The e2e suite covers all three.
 - **The honesty section is on the home page** ("Where we are, honestly", plus the hero's small line).
 - **No dates promised** for the beta or version 1. The present tense only for what is true today (the skill lists
   true today vs roadmap). The engine's internal build lane is never mentioned; no MCP server is claimed.
-- No cookies, no trackers; analytics is Cloudflare Web Analytics (cookieless), added at M4. Secrets never committed
+- The promise (exactly true, wording pending the founder): we never sell or share data; visits are counted
+  cookie-free with Cloudflare Web Analytics; Google Analytics 4 loads only after the visitor presses Accept in the
+  consent banner (Consent Mode v2, defaults denied); the beta email is used only for beta news. No cookie is set
+  before consent. Secrets never committed
   (Worker secrets via `wrangler secret put`; Actions secrets for Cloudflare deploys).
 
 ## Design direction (PLAN.md §0a and §4 — our palette and type, never Elyx's)
