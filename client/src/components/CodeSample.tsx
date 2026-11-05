@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import styles from './CodeSample.module.css';
 
 // Selectable code in the mono face. The text is copied verbatim from the engine (CONTENT.md records
@@ -19,6 +20,7 @@ export function CodeSample({
 }) {
   const lines = text.split('\n');
   const dimming = lit.length > 0;
+  const captionId = useId();
   return (
     <figure className={styles.figure} data-lit={dimming || undefined}>
       <div className={styles.chrome} aria-hidden="true">
@@ -28,7 +30,13 @@ export function CodeSample({
         <span className={styles.lang}>{lang}</span>
         <span className={styles.progress} ref={progressRef} />
       </div>
-      <pre className={styles.pre} tabIndex={0}>
+      <pre
+        className={styles.pre}
+        tabIndex={0}
+        role="region"
+        aria-labelledby={caption ? captionId : undefined}
+        aria-label={caption ? undefined : lang}
+      >
         <code>
           {lines.map((line, i) => {
             const c = line.indexOf('//');
@@ -48,7 +56,11 @@ export function CodeSample({
           })}
         </code>
       </pre>
-      {caption && <figcaption className={styles.caption}>{caption}</figcaption>}
+      {caption && (
+        <figcaption id={captionId} className={styles.caption}>
+          {caption}
+        </figcaption>
+      )}
     </figure>
   );
 }
