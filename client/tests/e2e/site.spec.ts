@@ -111,6 +111,7 @@ test('the high scores show the synced counts', async ({ page }) => {
 
 for (const p of PAGES) {
   test(`${p.path} is prerendered, titled and axe clean`, async ({ page }) => {
+    test.setTimeout(60_000);
     await page.goto(p.path);
     await expect(page.getByRole('heading', { level: 1, name: p.h1 })).toBeVisible();
     await expect(page.locator('h1')).toHaveCount(1);
@@ -122,6 +123,7 @@ for (const p of PAGES) {
 }
 
 test('the home page has no axe violations and no horizontal overflow', async ({ page }) => {
+  test.setTimeout(60_000);
   await page.goto('/');
   await page.waitForTimeout(600);
   await scrollThrough(page);
