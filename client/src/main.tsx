@@ -3,7 +3,14 @@ import { hydrateRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
 import { App } from './App';
 import { loadArea } from './lib/areas';
-import { ROUTER_BASENAME as basename } from './lib/config';
+import {
+  ANALYTICS_ENABLED,
+  CF_BEACON_TOKEN,
+  GROWTHBOOK_API_HOST,
+  GROWTHBOOK_CLIENT_KEY,
+  ROUTER_BASENAME as basename,
+} from './lib/config';
+import { initFlags } from './lib/flags';
 import { resolveRoute } from './routes';
 
 // `js` is set by the inline script in index.html before paint; `hydrated` marks that React is about
@@ -29,4 +36,13 @@ void loadArea(resolveRoute(location.pathname, basename).area).then(() => {
       </BrowserRouter>
     </StrictMode>,
   );
+});
+
+// Analytics and flags start once the page is interactive, never in the way of the first paint.
+const idle: (cb: () => void) => void =
+  window.requestIdleCallback?.bind(window) ?? ((cb) => window.setTimeout(cb, 300));
+idle(() => {
+  if (ANALYTICS_ENABLED || CF_BEACON_TOKEN)
+    void import('./lib/analytics').then((m) => m.initAnalytics());
+  void initFlags(GROWTHBOOK_CLIENT_KEY, GROWTHBOOK_API_HOST);
 });

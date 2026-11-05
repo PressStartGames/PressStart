@@ -11,6 +11,7 @@
 import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { EXPERIMENTS, variantFile } from '../../edge/config.ts';
 
 const dist = resolve(process.env.DIST ?? 'dist');
 const ssrDist = resolve(process.env.SSR_DIST ?? 'dist-ssr');
@@ -29,7 +30,10 @@ const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as Record<string
 const { render, PRERENDER, AREA_MODULES } = (await import(
   pathToFileURL(join(ssrDist, 'entry-server.js')).href
 )) as {
-  render: (url: string) => Promise<{ html: string; head: string; area: string }>;
+  render: (
+    url: string,
+    variants?: Record<string, string>,
+  ) => Promise<{ html: string; head: string; area: string }>;
   PRERENDER: Array<{ url: string; file: string }>;
   AREA_MODULES: Record<string, string>;
 };
@@ -91,6 +95,26 @@ for (const r of PRERENDER) {
   mkdirSync(dirname(out), { recursive: true });
   writeFileSync(out, page);
   console.log(`prerendered ${r.url} -> ${r.file} (${area})`);
+}
+
+// One extra page per experiment variant (edge/config.ts): the same route rendered as that variant, written under
+// _variants/<experiment>/<variant>/ for the edge Worker to serve (edge/experiments.ts). The page says which variant
+// it is (read at hydration so React adopts it unchanged) and is kept out of search results.
+for (const exp of EXPERIMENTS) {
+  for (const variant of exp.variants.filter((v) => v !== exp.control)) {
+    const { html, head, area } = await render(exp.route, { [exp.id]: variant });
+    const marks = [
+      `<meta name="ps-variant" content="${exp.id}:${variant}" />`,
+      '<meta name="robots" content="noindex" />',
+    ];
+    const page = template
+      .replace('<!--app-head-->', [head, ...marks, preload, areaTags(area)].join('\n    '))
+      .replace('<!--app-html-->', html);
+    const out = join(dist, variantFile(exp, variant));
+    mkdirSync(dirname(out), { recursive: true });
+    writeFileSync(out, page);
+    console.log(`prerendered variant ${exp.id}:${variant} -> ${variantFile(exp, variant)}`);
+  }
 }
 
 // The manifest is a build input, not part of the site.

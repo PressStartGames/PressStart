@@ -14,6 +14,11 @@ for (const [mode, vars] of Object.entries(modes)) {
     ...process.env,
     ...vars,
     VITE_BASE: '/',
+    // Fake analytics and flag ids so the consent and flag paths run; the specs stub every request they make.
+    VITE_GA_MEASUREMENT_ID: 'G-E2ETEST000',
+    VITE_CF_BEACON_TOKEN: 'e2e-fake-beacon-token',
+    VITE_GROWTHBOOK_CLIENT_KEY: 'sdk-e2efake',
+    VITE_GROWTHBOOK_API_HOST: 'http://127.0.0.1:9',
     DIST: `dist-e2e/${mode}`,
     SSR_DIST: `dist-e2e/${mode}-ssr`,
   };

@@ -6,6 +6,7 @@ import { Screen } from '../components/Screen';
 import { field, section, splitList } from '../content';
 import { Inline } from '../content/inline';
 import { CONSENT_VERSION, TURNSTILE_SITE_KEY, signupMode } from '../lib/config';
+import { track } from '../lib/track';
 import { reduce, submitSignup, type SignupState } from '../lib/signup';
 import { getTurnstileToken } from '../lib/turnstile';
 import styles from './Signup.module.css';
@@ -179,6 +180,7 @@ function LiveForm() {
       turnstileToken,
       consentVersion: CONSENT_VERSION,
     });
+    if (result === 'ok' || result === 'ok-list') track('sign_up_submitted');
     const commit = () => dispatch({ type: 'resolve', result });
     const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
     if (

@@ -4,7 +4,7 @@ All words on the site live here, one `## <section-id>` per section, in page orde
 `headline:`, `kicker:`, `cta:` lines, then Markdown body). Numbers are placeholders filled from
 `client/data/counts.json` at build (written by `client/scripts/sync-engine-facts.ts` against the engine repository);
 never type a count by hand. First draft from PLAN.md §3 (2026-11-01), shaved on the founder's note of the same day
-("less technical, more friendly; keep the proof"); lines in *(italics, parentheses)* are notes to the builder, not
+("less technical, more friendly; keep the proof"); lines in _(italics, parentheses)_ are notes to the builder, not
 copy. Counts on 2026-11-01: catalog 404 entries, 103 BUILT, 129 PARTIAL, 32 SKIP; 89 crates; 71 reference tools;
 189 accepted goldens.
 
@@ -16,8 +16,8 @@ cta: Join the beta
 menu: Menu
 index: 00 boot | 01 fault | 02 spec | 03 procedure | 04 proof | 05 cores | 06 reference | 07 goldens | 08 levels | 09 road | 10 insert | 11 manual
 
-*(The pill is fixed top-right on every scroll position and scrolls to `#signup`. The bar turns translucent after
-80 px of scroll.)*
+_(The pill is fixed top-right on every scroll position and scrolls to `#signup`. The bar turns translucent after
+80 px of scroll.)_
 
 ## hero
 
@@ -42,9 +42,9 @@ replay-fail: FAIL
 replay-match: checksums match
 replay-event: input tape
 
-*(Visual: "two runs, one game" — two panels of the same simulation state, `run A` / `run B`, over the checksum
+_(Visual: "two runs, one game" — two panels of the same simulation state, `run A` / `run B`, over the checksum
 rows computed live (`client/src/lib/sim.ts`). It is an illustration of the rule, not engine output; the engine's
-own booth capture replaces it when the founder gives the go.)*
+own booth capture replaces it when the founder gives the go.)_
 
 ## problem
 
@@ -57,7 +57,7 @@ Ask an agent for a game in an engine built for human hands. It writes a script, 
 guesses. The frame rate changes the outcome, the random seed is unseeded, and nothing says what "right" means. Two
 runs are two different games.
 
-*(Visual: a tangle of three strands — script → play → screenshot → guess — drawn on scroll.)*
+_(Visual: a tangle of three strands — script → play → screenshot → guess — drawn on scroll.)_
 
 ## what
 
@@ -68,14 +68,14 @@ spec-label: spec sheet
 **Everything is a document.** Scenes, laws and assets are files an agent can read and write. {{crates}} engine
 crates cover what Bevy leaves out: terrain, shaders, physics, animation, UI, navigation, networking and more.
 
-**The game answers back.** A running game answers four verbs: *query*, *command*, *capture*, *control*. Your agent
+**The game answers back.** A running game answers four verbs: _query_, _command_, _capture_, _control_. Your agent
 asks, edits, looks and steps through the same door a player uses.
 
 **Every feature can fail a test.** Pixel goldens, geometry checks and a reference tool to match. Nothing is taken on
 faith.
 
-*(Visual: Document → Plugin → Running world, the wire looping back from the world to the agent. Sources:
-docs/00-build-a-game.md §1-2; docs/10-ai-layer.md §2.)*
+_(Visual: Document → Plugin → Running world, the wire looping back from the world to the agent. Sources:
+docs/00-build-a-game.md §1-2; docs/10-ai-layer.md §2.)_
 
 ## build
 
@@ -122,8 +122,8 @@ fn three_fixed_steps_a_frame_are_thirty_after_ten_frames() {
 }
 ```
 
-*(Visual: the code sample above as selectable text. It is copied verbatim from the engine on the day it is
-written and its commit is recorded in `sample-commit`. Do not invent API.)*
+_(Visual: the code sample above as selectable text. It is copied verbatim from the engine on the day it is
+written and its commit is recorded in `sample-commit`. Do not invent API.)_
 
 ## determinism
 
@@ -131,9 +131,9 @@ headline: Same seed, same inputs, same frame.
 
 Every random stream comes from one seed you can write down. Game logic may not read the clock or sleep. The
 simulation steps on a fixed tick. So a replay is exact, a test is a fact, and "the bug at tick 340" is something one
-agent can hand to another. *Today: the same build on the same platform.*
+agent can hand to another. _Today: the same build on the same platform._
 
-*(Visual: the hero's tick ruler with two identical hash columns, static.)*
+_(Visual: the hero's tick ruler with two identical hash columns, static.)_
 
 ## parallel
 
@@ -156,9 +156,9 @@ gate-label: gate · order declared
 readout-label: state checksum
 readout-cores: 8 cores | 2 cores
 
-*(Visual: eight core lanes filling with system blocks in parallel; two blocks on different lanes that touch the
+_(Visual: eight core lanes filling with system blocks in parallel; two blocks on different lanes that touch the
 same data get caught by the gate and ordered; then the same checksum reads out for 8 cores and for 2. Sources:
-docs/15-determinism-parallelism.md; docs/00-build-a-game.md §3 for the reference card.)*
+docs/15-determinism-parallelism.md; docs/00-build-a-game.md §3 for the reference card.)_
 
 ## oracles
 
@@ -174,7 +174,7 @@ references: Jolt · PhysX · Recast · Chromium · Yoga · HarfBuzz · Mitsuba �
 
 attract-label: held against
 
-*(Visual: the reference names as plain mono text in a slow marquee. No logos.)*
+_(Visual: the reference names as plain mono text in a slow marquee. No logos.)_
 
 ## goldens
 
@@ -190,9 +190,9 @@ review-steps: shot on one reference card | compared pixel by pixel | a human acc
 strip-label: more accepted goldens
 sheet-caption: the engine's {{goldens.accepted}} accepted goldens are test evidence, not screenshots: small, plain, shot with the noisy features off
 
-*(Visual: one featured golden in a review frame (a wipe between "this run" and "the golden", verdict PASS, the
+_(Visual: one featured golden in a review frame (a wipe between "this run" and "the golden", verdict PASS, the
 three steps as a mono checklist), then a small filmstrip of five more. The files and their provenance rows live in
-`client/assets/renders/`; `manifest.featured` and `manifest.strip` pick them.)*
+`client/assets/renders/`; `manifest.featured` and `manifest.strip` pick them.)_
 
 ## built
 
@@ -208,12 +208,12 @@ area-unit: built
 insert-title: how to play
 stage-label: stage
 
-proof: The first game, *Team Fights*, a small team shooter made of primitives, is built on these crates.
+proof: The first game, _Team Fights_, a small team shooter made of primitives, is built on these crates.
 
 bar-legend: BUILT | PARTIAL | SKIP | not yet
 
-*(Visual: the six tiles plus one thin stacked bar — BUILT / PARTIAL / SKIP / not yet — summing to
-{{catalog.total}}. A Team Fights frame only once it is an accepted golden.)*
+_(Visual: the six tiles plus one thin stacked bar — BUILT / PARTIAL / SKIP / not yet — summing to
+{{catalog.total}}. A Team Fights frame only once it is an accepted golden.)_
 
 ## roadmap
 
@@ -234,7 +234,7 @@ subhead: What "beta" means.
 You get an invitation when version 1 opens, and earlier builds if we open a private preview. We email you about
 access and major releases only.
 
-*(Visual: a vertical four-stop line, the current stop lit, no dates.)*
+_(Visual: a vertical four-stop line, the current stop lit, no dates.)_
 
 ## signup
 
@@ -253,7 +253,7 @@ state-existing: You are already on the list.
 state-invalid: That address does not look right.
 state-error: Something failed on our side. Try again.
 success-card: Player 1 ready
-coming-soon: Sign-ups open soon. *(Shown when no endpoint is configured.)*
+coming-soon: Sign-ups open soon. _(Shown when no endpoint is configured.)_
 slot-label: insert cartridge
 ready-label: player 1
 
@@ -270,8 +270,8 @@ manual-label: manual
    licence: free to make and ship games, with a royalty only above a revenue threshold.
 2. **Do I need an account?** No. An account will be optional, and nothing in the engine, editor or launcher will
    require one.
-3. **Which AI does it work with?** Your own. The engine exposes data and verbs, not a model. *(Keep this line until
-   the editor's agent door is specified; do not name a vendor.)*
+3. **Which AI does it work with?** Your own. The engine exposes data and verbs, not a model. _(Keep this line until
+   the editor's agent door is specified; do not name a vendor.)_
 4. **Is it a Bevy fork?** No. It is built around Bevy 0.19: each system is a Bevy plugin plus our own document
    formats, and a game is a normal Rust codebase you own.
 5. **Which platforms?** Windows first at version 1. More platforms follow.
@@ -279,32 +279,61 @@ manual-label: manual
    set with the licence text.
 7. **When?** When version 1 passes its release gate. We do not publish dates we have not earned.
 
+## consent-banner
+
+label: Cookie consent
+text: We count visits without cookies. May we also use Google Analytics, with cookies, to see which pages help?
+accept: Accept
+decline: Decline
+privacy: Privacy
+settings: Cookie settings
+saved-granted: Analytics is on.
+saved-denied: Analytics is off.
+
 ## footer
 
 links: Press Start · © 2026 · Licence · Privacy · GitHub · Discord · contact
 
 licence-stub: Licence: source-available, published with version 1.
 
-*(GitHub links to this website's repository until the engine is public. Discord and the contact address wait on
-PLAN.md §10 question 7.)*
+_(GitHub links to this website's repository until the engine is public. Discord and the contact address wait on
+PLAN.md §10 question 7.)_
 
 ## privacy
 
 headline: Privacy.
 
-small: Last updated 2026-11-01.
+small: Last updated 2026-11-05.
 
-**What we store.** Your email address, your answer to "What do you build?" if you gave one, the version of the
-consent text you agreed to and the time you agreed. Nothing else: no IP address, no user agent, no cookies, no
-trackers.
+**Our promise.** We do not sell your data and we do not share it with anyone who uses it for their own purposes.
+We count visits without cookies. We use Google Analytics only if you say yes. We use your email only for beta
+news.
 
-**Why.** To send you beta access and Press Start release news. That is the only use. The lawful basis is your
+**The beta list.** If you sign up we store your email address, your answer to "What do you build?" if you gave
+one, the version of the consent text you agreed to and the time you agreed. No IP address and no user agent are
+stored with it. The only use is to send you beta access and Press Start release news. The lawful basis is your
 consent.
 
-**Who processes it.** Cloudflare stores the list (a D1 database) and serves the sign-up; Resend sends the
-confirmation and the news. Neither receives anything beyond what is needed to do that.
+**Visit counts.** Every visit is counted with Cloudflare Web Analytics, which sets no cookies and keeps no
+personal profile of you. We see page views and countries, nothing that identifies a person.
 
-**How long.** Until you unsubscribe, or 30 days after version 1 ships if you never confirmed your address.
+**Google Analytics, only if you accept.** A banner asks once. If you press Accept, Google Analytics 4 loads and
+sets cookies so we can see which pages help; Google is our processor for this and receives your visit data. If you
+press Decline, nothing from Google loads and no cookie is set. You can change your answer at any time with
+"Cookie settings" in the footer, which also removes the cookies.
+
+**Experiments.** If you accept, we may show some visitors a different headline to learn which reads better. A
+cookie remembers which one you saw. If you decline, you always see the original and nothing is remembered. The page
+reads its on and off switches from our feature-flag service, GrowthBook, with a request that carries no cookie
+and no identifier of yours.
+
+**Who processes it.** Cloudflare stores the list (a D1 database), serves this site and counts visits; Resend
+sends the confirmation and the news; Google processes analytics data only if you accept. None of them may use
+it for anything else.
+
+**How long.** The list: until you unsubscribe, or 30 days after version 1 ships if you never confirmed your
+address. Cookies: the choice cookie and the experiment cookies last at most 6 months; Google's last as long as
+Google sets them and are removed when you withdraw.
 
 **Your choices.** One click in any email we send unsubscribes you and deletes your row. You can also ask for a
 copy or a deletion by writing to the contact address in the footer.
@@ -330,9 +359,9 @@ cta: Back to the site
 
 ## site-header
 
-*(The main site at pressstartgames.net, from here to the end of the file. Every section above is the beta's page,
+_(The main site at pressstartgames.net, from here to the end of the file. Every section above is the beta's page,
 now served under /beta. These are placeholders: plans/main-site.md phase 2 designs the main site. Copy follows the
-press-start-website skill: present tense only for what is true today, no dates.)*
+press-start-website skill: present tense only for what is true today, no dates.)_
 
 wordmark: Press Start
 skip: Skip to content
@@ -352,6 +381,7 @@ title: Press Start · A game engine an AI can build in, and prove.
 description: Press Start is a game engine built around Bevy whose first user is an AI agent: scenes, laws and assets as documents, deterministic replay, and every feature measured against a reference tool.
 kicker: Tests, not eyes.
 headline: A game engine an AI can build in, and prove.
+headline-b: The engine an AI builds games in, and proves.
 cta: Join the beta | Read about the engine
 
 Press Start is built around Bevy. Your agent writes the game as documents, runs it on a fixed tick, and proves
@@ -414,7 +444,7 @@ description: A running game answers four verbs: query, command, capture, control
 kicker: The AI surface
 headline: Your own AI, through the player's door.
 
-A running game answers four verbs: *query*, *command*, *capture*, *control*, plus input injection. The engine
+A running game answers four verbs: _query_, _command_, _capture_, _control_, plus input injection. The engine
 exposes data and verbs; you bring the agent. This page is a placeholder.
 
 ## page-engine-ownership
@@ -497,11 +527,16 @@ The community links will be listed here. Today, the way in is the beta: [join th
 ## page-privacy
 
 title: Privacy · Press Start
-description: The site's privacy notice.
+description: What this site stores and what it never does.
 kicker: Legal
 headline: Privacy.
 
-The site-wide privacy notice is being written. The beta sign-up's notice is here: [beta privacy](/beta/privacy).
+We do not sell your data and we do not share it with anyone who uses it for their own purposes. We count visits
+without cookies, with Cloudflare Web Analytics. We use Google Analytics only if you accept it in the banner, and
+you can change your answer at any time with "Cookie settings" in the footer. If you join the beta, your email is
+used only for beta news.
+
+The full notice is being written. The beta sign-up's notice, which already covers all of this, is here: [beta privacy](/beta/privacy).
 
 ## page-terms
 
@@ -515,8 +550,11 @@ The site's terms are being written.
 ## page-cookies
 
 title: Cookies · Press Start
-description: The cookies this site sets.
+description: The cookies this site sets, and when.
 kicker: Legal
 headline: Cookies.
 
-This site sets no cookies.
+Until you press Accept in the banner, this site sets no cookie. If you accept: one choice cookie (ps_consent) so
+the site remembers your answer; Google Analytics' own cookies (_ga and _ga_*); and, only when an experiment is
+running, an experiment cookie (ps_exp) and a random visitor number (ps_vid). If you decline, nothing is set. You
+can change your answer from "Cookie settings" in the footer; withdrawing removes these cookies.

@@ -1,4 +1,5 @@
 import { Link, NavLink, Outlet } from 'react-router';
+import { CookieSettings } from '../components/CookieSettings';
 import { field, splitList } from '../content';
 import type { SitePageId } from '../content/schema';
 import { BASE, FLAGS } from '../lib/config';
@@ -61,6 +62,7 @@ export function MainLayout() {
                 <Link to={sitePagePath(id)}>{legal[i] ?? id}</Link>
               </li>
             ))}
+            <CookieSettings item />
           </ul>
         </div>
       </footer>
