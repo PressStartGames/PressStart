@@ -1,5 +1,9 @@
-# Copy to .dev.vars for `wrangler dev` (never committed). With these two unset, local runs skip
+# Copy to .dev.vars for `wrangler dev` (never committed; .gitignore). With these two unset, local runs skip
 # Turnstile and log the confirmation mail instead of sending it.
 CONFIRM_LINK_SECRET=change-me-to-a-long-random-string
 TURNSTILE_SECRET_KEY=
 RESEND_API_KEY=
+# Local overrides of wrangler.toml's [vars] (production values there): the mail's links point at this
+# local Worker, and a confirm redirects to the client dev server's beta (/beta/confirmed).
+API_URL=http://localhost:8787
+SITE_URL=http://localhost:5173/beta

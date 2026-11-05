@@ -36,7 +36,7 @@ Update the status column as phases land.
 | # | Phase | Owner | Agent model | Status |
 |---|---|---|---|---|
 | 0 | Rename and housekeeping | Founder + Claude | — | done 2026-11-05 |
-| 1 | Routing skeleton: one app, `/` and `/beta/*` | Claude (agent) | Opus | open |
+| 1 | Routing skeleton: one app, `/` and `/beta/*` | Claude (agent) | Opus | done (local, branch main-site/routing) |
 | 2 | Four layouts for `/`, one worktree each | Claude (4 agents) | Opus | open |
 | 3 | The React standard (skill + lint) for all three apps | Claude (agent) | Sonnet | open |
 | 4 | Analytics with consent, the new promise | Claude (agent) | Sonnet | open |

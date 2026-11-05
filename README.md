@@ -35,6 +35,13 @@ pnpm --filter server export:signups            # confirmed rows -> signups-YYYY-
 
 ## How the pieces fit
 
+- **Routes** (`client/src/routes.tsx`, plans/main-site.md phase 1): one app, two lazily loaded areas.
+  The main site (`client/src/site/`, a placeholder until phase 2) serves `/`, `/engine` (+
+  `/engine/{determinism,parallel,oracles,ai,ownership}`), `/showcase`, `/roadmap`, `/learn`, `/news`,
+  `/licensing`, `/about`, `/community`, `/privacy`, `/terms`, `/cookies` and `404.html`; the beta
+  (`client/src/beta/`) serves `/beta/`, `/beta/privacy`, `/beta/confirmed` and `beta/404.html`. Every
+  route is prerendered (`client/scripts/prerender.ts`). Locally the Worker's confirm redirect lands on
+  `/beta/confirmed` through `SITE_URL` in `server/.dev.vars`.
 - **Copy** lives in `CONTENT.md`, one `## section` each; the client parses it at build
   (`client/src/content/`). Counts are `{{placeholders}}` filled from `client/data/counts.json`, which only
   `sync-engine-facts` writes, from a read-only walk of the engine checkout. `check-content` fails CI on a

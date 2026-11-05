@@ -35,16 +35,24 @@ CONTENT.md  PLAN.md  CLAUDE.md  README.md
 client/             the site (Vite 7, React 19.3, TypeScript strict, React Router 7, CSS Modules)
   index.html        template with <!--app-head--> / <!--app-html--> markers and the inline `js` class script
   src/
-    main.tsx          hydrateRoot; adds html.hydrated; strips "/index.html" from the path
-    entry-server.tsx  render(url) for the prerender script (StaticRouter + head)
-    App.tsx           routes: / , /privacy, /confirmed, * (not found); skip link; <Header/>
+    main.tsx          loads the page's area, then hydrateRoot; adds html.hydrated; strips "/index.html"
+    entry-server.tsx  render(url) for the prerender script (StaticRouter + head); exports PRERENDER
+    routes.tsx        THE ROUTE TABLE (per-route meta, PRERENDER list): /beta/* -> beta area, / and the
+                      main-site pages (SITE_PAGE_IDS in content/schema.ts) -> site area
+    App.tsx           useRoutes(routes) under <Suspense>; RouteHead keeps title/description in step
+    site/             the main site area (placeholder until phase 2; index.tsx documents the seam:
+                      `pages` = layout, home, stub, notFound); MainLayout, pages/, site.css, site.module.css
+    beta/             the beta area: index.tsx (`pages`, base.css imported LAST), BetaLayout (skip link,
+                      <Header/>, <main>), paths.ts (BETA_HOME, betaPath), pages/ (Home = the two acts,
+                      Privacy, Confirmed, NotFound, Page.module.css)
     content/          parse.ts (CONTENT.md -> typed sections), schema.ts (sections+fields the code reads,
-                      NAV_TARGETS), index.ts (loader: CONTENT.md?raw + counts.json + replay.json), inline.tsx
-    sections/         Hero, Problem, What, Build, Determinism, Oracles, Goldens, BuiltToday, Roadmap, Signup,
-                      Faq, Footer (+ .module.css each)
-    components/       Header, Pill, Reveal, ReplayStrip, NumberTile, CodeSample, Body
-    pages/            Home (the two acts), Privacy, Confirmed, NotFound, Page.module.css (stage, paper, booth)
-    lib/              config.ts (env -> sign-up mode, BASE, ROUTER_BASENAME, CONSENT_VERSION), signup.ts
+                      NAV_TARGETS, SITE_PAGE_IDS), index.ts (loader: CONTENT.md?raw + counts.json +
+                      replay.json), inline.tsx
+    sections/         the beta's sections: Hero, Problem, What, Build, Determinism, Oracles, Goldens,
+                      BuiltToday, Roadmap, Signup, Faq, Footer (+ .module.css each)
+    components/       the beta's: Header, Pill, Reveal, ReplayStrip, NumberTile, CodeSample, Body
+    lib/              areas.ts + AreaPage.tsx (lazy areas), config.ts (env -> sign-up mode, BASE,
+                      ROUTER_BASENAME, CONSENT_VERSION, FLAGS), signup.ts
                       (state machine + request), turnstile.ts, renders.ts (image pipeline), seo.ts (head per
                       route), useCountUp.ts, usePrefersReducedMotion.ts, useSpotlight.ts
     styles/           tokens.css (palettes + signal gradient + type + motion tokens), base.css (reset,
@@ -87,9 +95,19 @@ them green; the deploy workflow does not wait for CI, so run them before pushing
   about a minute after the push.
 - Base path matters: Vite's `base` comes from `VITE_BASE`; React Router's basename follows it
   (`lib/config.ts`). A custom domain would mean `VITE_BASE=/` and a `client/public/CNAME`.
-- Routing on Pages: every route is prerendered to `<route>/index.html`; the not-found page becomes `404.html`,
-  which Pages serves for unknown paths. No hash routing. `main.tsx` normalises `/index.html` URLs so a
-  prerendered file opened by name still matches its route (Lighthouse hit this).
+- Routing: every route in `routes.tsx`'s `PRERENDER` is prerendered to `<route>/index.html`; the site's
+  not-found page becomes `404.html` and the beta's `beta/404.html` (Cloudflare static assets serve the
+  nearest 404.html; Pages only the root one). No hash routing. `main.tsx` normalises `/index.html` URLs so
+  a prerendered file opened by name still matches its route (Lighthouse hit this).
+- **Areas, not per-page chunks** (phase 1, 2026-11-05): React Router stays in library mode with our
+  prerender script. Framework mode (`@react-router/dev` 7.18.4, `ssr:false` + `prerender`) was tried: it
+  built, but the beta's first load grew from 110 to 142 KB gzip and its one stylesheet became five. Each
+  area (`src/site`, `src/beta`) is one lazy chunk; `prerender.ts` reads Vite's build manifest to link the
+  area's CSS and modulepreload its JS per page. The beta imports `base.css` last, so its stylesheet is
+  byte-identical to the root-era beta; never import beta components from `src/site` (shared chunks would
+  reorder the cascade). The beta's links go through `beta/paths.ts`.
+- **This branch must not reach `main` before the phase 7 cut-over**: `deploy.yml` would publish the
+  placeholder main site at the root of `beta.pressstartgames.net` and the beta under `/beta/`.
 - The sign-up mode of the deployed site comes from repository **variables** (not secrets):
   `VITE_SIGNUP_ENDPOINT`, `VITE_SIGNUP_FALLBACK_URL`, `VITE_TURNSTILE_SITE_KEY`. None are set today, so the
   live site shows the "coming soon" card.
