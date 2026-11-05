@@ -1,0 +1,130 @@
+/* The road: three stops on a line, the first one lit. */
+.head {
+  margin-bottom: 20px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.stops {
+  position: relative;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+/* The line the stops hang on: one segment from each stop's dot down to the next, ending at the last dot. */
+.stop:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 18px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--hairline);
+  transform-origin: top;
+}
+
+.stop {
+  position: relative;
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  column-gap: 18px;
+  padding-bottom: 24px;
+}
+
+.stop:last-child {
+  padding-bottom: 0;
+}
+
+.dot {
+  grid-row: span 3;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: var(--chassis-raised);
+  box-shadow: 0 0 0 2px var(--bezel-edge) inset;
+}
+
+.stop[data-now] .dot {
+  background: var(--prove);
+  box-shadow:
+    0 0 0 4px var(--prove-soft),
+    0 0 14px var(--prove);
+}
+
+.when {
+  justify-self: start;
+  margin-bottom: 4px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: var(--chassis-recessed);
+  color: var(--ink-muted);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.8;
+  text-transform: uppercase;
+}
+
+.stop[data-now] .when {
+  background: var(--screen);
+  color: var(--prove);
+}
+
+.name {
+  font-weight: 600;
+  font-size: var(--t-18);
+}
+
+.what {
+  font-size: var(--t-16);
+  color: var(--ink-muted);
+}
+
+/* The /roadmap cut: larger stops, a wider gap. */
+.road[data-size='page'] .stop {
+  column-gap: 28px;
+  padding-bottom: 40px;
+}
+
+.road[data-size='page'] .stop:last-child {
+  padding-bottom: 0;
+}
+
+.road[data-size='page'] .name {
+  font-size: clamp(1.5rem, 1rem + 1.6vw, 2.25rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.road[data-size='page'] .what {
+  max-width: 52ch;
+  margin-top: 6px;
+  font-size: var(--t-18);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :global(html.js) .stop::before {
+    transition: transform 1200ms var(--ease) 200ms;
+  }
+
+  :global(html.js.hydrated) .stops:not([data-visible]) .stop::before {
+    transform: scaleY(0);
+  }
+
+  :global(html.js) .stop {
+    transition:
+      opacity 600ms var(--ease) calc(var(--n) * 140ms + 200ms),
+      transform 600ms var(--ease) calc(var(--n) * 140ms + 200ms);
+  }
+
+  :global(html.js.hydrated) .stops:not([data-visible]) .stop {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+}

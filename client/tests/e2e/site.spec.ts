@@ -99,6 +99,25 @@ for (const p of PAGES) {
   });
 }
 
+// The road is direction only: three stops, a line each, the first lit; no internal work in progress.
+const STOPS = ['Private beta', 'Version 1', 'Version 1.x'];
+const INTERNAL =
+  /licen[cs]e (wave|work)|\bwaves?\b|rewrit|repo(sitory)? split|the editor|public repository/i;
+
+for (const path of ['/', '/roadmap/']) {
+  test(`${path} shows the road's three stops, direction only`, async ({ page }) => {
+    await page.goto(path);
+    const road = page.getByRole('heading', { name: 'The road · no dates' }).locator('..');
+    const stops = road.getByRole('listitem');
+    await expect(stops).toHaveCount(3);
+    for (const [i, name] of STOPS.entries()) await expect(stops.nth(i)).toContainText(name);
+    await expect(stops.first()).toHaveAttribute('data-now', '');
+    await expect(stops.first()).toContainText('the list is open');
+    await expect(stops.nth(1)).toContainText('Windows export');
+    expect(await page.locator('body').innerText()).not.toMatch(INTERNAL);
+  });
+}
+
 test('the home page has no axe violations', async ({ page }) => {
   await page.goto('/');
   await scrollThrough(page);

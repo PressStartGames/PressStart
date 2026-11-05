@@ -348,7 +348,7 @@ engine-build: engine-ai = The AI surface = Four verbs your agent uses to ask, ed
 engine-prove: engine-determinism = Determinism = Same seed, same inputs, same game | engine-parallel = Parallel = All your cores, the same answer | engine-oracles = Oracles = Held against the tools the industry trusts
 engine-own: engine-ownership = Ownership = The game is a Rust workspace you own | licensing = Licensing = Source-available, with version 1
 overview: engine = The engine = Written as documents, proven by tests. Start here for the whole map.
-resources: learn = Learn = The shape of a game on Press Start | roadmap = Roadmap = The road to version 1, in order | showcase = Showcase = The first game, Team Fights | news = News = Version notes, once there are versions
+resources: learn = Learn = The shape of a game on Press Start | roadmap = Roadmap = Private beta now, version 1 next, then 1.x | showcase = Showcase = The first game, Team Fights | news = News = Version notes, once there are versions
 company: about = About = The mission and the method | community = Community = Discord, and the people building it | licensing = Licensing = How the engine will be licensed
 beta: Private beta · Version 1 is not public yet. Join to hear first.
 
@@ -471,10 +471,15 @@ built only when a test holds every clause of it. We publish the misses too.
 areas: world = World · terrain, scenes, navigation | simulation = Simulation · physics, input, cameras | rendering = Rendering · lighting, shaders, textures | asset-creation = Assets · modeling, rigging, animation | game-services = Services · UI, audio, save, localisation | networking-export = Reach · networking, export | missing-domains = Beyond the usual · what the first game needed
 legend: built | partial | skipped | not yet
 total: {{catalog.built}} built · {{catalog.partial}} partial · {{catalog.skip}} skipped · of {{catalog.total}}
-road-label: The road, in order · no dates
-road: Today = the engine's crates, and the first game, Team Fights, built on them | Next = the editor: an editor window, a game window, an agent panel on the same wire | Version 1 = a launcher, a new project from a template, save, build, Windows export | Then = the big performance pain points, one full release gate, the public repository | After = a version every two weeks, the remaining gaps, more platforms
-now: now
 link: The whole road
+
+## site-road
+
+*(The road, three stops, a line each: on the home page's status board and on /roadmap. Direction only, no
+dates; internal work in progress is never named here.)*
+
+label: The road · no dates
+stops: Now = Private beta = The engine is built and tested in private, and the list is open. | Next = Version 1 = A launcher, a new project from a template, save, build, Windows export. No account required; works offline. | Then = Version 1.x = Regular releases, more of the engine, more platforms.
 
 ## site-home-audience
 
@@ -537,7 +542,7 @@ covers-label: What the engine covers
 covers: A checklist of {{catalog.total}} things a game engine needs, in seven areas. Built means a test holds every clause.
 ledger-label: True today, and on the road
 today: {{crates}} engine crates, from terrain to networking | Every system a document plus a plugin, validated before the app exists | Four verbs: query, command, capture, control, plus input injection | Exact replay on the same build and platform | Held against {{oracles}} reference tools | Pictures checked against {{goldens.accepted}} accepted goldens | The first game, Team Fights, built on the crates
-road: The editor, with an undo for every change | A launcher, a new project, save, build, Windows export | An optional login nothing requires; fully offline | The source-available licence text | The public repository
+road: A launcher, a new project from a template, save, build, Windows export | No account required; works fully offline | The source-available licence, with version 1
 today-head: True today
 road-head: On the road · no dates
 
@@ -628,8 +633,7 @@ description: Where Press Start is going: private beta now, version 1 next, then 
 kicker: Roadmap
 headline: The road, in order.
 
-The road in order, each stage with its state, re-synced from the engine. Until this page is built, the home page's
-status board and the beta's page carry it: [the road](/beta/#roadmap).
+Where Press Start is going: three stops, a line each, no dates.
 
 ## page-learn
 
@@ -657,7 +661,7 @@ description: How Press Start will be licensed.
 kicker: Licensing
 headline: Source-available, with version 1.
 
-The plan: the repository goes public under our own source-available licence. Free to make and ship games, with a
+The plan: version 1 comes with our own source-available licence. Free to make and ship games, with a
 royalty only above a revenue threshold, and an optional login that nothing requires. The terms are not written yet.
 
 ## page-about

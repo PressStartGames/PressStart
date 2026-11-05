@@ -42,7 +42,8 @@ No JS: panels open on `:hover`/`:focus-within`; on a phone "Menu" is a link to t
 6. **03 Own the code** — the game as a **cartridge** you own: plain Rust, fixed at the root, nothing
    requires a login (decided), source-available with version 1 (road). True-today and road visibly split.
 7. **Status board** — "Where we are": the catalog by area (synced), BUILT / PARTIAL / SKIP bars,
-   and the road's stops without dates.
+   and the road's three stops (now: private beta; next: version 1; then: 1.x), a line each, no dates.
+   Direction only: internal work in progress is never on the site (also /roadmap, the same component).
 8. **Made for** — four audiences, one line each.
 9. **Learn + Licensing teasers** — two cards, plain about what exists today.
 10. **Join band** — the closing CTA.

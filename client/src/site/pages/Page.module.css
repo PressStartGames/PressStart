@@ -211,3 +211,12 @@
     transform: none;
   }
 }
+
+/* /roadmap: the road's three stops in one reading column. */
+.road {
+  padding-block: 56px var(--section-pad);
+}
+
+.road > * {
+  max-width: 760px;
+}
