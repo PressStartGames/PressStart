@@ -20,7 +20,7 @@ export function paint(svg: SVGSVGElement, a: State, b: State) {
     s.bodies.forEach((body, i) => {
       const g = svg.querySelector(`[data-body="${run}${i}"]`);
       g?.setAttribute('transform', bodyTransform(body.x, body.y));
-      if (run === 'a') g?.querySelector('[data-eye]')?.setAttribute('cx', String(body.face * 6));
+      if (run === 'a') g?.querySelector('[data-eye]')?.setAttribute('cx', String(body.face * 7));
     });
     svg
       .querySelector(`[data-ball="${run}"]`)

@@ -1,7 +1,8 @@
-import type { CSSProperties } from 'react';
+import { useRef, type CSSProperties } from 'react';
 import { Link } from 'react-router';
 import { field, section } from '../../content';
 import { Inline } from '../../content/inline';
+import { useGsap } from '../../lib/gsap';
 import { href, list } from '../data';
 import { reveal } from '../motion';
 import { PixelIcon } from '../PixelIcon';
@@ -12,7 +13,41 @@ const S = 'site-home-own';
 
 // 03 Own the code: the game as a cartridge that is yours, seated into its slot as the section
 // arrives, beside two ledgers kept apart on purpose: what is true today, and what comes with version 1.
+// With GSAP (after idle) the cartridge follows the scroll into the slot and the lamp lights when it
+// seats; otherwise a CSS transition seats it once; the prerendered state is seated.
 export function Own() {
+  const stageRef = useRef<HTMLDivElement>(null);
+  useGsap(
+    ({ gsap }) => {
+      const stage = stageRef.current;
+      const cart = stage?.querySelector('[data-cart]');
+      if (!stage || !cart) return;
+      stage.setAttribute('data-gsap', '');
+      gsap.fromTo(
+        cart,
+        { y: -170, rotate: -5 },
+        {
+          y: 0,
+          rotate: 0,
+          ease: 'power2.in',
+          scrollTrigger: {
+            trigger: stage,
+            start: 'top 85%',
+            end: 'center 55%',
+            scrub: 0.5,
+            onUpdate: (st) => stage.toggleAttribute('data-seated', st.progress > 0.98),
+          },
+        },
+      );
+      return () => {
+        stage.removeAttribute('data-gsap');
+        stage.removeAttribute('data-seated');
+      };
+    },
+    [],
+    undefined,
+    true,
+  );
   const body = section(S).blocks.flatMap((b) => (b.type === 'p' ? [b.text] : []));
   const today = list(S, 'today');
   const road = list(S, 'road');
@@ -20,8 +55,15 @@ export function Own() {
   return (
     <section id="own" className={`${ui.section} ${styles.own}`} aria-labelledby="own-title">
       <div className={`frame ${styles.grid}`}>
-        <div className={styles.stage} ref={reveal} aria-hidden="true">
-          <div className={styles.cart}>
+        <div
+          className={styles.stage}
+          ref={(el) => {
+            stageRef.current = el;
+            return reveal(el);
+          }}
+          aria-hidden="true"
+        >
+          <div className={styles.cart} data-cart="">
             <span className={styles.grip} />
             <span className={styles.label}>
               <span className={styles.labelTop}>

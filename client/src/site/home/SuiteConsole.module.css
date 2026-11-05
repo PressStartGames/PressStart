@@ -230,6 +230,28 @@
   stroke-width: 1;
 }
 
+.stands {
+  fill: #0e151d;
+}
+
+.crowd g {
+  fill: #223040;
+}
+
+.crowd g[data-lit] {
+  fill: #3a5068;
+}
+
+.board {
+  fill: #06080a;
+  stroke: var(--screen-line);
+}
+
+.lights rect {
+  fill: #fff8e0;
+  opacity: 0.85;
+}
+
 .floorLine {
   stroke: var(--prove);
   stroke-width: 2;
@@ -243,7 +265,7 @@
 
 .score {
   font-family: var(--font-pixel);
-  font-size: 22px;
+  font-size: 18px;
   fill: var(--screen-fg);
 }
 

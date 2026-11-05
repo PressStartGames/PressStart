@@ -230,6 +230,22 @@
   }
 }
 
+/* GSAP drives the cartridge with the scroll: no CSS transition under it. */
+.stage[data-gsap] .cart {
+  transition: none;
+}
+
+.stage[data-gsap]:not([data-seated]) .slotLed {
+  opacity: 0.15;
+  transform: scale(0.5);
+}
+
+.stage[data-gsap] .slotLed {
+  transition:
+    opacity 200ms linear,
+    transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
 @media (max-width: 960px) {
   .grid {
     grid-template-columns: minmax(0, 1fr);
