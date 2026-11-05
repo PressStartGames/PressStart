@@ -91,7 +91,7 @@ binding = "DB"
 database_name = "press-start-signups-staging"
 # FOUNDER: `wrangler d1 create press-start-signups-staging` prints the id; paste it here. Until then this
 # placeholder lets `wrangler deploy --dry-run --env staging` run but a real deploy will fail (by design).
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "e74da002-31a6-4f7a-8085-351e0576aa28"
 migrations_dir = "migrations"
 
 [[env.staging.ratelimits]]

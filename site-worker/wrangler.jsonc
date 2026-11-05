@@ -44,7 +44,8 @@
       // and `/` is the static control page. The founder supplies the key (plans/main-site.md Phase 5).
       "vars": { "ROBOTS_NOINDEX": "true", "GROWTHBOOK_CLIENT_KEY": "", "GROWTHBOOK_API_HOST": "" },
       "routes": [
-        { "pattern": "staging.pressstartgames.net/*", "zone_name": "pressstartgames.net" },
+        // A custom domain: Cloudflare creates the DNS record itself (the deploy login cannot edit DNS).
+        { "pattern": "staging.pressstartgames.net", "custom_domain": true },
       ],
       "workers_dev": false,
       // PR previews: `wrangler versions upload` returns a <version>-press-start-site-staging.<subdomain>.workers.dev
