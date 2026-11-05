@@ -1,0 +1,109 @@
+.page {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: 64px;
+  align-items: start;
+  padding-top: 88px;
+}
+
+.title {
+  font-size: clamp(2.5rem, 1.2rem + 4.2vw, 4.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  max-width: 14ch;
+}
+
+.body {
+  margin-top: 28px;
+  max-width: 54ch;
+  font-size: var(--t-22);
+  line-height: 1.45;
+  color: var(--ink-muted);
+}
+
+.body a {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.locked {
+  position: relative;
+  padding: 32px 28px 28px;
+  border-radius: var(--l3-r);
+  background:
+    radial-gradient(circle, rgb(17 19 24 / 10%) 1px, transparent 1.5px) 0 0 / 14px 14px,
+    var(--l3-card);
+  border: 2px dashed var(--hairline);
+}
+
+.lockIcon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: var(--tone);
+  color: var(--ink);
+  --icon-accent: #fff;
+  box-shadow: 0 5px 0 var(--tone-deep);
+}
+
+.lockIcon svg {
+  width: 26px;
+  height: auto;
+}
+
+.lockLabel {
+  margin-top: 20px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.doorsLabel {
+  margin-top: 28px;
+  font-size: var(--t-14);
+  color: var(--ink-muted);
+}
+
+.doors {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.door {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: var(--l3-r-sm);
+  background: #fff;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 0 0 1px var(--l3-card-line);
+  transition: transform 260ms var(--l3-spring);
+}
+
+.door:hover {
+  transform: translateX(4px);
+}
+
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+    padding-top: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .door {
+    transition: none;
+  }
+}

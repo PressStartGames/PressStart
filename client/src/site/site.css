@@ -1,3 +1,38 @@
-/* The main site's global stylesheet. Phase 1 reuses the console's tokens, fonts and primitives through
-   an @import (inlined at build, so it is not a module shared with the beta's chunk). */
+/* The main site's global stylesheet (layout L3, "Community engine"; see DESIGN.md). The console's tokens,
+   fonts and primitives come in through base.css (inlined at build, not a module shared with the beta's
+   chunk). Everything below only adds tokens or classes the beta never uses, so a client navigation into
+   /beta carries nothing that changes the beta. */
 @import '../styles/base.css';
+
+:root {
+  /* The four face buttons: one colour per strength, used as meaning on every page. */
+  --l3-red: #ff5a3c;
+  --l3-red-deep: #b8361d;
+  --l3-amber: #ffb547;
+  --l3-amber-deep: #b97a12;
+  --l3-blue: #5b7fff;
+  --l3-blue-deep: #2a4bc4;
+  --l3-green: #38e08f;
+  --l3-green-deep: #1c8f58;
+
+  /* Held objects: rounder corners and a soft drop shadow; screens keep their hard bezel. */
+  --l3-card: #f6f7f9;
+  --l3-card-line: #d3d7dd;
+  --l3-r: 24px;
+  --l3-r-md: 16px;
+  --l3-r-sm: 10px;
+  --l3-lift:
+    0 1px 0 rgb(255 255 255 / 80%) inset, 0 1px 2px rgb(17 19 24 / 6%),
+    0 12px 32px -16px rgb(17 19 24 / 28%);
+  --l3-lift-hover:
+    0 1px 0 rgb(255 255 255 / 80%) inset, 0 2px 4px rgb(17 19 24 / 8%),
+    0 24px 48px -20px rgb(17 19 24 / 36%);
+  --l3-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --l3-wide: 1200px;
+}
+
+/* Word-by-word heading reveal (GSAP SplitText, ui/SectionHead.tsx): the masks keep descenders. */
+.l3-word-mask {
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}

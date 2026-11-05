@@ -1,0 +1,454 @@
+/* ---------- the stack (hero art) ---------- */
+.stack {
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.stackLabel {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  text-align: center;
+}
+
+.layers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  perspective: 900px;
+}
+
+.layers li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 26px;
+  border-radius: var(--l3-r-md);
+  background: var(--tone);
+  color: var(--ink);
+  box-shadow:
+    0 6px 0 var(--tone-deep),
+    0 18px 30px -16px rgb(17 19 24 / 50%);
+  transform: rotateX(18deg) translateX(calc((var(--i) - 1) * 14px));
+}
+
+.layers li[data-tone='ink'] {
+  color: var(--screen-fg);
+}
+
+.layers b {
+  font-size: var(--t-22);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.layers span {
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  text-align: right;
+}
+
+.layers li:nth-child(2) {
+  background: #22262e;
+  color: var(--screen-fg);
+  box-shadow:
+    0 6px 0 #0b0d10,
+    0 18px 30px -16px rgb(17 19 24 / 50%);
+}
+
+.layers li:nth-child(2) span {
+  color: var(--l3-green);
+}
+
+html:global(.js) .layers li {
+  animation: drop-in 700ms var(--l3-spring) both;
+  animation-delay: calc(var(--i) * 140ms + 300ms);
+}
+
+@keyframes drop-in {
+  from {
+    opacity: 0;
+    transform: rotateX(18deg) translateY(-60px);
+  }
+}
+
+/* ---------- write / run / prove / own ---------- */
+.loop {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  counter-reset: step;
+}
+
+.step {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 28px 24px;
+  border-radius: var(--l3-r);
+  background: var(--l3-card);
+  box-shadow:
+    0 0 0 1px var(--l3-card-line) inset,
+    var(--l3-lift);
+}
+
+/* the arrow to the next step */
+.step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -17px;
+  top: 52px;
+  width: 14px;
+  height: 14px;
+  border-top: 3px solid var(--ink);
+  border-right: 3px solid var(--ink);
+  transform: rotate(45deg);
+  z-index: 1;
+}
+
+.stepIcon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--tone);
+  color: var(--ink);
+  --icon-accent: #fff;
+  box-shadow: 0 4px 0 var(--tone-deep);
+}
+
+.stepIcon svg {
+  width: 24px;
+  height: auto;
+}
+
+.stepNum {
+  position: absolute;
+  top: 28px;
+  right: 24px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  color: var(--ink-muted);
+}
+
+.stepVerb {
+  font-size: var(--t-28);
+}
+
+.stepText {
+  font-size: var(--t-16);
+  color: var(--ink-muted);
+}
+
+html:global(.js.hydrated) .loop[data-seen] .stepIcon {
+  animation: pop 560ms var(--l3-spring) both;
+  animation-delay: calc(var(--i) * 160ms);
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.3) rotate(-20deg);
+    opacity: 0;
+  }
+}
+
+/* ---------- five strengths ---------- */
+.strengths {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.strengths li {
+  grid-column: span 2;
+}
+
+.strengths li:nth-child(1),
+.strengths li:nth-child(2) {
+  grid-column: span 3;
+}
+
+.strength {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  height: 100%;
+  padding: 28px;
+  border-radius: var(--l3-r);
+  background: var(--l3-card);
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow:
+    0 0 0 1px var(--l3-card-line) inset,
+    var(--l3-lift);
+  overflow: hidden;
+  transition:
+    transform 320ms var(--l3-spring),
+    box-shadow 320ms var(--ease);
+}
+
+.strength::before {
+  content: '';
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: var(--tone);
+  opacity: 0.16;
+  transition: transform 500ms var(--l3-spring);
+}
+
+.strength:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 0 0 1px var(--l3-card-line) inset,
+    var(--l3-lift-hover);
+}
+
+.strength:hover::before {
+  transform: scale(1.5);
+}
+
+.strengthIcon {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, rgb(255 255 255 / 50%), transparent 46%), var(--tone);
+  color: var(--ink);
+  --icon-accent: #fff;
+  box-shadow: 0 5px 0 var(--tone-deep);
+}
+
+.strengths li[data-tone='ink'] .strengthIcon {
+  color: var(--l3-green);
+  --icon-accent: var(--l3-amber);
+}
+
+.strengthIcon svg {
+  width: 28px;
+  height: auto;
+}
+
+.strengthTitle {
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.strengthHead {
+  font-size: var(--t-28);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.strengthText {
+  flex: 1;
+  color: var(--ink-muted);
+  font-size: var(--t-16);
+}
+
+.strengthMore {
+  display: inline-flex;
+  gap: 8px;
+  margin-top: 8px;
+  font-weight: 600;
+  border-bottom: 2px solid var(--tone);
+}
+
+/* ---------- the four verbs ---------- */
+.verbs {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.console {
+  padding: 14px;
+  border-radius: var(--l3-r);
+  background: linear-gradient(170deg, #2a2f38, #12151b);
+  box-shadow: var(--l3-lift-hover);
+}
+
+.verbList {
+  list-style: none;
+  margin: 0;
+  padding: 12px 0;
+  border-radius: 10px;
+  background:
+    radial-gradient(90% 70% at 50% 0%, rgb(56 224 143 / 10%), transparent 70%),
+    var(--screen);
+  color: var(--screen-fg);
+}
+
+.verbList li {
+  display: grid;
+  grid-template-columns: 36px 10ch minmax(0, 1fr);
+  align-items: baseline;
+  gap: 16px;
+  padding: 18px 24px;
+}
+
+.verbList li + li {
+  border-top: 1px dashed var(--screen-line);
+}
+
+.verbKey {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #22262e;
+  color: var(--l3-amber);
+  font-size: 15px;
+  align-self: center;
+}
+
+.verb {
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--l3-green);
+}
+
+.verbText {
+  font-size: var(--t-16);
+  color: var(--screen-fg);
+}
+
+/* ---------- caveats ---------- */
+.caveats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 40px;
+  max-width: 1080px;
+}
+
+.caveats li {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding: 18px 0;
+  border-top: 2px solid var(--ink);
+  font-size: var(--t-18);
+}
+
+.bang {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--l3-amber);
+  color: var(--ink);
+  box-shadow: 0 3px 0 var(--l3-amber-deep);
+}
+
+.bang svg {
+  width: 10px;
+  height: auto;
+}
+
+@media (max-width: 1000px) {
+  .loop {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .step:nth-child(2)::after {
+    display: none;
+  }
+
+  .strengths li:nth-child(n) {
+    grid-column: span 3;
+  }
+
+  .strengths li:last-child {
+    grid-column: span 6;
+  }
+
+  .verbs {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .loop,
+  .caveats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .step::after {
+    display: none;
+  }
+
+  .strengths li:nth-child(n) {
+    grid-column: span 6;
+  }
+
+  .verbList li {
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 6px 14px;
+    padding: 16px;
+  }
+
+  .verbText {
+    grid-column: 2;
+  }
+
+  .layers li {
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 20px;
+    transform: rotateX(12deg);
+  }
+
+  .layers span {
+    text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:global(.js) .layers li,
+  html:global(.js.hydrated) .loop[data-seen] .stepIcon {
+    animation: none;
+  }
+
+  .strength,
+  .strength::before {
+    transition: none;
+  }
+}

@@ -1,0 +1,120 @@
+.screen {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 24px;
+  padding: 96px 32px 88px;
+  border-radius: 32px;
+  text-align: center;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(60% 80% at 50% 0%, rgb(56 224 143 / 14%), transparent 70%),
+    radial-gradient(40% 60% at 15% 100%, rgb(255 90 60 / 18%), transparent 70%),
+    radial-gradient(40% 60% at 85% 100%, rgb(91 127 255 / 18%), transparent 70%),
+    var(--screen);
+  color: var(--screen-fg);
+  box-shadow:
+    0 0 0 10px #22262e,
+    0 0 0 11px rgb(255 255 255 / 30%),
+    var(--l3-lift-hover);
+}
+
+.screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent 0 2px, rgb(0 0 0 / 22%) 2px 3px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* a perspective floor grid, static */
+.floor {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: -10%;
+  height: 55%;
+  z-index: -2;
+  background:
+    linear-gradient(rgb(56 224 143 / 30%) 1px, transparent 1px) 0 0 / 100% 28px,
+    linear-gradient(90deg, rgb(56 224 143 / 30%) 1px, transparent 1px) 0 0 / 64px 100%;
+  transform: perspective(400px) rotateX(62deg);
+  transform-origin: 50% 0;
+  mask-image: linear-gradient(180deg, transparent, #000 60%);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 60%);
+}
+
+.title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 0.6rem + 4.4vw, 4.25rem);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: var(--l3-green);
+  text-shadow:
+    0 0 24px rgb(56 224 143 / 45%),
+    0 4px 0 #0f5c38;
+  text-transform: uppercase;
+}
+
+.caret {
+  font-size: 0.6em;
+  color: var(--l3-amber);
+  text-shadow: none;
+}
+
+html:global(.js) .caret {
+  animation: caret 1s steps(1) 6;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.text {
+  max-width: 46ch;
+  font-size: var(--t-18);
+  color: var(--screen-fg);
+}
+
+.actions {
+  justify-content: center;
+}
+
+.alt {
+  --btn-bg: transparent;
+  --btn-fg: var(--screen-fg);
+  --btn-edge: transparent;
+  box-shadow: 0 0 0 1.5px rgb(217 224 230 / 40%) inset;
+}
+
+.alt:hover {
+  box-shadow: 0 0 0 1.5px var(--screen-fg) inset;
+}
+
+.screen :focus-visible {
+  outline-color: var(--l3-green);
+}
+
+@media (max-width: 640px) {
+  .screen {
+    padding: 64px 20px 56px;
+    border-radius: 24px;
+    box-shadow:
+      0 0 0 6px #22262e,
+      var(--l3-lift-hover);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:global(.js) .caret {
+    animation: none;
+  }
+}

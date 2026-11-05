@@ -347,6 +347,7 @@ menu: Menu
 label: Footer
 legal: Privacy | Terms | Cookies
 groups: The engine | The project | The studio | Legal
+discord: Discord
 line: A game engine built around Bevy. Version 1 is not public yet.
 synced: Every number on this site is read from the engine's own repository by a script. Last sync {{syncedAt}}, engine commit
 
@@ -378,6 +379,9 @@ screen-aria: The illustrated game at tick
 verdict-first: Run 1 recorded. Press START to play it again.
 verdict-match: Same checksum as run 1. Same game.
 verdict-seed: New seed, new game, new checksum.
+stamp-first: rec
+stamp-seed: new
+stamp-match: = run 1
 caption: An illustration drawn in your browser, not engine output: one seed, a fixed tick, a checksum of the whole state every tick. Press START and the replay lands on the same checksum.
 
 ## site-values
@@ -475,11 +479,12 @@ now: The licence wave and the memory work are under way.
 kicker: Get involved
 headline: Come build with us.
 
-The repository goes public with version 1, under a source-available licence. Until then, the beta is the way in.
+The repository goes public with version 1, under a source-available licence. Until then, the beta and Discord are the way in.
 
 1. Join the beta | The way in today. One email when your invite is ready, nothing else unless you ask. | Join the beta
-2. Follow the road | Every stage to version 1 with its state, and the patch notes as things land. | See the road
-3. Read how it works | The engine one strength at a time, in plain words. | Explore the engine
+2. Say hello on Discord | Ask questions, follow along and meet the people building it. | Join the Discord
+3. Follow the road | Every stage to version 1 with its state, and the patch notes as things land. | See the road
+4. Read how it works | The engine one strength at a time, in plain words. | Explore the engine
 
 ## site-start
 
@@ -516,6 +521,11 @@ headline: Built around Bevy, written as documents.
 {{crates}} engine crates cover what Bevy leaves out: terrain, shaders, physics, animation, UI, navigation,
 networking and more. Every system is a document plus a plugin, checked before the app exists, so your AI can read
 it, change it and prove it.
+
+## site-engine-stack
+
+label: the stack
+layers: Your game · a Rust workspace you own | Press Start · {{crates}} engine crates | Bevy · the ECS, renderer and app underneath
 
 ## site-engine-loop
 
@@ -594,7 +604,7 @@ left: left to right
 right: right to left
 equal: equal
 differ: not equal
-live: Computed by your browser just now.
+live: Plain floating-point math, the way every CPU does it.
 
 Computers round after every addition, so the order of a sum matters down to the last bit. When threads finish in a
 different order on every run, the sum comes out a little different every run: the game is still correct, and it is
@@ -747,7 +757,7 @@ description: Where to find the people building Press Start.
 kicker: Community
 headline: Come build with us.
 
-The community links will be listed here. Today, the way in is the beta: [join the beta](/beta/).
+The way in today is the beta, and the conversation is on Discord. Both doors are below.
 
 ## page-privacy
 

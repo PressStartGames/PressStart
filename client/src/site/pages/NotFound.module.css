@@ -1,0 +1,90 @@
+.page {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: 64px;
+  align-items: center;
+  padding-top: 96px;
+}
+
+.title {
+  font-size: clamp(2.5rem, 1.2rem + 4.2vw, 4.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+.text {
+  margin-top: 24px;
+  font-size: var(--t-22);
+  color: var(--ink-muted);
+  max-width: 40ch;
+}
+
+.actions {
+  margin-top: 36px;
+}
+
+.screen {
+  display: grid;
+  justify-items: center;
+  gap: 28px;
+  padding: 40px 32px;
+  border-radius: var(--l3-r);
+  background: var(--screen);
+  color: var(--screen-fg);
+  box-shadow:
+    0 0 0 10px #22262e,
+    var(--l3-lift-hover);
+}
+
+.ghost {
+  width: 96px;
+  height: auto;
+  color: var(--l3-red);
+  --icon-accent: var(--screen);
+}
+
+.diff {
+  width: 100%;
+  margin: 0;
+  display: grid;
+  gap: 2px;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+}
+
+.diff div {
+  display: grid;
+  grid-template-columns: 16ch minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px dashed var(--screen-line);
+}
+
+.diff dt {
+  color: var(--screen-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: var(--t-12);
+}
+
+.diff dd {
+  margin: 0;
+  color: var(--l3-red);
+}
+
+.diff div:first-child dd {
+  color: var(--l3-green);
+}
+
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: 48px;
+    gap: 48px;
+  }
+
+  .diff div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+}

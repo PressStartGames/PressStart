@@ -1,0 +1,27 @@
+.more {
+  margin-top: 28px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.news {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: 56px;
+  align-items: start;
+}
+
+.newsMore {
+  margin-top: 28px;
+}
+
+@media (max-width: 1000px) {
+  .news {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .more {
+    justify-content: flex-start;
+  }
+}

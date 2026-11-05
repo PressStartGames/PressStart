@@ -1,0 +1,243 @@
+/* Shared pieces of the L3 site: the page wrap, section rhythm, kickers, arcade buttons, tone colours. */
+.wrap {
+  width: min(100% - 2 * var(--gutter), var(--l3-wide));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: 120px 0;
+}
+
+.sectionTight {
+  padding-block: 88px 0;
+}
+
+/* ---------- section heads ---------- */
+.head {
+  max-width: 760px;
+  margin-bottom: 48px;
+}
+
+.headCenter {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.kickerDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--tone, var(--ink));
+  box-shadow: 0 2px 0 var(--tone-deep, var(--ink));
+  flex: none;
+}
+
+.title {
+  font-size: var(--t-56);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
+.lede {
+  margin-top: 20px;
+  font-size: var(--t-22);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--ink-muted);
+  max-width: 60ch;
+}
+
+.headCenter .lede {
+  margin-inline: auto;
+}
+
+/* ---------- tones: one colour per strength ---------- */
+.red {
+  --tone: var(--l3-red);
+  --tone-deep: var(--l3-red-deep);
+}
+
+.amber {
+  --tone: var(--l3-amber);
+  --tone-deep: var(--l3-amber-deep);
+}
+
+.blue {
+  --tone: var(--l3-blue);
+  --tone-deep: var(--l3-blue-deep);
+}
+
+.green {
+  --tone: var(--l3-green);
+  --tone-deep: var(--l3-green-deep);
+}
+
+.ink {
+  --tone: #2b303a;
+  --tone-deep: #0b0d10;
+}
+
+/* ---------- arcade buttons (links) ---------- */
+.btn {
+  --btn-bg: var(--ink);
+  --btn-fg: var(--chassis-raised);
+  --btn-edge: #000;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-sans);
+  font-size: var(--t-16);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow:
+    0 4px 0 var(--btn-edge),
+    0 10px 20px -8px rgb(17 19 24 / 45%);
+  transform: translateY(0);
+  transition:
+    transform 260ms var(--l3-spring),
+    box-shadow 260ms var(--l3-spring);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 0 var(--btn-edge),
+    0 16px 24px -10px rgb(17 19 24 / 45%);
+}
+
+.btn:active {
+  transform: translateY(4px);
+  box-shadow:
+    0 0 0 var(--btn-edge),
+    0 4px 8px -4px rgb(17 19 24 / 45%);
+  transition-duration: 60ms;
+}
+
+.btnRed {
+  --btn-bg: var(--l3-red);
+  --btn-fg: var(--ink);
+  --btn-edge: var(--l3-red-deep);
+}
+
+.btnGhost {
+  --btn-bg: var(--chassis-raised);
+  --btn-fg: var(--ink);
+  --btn-edge: var(--hairline);
+  box-shadow:
+    0 4px 0 var(--btn-edge),
+    0 0 0 1px var(--hairline) inset;
+}
+
+.btnGhost:hover {
+  box-shadow:
+    0 6px 0 var(--btn-edge),
+    0 0 0 1px var(--hairline) inset;
+}
+
+.btnSmall {
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: var(--t-14);
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 260ms var(--l3-spring);
+}
+
+.btn:hover .arrow,
+a:hover > .arrow {
+  transform: translateX(4px);
+}
+
+/* A plain text link with a nudging arrow. */
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 2px solid var(--tone, var(--ink));
+  padding-bottom: 2px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 20px;
+}
+
+/* ---------- tags ---------- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: var(--chassis-raised);
+}
+
+.tagRoad {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: 0 0 0 1.5px var(--ink) inset;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .arrow {
+    transition: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding-block: 80px 0;
+  }
+
+  .sectionTight {
+    padding-block: 64px 0;
+  }
+
+  .head {
+    margin-bottom: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    white-space: normal;
+    text-align: center;
+  }
+}
