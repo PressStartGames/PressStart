@@ -434,12 +434,12 @@ them.
 ## page-roadmap
 
 title: Roadmap · Press Start
-description: The road to version 1, in order, without dates.
+description: Where Press Start is going: private beta now, version 1 next, then 1.x.
 kicker: Roadmap
 headline: The road, in order.
 
-The road in order, each stage with its state, re-synced from the engine. Until this page is built, the beta's page
-carries it: [the road](/beta/#roadmap).
+Now: private beta. Next: version 1. Then: version 1.x, with regular releases and more platforms. Until this page
+is built, the beta's page carries it: [the road](/beta/#roadmap).
 
 ## page-learn
 
