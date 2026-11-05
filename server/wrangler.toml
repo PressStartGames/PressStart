@@ -50,3 +50,100 @@ simple = { limit = 10, period = 60 }
 
 [observability]
 enabled = true
+
+# ---------------------------------------------------------------------------------------------------
+# Environments (plans/main-site.md Phase 6). Wrangler does NOT inherit vars, routes, bindings or
+# triggers into an [env.*] block, so each is complete. The TOP LEVEL above is production exactly as it
+# was before environments existed (a bare `wrangler deploy` is unchanged); [env.production] repeats it
+# with the Worker name pinned (wrangler would otherwise call it press-start-signups-production, a NEW
+# Worker). Keep the two in sync. Deploy with `pnpm --filter server run deploy:staging|deploy:production`.
+# Secrets are per environment: `wrangler secret put NAME --env staging` (see .dev.vars.example).
+# ---------------------------------------------------------------------------------------------------
+
+[env.staging]
+name = "press-start-signups-staging"
+workers_dev = false
+# Needs a proxied DNS record for the staging host (the founder adds it; see the plan's checklist).
+routes = [{ pattern = "staging.pressstartgames.net/api/v1/*", zone_name = "pressstartgames.net" }]
+
+[env.staging.vars]
+ALLOWED_ORIGINS = "https://staging.pressstartgames.net,http://localhost:5173,http://localhost:4173"
+SITE_URL = "https://staging.pressstartgames.net/beta"
+API_URL = "https://staging.pressstartgames.net"
+MAIL_FROM = "Press Start (staging) <beta@pressstartgames.net>"
+ADMIN_ORIGINS = "https://admin-staging.pressstartgames.net,http://localhost:5175"
+# Empty COOKIE_DOMAIN: the staging session cookie is host-only, and named so production's is never read.
+SESSION_COOKIE_NAME = "ps_session_staging"
+COOKIE_DOMAIN = ""
+# This is WorkOS's STAGING environment client (the same one production uses until Phase 7 swaps in the
+# production keys).
+WORKOS_CLIENT_ID = "client_01M6M5QGTBJ536RCM2VP67SB5X"
+# Staging mails only our own addresses: never the real list.
+MAIL_MODE = "allowlist"
+MAIL_ALLOWLIST = "@pressstartgames.net"
+DAILY_SEND_CAP = "20"
+
+[env.staging.triggers]
+crons = ["*/15 * * * *"]
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "press-start-signups-staging"
+# FOUNDER: `wrangler d1 create press-start-signups-staging` prints the id; paste it here. Until then this
+# placeholder lets `wrangler deploy --dry-run --env staging` run but a real deploy will fail (by design).
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+
+[[env.staging.ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "2001"
+simple = { limit = 10, period = 60 }
+
+[[env.staging.ratelimits]]
+name = "AUTH_LIMITER"
+namespace_id = "2002"
+simple = { limit = 10, period = 60 }
+
+[env.staging.observability]
+enabled = true
+
+[env.production]
+name = "press-start-signups"
+routes = [{ pattern = "pressstartgames.net/api/v1/*", zone_name = "pressstartgames.net" }]
+workers_dev = true
+
+[env.production.vars]
+ALLOWED_ORIGINS = "https://beta.pressstartgames.net,https://pressstartgames.github.io,http://localhost:5173,http://localhost:4173"
+SITE_URL = "https://beta.pressstartgames.net"
+API_URL = "https://pressstartgames.net"
+MAIL_FROM = "Press Start <beta@pressstartgames.net>"
+ADMIN_ORIGINS = "https://admin.pressstartgames.net,http://localhost:5175"
+COOKIE_DOMAIN = ".pressstartgames.net"
+WORKOS_CLIENT_ID = "client_01M6M5QGTBJ536RCM2VP67SB5X"
+DAILY_SEND_CAP = "80"
+# New in Phase 6 and a no-op today (a Resend key already means live); explicit so a missing value can
+# never silently put production in log mode.
+MAIL_MODE = "live"
+# Phase 7 changes SITE_URL to https://pressstartgames.net/beta and adds the root origin to ALLOWED_ORIGINS.
+
+[env.production.triggers]
+crons = ["*/15 * * * *"]
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "press-start-signups"
+database_id = "24cc857a-f395-4978-8bb9-0d05248e7e03"
+migrations_dir = "migrations"
+
+[[env.production.ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+simple = { limit = 10, period = 60 }
+
+[[env.production.ratelimits]]
+name = "AUTH_LIMITER"
+namespace_id = "1002"
+simple = { limit = 10, period = 60 }
+
+[env.production.observability]
+enabled = true

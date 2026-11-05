@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler d1 migrations apply press-start-signups --remote && wrangler deploy",
+    "deploy:staging": "wrangler d1 migrations apply press-start-signups-staging --remote --env staging && wrangler deploy --env staging",
+    "deploy:production": "wrangler d1 migrations apply press-start-signups --remote --env production && wrangler deploy --env production",
+    "check:envs": "wrangler deploy --dry-run --env staging && wrangler deploy --dry-run --env production",
     "migrate:local": "wrangler d1 migrations apply press-start-signups --local",
     "export:signups": "tsx scripts/export-signups.ts",
     "test": "vitest run",

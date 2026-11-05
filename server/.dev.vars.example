@@ -7,3 +7,6 @@ RESEND_API_KEY=
 # local Worker, and a confirm redirects to the client dev server's beta (/beta/confirmed).
 API_URL=http://localhost:8787
 SITE_URL=http://localhost:5173/beta
+# Local = log: no mail is sent whatever the key (delivery.ts). Staging is allowlist, production live
+# (wrangler.toml environments).
+MAIL_MODE=log

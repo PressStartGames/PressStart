@@ -1,0 +1,8 @@
+node_modules
+dist
+dist-ssr
+dist-e2e
+pnpm-lock.yaml
+*.md
+docs/
+.wrangler

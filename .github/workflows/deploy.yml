@@ -1,6 +1,10 @@
 # Client -> GitHub Pages (gh-pages branch) on every push to main. The Worker deploys separately
 # (deploy-server.yml). The site is served on the custom domain https://beta.pressstartgames.net
 # (client/public/CNAME), so VITE_BASE is /.
+#
+# This is the LIVE beta and stays as it is until the Phase 7 cut-over (the main site and /beta move to
+# Cloudflare, beta.pressstartgames.net redirects); Pages is retired after that. The environment workflows
+# (deploy-staging.yml, deploy-production.yml, preview.yml) do not touch it.
 name: Deploy site
 
 on:
@@ -27,16 +31,19 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - name: Build the prerendered site
-        run: pnpm --filter client build
+      # Repository variables override the committed client/.env.production only when they are set (an empty
+      # one would blank the committed value and, in production mode, fail the config check).
+      - name: Write the public build values
+        run: bash .github/scripts/write-env-local.sh client production
         env:
-          VITE_BASE: /
-          VITE_SITE_URL: https://beta.pressstartgames.net
-          # Sign-up mode (CLAUDE.md): set VITE_SIGNUP_ENDPOINT to the Worker's origin once it is live
-          # (and VITE_TURNSTILE_SITE_KEY); until then the site shows the "coming soon" card.
           VITE_SIGNUP_ENDPOINT: ${{ vars.VITE_SIGNUP_ENDPOINT }}
           VITE_SIGNUP_FALLBACK_URL: ${{ vars.VITE_SIGNUP_FALLBACK_URL }}
           VITE_TURNSTILE_SITE_KEY: ${{ vars.VITE_TURNSTILE_SITE_KEY }}
+      - name: Build the prerendered site
+        run: pnpm --filter client build --mode production
+        env:
+          VITE_BASE: /
+          VITE_SITE_URL: https://beta.pressstartgames.net
       - name: Publish client/dist to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:

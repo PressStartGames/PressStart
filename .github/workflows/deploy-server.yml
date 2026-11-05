@@ -1,6 +1,7 @@
 # The email store Worker, deployed on demand (workflow_dispatch). Needs the repository secrets
 # CLOUDFLARE_API_TOKEN (Workers + D1 scope) and CLOUDFLARE_ACCOUNT_ID; the Worker's own secrets
 # (TURNSTILE_SECRET_KEY, RESEND_API_KEY, CONFIRM_LINK_SECRET) are set once with `wrangler secret put`.
+# Superseded by deploy-production.yml (approval-gated, per-environment); kept so the old manual path still works.
 name: Deploy server
 
 on:

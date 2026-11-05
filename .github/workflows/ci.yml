@@ -44,3 +44,26 @@ jobs:
           name: playwright-report
           path: client/playwright-report
           retention-days: 7
+
+  # Every environment's configuration is valid: the strict builds, the config checks and the Wrangler
+  # dry-runs (no login, nothing is uploaded).
+  environments:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - name: Build the site and the admin console in staging mode
+        run: |
+          pnpm --filter client build --mode staging
+          pnpm --filter admin exec vite build --mode staging
+      - name: Wrangler dry-runs, staging and production, for the API, admin and site Workers
+        run: |
+          pnpm --filter server check:envs
+          pnpm --filter admin check:envs
+          pnpm --filter site-worker check:envs
+      - name: A missing value fails the build fast
+        run: |
+          if VITE_SITE_URL= VITE_BASE= pnpm --filter client build --mode production; then
+            echo "::error::the production build should have failed without VITE_BASE and VITE_SITE_URL"; exit 1
+          fi

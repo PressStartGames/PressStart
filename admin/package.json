@@ -10,6 +10,7 @@
     "lint": "eslint . && prettier --check . && tsc --noEmit -p tsconfig.json",
     "build:staging": "tsc --noEmit -p tsconfig.json && vite build --mode staging",
     "deploy": "vite build && wrangler deploy",
+    "check:envs": "wrangler deploy --dry-run --env staging && wrangler deploy --dry-run --env production",
     "deploy:staging": "vite build --mode staging && wrangler deploy --env staging",
     "deploy:production": "vite build --mode production && wrangler deploy --env production"
   },

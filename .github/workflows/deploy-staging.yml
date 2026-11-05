@@ -1,0 +1,21 @@
+# Every push to main lands on staging by itself (API + D1 migrations for staging, admin, site Worker),
+# once the staging GitHub Environment has its Cloudflare secrets; until then the job is skipped with a
+# notice. This runs NEXT TO deploy.yml (GitHub Pages, the live beta) and does not touch it: Pages stays
+# the production beta until the Phase 7 cut-over, after which deploy.yml is retired.
+name: Deploy staging
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  staging:
+    uses: ./.github/workflows/_deploy.yml
+    with:
+      environment: staging
+      deploy_site: true
+    secrets: inherit
