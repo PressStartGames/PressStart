@@ -1,25 +1,30 @@
-import { Link } from 'react-router';
-import { field, splitList } from '../../content';
-import { BASE, FLAGS } from '../../lib/config';
-import { sitePagePath } from '../../routes';
-import styles from '../site.module.css';
-import { Page } from './Page';
+import { Numbers } from '../components/Numbers';
+import { Audiences } from '../home/Audiences';
+import { Hero } from '../home/Hero';
+import { Licence } from '../home/Licence';
+import { Road } from '../home/Road';
+import { Showcase } from '../home/Showcase';
+import { Strengths } from '../home/Strengths';
+import { Verbs } from '../home/Verbs';
+import styles from './Pages.module.css';
 
-// Placeholder home; phase 2 designs it.
+// The home page in acts (DESIGN.md): the opening shot, four ways in, the dark theatre of the four
+// strengths, the verbs, the film strip, the numbers and the road, the licence end card.
 export function Home() {
-  const [join = '', engine = ''] = splitList(field('site-home', 'cta'), '|');
   return (
-    <Page id="site-home">
-      <p className={styles.actions}>
-        {FLAGS.joinBeta && (
-          <a className={styles.cta} href={`${BASE}beta/`}>
-            {join}
-          </a>
-        )}
-        <Link className={styles.link} to={sitePagePath('engine')}>
-          {engine}
-        </Link>
-      </p>
-    </Page>
+    <>
+      <Hero />
+      <Audiences />
+      <Strengths />
+      <Verbs />
+      <Showcase />
+      <section className={`act-light ${styles.act}`} aria-labelledby="numbers-title">
+        <div className="frame">
+          <Numbers />
+          <Road />
+        </div>
+      </section>
+      <Licence />
+    </>
   );
 }

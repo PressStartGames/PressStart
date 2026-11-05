@@ -1,17 +1,28 @@
-// The main site's routing skeleton (plans/main-site.md phase 1): the placeholder home, the stub pages,
-// the site-wide not-found page, and the way into the beta. Runs on desktop and on a phone with reduced
-// motion (playwright.config.ts).
+// The main site (layout L1 "Cinematic", client/src/site/DESIGN.md): the home page's acts, the designed
+// pages (/engine, /engine/determinism), the styled placeholders, the site-wide not-found page and the
+// way into the beta. Runs on desktop and on a phone with reduced motion (playwright.config.ts).
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
 const STUBS = [
   { path: '/engine/', h1: 'Built around Bevy, written as documents.' },
   { path: '/engine/determinism/', h1: 'Same seed, same inputs, same game.' },
+  { path: '/engine/parallel/', h1: 'All your cores, the same answer.' },
   { path: '/roadmap/', h1: 'The road, in order.' },
+  { path: '/showcase/', h1: 'Made with Press Start.' },
   { path: '/privacy/', h1: 'Privacy.' },
 ];
+const PAGES = ['/', ...STUBS.map((s) => s.path), '/community/', '/404.html'];
 
+// Scroll through the page first, so every reveal has played (axe blends a fading element's colour).
 async function axe(page: Page) {
+  const height = await page.evaluate(() => document.documentElement.scrollHeight);
+  for (let y = 0; y < height; y += 400) {
+    await page.evaluate((top) => window.scrollTo(0, top), y);
+    await page.waitForTimeout(60);
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(1500);
   const results = await new AxeBuilder({ page })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
     .analyze();
@@ -51,9 +62,13 @@ test('the home page has no axe violations', async ({ page }) => {
 
 test('client navigation between site pages updates the title', async ({ page }) => {
   await page.goto('/');
+  // On a phone the pages fold into the menu.
+  const menu = page.getByRole('banner').getByText('Menu', { exact: true });
+  if (await menu.isVisible()) await menu.click();
   await page
-    .getByRole('navigation', { name: 'Site' })
-    .getByRole('link', { name: 'Engine' })
+    .getByRole('navigation', { name: /^Site/ })
+    .filter({ visible: true })
+    .getByRole('link', { name: 'Engine', exact: true })
     .click();
   await expect(page).toHaveURL(/\/engine$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(
@@ -104,4 +119,90 @@ test('sets no cookie', async ({ page, context }) => {
   await page.goto('/engine/');
   await page.waitForTimeout(300);
   expect(await context.cookies()).toEqual([]);
+});
+
+test('the home page plays its acts: four ways in, four strengths, the film, the numbers', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await expect(
+    page.getByRole('heading', { level: 2, name: 'One engine. Four ways in.' }),
+  ).toBeAttached();
+  const tabs = page.getByRole('tab');
+  await expect(tabs).toHaveCount(4);
+  await expect(tabs.first()).toHaveAttribute('aria-selected', 'true');
+  await expect(page.getByRole('tabpanel')).toHaveCount(1);
+  await tabs.first().focus();
+  await page.keyboard.press('ArrowRight');
+  await expect(tabs.nth(1)).toHaveAttribute('aria-selected', 'true');
+  await expect(tabs.nth(1)).toBeFocused();
+  await expect(page.getByRole('tabpanel')).toContainText('Build with an agent');
+  await page.keyboard.press('End');
+  await expect(tabs.nth(3)).toHaveAttribute('aria-selected', 'true');
+  for (const h of [
+    'Same seed, same inputs, same game.',
+    'All your cores, the same answer.',
+    'Held against the tools you already trust.',
+    'The game is your code.',
+  ]) {
+    await expect(page.getByRole('heading', { level: 3, name: h })).toBeAttached();
+  }
+  await expect(
+    page.getByRole('region', { name: "Accepted goldens from the engine's tests" }),
+  ).toBeAttached();
+  await expect(page.getByRole('img', { name: /accepted golden/ }).first()).toBeAttached();
+  await expect(page.getByText('engine crates', { exact: true })).toBeAttached();
+  await expect(page.getByRole('heading', { name: 'The road, in order. No dates.' })).toBeAttached();
+});
+
+test('the determinism lab scrubs the run and names the first differing tick', async ({ page }) => {
+  await page.goto('/engine/determinism/');
+  const slider = page.getByRole('slider', { name: /Tick/ });
+  await expect(slider).toHaveValue('240');
+  await page.getByRole('button', { name: '140', exact: true }).click();
+  await expect(slider).toHaveValue('140');
+  await slider.fill('100');
+  await expect(slider).toHaveValue('100');
+  await expect(page.locator('dl').getByText(/run C · same/)).toBeVisible();
+  await slider.fill('200');
+  await expect(page.locator('dl').getByText(/run C · differs/)).toBeVisible();
+  expect(await axe(page)).toEqual([]);
+});
+
+test('every main-site page renders without horizontal overflow', async ({ page }) => {
+  for (const path of PAGES) {
+    await page.goto(path);
+    const over = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(over, path).toBeLessThanOrEqual(0);
+  }
+});
+
+test('reduced motion and no JavaScript show the final state', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ reducedMotion: 'reduce' });
+  const page = await context.newPage();
+  await page.goto(`${baseURL}/`);
+  await page.waitForTimeout(400);
+  // Reveals are shown at once, and the replay holds its finished run.
+  const hidden = await page.evaluate(
+    () =>
+      Array.from(document.querySelectorAll('.rv')).filter(
+        (el) => getComputedStyle(el).opacity !== '1',
+      ).length,
+  );
+  expect(hidden).toBe(0);
+  await expect(page.locator('#home-title')).toBeVisible();
+  await expect(page.getByText('7/7')).toBeVisible();
+  await context.close();
+
+  const noJs = await browser.newContext({ javaScriptEnabled: false });
+  const p2 = await noJs.newPage();
+  await p2.goto(`${baseURL}/`);
+  // Without JavaScript the tablist is hidden and every audience reads in order.
+  await expect(p2.getByRole('tabpanel')).toHaveCount(4);
+  await expect(p2.getByRole('tablist')).toBeHidden();
+  await p2.goto(`${baseURL}/engine/determinism/`);
+  await expect(p2.getByRole('button', { name: '140', exact: true })).toBeVisible();
+  await noJs.close();
 });

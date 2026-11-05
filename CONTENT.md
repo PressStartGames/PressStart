@@ -4,7 +4,7 @@ All words on the site live here, one `## <section-id>` per section, in page orde
 `headline:`, `kicker:`, `cta:` lines, then Markdown body). Numbers are placeholders filled from
 `client/data/counts.json` at build (written by `client/scripts/sync-engine-facts.ts` against the engine repository);
 never type a count by hand. First draft from PLAN.md §3 (2026-11-01), shaved on the founder's note of the same day
-("less technical, more friendly; keep the proof"); lines in *(italics, parentheses)* are notes to the builder, not
+("less technical, more friendly; keep the proof"); lines in _(italics, parentheses)_ are notes to the builder, not
 copy. Counts on 2026-11-01: catalog 404 entries, 103 BUILT, 129 PARTIAL, 32 SKIP; 89 crates; 71 reference tools;
 189 accepted goldens.
 
@@ -16,8 +16,8 @@ cta: Join the beta
 menu: Menu
 index: 00 boot | 01 fault | 02 spec | 03 procedure | 04 proof | 05 cores | 06 reference | 07 goldens | 08 levels | 09 road | 10 insert | 11 manual
 
-*(The pill is fixed top-right on every scroll position and scrolls to `#signup`. The bar turns translucent after
-80 px of scroll.)*
+_(The pill is fixed top-right on every scroll position and scrolls to `#signup`. The bar turns translucent after
+80 px of scroll.)_
 
 ## hero
 
@@ -42,9 +42,9 @@ replay-fail: FAIL
 replay-match: checksums match
 replay-event: input tape
 
-*(Visual: "two runs, one game" — two panels of the same simulation state, `run A` / `run B`, over the checksum
+_(Visual: "two runs, one game" — two panels of the same simulation state, `run A` / `run B`, over the checksum
 rows computed live (`client/src/lib/sim.ts`). It is an illustration of the rule, not engine output; the engine's
-own booth capture replaces it when the founder gives the go.)*
+own booth capture replaces it when the founder gives the go.)_
 
 ## problem
 
@@ -57,7 +57,7 @@ Ask an agent for a game in an engine built for human hands. It writes a script, 
 guesses. The frame rate changes the outcome, the random seed is unseeded, and nothing says what "right" means. Two
 runs are two different games.
 
-*(Visual: a tangle of three strands — script → play → screenshot → guess — drawn on scroll.)*
+_(Visual: a tangle of three strands — script → play → screenshot → guess — drawn on scroll.)_
 
 ## what
 
@@ -68,14 +68,14 @@ spec-label: spec sheet
 **Everything is a document.** Scenes, laws and assets are files an agent can read and write. {{crates}} engine
 crates cover what Bevy leaves out: terrain, shaders, physics, animation, UI, navigation, networking and more.
 
-**The game answers back.** A running game answers four verbs: *query*, *command*, *capture*, *control*. Your agent
+**The game answers back.** A running game answers four verbs: _query_, _command_, _capture_, _control_. Your agent
 asks, edits, looks and steps through the same door a player uses.
 
 **Every feature can fail a test.** Pixel goldens, geometry checks and a reference tool to match. Nothing is taken on
 faith.
 
-*(Visual: Document → Plugin → Running world, the wire looping back from the world to the agent. Sources:
-docs/00-build-a-game.md §1-2; docs/10-ai-layer.md §2.)*
+_(Visual: Document → Plugin → Running world, the wire looping back from the world to the agent. Sources:
+docs/00-build-a-game.md §1-2; docs/10-ai-layer.md §2.)_
 
 ## build
 
@@ -122,8 +122,8 @@ fn three_fixed_steps_a_frame_are_thirty_after_ten_frames() {
 }
 ```
 
-*(Visual: the code sample above as selectable text. It is copied verbatim from the engine on the day it is
-written and its commit is recorded in `sample-commit`. Do not invent API.)*
+_(Visual: the code sample above as selectable text. It is copied verbatim from the engine on the day it is
+written and its commit is recorded in `sample-commit`. Do not invent API.)_
 
 ## determinism
 
@@ -131,9 +131,9 @@ headline: Same seed, same inputs, same frame.
 
 Every random stream comes from one seed you can write down. Game logic may not read the clock or sleep. The
 simulation steps on a fixed tick. So a replay is exact, a test is a fact, and "the bug at tick 340" is something one
-agent can hand to another. *Today: the same build on the same platform.*
+agent can hand to another. _Today: the same build on the same platform._
 
-*(Visual: the hero's tick ruler with two identical hash columns, static.)*
+_(Visual: the hero's tick ruler with two identical hash columns, static.)_
 
 ## parallel
 
@@ -156,9 +156,9 @@ gate-label: gate · order declared
 readout-label: state checksum
 readout-cores: 8 cores | 2 cores
 
-*(Visual: eight core lanes filling with system blocks in parallel; two blocks on different lanes that touch the
+_(Visual: eight core lanes filling with system blocks in parallel; two blocks on different lanes that touch the
 same data get caught by the gate and ordered; then the same checksum reads out for 8 cores and for 2. Sources:
-docs/15-determinism-parallelism.md; docs/00-build-a-game.md §3 for the reference card.)*
+docs/15-determinism-parallelism.md; docs/00-build-a-game.md §3 for the reference card.)_
 
 ## oracles
 
@@ -174,7 +174,7 @@ references: Jolt · PhysX · Recast · Chromium · Yoga · HarfBuzz · Mitsuba �
 
 attract-label: held against
 
-*(Visual: the reference names as plain mono text in a slow marquee. No logos.)*
+_(Visual: the reference names as plain mono text in a slow marquee. No logos.)_
 
 ## goldens
 
@@ -190,9 +190,9 @@ review-steps: shot on one reference card | compared pixel by pixel | a human acc
 strip-label: more accepted goldens
 sheet-caption: the engine's {{goldens.accepted}} accepted goldens are test evidence, not screenshots: small, plain, shot with the noisy features off
 
-*(Visual: one featured golden in a review frame (a wipe between "this run" and "the golden", verdict PASS, the
+_(Visual: one featured golden in a review frame (a wipe between "this run" and "the golden", verdict PASS, the
 three steps as a mono checklist), then a small filmstrip of five more. The files and their provenance rows live in
-`client/assets/renders/`; `manifest.featured` and `manifest.strip` pick them.)*
+`client/assets/renders/`; `manifest.featured` and `manifest.strip` pick them.)_
 
 ## built
 
@@ -208,12 +208,12 @@ area-unit: built
 insert-title: how to play
 stage-label: stage
 
-proof: The first game, *Team Fights*, a small team shooter made of primitives, is built on these crates.
+proof: The first game, _Team Fights_, a small team shooter made of primitives, is built on these crates.
 
 bar-legend: BUILT | PARTIAL | SKIP | not yet
 
-*(Visual: the six tiles plus one thin stacked bar — BUILT / PARTIAL / SKIP / not yet — summing to
-{{catalog.total}}. A Team Fights frame only once it is an accepted golden.)*
+_(Visual: the six tiles plus one thin stacked bar — BUILT / PARTIAL / SKIP / not yet — summing to
+{{catalog.total}}. A Team Fights frame only once it is an accepted golden.)_
 
 ## roadmap
 
@@ -234,7 +234,7 @@ subhead: What "beta" means.
 You get an invitation when version 1 opens, and earlier builds if we open a private preview. We email you about
 access and major releases only.
 
-*(Visual: a vertical four-stop line, the current stop lit, no dates.)*
+_(Visual: a vertical four-stop line, the current stop lit, no dates.)_
 
 ## signup
 
@@ -253,7 +253,7 @@ state-existing: You are already on the list.
 state-invalid: That address does not look right.
 state-error: Something failed on our side. Try again.
 success-card: Player 1 ready
-coming-soon: Sign-ups open soon. *(Shown when no endpoint is configured.)*
+coming-soon: Sign-ups open soon. _(Shown when no endpoint is configured.)_
 slot-label: insert cartridge
 ready-label: player 1
 
@@ -270,8 +270,8 @@ manual-label: manual
    licence: free to make and ship games, with a royalty only above a revenue threshold.
 2. **Do I need an account?** No. An account will be optional, and nothing in the engine, editor or launcher will
    require one.
-3. **Which AI does it work with?** Your own. The engine exposes data and verbs, not a model. *(Keep this line until
-   the editor's agent door is specified; do not name a vendor.)*
+3. **Which AI does it work with?** Your own. The engine exposes data and verbs, not a model. _(Keep this line until
+   the editor's agent door is specified; do not name a vendor.)_
 4. **Is it a Bevy fork?** No. It is built around Bevy 0.19: each system is a Bevy plugin plus our own document
    formats, and a game is a normal Rust codebase you own.
 5. **Which platforms?** Windows first at version 1. More platforms follow.
@@ -285,8 +285,8 @@ links: Press Start · © 2026 · Licence · Privacy · GitHub · Discord · cont
 
 licence-stub: Licence: source-available, published with version 1.
 
-*(GitHub links to this website's repository until the engine is public. Discord and the contact address wait on
-PLAN.md §10 question 7.)*
+_(GitHub links to this website's repository until the engine is public. Discord and the contact address wait on
+PLAN.md §10 question 7.)_
 
 ## privacy
 
@@ -330,9 +330,9 @@ cta: Back to the site
 
 ## site-header
 
-*(The main site at pressstartgames.net, from here to the end of the file. Every section above is the beta's page,
+_(The main site at pressstartgames.net, from here to the end of the file. Every section above is the beta's page,
 now served under /beta. Layout L1 "Cinematic" (client/src/site/DESIGN.md). Copy follows the press-start-website
-skill: present tense only for what is true today, no dates.)*
+skill: present tense only for what is true today, no dates.)_
 
 wordmark: Press Start
 skip: Skip to content
@@ -559,7 +559,7 @@ kicker: Determinism
 headline: Same seed, same inputs, same game.
 lab-label: The replay, tick by tick
 lab-headline: Drag through the run.
-lab-intro: Run A and run B start from the same seed. Run C starts from the same seed too, with one different input at tick 140.
+lab-intro: Run A and run B start from the same seed. Run C starts from the same seed too, with one different input at tick 140: the ball is kicked the other way.
 lab-tick: Tick
 lab-play: Play the run
 lab-pause: Pause
@@ -618,7 +618,7 @@ description: A running game answers four verbs: query, command, capture, control
 kicker: The AI surface
 headline: Your own AI, through the player's door.
 
-A running game answers four verbs: *query*, *command*, *capture*, *control*, plus input injection. The engine
+A running game answers four verbs: _query_, _command_, _capture_, _control_, plus input injection. The engine
 exposes data and verbs; you bring the agent. This page is a placeholder.
 
 ## page-engine-ownership

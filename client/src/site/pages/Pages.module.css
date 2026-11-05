@@ -1,0 +1,57 @@
+.act {
+  padding-block: var(--act-pad);
+}
+
+/* The way on, under a placeholder's title band. */
+.way {
+  padding-block: 72px 112px;
+}
+
+.wayGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+  gap: 40px 80px;
+  align-items: start;
+}
+
+.building {
+  width: 10px;
+  height: 10px;
+  background: repeating-linear-gradient(135deg, var(--amber) 0 2px, var(--ink) 2px 4px);
+}
+
+.wayBody {
+  margin-top: 20px;
+  max-width: 54ch;
+  font-size: var(--t-18);
+  color: var(--ink-muted);
+}
+
+.wayLinks {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  padding: 28px;
+  border-radius: 10px;
+  background: var(--chassis-raised);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+
+.wayTitle {
+  font-size: var(--t-28);
+  margin-bottom: 8px;
+}
+
+.wayLinks a:last-child {
+  margin-top: 16px;
+}
+
+@media (max-width: 900px) {
+  .wayGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .way {
+    padding-block: 48px 80px;
+  }
+}

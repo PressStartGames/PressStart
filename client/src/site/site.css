@@ -1,3 +1,79 @@
-/* The main site's global stylesheet. Phase 1 reuses the console's tokens, fonts and primitives through
-   an @import (inlined at build, so it is not a module shared with the beta's chunk). */
+/* The main site's global stylesheet (layout L1 "Cinematic", see DESIGN.md). The console's tokens, fonts and
+   primitives come in through base.css (inlined at build, so it is not a module shared with the beta's chunk);
+   below them, the few globals the cinematic acts need. Keep this import last in index.tsx. */
 @import '../styles/base.css';
+
+:root {
+  /* a second phosphor: the tick, "now", player two */
+  --amber: #ffb547;
+  --amber-soft: rgb(255 181 71 / 14%);
+  --night: #07090b;
+  --screen-fg-strong: #f1f5f8;
+  /* cinema type: the flagship words and the end card */
+  --t-cine: clamp(3.25rem, 0.5rem + 11vw, 13rem);
+  --t-display: clamp(2.5rem, 0.9rem + 6.4vw, 7.25rem);
+  --act-pad: clamp(72px, 4rem + 6vw, 168px);
+  --panel-radius: 28px;
+}
+
+body {
+  background: var(--night);
+}
+
+/* The light acts sit on the chassis; the dark acts are screens. Both set their own text colour and focus ring. */
+.act-light {
+  background: var(--chassis);
+  color: var(--ink);
+}
+
+.act-dark {
+  background: var(--screen);
+  color: var(--screen-fg);
+}
+
+.act-dark h1,
+.act-dark h2,
+.act-dark h3 {
+  color: var(--screen-fg-strong);
+}
+
+.act-dark a {
+  color: var(--screen-fg-strong);
+}
+
+.act-dark :focus-visible {
+  outline-color: var(--phosphor);
+}
+
+.act-dark ::selection {
+  background: var(--phosphor);
+  color: var(--screen);
+}
+
+/* SplitText's masks (Motion.tsx) keep room for descenders while the glyphs rise behind them. */
+.split-w-mask,
+.split-c-mask {
+  padding-bottom: 0.18em;
+  margin-bottom: -0.18em;
+}
+
+/* In-view reveals for every device; hidden only once React is hydrating, shown when in view. */
+html.js .rv {
+  transition:
+    opacity 760ms var(--ease) var(--d, 0ms),
+    transform 760ms var(--ease) var(--d, 0ms);
+}
+
+html.js.hydrated .rv:not([data-in]) {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .rv,
+  html.js.hydrated .rv:not([data-in]) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

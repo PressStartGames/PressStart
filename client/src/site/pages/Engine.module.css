@@ -1,0 +1,315 @@
+.act {
+  padding-block: var(--act-pad);
+}
+
+.dark {
+  transform-origin: 50% 0%;
+}
+
+.title {
+  margin-top: 20px;
+  font-size: var(--t-display);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  max-width: 14ch;
+}
+
+/* The ring in the title band. */
+.ring {
+  position: relative;
+  width: min(100%, 440px);
+  aspect-ratio: 1;
+  margin-inline: auto;
+}
+
+.ring::before {
+  content: '';
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  border: 1px dashed rgb(56 224 143 / 45%);
+}
+
+.orbit {
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+}
+
+.comet {
+  position: absolute;
+  top: -6px;
+  left: calc(50% - 6px);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 18px 4px rgb(255 181 71 / 55%);
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(-360deg);
+  }
+}
+
+:global(html.js) .orbit {
+  animation: orbit 3.2s cubic-bezier(0.45, 0, 0.2, 1) 400ms both;
+}
+
+.node {
+  position: absolute;
+  inset: 0;
+  transform: rotate(var(--a));
+  pointer-events: none;
+}
+
+.nodeIn {
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  gap: 2px;
+  width: 112px;
+  height: 64px;
+  margin: -32px 0 0 -56px;
+  transform: rotate(calc(-1 * var(--a)));
+  border-radius: 8px;
+  background: #11151b;
+  box-shadow:
+    inset 0 0 0 1px rgb(56 224 143 / 55%),
+    0 12px 30px -12px rgb(0 0 0 / 80%);
+  font-size: var(--t-16);
+  font-weight: 500;
+  color: var(--screen-fg-strong);
+}
+
+.nodeIn small {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--phosphor);
+}
+
+/* The loop, written out. */
+.loop {
+  list-style: none;
+  margin: 32px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 2px solid var(--ink);
+}
+
+.loop li {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: 24px 24px 8px 0;
+}
+
+.loop li + li {
+  padding-left: 24px;
+  border-left: 1px solid var(--hairline);
+}
+
+.loopN {
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  color: var(--ink-muted);
+}
+
+.loopName {
+  font-size: var(--t-40);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.loopText {
+  font-size: var(--t-16);
+  color: var(--ink-muted);
+}
+
+/* The five strengths as index cards. */
+.cards {
+  list-style: none;
+  margin: 56px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.cards li {
+  grid-column: span 2;
+}
+
+.cards li:nth-child(n + 4) {
+  grid-column: span 3;
+}
+
+.card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  height: 100%;
+  min-height: 260px;
+  padding: 28px 28px 64px;
+  border-radius: 10px;
+  background: #11151b;
+  box-shadow: inset 0 0 0 1px #232a33;
+  text-decoration: none;
+  transition:
+    transform var(--mid) var(--ease),
+    box-shadow var(--mid) var(--ease);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    inset 0 0 0 1px var(--phosphor),
+    0 24px 50px -24px rgb(56 224 143 / 45%);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--phosphor);
+  outline-offset: 3px;
+}
+
+.cardN {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.cardTitle {
+  font-size: var(--t-28);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--screen-fg-strong);
+}
+
+.cardText {
+  font-size: var(--t-16);
+  color: var(--screen-fg);
+}
+
+.cardGo {
+  position: absolute;
+  left: 28px;
+  bottom: 22px;
+  font-family: var(--font-mono);
+  font-size: var(--t-22);
+  color: var(--phosphor);
+  transition: transform var(--mid) var(--ease);
+}
+
+.card:hover .cardGo {
+  transform: translateX(8px);
+}
+
+/* Not there yet. */
+.notYet {
+  padding-block: 0 var(--act-pad);
+}
+
+.notYetGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 40px 80px;
+  padding-top: 64px;
+  border-top: 1px solid var(--hairline);
+}
+
+.amberDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 0 4px rgb(255 181 71 / 25%);
+}
+
+.notYetTitle {
+  margin: 18px 0 20px;
+  font-size: var(--t-56);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.notYetList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.notYetList li {
+  position: relative;
+  padding: 18px 0 18px 36px;
+  font-size: var(--t-18);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.notYetList li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 26px;
+  width: 16px;
+  height: 2px;
+  border-top: 2px dashed var(--ink-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(html.js) .orbit {
+    animation: none;
+  }
+
+  .card,
+  .cardGo {
+    transition: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .loop {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .loop li + li {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cards li,
+  .cards li:nth-child(n + 4) {
+    grid-column: auto;
+  }
+
+  .card {
+    min-height: 0;
+  }
+
+  .notYetGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ring {
+    width: min(100%, 340px);
+  }
+
+  .nodeIn {
+    width: 96px;
+    height: 56px;
+    margin: -28px 0 0 -48px;
+  }
+}
