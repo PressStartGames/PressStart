@@ -17,7 +17,7 @@ const PAGES = [
   { path: '/engine/parallel/', h1: 'All your cores, the same answer.' },
   { path: '/engine/determinism/', h1: 'Same seed, same inputs, same game.' },
   { path: '/roadmap/', h1: 'The road, in order.' },
-  { path: '/news/', h1: 'Patch notes.' },
+  { path: '/news/', h1: 'News.' },
   { path: '/community/', h1: 'Come build with us.' },
   { path: '/privacy/', h1: 'Privacy.' },
 ];

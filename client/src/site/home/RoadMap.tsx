@@ -10,40 +10,38 @@ import { vars } from '../lib/vars';
 import { PixelIcon } from '../ui/PixelIcon';
 import styles from './RoadMap.module.css';
 
-// The overworld: x and y of each stage in a 1000 x 300 field, the path a smooth curve through them.
+// The overworld: x and y of each stop in a 1000 x 300 field (n stops spread evenly), the path a
+// smooth curve through them.
 const W = 1000;
 const H = 300;
-const point = (i: number) => ({ x: 62.5 + i * 125, y: i % 2 === 0 ? 96 : 176 });
+const point = (i: number, n: number) => ({ x: (W / n) * (i + 0.5), y: i % 2 === 0 ? 96 : 176 });
 
 function pathThrough(n: number): string {
   let d = '';
+  const pull = W / n / 2;
   for (let i = 0; i < n; i++) {
-    const p = point(i);
+    const p = point(i, n);
     if (i === 0) {
       d = `M${p.x} ${p.y}`;
       continue;
     }
-    const q = point(i - 1);
-    d += ` C${q.x + 62} ${q.y} ${p.x - 62} ${p.y} ${p.x} ${p.y}`;
+    const q = point(i - 1, n);
+    d += ` C${q.x + pull} ${q.y} ${p.x - pull} ${p.y} ${p.x} ${p.y}`;
   }
   return d;
 }
 
-const STATE_ICON: Record<string, IconName> = {
-  cleared: 'check',
-  now: 'play',
-  next: 'flag',
-  ahead: 'lock',
-};
+const STATES = ['now', 'next', 'then'] as const;
+const STATE_ICON: Record<string, IconName> = { now: 'play', next: 'flag', then: 'lock' };
 
-// The road to version 1 as an overworld map: cleared, now, next, ahead; no dates. With motion, the
-// path draws with the scroll and the "you are here" marker lands; the server renders it drawn.
-// `detailed` adds each stage's longer text under the map (the roadmap page).
-export function RoadMap({ detailed = false }: { detailed?: boolean }) {
+// The road as an overworld map: direction only, one line a stop (now, next, then), no dates, no
+// internal work (founder, 2026-11-05). With motion, the path draws with the scroll and the "you are
+// here" marker lands on "now"; the server renders it drawn.
+export function RoadMap() {
   const id = 'site-road';
   const stages = rows(id);
   const labels = splitList(field(id, 'states'), '|');
-  const stateLabel = (s: string) => labels[['cleared', 'now', 'next', 'ahead'].indexOf(s)] ?? s;
+  const stateLabel = (s: string) => labels[STATES.indexOf(s as (typeof STATES)[number])] ?? s;
   const here = stages.findIndex(([s]) => s === 'now');
   const map = useRef<HTMLDivElement>(null);
 
@@ -77,13 +75,17 @@ export function RoadMap({ detailed = false }: { detailed?: boolean }) {
         </svg>
         <ol className={styles.stages}>
           {stages.map(([state = '', title = '', short = ''], i) => {
-            const p = point(i);
+            const p = point(i, stages.length);
             return (
               <li
                 key={title}
                 className={styles.stage}
                 data-state={state}
-                style={vars({ '--x': `${(p.x / W) * 100}%`, '--y': `${(p.y / H) * 100}%` })}
+                style={vars({
+                  '--x': `${(p.x / W) * 100}%`,
+                  '--y': `${(p.y / H) * 100}%`,
+                  '--w': `${100 / stages.length}%`,
+                })}
               >
                 {i === here ? (
                   <span className={styles.marker} data-marker aria-hidden="true">
@@ -106,22 +108,6 @@ export function RoadMap({ detailed = false }: { detailed?: boolean }) {
           })}
         </ol>
       </div>
-      {detailed ? (
-        <ol className={styles.details}>
-          {stages.map(([state = '', title = '', , long = ''], i) => (
-            <li key={title} className={styles.detail} data-state={state}>
-              <span className={styles.detailNum} aria-hidden="true">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <div>
-                <p className={styles.state}>{stateLabel(state)}</p>
-                <h3 className={styles.detailTitle}>{title}</h3>
-                <p className={styles.detailText}>{long}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      ) : null}
     </div>
   );
 }

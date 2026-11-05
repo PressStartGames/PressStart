@@ -8,7 +8,7 @@ import { SectionHead } from '../ui/SectionHead';
 import ui from '../ui/ui.module.css';
 import styles from './Roadmap.module.css';
 
-// /roadmap: the overworld with every stage's detail, the decisions already made, what "beta" means.
+// /roadmap: the overworld (now, next, then), the decisions already made, what "beta" means.
 export function Roadmap() {
   return (
     <>
@@ -17,7 +17,7 @@ export function Roadmap() {
         className={`${ui.sectionTight} ${ui.wrap}`}
         aria-label={field('site-road', 'kicker')}
       >
-        <RoadMap detailed />
+        <RoadMap />
       </section>
       <section className={`${ui.section} ${ui.wrap}`} aria-labelledby="decisions-title">
         <SectionHead

@@ -146,7 +146,6 @@ export const CONTENT_SCHEMA: Record<string, readonly string[]> = {
   ],
   'site-scores': ['kicker', 'headline', 'board', 'score', 'name'],
   'site-road': ['kicker', 'headline', 'states', 'here', 'cta'],
-  'site-news': ['kicker', 'headline', 'cta', 'now-label', 'now'],
   'site-involved': ['kicker', 'headline'],
   'site-start': ['headline', 'cta', 'alt'],
   'site-placeholder': ['lock', 'doors'],

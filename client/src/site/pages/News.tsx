@@ -1,16 +1,12 @@
-import { PatchNotes } from '../home/PatchNotes';
 import { StartBand } from '../home/StartBand';
 import { PageHero } from '../ui/PageHero';
-import ui from '../ui/ui.module.css';
 
-// /news: the patch notes in full.
+// /news: a placeholder until there are version notes to post (no notes about internal milestones;
+// founder, 2026-11-05).
 export function News() {
   return (
     <>
       <PageHero id="page-news" tone="blue" />
-      <section className={`${ui.sectionTight} ${ui.wrap}`}>
-        <PatchNotes />
-      </section>
       <StartBand />
     </>
   );

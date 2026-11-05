@@ -438,35 +438,15 @@ are on the board too.
 
 kicker: The road
 headline: Where we are.
-states: cleared | now | next | ahead
+states: now | next | then
 here: you are here
 cta: See the whole road
 
-Press Start is not public yet. This is the road to version 1, in order, each stage with its state today. No
-dates: we do not publish dates we have not earned.
+Press Start is not public yet. The direction, in order, without dates.
 
-1. cleared | Team Fights, stage 1 | The first game on the engine. | A bot-vs-bot team shooter made of primitives, on our own map, built on the engine's crates under the same process as the engine. The founder played it; his findings are the first work of stage 2.
-2. now | The licence wave | Rewriting what came from restricted sources. | Every module that was transcribed from a restricted engine source is deleted and rewritten from public papers and API pages, with a similarity gate that refuses a rewrite still carrying the deleted text. It is the one hard dependency of a public release.
-3. next | The editor wave | Everything built, reachable in the editor. | New game, edit by hand and by AI, play: an editor window and a game window, and an agent panel on the same wire. No new engine feature, only the whole normal flow.
-4. ahead | The repository split | The engine as its own repository. | The engine is published as its own repository on a fresh history, cleaned for the public. It runs after the licence wave.
-5. ahead | The version 1 cut | A launcher, templates, save, build, Windows export. | A launcher, a new project from a template, save, build and Windows export. No account required, and it works fully offline.
-6. ahead | Texture codecs | The texture codec suite. | The texture codec suite comes after the editor.
-7. now | Speed and memory | The big pain points, paid down. | Speed measured against each reference and paid down to parity where it hurts most, with memory held to its own gate. The memory work is already under way.
-8. ahead | Version 1, public | One gate, then the public release. | One full release gate over a frozen tree, then version 1 public under our own source-available licence, and a new version every two weeks after it.
-
-## site-news
-
-kicker: Patch notes
-headline: What landed lately.
-cta: All patch notes
-now-label: in progress
-now: The licence wave and the memory work are under way.
-
-1. 2026-11-03 | Road | The editor wave's first row | The editor must open any project: the first piece of the editor wave is written down.
-2. 2026-11-02 | Road | The repository split, planned | The engine will be published as its own repository on a fresh history, after the licence wave.
-3. 2026-10-30 | Game | Team Fights, stage 1, is done | The first game on the engine, a bot-vs-bot team shooter made of primitives on our own map, Sandcourt. The founder played it.
-4. 2026-10-26 | Engine | Cleanup 2.0 closed | Every finding of the engine's own quality gate, closed.
-5. 2026-10-25 | Engine | First-person control | The pieces a first-person shooter needed: first-person control, and AI that moves to a point over the navmesh.
+1. now | Private beta | The engine is built and tested in private, and the list is open.
+2. next | Version 1 | A launcher, a new project from a template, save, build, Windows export. No account required; works offline.
+3. then | Version 1.x | Regular releases, more of the engine, more platforms.
 
 ## site-involved
 
@@ -477,7 +457,7 @@ The repository goes public with version 1, under a source-available licence. Unt
 
 1. Join the beta | The way in today. One email when your invite is ready, nothing else unless you ask. | Join the beta
 2. Say hello on Discord | Ask questions, follow along and meet the people building it. | Join the Discord
-3. Follow the road | Every stage to version 1 with its state, and the patch notes as things land. | See the road
+3. Follow the road | Where Press Start is going: now, next, then. | See the road
 4. Read how it works | The engine one strength at a time, in plain words. | Explore the engine
 
 ## site-start
@@ -680,22 +660,21 @@ them.
 ## page-roadmap
 
 title: Roadmap · Press Start
-description: The road to version 1, in order, each stage with its state, without dates.
+description: Where Press Start is going: private beta now, version 1 next, then version 1.x. No dates.
 kicker: Roadmap
 headline: The road, in order.
 
-Press Start is not public yet. This is the road to version 1, in the founder's order, each stage with its state
-today. No dates: we do not publish dates we have not earned.
+Press Start is not public yet. The direction, in order, without dates.
 
 ## site-roadmap-decisions
 
 kicker: Already decided
 headline: The decisions you should know.
 
-1. **Source-available, in Unreal's shape.** The repository goes public at version 1. Use and change the engine to make and ship games, with a royalty only above a revenue threshold. The rate and the threshold are set with the licence text.
-2. **Nothing requires a login.** Accounts will be optional. The engine, the editor and the launcher will work fully offline.
-3. **Windows first.** Other platforms come after version 1.
-4. **No servers of ours inside your game.** No relay, lobby or matchmaker hosted by us: a game's online play is its own dedicated server.
+1. **Source-available at version 1.** Use and change the engine to make and ship games, with a royalty only above a revenue threshold.
+2. **Nothing requires a login.** Accounts will be optional.
+3. **Works offline.** The engine, the editor and the launcher will work without a connection.
+4. **Windows first.** Other platforms come after version 1.
 
 ## site-roadmap-beta
 
@@ -716,13 +695,12 @@ verbs for your AI.
 
 ## page-news
 
-title: Patch notes · Press Start
-description: What landed in Press Start lately, and what is under way.
+title: News · Press Start
+description: News and version notes for Press Start.
 kicker: News
-headline: Patch notes.
+headline: News.
 
-What landed in the engine lately, newest first, read from the engine's own records. Version notes start with
-version 1.
+News and version notes will be posted here.
 
 ## page-licensing
 
@@ -731,7 +709,7 @@ description: How Press Start will be licensed.
 kicker: Licensing
 headline: Source-available, with version 1.
 
-The plan is a source-available licence in Unreal's shape: free to make and ship games, a royalty only above a
+The plan is a source-available licence: free to make and ship games, a royalty only above a
 revenue threshold, and an optional login that nothing requires. The terms are not final yet.
 
 ## page-about

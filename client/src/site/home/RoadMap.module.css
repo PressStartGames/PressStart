@@ -1,4 +1,4 @@
-/* The overworld map. Desktop: stages placed on a winding path in a 1000 x 300 field.
+/* The overworld map. Desktop: the stops (now, next, then) placed on a winding path in a 1000 x 300 field.
    Under 900 px: a vertical list on a rail. */
 .root {
   display: grid;
@@ -55,7 +55,8 @@
   position: absolute;
   left: var(--x);
   top: calc(var(--y) * 300 / 336);
-  width: 12.5%;
+  width: var(--w, 33%);
+  max-width: 300px;
   display: grid;
   justify-items: center;
   transform: translate(-50%, -28px);
@@ -81,12 +82,6 @@
   width: 20px;
   height: auto;
   --icon-accent: currentColor;
-}
-
-.stage[data-state='cleared'] .node {
-  background: var(--l3-green);
-  color: var(--ink);
-  box-shadow: 0 4px 0 var(--l3-green-deep);
 }
 
 .stage[data-state='now'] .node {
@@ -122,14 +117,14 @@
 }
 
 .title {
-  font-size: var(--t-14);
+  font-size: var(--t-18);
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.25;
 }
 
 .short {
-  font-size: var(--t-12);
+  font-size: var(--t-14);
   line-height: 1.4;
   color: var(--ink-muted);
 }
@@ -172,66 +167,6 @@
   white-space: nowrap;
 }
 
-/* ---------- the roadmap page's long list ---------- */
-.details {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
-}
-
-.detail {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 20px;
-  padding: 28px;
-  border-radius: var(--l3-r);
-  background: var(--l3-card);
-  box-shadow:
-    0 0 0 1px var(--l3-card-line) inset,
-    var(--l3-lift);
-}
-
-.detailNum {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  font-family: var(--font-pixel);
-  font-size: 11px;
-  background: var(--chassis);
-  box-shadow: 0 0 0 2px var(--hairline) inset;
-}
-
-.detail[data-state='cleared'] .detailNum {
-  background: var(--l3-green);
-  box-shadow: 0 3px 0 var(--l3-green-deep);
-}
-
-.detail[data-state='now'] .detailNum {
-  background: var(--l3-red);
-  box-shadow: 0 3px 0 var(--l3-red-deep);
-}
-
-.detail[data-state='next'] .detailNum {
-  background: #fff;
-  box-shadow: 0 0 0 3px var(--l3-amber) inset;
-}
-
-.detailTitle {
-  margin-top: 6px;
-  font-size: var(--t-22);
-}
-
-.detailText {
-  margin-top: 10px;
-  font-size: var(--t-16);
-  color: var(--ink-muted);
-}
-
 @media (max-width: 900px) {
   .map {
     aspect-ratio: auto;
@@ -266,6 +201,7 @@
     left: auto;
     top: auto;
     width: auto;
+    max-width: none;
     grid-template-columns: 56px minmax(0, 1fr);
     justify-items: start;
     align-items: start;
@@ -304,14 +240,5 @@
 
   .player {
     width: 20px;
-  }
-
-  .details {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .detail {
-    padding: 20px;
-    gap: 16px;
   }
 }

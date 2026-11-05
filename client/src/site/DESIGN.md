@@ -10,7 +10,7 @@ The friendliest of the four layouts. The site is a **handheld console you pick u
 your AI are player 1 and player 2, and the engine is the console that keeps an exact score. Everything that
 was a lab instrument on the beta (ledgers, gates, checksums) is re-told as something a solo developer already
 loves: a handheld that replays the same game when you press START, four face buttons for the four values, a
-high-score table for the counts, an overworld map for the road, a patch-notes board for the news.
+high-score table for the counts, an overworld map for the road.
 The proof stays — every number is synced, every claim is the website skill's "true today" — but it is
 presented as play, then explained in one plain sentence.
 
@@ -44,13 +44,12 @@ without JavaScript.
 4. _High scores_ — the synced counts as an arcade score table that rolls up when it scrolls in, including
    the misses (PARTIAL) and the sync date and engine commit. _Proves: nothing is typed by hand; we publish
    the misses._
-5. _The road_ — an overworld map of the road to version 1: cleared, now, next, ahead; no dates. The path
-   draws in once when it scrolls into view and the "you are here" marker lands on the current stage.
-6. _Patch notes_ — what landed, from `mission/roadmap.md` (past dates only; the internal build lane is never
-   mentioned).
-7. _Get involved_ — four cartridges: join the beta, say hello on Discord, follow the road, read how it
+5. _The road_ — an overworld map with three stops, direction only: now (private beta), next (version 1),
+   then (version 1.x); a line each, no dates, never internal work in progress (founder, 2026-11-05). The path
+   draws in once when it scrolls into view and the "you are here" marker lands on "now".
+6. _Get involved_ — four cartridges: join the beta, say hello on Discord, follow the road, read how it
    works; the note that the repository goes public with version 1.
-8. _Press Start_ — the closing band: a big pixel PRESS START on a screen and the beta button.
+7. _Press Start_ — the closing band: a big pixel PRESS START on a screen and the beta button.
 
 **Footer** — dark screen colour, grouped links (Engine strengths, Project, Studio with Discord, Legal),
 the beta's line and the sync stamp from `counts.json`.
@@ -64,10 +63,10 @@ into core lanes; two that touch the same data get ordered by the gate); a live f
 the browser ("the same three numbers, added in two orders, are not equal"); the four rules; what we do not
 claim; neighbour links to the other strengths.
 
-**`/roadmap`** — the overworld map large, then every stage as a level card with its state, the decisions
-already made, and what "beta" means.
+**`/roadmap`** — the overworld map, the decisions already made (product direction only), and what "beta"
+means.
 
-**`/news`** — the patch notes in full.
+**`/news`** — a placeholder: news and version notes will be posted here. No notes about internal milestones.
 
 **Other routes** (`/showcase`, `/learn`, `/licensing`, `/about`, `/community`, the other strength pages,
 legal) — a styled "level not unlocked yet" page: the page's own copy from CONTENT.md, a pixel lock,
