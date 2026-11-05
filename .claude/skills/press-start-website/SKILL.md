@@ -76,6 +76,9 @@ Present tense only for TRUE TODAY:
 - the first game, Team Fights stage 1, built on the crates.
 
 ROADMAP (a plan, worded without dates, only in the roadmap section and the FAQ):
+- **On the site the road is direction only** (founder, 2026-11-05): Now: private beta · Next: version 1 · Then:
+  version 1.x (regular releases, more of the engine, more platforms). The internal stages below and in the engine's
+  roadmap (the licence work, waves, the repository split) are never named or described on the site.
 - the editor (`press_start_editor` exists but the editor wave is ahead), the undo law with it;
 - the launcher, new project from a template, save, build, **Windows export** (version 1);
 - the optional login nothing requires; the engine works offline;

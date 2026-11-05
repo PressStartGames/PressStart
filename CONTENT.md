@@ -215,13 +215,12 @@ bar-legend: BUILT | PARTIAL | SKIP | not yet
 
 headline: Where we are.
 
-Press Start is not public yet. This is the road to version 1, in order:
+Press Start is not public yet. The direction, in order:
 
-1. **Version 1:** a launcher, a new project from a template, save, build, Windows export. No account required, and
+1. **Private beta:** the engine is built and tested in private, and the list is open.
+2. **Version 1:** a launcher, a new project from a template, save, build, Windows export. No account required, and
    it works fully offline.
-2. **Then:** the big performance pain points, one full release gate, and the public repository under our own
-   source-available licence.
-3. **After:** a version every two weeks, the remaining gaps, more platforms.
+3. **Version 1.x:** regular releases, more of the engine, more platforms.
 
 now-label: now
 
@@ -230,7 +229,8 @@ subhead: What "beta" means.
 You get an invitation when version 1 opens, and earlier builds if we open a private preview. We email you about
 access and major releases only.
 
-*(Visual: a vertical four-stop line, the current stop lit, no dates.)*
+*(Visual: a vertical three-stop line, the current stop lit, no dates. Direction only: never name internal
+work in progress.)*
 
 ## signup
 
@@ -624,7 +624,7 @@ pictures appear here once the engine accepts them as goldens; until then we show
 ## page-roadmap
 
 title: Roadmap · Press Start
-description: The road to version 1, in order, without dates.
+description: Where Press Start is going: private beta now, version 1 next, then 1.x.
 kicker: Roadmap
 headline: The road, in order.
 
