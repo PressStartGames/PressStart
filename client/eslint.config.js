@@ -1,23 +1,10 @@
-import js from '@eslint/js';
-import reactHooks from 'eslint-plugin-react-hooks';
-import reactRefresh from 'eslint-plugin-react-refresh';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
+import { reactConfig } from '../eslint.shared.js';
 
-export default tseslint.config(
-  { ignores: ['dist', 'dist-ssr', 'dist-e2e', 'playwright-report', 'test-results'] },
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    languageOptions: { ecmaVersion: 2022, globals: { ...globals.browser, ...globals.node } },
-    plugins: { 'react-hooks': reactHooks, 'react-refresh': reactRefresh },
-    rules: {
-      ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        { argsIgnorePattern: '^_', varsIgnorePattern: '^_', ignoreRestSiblings: true },
-      ],
-    },
+export default reactConfig({
+  ignores: ['dist-ssr', 'dist-e2e'],
+  rules: {
+    // TODO(Phase 3 pass 2, after the routing merge): give the <pre> in components/CodeSample.tsx
+    // role="region" + aria-label, then drop this override so the shared error applies.
+    'jsx-a11y/no-noninteractive-tabindex': ['warn', { roles: ['region'], tags: [] }],
   },
-);
+});

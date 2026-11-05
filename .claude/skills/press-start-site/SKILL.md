@@ -211,7 +211,7 @@ data"; "first solid design and sign-ups". Act accordingly before adding anything
 
 ## Taking over: a checklist
 
-1. Read `CLAUDE.md`, this skill, then `press-start-website` (the engine tie).
+1. Read `CLAUDE.md`, this skill, then `press-start-react` (the React standard and shared lint config, `eslint.shared.js`), then `press-start-website` (the engine tie).
 2. `pnpm install`, `pnpm lint`, `pnpm test`, `pnpm --filter client build:e2e && pnpm --filter client test:e2e`.
    All should be green on `main`.
 3. Before a release: run `sync-facts` against the engine, read the `counts.json` diff, re-check every claim

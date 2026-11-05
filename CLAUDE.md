@@ -11,6 +11,8 @@ root/server, root/client structure."
 - **The words:** [`CONTENT.md`](CONTENT.md). All page copy lives there, keyed by section id; code never holds prose.
 - **The handover:** the `press-start-site` skill (`.claude/skills/press-start-site/SKILL.md`): the repository, stack,
   deploy, content and data flow, design system, sign-up modes, what is measured and what is open. Read it first.
+- **The React standard:** the `press-start-react` skill (`.claude/skills/press-start-react/SKILL.md`); read it before
+  writing or reviewing any React code. Shared lint config: `eslint.shared.js`.
 - **The engine tie:** the `press-start-website` skill (`.claude/skills/press-start-website/SKILL.md`); read it first.
   The reference look: `docs/reference/elyx/` (16 renders + `elyx-facts.json`); the plan's brief: `docs/plan-brief.md`.
 

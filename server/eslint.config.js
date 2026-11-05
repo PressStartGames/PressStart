@@ -1,18 +1,11 @@
-import js from '@eslint/js';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
+import { nodeConfig } from '../eslint.shared.js';
 
-export default tseslint.config(
-  { ignores: ['.wrangler', 'dist'] },
-  {
-    files: ['**/*.ts'],
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    languageOptions: { ecmaVersion: 2022, globals: { ...globals.serviceworker, ...globals.node } },
-    rules: {
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
-      ],
-    },
+export default nodeConfig({
+  rules: {
+    // src/index.ts is the Worker entry, not a barrel: allow it, still forbid '.' / '..' directory imports.
+    'no-restricted-imports': [
+      'error',
+      { patterns: [{ regex: '^\.{1,2}/?$', message: 'Import the defining module directly.' }] },
+    ],
   },
-);
+});
