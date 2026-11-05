@@ -41,7 +41,7 @@ Update the status column as phases land.
 | 3 | The React standard (skill + lint) for all three apps | Claude (agent) | Sonnet | done (local, merged into main-site/routing) |
 | 4 | Analytics with consent, the new promise | Claude (agent) | Sonnet | open |
 | 5 | Feature flags and split testing (GrowthBook) | Claude (agent) + founder (account) | Sonnet | open |
-| 6 | Environments and the pipeline | Claude (agent) + founder (token, keys) | Sonnet | open |
+| 6 | Environments and the pipeline | Claude (agent) + founder (token, keys) | Sonnet | done locally (branch main-site/environments); needs the founder's Cloudflare token + account id (staging and production GitHub Environments), the `production` reviewer rule, the staging D1 id, DNS for `staging` / `admin-staging`, WorkOS production keys |
 | 7 | Production cut-over | Claude + founder (approval) | — | open |
 
 Phases 3–6 run after phase 1 and can overlap with phase 2 (separate worktrees, separate files). Phase 2's

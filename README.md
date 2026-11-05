@@ -11,6 +11,8 @@ prove. One job: say what the engine is, prove it with the engine's own output, c
 ```
 client/   Vite + React 19 + TypeScript. Prerendered to static HTML at build -> GitHub Pages.
 server/   Cloudflare Worker + D1: the email store (Turnstile, honeypot, double opt-in via Resend).
+admin/    The admin console (Vite SPA served by its own Worker).
+site-worker/  The Worker that serves client/dist on Cloudflare (staging and production; Phase 6).
 docs/     the plan's brief and the reference screenshots.
 .github/workflows/   ci.yml (lint, tests, build, Playwright + axe, Lighthouse), deploy.yml (-> gh-pages),
                      deploy-server.yml (wrangler, on demand).
@@ -28,6 +30,8 @@ pnpm test                                      # vitest, both packages
 pnpm --filter client build:e2e && pnpm --filter client test:e2e   # Playwright + axe, three sign-up modes
 pnpm --filter client lighthouse                # Lighthouse CI on client/dist
 pnpm --filter client sync-facts -- C:/Yanivs/GameDev/PressStart   # refresh client/data/counts.json
+pnpm --filter client build --mode staging      # strict env check, then the staging build (.env.staging)
+pnpm --filter site-worker dev                  # client/dist through the site Worker on :8791
 pnpm --filter server dev                       # wrangler dev with a local D1 (copy .dev.vars.example)
 pnpm --filter server deploy                    # d1 migrations apply + wrangler deploy
 pnpm --filter server export:signups            # confirmed rows -> signups-YYYY-MM-DD.csv
@@ -55,6 +59,15 @@ pnpm --filter server export:signups            # confirmed rows -> signups-YYYY-
 - **Images**: only accepted engine goldens and booth captures, each with a provenance row in
   `client/assets/renders/manifest.json` (`check-renders` refuses one without). None are imported yet
   (that is M3); the hero uses placeholder frames and placeholder checksums (`client/data/replay.json`).
+
+## Environments
+
+Local / staging (`staging.pressstartgames.net`) / production (`pressstartgames.net`): Vite modes with public
+values in `.env.<mode>`, Wrangler `[env.staging]` / `[env.production]` for the API, the admin console and the
+site Worker, a mail mode per environment (`log` / `allowlist` / `live`), a session cookie per environment.
+PRs get a preview, a merge to `main` deploys staging, production is a manual, approval-gated workflow. The
+table, the commands and the list of what the founder must create are in the `press-start-site` skill
+("Environments and the pipeline"). GitHub Pages (below) stays the live beta until the Phase 7 cut-over.
 
 ## Deploying
 
