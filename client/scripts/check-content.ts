@@ -14,6 +14,8 @@ const counts = JSON.parse(
 
 const errors: string[] = [];
 const BANNED = /bevy|honest/i;
+const INTERNAL =
+  /licen[cs]e (wave|work|rewrite)|\bwaves?\b|rewrit|transcrib|restricted|repo(sitory)? split|\bLW-\d/i;
 let content;
 try {
   content = fillPlaceholders(parseContent(md), counts);
@@ -48,6 +50,10 @@ for (const s of Object.values(content)) {
     // Founder, 2026-11-05: the site never names Bevy and never says "honest"/"honestly".
     const words = BANNED.exec(JSON.stringify(b));
     if (words) errors.push(`section "${s.id}" uses the banned word "${words[0]}"`);
+    // Founder, 2026-11-05: the road is direction only (now beta, next version 1, then 1.x). Internal work in
+    // progress (the licence work, waves, the repository split, rewrites) is never on the site.
+    const internal = INTERNAL.exec(JSON.stringify(b));
+    if (internal) errors.push(`section "${s.id}" names internal work: "${internal[0]}"`);
   }
 }
 

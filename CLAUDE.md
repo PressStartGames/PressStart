@@ -93,6 +93,9 @@ The e2e suite covers all three.
   with the engine, the website owes no attribution. Internal docs may name it. (Founder, 2026-11-05.)
 - **The words "honest" and "honestly" are never used on the site.** The rules about truth still apply; the copy
   just does not say so. `check-content` enforces both rules over CONTENT.md and `client/src`.
+- **The road is direction only:** "Now: private beta · Next: version 1 · Then: version 1.x", a line each, no dates.
+  Internal work in progress is never on the site: no licence work or rewrites, no waves, no repository split, no
+  ticket ids, no patch notes about internal milestones. (Founder, 2026-11-05; `check-content` enforces it.)
 - **No dates promised** for the beta or version 1. The present tense only for what is true today (the skill lists
   true today vs roadmap). The engine's internal build lane is never mentioned; no MCP server is claimed.
 - No cookies, no trackers; analytics is Cloudflare Web Analytics (cookieless), added at M4. Secrets never committed
