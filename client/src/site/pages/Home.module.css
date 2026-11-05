@@ -1,0 +1,19 @@
+.tour {
+  display: grid;
+  grid-template-columns: var(--site-rail) minmax(0, 1fr);
+  gap: 0 48px;
+  border-top: 1px solid var(--hairline);
+  padding-top: 8px;
+}
+
+.stages {
+  min-width: 0;
+}
+
+@media (max-width: 1100px) {
+  .tour {
+    grid-template-columns: minmax(0, 1fr);
+    border-top: 0;
+    padding-top: 0;
+  }
+}

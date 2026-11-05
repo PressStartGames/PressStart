@@ -1,0 +1,192 @@
+.procedure {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 56px;
+  align-items: start;
+  --accent: var(--st-green);
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.steps li {
+  display: grid;
+  grid-template-columns: 4ch 1fr;
+  gap: 4px 12px;
+  padding: 28px 0 28px 16px;
+  border-left: 3px solid var(--hairline);
+  transition: border-color var(--mid) var(--ease);
+}
+
+.steps li[data-on] {
+  border-left-color: var(--accent);
+}
+
+.stepNo {
+  grid-row: 1 / 3;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  padding-top: 6px;
+  color: var(--ink-muted);
+}
+
+.steps li[data-on] .stepNo {
+  color: var(--ink);
+}
+
+.stepLead {
+  font-size: var(--t-22);
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+.stepText {
+  color: var(--ink-muted);
+}
+
+.codeWrap {
+  position: sticky;
+  top: calc(var(--header-h) + 32px);
+}
+
+/* What is in the box: the families as a grid of labelled slots. */
+.box {
+  --accent: var(--st-cyan);
+}
+
+.families {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+}
+
+.families li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px;
+  background: var(--chassis-raised);
+  transition: background-color var(--fast) var(--ease);
+}
+
+.families li:hover {
+  background: #fff;
+}
+
+.familyName {
+  font-weight: 500;
+  font-size: var(--t-18);
+}
+
+.familyName::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 10px;
+  vertical-align: 2px;
+  background: var(--ink);
+}
+
+.familyWhat {
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  color: var(--ink-muted);
+}
+
+/* The numbers: screens with pixel figures. */
+.tiles {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.tiles li {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px;
+  background: var(--screen);
+  border-radius: 6px;
+  color: var(--screen-fg);
+}
+
+.tiles li:nth-child(1) {
+  --accent: var(--st-green);
+}
+
+.tiles li:nth-child(2) {
+  --accent: var(--st-lime);
+}
+
+.tiles li:nth-child(3) {
+  --accent: var(--st-blue);
+}
+
+.tiles li:nth-child(4) {
+  --accent: var(--st-pink);
+}
+
+.tileNo {
+  font-family: var(--font-pixel);
+  font-size: clamp(1.6rem, 1rem + 2vw, 2.4rem);
+  color: var(--accent);
+  text-shadow: 0 0 16px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+.tileLabel {
+  font-size: var(--t-14);
+  color: var(--screen-fg);
+}
+
+.synced {
+  margin: 16px 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  color: var(--ink-muted);
+}
+
+@media (max-width: 1000px) {
+  .procedure {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .codeWrap {
+    position: static;
+  }
+
+  .families,
+  .tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .families {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .families li,
+  .tiles li {
+    padding: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .steps li,
+  .families li {
+    transition: none;
+  }
+}

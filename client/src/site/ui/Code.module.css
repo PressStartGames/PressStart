@@ -1,0 +1,151 @@
+.figure {
+  margin: 0;
+  min-width: 0;
+}
+
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: var(--screen-raised);
+  border: 1px solid #000;
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  background: var(--screen-line);
+}
+
+.dot:first-child {
+  background: var(--accent);
+}
+
+.file {
+  margin-left: 10px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  color: var(--screen-muted);
+}
+
+.lang {
+  margin-left: auto;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.pre {
+  margin: 0;
+  padding: 16px 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  max-width: 100%;
+  background: var(--screen);
+  color: var(--screen-fg);
+  border: 1px solid #000;
+  border-radius: 0 0 6px 6px;
+  font-size: 13px;
+  line-height: 1.7;
+  tab-size: 4;
+  counter-reset: line;
+}
+
+.line {
+  display: block;
+  padding: 0 18px 0 0;
+  counter-increment: line;
+  min-width: max-content;
+}
+
+.line::before {
+  content: counter(line, decimal-leading-zero);
+  display: inline-block;
+  width: 5ch;
+  padding-right: 1.5ch;
+  text-align: right;
+  color: #5d6773;
+}
+
+.comment {
+  color: var(--phosphor-dim);
+}
+
+.figure[data-lit] .line {
+  color: var(--screen-muted);
+  transition:
+    color var(--mid) var(--ease),
+    background-color var(--mid) var(--ease);
+}
+
+.figure[data-lit] .line[data-on] {
+  color: var(--screen-fg);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.figure[data-lit] .line[data-on]::before {
+  color: var(--accent);
+}
+
+/* The first time the sample is seen, its lines print top to bottom. */
+:global(html.js.hydrated) .figure:not([data-visible]) .line {
+  opacity: 0;
+}
+
+:global(html.js) .figure[data-visible] .line {
+  animation: print 260ms steps(3, end) both;
+  animation-delay: calc(var(--i) * 28ms);
+}
+
+@keyframes print {
+  from {
+    opacity: 0;
+  }
+}
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 12px;
+  padding: 12px 2px 0;
+  font-size: var(--t-14);
+  color: var(--ink-muted);
+}
+
+.source {
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 560px) {
+  .pre {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(html.js.hydrated) .figure:not([data-visible]) .line {
+    opacity: 1;
+  }
+
+  :global(html.js) .figure[data-visible] .line {
+    animation: none;
+  }
+
+  .figure[data-lit] .line {
+    transition: none;
+  }
+}

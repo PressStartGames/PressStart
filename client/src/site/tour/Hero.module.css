@@ -1,0 +1,300 @@
+.hero {
+  padding-block: 72px 96px;
+  position: relative;
+  overflow: clip;
+}
+
+/* A faint dot grid on the chassis, still (the idle state stays still). */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--hairline) 1px, transparent 1.4px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(180deg, #000 30%, transparent 95%);
+  -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent 95%);
+  pointer-events: none;
+}
+
+.grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+  gap: 56px;
+  align-items: center;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.led {
+  width: 8px;
+  height: 8px;
+  background: var(--phosphor);
+  box-shadow: 0 0 8px var(--phosphor);
+}
+
+.headline {
+  font-size: clamp(2.6rem, 1.2rem + 4.6vw, 5.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  max-width: 12ch;
+}
+
+.lede {
+  max-width: 34ch;
+  font-size: var(--t-22);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--ink-muted);
+  --enter-delay: 160ms;
+}
+
+.keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.small {
+  margin: 0;
+  font-size: var(--t-14);
+  color: var(--ink-muted);
+}
+
+/* The stage select. */
+.selectWrap {
+  min-width: 0;
+}
+
+.select {
+  padding: 22px 22px 18px;
+  background:
+    radial-gradient(90% 60% at 50% 0%, rgb(56 224 143 / 10%), transparent 70%),
+    linear-gradient(180deg, transparent 0 92%, rgb(56 224 143 / 6%));
+}
+
+.carts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.cart {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 12px;
+  align-items: center;
+  padding: 12px 12px 12px 12px;
+  min-height: 84px;
+  color: var(--screen-fg);
+  text-decoration: none;
+  background: var(--screen-raised);
+  border: 1px solid var(--screen-line);
+  border-radius: 4px 4px 4px 4px;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  transition:
+    transform var(--mid) var(--ease),
+    background-color var(--mid) var(--ease);
+}
+
+.cart::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--accent);
+  transform: scaleX(0.18);
+  transform-origin: 0 50%;
+  transition: transform var(--mid) var(--ease);
+}
+
+.cart:hover,
+.cart:focus-visible {
+  transform: translateY(-4px);
+  background: color-mix(in srgb, var(--accent) 12%, var(--screen-raised));
+}
+
+.cart:hover::after,
+.cart:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.cart:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.cartLabel {
+  grid-row: 1 / 3;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  background: var(--accent);
+  color: var(--screen);
+  border-radius: 3px;
+  box-shadow: inset 0 -3px 0 rgb(0 0 0 / 22%);
+}
+
+.cartNo {
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.cartName {
+  font-size: var(--t-14);
+  line-height: 1.25;
+  color: #fff;
+}
+
+.prompt {
+  margin: 18px 0 0;
+  text-align: center;
+  font-family: var(--font-pixel);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--phosphor);
+  text-shadow: 0 0 10px rgb(56 224 143 / 60%);
+}
+
+/* The load sequence (CSS, from the first paint): power on, deal, blink twice and hold. */
+:global(html.js) .select {
+  animation: power 640ms var(--ease) 240ms both;
+  transform-origin: 50% 50%;
+}
+
+:global(html.js) .slot {
+  animation: deal 520ms var(--ease) both;
+  animation-delay: calc(720ms + var(--i) * 60ms);
+}
+
+:global(html.js) .prompt {
+  animation: blink 1.1s steps(1, end) 1.5s both;
+}
+
+@keyframes power {
+  0% {
+    transform: scaleY(0.012);
+    filter: brightness(5);
+  }
+  55% {
+    filter: brightness(1.8);
+  }
+  100% {
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes deal {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+}
+
+@keyframes blink {
+  0%,
+  40%,
+  80% {
+    opacity: 0;
+  }
+  20%,
+  60%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 1180px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+  }
+
+  .headline {
+    max-width: 14ch;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding-block: 40px 56px;
+  }
+
+  .text {
+    gap: 22px;
+  }
+
+  .select {
+    padding: 14px 12px 12px;
+  }
+
+  .carts {
+    gap: 8px;
+  }
+
+  .cart {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    row-gap: 6px;
+    justify-items: start;
+    min-height: 0;
+    padding: 10px;
+  }
+
+  .cartLabel {
+    grid-row: auto;
+    width: 38px;
+    height: 38px;
+  }
+
+  .cartName {
+    font-size: var(--t-12);
+  }
+}
+
+@media (max-width: 380px) {
+  .carts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cart,
+  .cart::after {
+    transition: none;
+  }
+
+  :global(html.js) .select,
+  :global(html.js) .slot,
+  :global(html.js) .prompt {
+    animation: none;
+  }
+}

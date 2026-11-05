@@ -1,0 +1,46 @@
+.arena {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 640 / 320;
+}
+
+.grid line {
+  stroke: var(--accent);
+  stroke-opacity: 0.18;
+  stroke-width: 1;
+}
+
+.floor {
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.goal {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.teamA rect {
+  fill: var(--accent);
+}
+
+.teamA .eye {
+  fill: var(--screen);
+}
+
+.teamB rect {
+  fill: var(--screen);
+  stroke: var(--screen-fg);
+  stroke-width: 3;
+}
+
+.teamB .eye {
+  fill: var(--screen-fg);
+  stroke: none;
+}
+
+.ball {
+  fill: #fff;
+}

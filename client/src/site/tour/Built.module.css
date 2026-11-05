@@ -1,0 +1,171 @@
+.proof {
+  min-width: 0;
+}
+
+.score {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 22px 22px 14px;
+  border-bottom: 1px solid var(--screen-line);
+}
+
+.big {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 0;
+}
+
+.bigNo {
+  font-family: var(--font-pixel);
+  font-size: clamp(2rem, 1.4rem + 2.4vw, 3rem);
+  color: var(--accent);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+.bigOf {
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  color: var(--screen-fg);
+}
+
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 16px;
+  font-family: var(--font-mono);
+  font-size: var(--t-12);
+  color: var(--screen-muted);
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend li::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: var(--screen-line);
+}
+
+.legend li[data-k='0']::before {
+  background: var(--accent);
+}
+
+.legend li[data-k='1']::before {
+  background: repeating-linear-gradient(135deg, var(--accent) 0 2px, transparent 2px 4px);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+.areas {
+  list-style: none;
+  margin: 0;
+  padding: 10px 22px 22px;
+  display: grid;
+  gap: 4px;
+}
+
+.area {
+  display: grid;
+  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr) 5ch;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--screen-line) 60%, transparent);
+}
+
+.name {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: var(--t-14);
+  color: #fff;
+}
+
+.what {
+  font-size: var(--t-12);
+  color: var(--screen-muted);
+}
+
+.bar {
+  position: relative;
+  display: flex;
+  height: 14px;
+  background: repeating-linear-gradient(90deg, var(--screen-line) 0 6px, transparent 6px 8px);
+  overflow: hidden;
+}
+
+.built,
+.partial {
+  height: 100%;
+  transform-origin: 0 50%;
+}
+
+.built {
+  background: var(--accent);
+}
+
+.partial {
+  background: repeating-linear-gradient(135deg, var(--accent) 0 2px, transparent 2px 5px);
+  opacity: 0.85;
+}
+
+.count {
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  text-align: right;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.countOf {
+  color: var(--screen-muted);
+}
+
+/* First sight: each bar fills from the left, area by area. */
+:global(html.js.hydrated) .proof:not([data-visible]) .bar > span {
+  transform: scaleX(0);
+}
+
+:global(html.js) .bar > span {
+  transition: transform 900ms var(--ease) calc(var(--i) * 90ms);
+}
+
+:global(html.js) .bar > .partial {
+  transition-delay: calc(var(--i) * 90ms + 300ms);
+}
+
+@media (max-width: 640px) {
+  .area {
+    grid-template-columns: minmax(0, 1fr) 5ch;
+    gap: 8px 12px;
+  }
+
+  .bar {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .areas,
+  .score {
+    padding-inline: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(html.js.hydrated) .proof:not([data-visible]) .bar > span {
+    transform: none;
+  }
+
+  :global(html.js) .bar > span {
+    transition: none;
+  }
+}

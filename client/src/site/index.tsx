@@ -5,10 +5,14 @@
 //   layout    the frame (skip link, header with nav and the "Join the beta" button, <main>, footer),
 //             rendering <Outlet /> for the page
 //   home      /
-//   stub      every placeholder page, given `id` (CONTENT.md section `page-<id>`, path from routes.tsx)
+//   stub      every other page, given `id` (CONTENT.md section `page-<id>`, path from routes.tsx);
+//             pages/Stub.tsx sends /engine and /engine/ai to their designed pages, the rest to an
+//             honest placeholder
 //   notFound  anything unknown outside /beta (prerendered to 404.html)
-// Nothing under src/beta, src/sections or src/components is imported here, so the beta is untouched by
-// whatever this area does. Keep the global stylesheet import last (see areas.tsx).
+// Layout L4 "Feature tour": the design brief is ./DESIGN.md. Nothing under src/beta, src/sections or
+// src/components is imported here (only plain modules from src/lib and src/content), so the beta's
+// stylesheet and look are untouched by whatever this area does. Keep the global stylesheet import last
+// (see areas.tsx).
 import type { AreaPages } from '../lib/areas';
 import { MainLayout } from './MainLayout';
 import { Home } from './pages/Home';

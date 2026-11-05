@@ -18,7 +18,7 @@ JetBrains Mono readouts, Space Grotesk) and answers the founder's notes:
   violet — used only on its screen, its node on the map and its stage chip. The page reads as a colourful
   tour on a quiet chassis; body text never sits on a colour.
 - **"Animation weak."** Every stage has its own motion moment, and each one shows the fact (see below).
-- **"Nobody knows what a catalog item is."** The page says *features*, counts them in plain words, and
+- **"Nobody knows what a catalog item is."** The page says _features_, counts them in plain words, and
   shows the areas as level-progress bars.
 - **"Grey test spheres."** The only engine pictures are the pixel-art character goldens (integer-scaled,
   no smoothing). Everything else is a captioned illustration drawn in the browser, or verbatim engine code.
@@ -29,25 +29,25 @@ JetBrains Mono readouts, Space Grotesk) and answers the founder's notes:
 
 **Home `/`**
 
-| # | Section | What it proves | The proof on its screen |
-|---|---|---|---|
-| — | Hero + stage select | What the engine is, the whole tour at a glance | Nine cartridges with pixel icons, each a link to its stage |
-| 1-1 | Write it as data | Scenes are documents; patches stack; the engine answers which patch set a value | Three layers (base, patch 0, patch 1) slide into one resolved card with each value's source; tab: the verbatim wire request from `docs/scene-agent.md` |
-| 1-2 | Same seed, same game | Determinism: two runs, one checksum per line | The checksum ledger (browser simulation): run A vs run B with two mini arenas and a tick scrubber; "change one input at tick 80" breaks it and names the first differing tick |
-| 1-3 | Every core, one answer | Parallel systems, ordered conflicts, the same checksum | The core board: systems dealt onto 8 / 4 / 2 cores (buttons), the gated pair, the unchanged checksum |
-| 1-4 | Pictures are tests | Goldens: a person accepts, a tool never does | The golden wipe: drag between "this run" and "the golden" (a real accepted golden), PASS stamp; three ticks of the character as a filmstrip |
-| 1-5 | Held to a reference | Oracles as a method; parity is the bar | A wiring board: our subsystem → the reference tool, drawn on scroll; the honest line |
-| 1-6 | The game answers back | The four verbs | A small console: query / command / capture / control played on the browser simulation |
-| 1-7 | Your game is your code | Plain Rust on Bevy | The engine's own test, verbatim, with its commit |
-| ★ | Built today | The feature count, honestly | Seven level bars (built / partly / not yet), synced counts |
-| ▶ | The road | Where we are, no dates | Four stops, "now" lit; the Join-the-beta card |
+| #   | Section                | What it proves                                                                  | The proof on its screen                                                                                                                                                       |
+| --- | ---------------------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| —   | Hero + stage select    | What the engine is, the whole tour at a glance                                  | Nine cartridges with pixel icons, each a link to its stage                                                                                                                    |
+| 1-1 | Write it as data       | Scenes are documents; patches stack; the engine answers which patch set a value | Three layers (base, patch 0, patch 1) slide into one resolved card with each value's source; tab: the verbatim wire request from `docs/scene-agent.md`                        |
+| 1-2 | Same seed, same game   | Determinism: two runs, one checksum per line                                    | The checksum ledger (browser simulation): run A vs run B with two mini arenas and a tick scrubber; "change one input at tick 80" breaks it and names the first differing tick |
+| 1-3 | Every core, one answer | Parallel systems, ordered conflicts, the same checksum                          | The core board: systems dealt onto 8 / 4 / 2 cores (buttons), the gated pair, the unchanged checksum                                                                          |
+| 1-4 | Pictures are tests     | Goldens: a person accepts, a tool never does                                    | The golden wipe: drag between "this run" and "the golden" (a real accepted golden), PASS stamp; three ticks of the character as a filmstrip                                   |
+| 1-5 | Held to a reference    | Oracles as a method; parity is the bar                                          | A wiring board: our subsystem → the reference tool, drawn on scroll; the honest line                                                                                          |
+| 1-6 | The game answers back  | The four verbs                                                                  | A small console: query / command / capture / control played on the browser simulation                                                                                         |
+| 1-7 | Your game is your code | Plain Rust on Bevy                                                              | The engine's own test, verbatim, with its commit                                                                                                                              |
+| ★   | Built today            | The feature count, honestly                                                     | Seven level bars (built / partly / not yet), synced counts                                                                                                                    |
+| ▶   | The road               | Where we are, no dates                                                          | Four stops, "now" lit; the Join-the-beta card                                                                                                                                 |
 
 **`/engine`** — what the engine is: the four-step procedure with the verbatim test lit step by step; the
 five strengths as cartridges (to their pages); what is in the box (the engine families); the synced numbers.
 
 **`/engine/ai`** (the designed strength page) — the four verbs in depth with the verbatim `command.apply`
 request, the live console, "ask what it can do" (the manifest gate), "one door" (the wire never ships in a
-game), and an explicitly labelled *On the road* block for the editor's chat.
+game), and an explicitly labelled _On the road_ block for the editor's chat.
 
 **Every other route** — a styled, honest "stage under construction" page: its real two sentences from
 CONTENT.md, a locked-stage screen, and the links that already answer the question today.

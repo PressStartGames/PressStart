@@ -1,3 +1,163 @@
-/* The main site's global stylesheet. Phase 1 reuses the console's tokens, fonts and primitives through
-   an @import (inlined at build, so it is not a module shared with the beta's chunk). */
+/* The main site's global stylesheet (layout L4, src/site/DESIGN.md). It reuses the console's tokens, fonts
+   and primitives through an @import (inlined at build, so it is not a module shared with the beta's chunk),
+   then adds the tour's palette and a few helpers, all scoped under .site. */
 @import '../styles/base.css';
+
+:root {
+  /* One arcade phosphor per stage, used only on screens, chips and the map; never under body text. */
+  --st-green: #38e08f;
+  --st-amber: #ffb547;
+  --st-cyan: #4fd6ff;
+  --st-pink: #ff7ac6;
+  --st-blue: #8aa4ff;
+  --st-orange: #ff8a4c;
+  --st-violet: #b98cff;
+  --st-lime: #c6f15a;
+  --st-gold: #ffd84a;
+  --site-rail: 236px;
+}
+
+.site {
+  --accent: var(--st-green);
+}
+
+/* The keys: pixel labels on a raised cap that presses down. */
+.site .key {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--chassis-raised);
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 4px 0 0 #000;
+  transform: translateY(-2px);
+  transition:
+    transform var(--fast) var(--ease),
+    box-shadow var(--fast) var(--ease);
+  cursor: pointer;
+}
+
+.site .key:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 0 0 #000;
+}
+
+.site .key:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 0 #000;
+}
+
+.site .key-ghost {
+  background: var(--chassis-raised);
+  color: var(--ink);
+  box-shadow: 0 4px 0 0 var(--ink);
+}
+
+.site .key-ghost:hover {
+  box-shadow: 0 6px 0 0 var(--ink);
+}
+
+.site .key-led {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  flex: none;
+}
+
+/* A link that draws its underline on hover. */
+.site .more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: var(--t-14);
+  color: var(--ink);
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size var(--mid) var(--ease);
+  padding-bottom: 2px;
+}
+
+.site .more:hover,
+.site .more:focus-visible {
+  background-size: 100% 1px;
+}
+
+.site .more-arrow {
+  display: inline-block;
+  transition: transform var(--mid) var(--ease);
+}
+
+.site .more:hover .more-arrow {
+  transform: translateX(4px);
+}
+
+/* Pixel icons and sprites: crisp edges at every scale. */
+.site .pixel-icon {
+  display: block;
+  shape-rendering: crispEdges;
+  flex: none;
+}
+
+/* The small "where this comes from" tag under every proof. */
+.site .provenance {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-pixel);
+  font-size: 9px;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.site .provenance::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  flex: none;
+}
+
+/* In-view reveals for stage parts: hidden only after hydration, until the reader arrives. */
+html.js.hydrated .site [data-io]:not([data-visible]) .io-rise {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+html.js .site .io-rise {
+  transition:
+    opacity var(--slow) var(--ease),
+    transform var(--slow) var(--ease);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site .key,
+  .site .more,
+  .site .more-arrow {
+    transition: none;
+  }
+
+  html.js.hydrated .site [data-io]:not([data-visible]) .io-rise {
+    opacity: 1;
+    transform: none;
+  }
+
+  html.js .site .io-rise {
+    transition: none;
+  }
+}
