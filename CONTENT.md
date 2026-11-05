@@ -331,12 +331,14 @@ cta: Back to the site
 ## site-header
 
 *(The main site at pressstartgames.net, from here to the end of the file. Every section above is the beta's page,
-now served under /beta. These are placeholders: plans/main-site.md phase 2 designs the main site. Copy follows the
-press-start-website skill: present tense only for what is true today, no dates.)*
+now served under /beta. Layout L1 "Cinematic" (client/src/site/DESIGN.md). Copy follows the press-start-website
+skill: present tense only for what is true today, no dates.)*
 
 wordmark: Press Start
 skip: Skip to content
 nav-label: Site
+menu-label: Site menu
+menu: Menu
 nav: Engine | Showcase | Roadmap | Learn | News | Licensing | About | Community
 cta: Join the beta
 
@@ -345,17 +347,174 @@ cta: Join the beta
 label: Footer
 legal: Privacy | Terms | Cookies
 line: A game engine built around Bevy. Version 1 is not public yet.
+columns: Engine | Site | Legal
+beta: The beta
 
 ## site-home
 
 title: Press Start · A game engine an AI can build in, and prove.
 description: Press Start is a game engine built around Bevy whose first user is an AI agent: scenes, laws and assets as documents, deterministic replay, and every feature measured against a reference tool.
-kicker: Tests, not eyes.
+kicker: Private beta · built around Bevy
 headline: A game engine an AI can build in, and prove.
-cta: Join the beta | Read about the engine
+cta: Join the beta | See how it works
+small: Version 1 is not public yet. Windows first.
+screen-label: the replay · run A and run B
+legend: run A | run B, traced over run A
+hud: tick | run A | run B | checksums match
+caption: An illustration drawn live in your browser, not engine output: one seed, no clock, a fixed tick. Run B is traced over run A from the same seed, and the two never come apart.
 
-Press Start is built around Bevy. Your agent writes the game as documents, runs it on a fixed tick, and proves
-every frame against a reference. The main site is being designed; the beta's page tells the whole story today.
+Your agent builds the game. The engine shows it was right: same seed, same inputs, same game, every time.
+
+## site-audiences
+
+label: Who it is for
+headline: One engine. Four ways in.
+tabs-label: Choose who you are
+channel: CH
+
+## site-audience-studios
+
+tab: Studios
+headline: Flaky tests and unrepeatable bugs, gone by design.
+points: Same seed, same game | A failing test fails the same way every time | Pictures checked against accepted goldens
+
+Every random stream comes from one seed. Game logic never reads the clock. The world steps on a fixed tick. So the
+bug at tick 340 is the same tick on every run, and anyone on the team, or any agent, can open it.
+
+## site-audience-solo
+
+tab: Solo developers
+headline: Build with an agent that can check its own work.
+points: Scenes, laws and assets as documents | Answers in numbers first, then pixels | The game is a Rust codebase you own
+
+Your agent writes the scene as data, runs it, and reads back numbers and pictures instead of guessing from a
+screenshot. You direct. It builds. The engine says whether it is right.
+
+## site-audience-tooling
+
+tab: AI tooling
+headline: An engine that answers questions instead of being screenshotted.
+points: Query: the state as data | Capture: frames from a deterministic booth | Control: pause, step, seed, checksum
+
+A running game answers four verbs: query, command, capture and control, plus input through the player's own door.
+Bring your own agent. The engine exposes data and verbs, not a model.
+
+## site-audience-bevy
+
+tab: Bevy developers
+headline: The missing pieces, built once and measured.
+points: Built around Bevy 0.19 | {{crates}} engine crates | {{oracles}} reference tools to match
+
+Terrain, navigation, physics, animation, UI layout, networking and more, as engine crates around Bevy. Each system
+is a Bevy plugin plus a document format, held against a reference tool. A game stays a normal Rust codebase.
+
+## site-strengths
+
+label: What it is good at
+headline: Four things you can hold us to.
+more: How it works
+
+## site-strength-determinism
+
+word: Same game.
+headline: Same seed, same inputs, same game.
+scope: Today: the same build on the same platform.
+screen: two runs, one checksum
+head: tick | run A | run B | result
+third: run C · another seed
+pass: PASS
+fail: FAIL
+
+One seed you can write down. No clock, no sleep, a fixed tick. Two runs give the same frame, byte for byte, so a
+replay is exact, a test is a fact, and a bug can be handed from one agent to another.
+
+## site-strength-parallel
+
+word: Every core.
+headline: All your cores, the same answer.
+scope: No speed-up figure is claimed yet. Parallel is at the scheduler, by proof.
+screen: eight cores, one answer
+lanes: input · physics · navigation · animation · camera · UI · audio · VFX
+core: core
+gate: same data · order declared
+readout: state checksum
+cores: 8 cores | 2 cores
+
+Bevy runs your systems across every core. Our gate refuses two systems that touch the same data in no declared
+order, and names both. Float sums are ordered. So the answer never depends on how many cores ran it.
+
+## site-strength-oracles
+
+word: Measured.
+headline: Held against the tools you already trust.
+scope: Parity is the bar, and not every feature meets it yet. The misses are recorded.
+screen: held against · {{oracles}} reference tools
+rows: Physics = Jolt · PhysX | Navigation = Recast | UI layout = Chromium · Yoga | Text = HarfBuzz | Lighting = Mitsuba | Meshes = Blender · Manifold
+diff: where we differ: both numbers, written down
+
+We do not grade our own homework. Each subsystem is checked against the tool the industry already trusts. Where we
+differ, the difference is a recorded row with both numbers and a reason, never a hidden tolerance.
+
+## site-strength-ownership
+
+word: Yours.
+headline: The game is your code.
+scope: The licence text is not final; it is published with version 1.
+screen: what a game is made of
+layers: Your game = a Rust workspace, your repository | Press Start = {{crates}} engine crates | Bevy = 0.19, open source
+
+A game on Press Start is a Rust workspace on Bevy that opens, reads and runs without us. No black box: the engine's
+source goes public with version 1, under a source-available licence.
+
+## site-verbs
+
+label: The AI surface
+headline: The game answers back.
+verbs: Query = Ask for any state. Get data, not a screenshot. | Command = Change the world through one write path. | Capture = Take the frame from a deterministic photo booth. | Control = Pause, step, seed, checksum, inject input.
+link: Your own AI, through the player's door
+
+## site-showcase
+
+label: Shot by the engine
+headline: Every frame here is a test.
+first-title: Team Fights
+first-kicker: The first game
+first-body: A team shooter made of primitives, on our own map, built on the engine's crates. Its frames join this strip when the engine accepts them.
+golden: accepted golden
+strip-label: Accepted goldens from the engine's tests
+
+These are accepted goldens: frames the engine renders in its own tests, compared pixel by pixel, and accepted by a
+human in a reviewed commit. Evidence, not glamour shots: {{goldens.accepted}} of them so far.
+
+## site-numbers
+
+label: In numbers
+headline: Counted, never typed.
+tiles: {{crates}} = engine crates | {{catalog.built}} = of {{catalog.total}} things built | {{oracles}} = reference tools | {{goldens.accepted}} = accepted goldens
+bar-label: The checklist of everything an engine needs
+bar-legend: built | partly built | skipped | not yet
+
+Every number here is counted by a script against the engine's own repository. A thing counts as built only when a
+test holds every clause of it, and we publish the misses: {{catalog.partial}} more are partly built.
+
+## site-road
+
+label: Where we are, honestly
+headline: The road, in order. No dates.
+now: now
+stops: Now = The first game, Team Fights, is built on the engine and played. The engine is being readied for the public. | Next = The editor: everything built, reachable by hand and by agent, in one window. | Version 1 = A launcher, a new project from a template, save, build, Windows export. | Then = The public repository under our own licence, and a version every two weeks.
+link: The whole road
+
+## site-licence
+
+kicker: Licensing
+headline: Free to make and ship. Yours to read.
+small: The licence text, the rate and the threshold are not final. They are published with version 1.
+cta: Join the beta | Read about licensing
+end: Ready, player one?
+
+Press Start will be source-available: use and modify the engine to make and ship games, free below a revenue
+threshold, with a royalty above it. Nothing will require a login, and the engine works offline.
 
 ## site-not-found
 
@@ -367,15 +526,30 @@ cta: Back to the start
 
 There is nothing at this address.
 
+## site-placeholder
+
+label: This page is being built
+meanwhile: Meanwhile | Read about the engine | Join the beta
+next: Next
+
 ## page-engine
 
 title: The engine · Press Start
 description: What Press Start is: a game engine built around Bevy, every system a document plus a plugin.
 kicker: The engine
 headline: Built around Bevy, written as documents.
+loop-label: How the engine works
+loop: Document = Scenes, laws and assets are files an agent can read and write. | Plugin = Each system is a Bevy plugin that reads its document, validated before the app exists. | World = The game steps on a fixed tick from one seed. | Agent = Your agent asks, edits, looks and steps through four verbs, then writes the next document.
+strengths-label: Five strengths
+strengths-headline: What the engine is good at, one page each.
+numbers-label: The engine in numbers
+road-label: Not there yet
+road-headline: What the engine does not do yet.
+road: The editor, a window to place objects and edit scenes by hand, is on the road. | The launcher, a new project from a template, save, build and Windows export arrive with version 1. | The source-available licence and the public repository arrive with version 1.
+road-link: The road, in order
 
 {{crates}} engine crates cover what Bevy leaves out. Every system is a document plus a plugin, validated before
-the app exists. This page will walk through the engine one strength at a time.
+the app exists, and every one of them can fail a test.
 
 ## page-engine-determinism
 
@@ -383,9 +557,39 @@ title: Determinism · Press Start
 description: Same seed, same inputs, same game, on the same build and the same platform.
 kicker: Determinism
 headline: Same seed, same inputs, same game.
+lab-label: The replay, tick by tick
+lab-headline: Drag through the run.
+lab-intro: Run A and run B start from the same seed. Run C starts from the same seed too, with one different input at tick 140.
+lab-tick: Tick
+lab-play: Play the run
+lab-pause: Pause
+lab-runc: Show run C
+lab-head: tick | run A | run B | run C
+lab-search: Locating the first difference
+lab-check: check tick
+lab-same: same
+lab-differs: differs
+lab-found: first differing tick
+lab-caption: An illustration drawn live in your browser, not engine output. The search runs here, step by step, the way the engine's replay names the first tick where two runs part.
+bans-label: The rules
+bans-headline: Four things game logic may not do.
+bans: Read the clock = The time of day differs on every run. Game logic gets the fixed tick instead. | Sleep = A pause lasts as long as the machine decides. The tick does not wait. | Roll unseeded dice = Every random stream comes from one seed you can write down. | Trust a hashed order = A container whose order the process decides is the classic replay killer.
+bans-note: These are refused when the code is compiled, not caught in review.
+tape-label: The replay
+tape-headline: A replay names the build it was made on.
+tape-fields: seed | starting snapshot | input tape | command journal
+tape-refusal: refused: build differs
+scope-label: The honest scope
+scope: Same build, same platform. A claim across machines waits for its own gate.
+next: Next: all your cores, the same answer
 
-One seed, no wall clock, no sleep, a fixed tick and a checksum at the boundary. Replay is exact on the same build
-and the same platform. This page is a placeholder.
+One seed, no wall clock, no sleep, a fixed tick and a checksum at the boundary. The same seed and the same inputs
+give the same frame, byte for byte. So a test is a fact, a replay is exact, and the bug at tick 340 is a tick you can
+hand to someone else.
+
+A replay is a seed, a starting snapshot, an input tape and a command journal. Its header names the build, the
+profile and the features it was made with. Loading it anywhere else is refused, naming the first field that
+differs, instead of quietly drifting apart at tick 3.
 
 ## page-engine-parallel
 
