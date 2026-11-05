@@ -15,11 +15,11 @@
 
 /* With JavaScript, the console waits (unpainted, so nothing it does counts as a shift) until the fonts
    are in, then slides up; without JavaScript it is simply there. */
-html:global(.js) .stage:not([data-ready]) {
+html:global(.js) .figure:not([data-ready]) {
   visibility: hidden;
 }
 
-html:global(.js) .stage[data-ready] {
+html:global(.js) .figure[data-ready] .stage {
   animation: device-in 1100ms var(--l3-spring) both;
 }
 
@@ -521,7 +521,7 @@ html:global(.js) .device[data-phase='done'] .keyStart .keyCap {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html:global(.js) .stage[data-ready],
+  html:global(.js) .figure[data-ready] .stage,
   html:global(.js) .led,
   html:global(.js) .stamp,
   html:global(.js) .device[data-phase='done'] .keyStart .keyCap,

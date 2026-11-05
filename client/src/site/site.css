@@ -1,10 +1,23 @@
 /* The main site's global stylesheet (layout L3, "Community engine"; see DESIGN.md). The console's tokens,
    fonts and primitives come in through base.css (inlined at build, not a module shared with the beta's
-   chunk). Everything below only adds tokens or classes the beta never uses, so a client navigation into
-   /beta carries nothing that changes the beta. */
+   chunk). Everything below adds tokens or classes the beta never uses (and gives --font-sans a measured
+   fallback), so a client navigation into /beta carries nothing that changes how the beta looks. */
 @import '../styles/base.css';
 
+/* A fallback face measured to Space Grotesk's width and line box (Arial scaled 109.04 %, measured in
+   Chromium on 2026-11-05), so a late font swap reflows nothing above the fold (CLS). */
+@font-face {
+  font-family: 'Space Grotesk Fallback';
+  src: local('Arial'), local('ArialMT'), local('Helvetica');
+  size-adjust: 109.04%;
+  ascent-override: 89.88%;
+  descent-override: 26.6%;
+  line-gap-override: 0%;
+}
+
 :root {
+  --font-sans: 'Space Grotesk Variable', 'Space Grotesk Fallback', system-ui, sans-serif;
+
   /* The four face buttons: one colour per strength, used as meaning on every page. */
   --l3-red: #ff5a3c;
   --l3-red-deep: #b8361d;

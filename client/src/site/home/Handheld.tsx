@@ -46,13 +46,8 @@ export function Handheld() {
   };
 
   return (
-    <figure className={styles.figure}>
-      <div
-        className={styles.stage}
-        data-ready={ready || undefined}
-        onPointerMove={onMove}
-        onPointerLeave={onLeave}
-      >
+    <figure className={styles.figure} data-ready={ready || undefined}>
+      <div className={styles.stage} onPointerMove={onMove} onPointerLeave={onLeave}>
         <div ref={device} className={styles.device} data-phase={g.phase} data-verdict={g.verdict}>
           <div className={styles.left} aria-hidden="true">
             <span className={styles.dpad} />
