@@ -46,7 +46,7 @@ export function Hero() {
         {lede.map((t, i) => (
           <p
             key={i}
-            className={`${styles.lede} enter`}
+            className={`${styles.lede} enter-solid`}
             style={{ '--enter-delay': '260ms' } as CSSProperties}
           >
             <Inline text={t} />
