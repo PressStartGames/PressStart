@@ -202,8 +202,8 @@ Open, for the founder:
   prerendered routes would land near 88 KB.
 - LCP 2.4 s vs the 2.0 s target on simulated mobile (first paint itself lands at 2.1 s).
 - Which sign-up backend (see above); Turnstile and Resend keys; the sending domain.
-- Discord link and the contact address (the founder has an MCP for Discord; the footer shows plain text until
-  then). Domain and organisation name. The licence wording. The engine-side booth capture for the hero.
+- The contact address (the footer shows plain text until then). Discord is decided: https://discord.gg/XrmRJ5p2Xf
+  (`DISCORD_URL` in `client/src/lib/config.ts`), linked from the beta footer and every main-site footer. Domain and organisation name. The licence wording. The engine-side booth capture for the hero.
 - M4 is not started: Open Graph/X cards, sitemap, JSON-LD, Cloudflare Web Analytics.
 
 The founder's taste, in their words (2026-11-01): "less technical, more friendly and appealing, but keep the
