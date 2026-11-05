@@ -541,8 +541,25 @@ html:global(.js.hydrated) .card[data-seen] .bubbles i:nth-child(3) {
     gap: 10px;
   }
 
+  .art:has(.verbs) {
+    height: auto;
+  }
+
+  .docs {
+    grid-template-columns: repeat(2, 76px);
+    grid-template-rows: repeat(2, 72px);
+  }
+
+  .verbs li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 2px 10px;
+    white-space: normal;
+  }
+
   .what {
-    display: none;
+    grid-column: 2;
+    font-size: var(--t-12);
   }
 
   .body {
